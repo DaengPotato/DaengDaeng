@@ -1,0 +1,1 @@
+package com.example.daengdaeng.domain.pet.repository;public interface PetRepository {}

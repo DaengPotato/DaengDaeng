@@ -1,0 +1,1 @@
+package com.example.daengdaeng.domain.pet.domain;public class MbtiQuestion {}
