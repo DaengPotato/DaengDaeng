@@ -1,1 +1,0 @@
-package com.example.daengdaeng.domain.pet.dto.request;import lombok.AllArgsConstructor;import lombok.Data;import lombok.NoArgsConstructor;@NoArgsConstructor@AllArgsConstructor@Datapublic class MbtiRequest {	private int questionId;	private boolean answer;}
