@@ -28,8 +28,7 @@ public class Member {
     private LoginType loginType;
 
     @Builder
-    public Member(int memberId, String email, String nickname, LoginType loginType) {
-        this.memberId = memberId;
+    public Member( String email, String nickname, LoginType loginType) {
         this.email = email;
         this.nickname = nickname;
         this.loginType = loginType;

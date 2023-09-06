@@ -33,8 +33,7 @@ public class Photo {
 
 
     @Builder
-    public Photo(int photoId, String image, Member member, Place place) {
-        this.photoId = photoId;
+    public Photo(String image, Member member, Place place) {
         this.image = image;
         this.member = member;
         this.place = place;
