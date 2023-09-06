@@ -1,6 +1,7 @@
-package com.example.daengdaeng.domain.photo.repository;
+package com.daengdaeng.domain.photo.repository;
 
-import com.example.daengdaeng.domain.photo.domain.Photo;
+
+import com.daengdaeng.domain.photo.domain.Photo;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
