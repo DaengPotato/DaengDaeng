@@ -1,4 +1,4 @@
 package com.daengdaeng.domain.member.service;
 
-public interface HeartServiceImpl {
+public class HeartServiceImpl {
 }
