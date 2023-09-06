@@ -7,28 +7,26 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
-// 나중에 Place import 추가할 것
+import com.daengdaeng.domain.member.domain.HeartId;
+import org.springframework.data.domain.Persistable;
 
 @Entity
 @Table(name = "heart")
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Heart {
+public class Heart implements Persistable<HeartId>
+{
 
-    @Id
-    @ManyToOne
-    @JoinColumn(name = "member_id")
-    private Member member;
-
-    @Id
-    @ManyToOne
-    @JoinColumn(name = "place_id")
-    private Place place;
+    @EmbeddedId
+    private HeartId id;
 
     @Builder
     public Heart(Member member, Place place) {
-        this.member = member;
-        this.place = place;
+        this.id = new HeartId(member, place);
     }
 
+    @Override
+    public boolean isNew() {
+        return this.id == null || (this.id.getMember() == null && this.id.getPlace() == null);
+    }
 }
