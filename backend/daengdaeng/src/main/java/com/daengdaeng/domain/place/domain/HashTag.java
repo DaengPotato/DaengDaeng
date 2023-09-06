@@ -7,7 +7,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 import lombok.AccessLevel;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -22,10 +21,5 @@ public class HashTag {
 
 	@Column(length = 255, unique = true, nullable = false)
 	private String hashtag;
-
-	@Builder
-	public HashTag(String hashtag) {
-		this.hashtag = hashtag;
-	}
 
 }

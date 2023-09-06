@@ -35,33 +35,16 @@ public class Place {
 	@Column(nullable = false)
 	private String roadAddress;
 
-	@Column(nullable = false)
 	private String openingHour;
 
-	@Column(nullable = false)
 	private String phoneNumber;
 
-	@Column(nullable = false)
 	private String homepage;
 
-	@Column(nullable = false)
 	private String content;
 
 	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinColumn(name = "category_id")
 	private Category category;
-
-	@Builder
-	public Place(String title, String jibunAddress, String roadAddress, String openingHour, String phoneNumber,
-		String homepage, String content, Category category) {
-		this.title = title;
-		this.jibunAddress = jibunAddress;
-		this.roadAddress = roadAddress;
-		this.openingHour = openingHour;
-		this.phoneNumber = phoneNumber;
-		this.homepage = homepage;
-		this.content = content;
-		this.category = category;
-	}
 
 }

@@ -41,8 +41,7 @@ public class Review {
 	private Place place;
 
 	@Builder
-	public Review(int reviewId, int score, Member member, Place place) {
-		this.reviewId = reviewId;
+	public Review(int score, Member member, Place place) {
 		this.score = score;
 		this.member = member;
 		this.place = place;

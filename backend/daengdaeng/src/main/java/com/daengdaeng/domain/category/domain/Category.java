@@ -24,13 +24,4 @@ public class Category {
 	@Column(length = 20, unique = true, nullable = false)
 	private String category;
 
-	@OneToOne(mappedBy = "category")
-	private Place place;
-
-	@Builder
-	public Category(String category, Place place) {
-		this.category = category;
-		this.place = place;
-	}
-
 }
