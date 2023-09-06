@@ -1,11 +1,6 @@
 package com.daengdaeng.domain.member.domain;
 
-import lombok.Builder;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.*;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -13,8 +8,7 @@ import java.io.Serializable;
 // 나중에 Place import 추가할 것
 
 @Getter
-@Data
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @EqualsAndHashCode
 @Embeddable
