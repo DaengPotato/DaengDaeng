@@ -14,19 +14,26 @@ import org.springframework.data.domain.Persistable;
 @Table(name = "heart")
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Heart implements Persistable<HeartId>
-{
+public class Heart implements Persistable<HeartId> {
 
     @EmbeddedId
     private HeartId id;
 
-    @Builder
-    public Heart(Member member, Place place) {
-        this.id = new HeartId(member, place);
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "member_id")
+    private Member member;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "place_id")
+    private Place place;
+
+    public Heart(HeartId id) {
+        this.id = id;
     }
 
     @Override
     public boolean isNew() {
         return this.id == null || (this.id.getMember() == null && this.id.getPlace() == null);
     }
+
 }
