@@ -39,4 +39,5 @@ public class Photo {
         this.member = member;
         this.place = place;
     }
+
 }
