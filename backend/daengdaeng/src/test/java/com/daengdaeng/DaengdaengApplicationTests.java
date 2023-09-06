@@ -1,4 +1,4 @@
-package com.example.daengdaeng;
+package com.daengdaeng;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
