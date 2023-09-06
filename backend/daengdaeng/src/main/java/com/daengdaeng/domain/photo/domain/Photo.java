@@ -28,7 +28,6 @@ public class Photo {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "place_id")
-    @Column(nullable = false)
     private Place place;
 
 

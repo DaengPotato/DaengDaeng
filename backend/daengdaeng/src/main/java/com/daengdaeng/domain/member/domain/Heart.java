@@ -27,10 +27,6 @@ public class Heart implements Persistable<HeartId> {
     @JoinColumn(name = "place_id")
     private Place place;
 
-    public Heart(HeartId id) {
-        this.id = id;
-    }
-
     @Override
     public boolean isNew() {
         return this.id == null;
