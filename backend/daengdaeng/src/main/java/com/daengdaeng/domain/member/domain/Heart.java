@@ -1,4 +1,4 @@
-package com.example.daengdaeng.domain.member.domain;
+package com.daengdaeng.domain.member.domain;
 
 import lombok.AccessLevel;
 import lombok.Builder;
