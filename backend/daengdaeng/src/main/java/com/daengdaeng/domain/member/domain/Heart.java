@@ -33,7 +33,7 @@ public class Heart implements Persistable<HeartId> {
 
     @Override
     public boolean isNew() {
-        return this.id == null || (this.id.getMember() == null && this.id.getPlace() == null);
+        return this.id == null;
     }
 
 }
