@@ -17,7 +17,7 @@ public class Photo {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long photoId;
+    private Integer photoId;
 
     @NotBlank
     private String image;
@@ -35,7 +35,7 @@ public class Photo {
 
 
     @Builder
-    public Photo(Long photoId, String image, Member member, Place place) {
+    public Photo(Integer photoId, String image, Member member, Place place) {
         this.photoId = photoId;
         this.image = image;
         this.member = member;
