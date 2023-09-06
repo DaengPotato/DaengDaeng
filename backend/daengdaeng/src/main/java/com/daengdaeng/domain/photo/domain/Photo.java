@@ -6,9 +6,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import java.lang.reflect.Member;
+import com.daengdaeng.domain.member.domain.Member;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -19,18 +17,18 @@ public class Photo {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer photoId;
 
-    @NotBlank
+    @Column(nullable = false)
     private String image;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
-    @NotNull
+    @Column(nullable = false)
     private Member member;
 
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "place_id")
-    @NotNull
+    @Column(nullable = false)
     private Place place;
 
 
