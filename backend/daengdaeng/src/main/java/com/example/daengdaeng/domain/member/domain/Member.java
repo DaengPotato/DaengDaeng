@@ -11,6 +11,7 @@ import javax.validation.constraints.Email;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Member {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "member_id")
