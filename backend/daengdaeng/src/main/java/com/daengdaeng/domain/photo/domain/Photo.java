@@ -15,7 +15,7 @@ public class Photo {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer photoId;
+    private int photoId;
 
     @Column(nullable = false)
     private String image;
@@ -33,7 +33,7 @@ public class Photo {
 
 
     @Builder
-    public Photo(Integer photoId, String image, Member member, Place place) {
+    public Photo(int photoId, String image, Member member, Place place) {
         this.photoId = photoId;
         this.image = image;
         this.member = member;
