@@ -81,3 +81,27 @@ self.addEventListener('message', (event) => {
 });
 
 // Any other custom service worker logic can go here.
+const cacheName = 'daengdaeng-cache-v1';
+const cacheFiles = [
+  '/',
+  '/index.html',
+  '/manifest.json',
+  '/icons/icon-192x192.png',
+  '/icons/icon-512x512.png',
+];
+
+self.addEventListener('install', (event) => {
+  event.waitUntil(
+    caches.open(cacheName).then((cache) => {
+      return cache.addAll(cacheFiles);
+    }),
+  );
+});
+
+self.addEventListener('fetch', (event) => {
+  event.respondWith(
+    caches.match(event.request).then((response) => {
+      return response || fetch(event.request);
+    }),
+  );
+});
