@@ -1,0 +1,1 @@
+package com.daengdaeng.domain.pet.dto.response;import javax.validation.constraints.NotBlank;import javax.validation.constraints.NotNull;import lombok.AllArgsConstructor;import lombok.NoArgsConstructor;@AllArgsConstructorpublic class PetNameResponse {	private int petId;	private String name;}

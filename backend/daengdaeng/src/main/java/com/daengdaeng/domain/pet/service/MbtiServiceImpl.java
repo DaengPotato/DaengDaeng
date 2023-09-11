@@ -1,0 +1,1 @@
+package com.daengdaeng.domain.pet.service;public class MbtiServiceImpl implements MbtiService{}
