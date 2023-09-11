@@ -1,8 +1,6 @@
 import Link from 'next/link';
 
-type Props = {};
-
-function Page({}: Props) {
+function Page() {
   return (
     <div>
       <h1>Home</h1>
