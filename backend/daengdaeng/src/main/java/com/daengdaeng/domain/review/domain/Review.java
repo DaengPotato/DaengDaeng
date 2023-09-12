@@ -41,6 +41,9 @@ public class Review {
 	@JoinColumn(name = "place_id", nullable = false)
 	private Place place;
 
+	@Column(columnDefinition = "TEXT")
+	private String comment;
+
 	@Builder
 	public Review(byte score, Member member, Place place) {
 		this.score = score;
