@@ -1,0 +1,66 @@
+@import '@/src/styles/reset.scss';
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+* {
+  box-sizing: border-box;
+}
+html,
+body,
+div,
+span,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+a,
+dl,
+dt,
+dd,
+ol,
+ul,
+li,
+form,
+label,
+table {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 10px;
+  vertical-align: baseline;
+}
+body {
+  line-height: 1;
+  font-family: 'Noto Sans KR', sans-serif;
+  margin-bottom: 100px;
+}
+ol,
+ul {
+  list-style: none;
+}
+button {
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+}
+
+body {
+  display: flex;
+  justify-content: center;
+}
+
+.fixed-width {
+  width: 500px;
+  height: 100vh;
+  @media (max-width: 500px) {
+    /* 화면 너비가 500px 이하가 되면 요소 너비를 100%로 고정*/
+    width: 100%;
+  }
+  background-color: #fff0de;
+  position: relative;
+}

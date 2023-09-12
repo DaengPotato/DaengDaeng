@@ -1,16 +1,24 @@
-import React from 'react';
+import React from 'react'
 
-import Head from './head';
+import './global.scss'
+import Header from '@/src/components/Header/Header'
+
+import Head from './head'
 
 export default function RootLayout({
   children,
 }: {
-  children: React.ReactNode;
+  children: React.ReactNode
 }) {
   return (
     <html lang="en">
       <Head></Head>
-      <body>{children}</body>
+      <body>
+        <div className="fixed-width">
+          <Header />
+          {children}
+        </div>
+      </body>
     </html>
-  );
+  )
 }
