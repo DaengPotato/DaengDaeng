@@ -4,6 +4,7 @@ import pandas as pd
 import numpy as np
 import json
 import pickle
+from models.db_manager import *
 
 # 플라스크 객체 인스턴스 생성
 app = Flask(__name__)
@@ -19,15 +20,27 @@ def hello_world():  # put application's code here
 
 
 # 반려견 성향 기반 추천 요청 api, 아이템 기반 협업 필터링
-@app.route('/recom/byMbti', methods=['OPTIONS','GET'])
+@app.route('/recom/byMbti', methods=['GET'])
 def by_mbti():  # put application's code here
     return 'a'
 
 
 # 리뷰&찜 기반 추천 요청 api, 리뷰는 콘텐츠 기반 필터링, 찜은 사용자 기반 협업 필터링
-@app.route('/recom/byReviewHeart', methods=['OPTIONS','GET'])
+@app.route('/recom/byReviewHeart', methods=['GET'])
 def by_review_heart():  # put application's code here
     return 'b'
+
+
+@app.route('/dbtest')
+def dbtest():  # put application's code here
+    result = show_test("foreigntest")
+    print(result)
+    res_data = []
+    for item in result:
+        id, name = item
+        res_data.append({"id": id, "name": name})
+    return jsonify(res_data)
+    # return 'test'
 
 
 if __name__ == '__main__':
