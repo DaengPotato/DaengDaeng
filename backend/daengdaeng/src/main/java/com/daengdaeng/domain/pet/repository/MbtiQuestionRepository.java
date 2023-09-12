@@ -1,0 +1,1 @@
+package com.daengdaeng.domain.pet.repository;import org.springframework.data.jpa.repository.JpaRepository;import com.daengdaeng.domain.pet.domain.MbtiQuestion;public interface MbtiQuestionRepository extends JpaRepository<MbtiQuestion, Integer> {}
