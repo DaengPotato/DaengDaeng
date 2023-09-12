@@ -20,11 +20,11 @@ public class PlaceHashtag {
 	private PlaceHashtagId placeHashtagId;
 
 	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	@JoinColumn(name = "hashtag_id")
+	@JoinColumn(name = "hashtag_id", insertable = false, updatable = false, nullable = false)
 	private HashTag hashTag;
 
 	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	@JoinColumn(name = "place_id")
+	@JoinColumn(name = "place_id", insertable = false, updatable = false, nullable = false)
 	private Place place;
 
 }

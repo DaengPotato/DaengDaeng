@@ -20,11 +20,11 @@ public class ReviewKeyword {
 	private ReviewKeywordId reviewKeywordId;
 
 	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	@JoinColumn(name = "review_id")
+	@JoinColumn(name = "review_id", insertable = false, updatable = false, nullable = false)
 	private Review review;
 
 	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	@JoinColumn(name = "keyword_id")
+	@JoinColumn(name = "keyword_id", insertable = false, updatable = false, nullable = false)
 	private Keyword keyword;
 
 }
