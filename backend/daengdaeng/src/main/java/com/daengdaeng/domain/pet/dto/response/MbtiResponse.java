@@ -1,0 +1,1 @@
+package com.daengdaeng.domain.pet.dto.response;import javax.validation.constraints.NotBlank;import javax.validation.constraints.NotNull;import lombok.AllArgsConstructor;@AllArgsConstructorpublic class MbtiResponse {	private int questionId;	private String question;	private String answerA;	private String answerB;}

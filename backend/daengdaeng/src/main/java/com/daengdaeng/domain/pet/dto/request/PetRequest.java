@@ -1,0 +1,1 @@
+package com.daengdaeng.domain.pet.dto.request;import java.util.Date;import javax.validation.constraints.NotBlank;import javax.validation.constraints.NotNull;import lombok.Data;@Datapublic class PetRequest {	@NotBlank	private String name;	@NotNull	private Date birth;	@NotNull	private int gender;	@NotNull	private float weight;	private String image;}
