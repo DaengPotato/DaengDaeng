@@ -21,14 +21,15 @@
     "paths": {
       "@/*": ["./*"]
     },
-    "baseUrl": "./src"
+    "baseUrl": "./"
   },
   "include": [
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts",
-    "jest.setup.ts"
+    "jest.setup.ts",
+    "next.config.js"
   ],
   "exclude": ["node_modules"]
 }

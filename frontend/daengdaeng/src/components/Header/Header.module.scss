@@ -1,0 +1,14 @@
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: fix-content;
+  background-color: rgba(255, 255, 255, 0.5);
+  padding: 5px;
+}
+
+.profile-img {
+  img {
+    border-radius: 50%;
+  }
+}
