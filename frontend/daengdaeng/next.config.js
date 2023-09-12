@@ -4,14 +4,14 @@ const nextConfig = {
   experimental: {
     appDir: true,
   },
-};
+}
 
-const prod = process.env.NODE_ENV === 'production';
+const prod = process.env.NODE_ENV === 'production'
 
 const withPWA = require('next-pwa')({
   customWorkerDir: 'src/worker',
   dest: 'public',
   disable: prod ? false : true,
-});
+})
 
-module.exports = withPWA(nextConfig);
+module.exports = withPWA(nextConfig)
