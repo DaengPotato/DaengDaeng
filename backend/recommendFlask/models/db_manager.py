@@ -53,18 +53,18 @@ def show_test(table_name):
 
 
 # 반려견 성향 관련 추천에 사용할 데이터 가져오는 함수
-def get_data_for_dbti("sql에서 %s에 넣을 조건 들어갈 곳"):
+def get_data_for_dbti(args): # args = "sql에서 %s에 넣을 조건 들어갈 곳"
     # 반려견 성향 관련 추천에 사용할 데이터 가져올 sql문 작성할 것
     sql=""
-    result = query_db(sql, ("sql에서 %s에 넣을 조건 들어갈 곳"))
-    # 선배기수 플젝에서는 result를 저장했다가 계산하는데, 저장 안하고 바로 계산하면 어떻게 되지?
+    result = query_db(sql, (args,))
+    # 선배기수 플젝에서는 data/input/데이터파일에서 데이터 가져오고 계산한 result를 data/output/데이터파일에 저장했다가 계산하는데, 저장 안하고 바로 계산해도 상관없나?
     return result
 
 
 # 리뷰 및 찜 관련 추천에 사용할 데이터 가져오는 함수
-def get_data_for_review_heart("sql에서 %s에 넣을 조건 들어갈 곳"):
+def get_data_for_review_heart(args): # args = "sql에서 %s에 넣을 조건 들어갈 곳"
     # 리뷰 및 찜 관련 추천에 사용할 데이터 가져올 sql문 작성할 것
     sql=""
-    result = query_db(sql, ("sql에서 %s에 넣을 조건 들어갈 곳"))
-    # 선배기수 플젝에서는 result를 저장했다가 계산하는데, 저장 안하고 바로 계산하면 어떻게 되지?
+    result = query_db(sql, (args,))
+    # 선배기수 플젝에서는 data/input/데이터파일에서 데이터 가져오고 계산한 result를 data/output/데이터파일에 저장했다가 계산하는데, 저장 안하고 바로 계산해도 상관없나?
     return result
