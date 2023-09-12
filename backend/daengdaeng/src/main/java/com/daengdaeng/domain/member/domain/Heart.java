@@ -1,5 +1,6 @@
 package com.daengdaeng.domain.member.domain;
 
+import com.daengdaeng.domain.place.domain.Place;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -20,11 +21,11 @@ public class Heart implements Persistable<HeartId> {
     private HeartId id;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "member_id")
+    @JoinColumn(name = "member_id", insertable = false, updatable = false, nullable = false)
     private Member member;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "place_id")
+    @JoinColumn(name = "place_id", insertable = false, updatable = false, nullable = false)
     private Place place;
 
     @Override

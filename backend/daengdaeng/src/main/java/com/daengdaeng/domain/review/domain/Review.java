@@ -10,6 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
+import com.daengdaeng.domain.member.domain.Member;
 import org.hibernate.annotations.ColumnDefault;
 
 import com.daengdaeng.domain.place.domain.Place;
@@ -29,19 +30,19 @@ public class Review {
 	private int reviewId;
 
 	@ColumnDefault("5")
-	@Column(nullable = false)
-	private int score;
+	@Column(nullable = false, columnDefinition = "TINYINT(3) UNSIGNED")
+	private byte score;
 
 	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	@JoinColumn(name = "member_id")
+	@JoinColumn(name = "member_id" , nullable = false)
 	private Member member;
 
 	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	@JoinColumn(name = "place_id")
+	@JoinColumn(name = "place_id", nullable = false)
 	private Place place;
 
 	@Builder
-	public Review(int score, Member member, Place place) {
+	public Review(byte score, Member member, Place place) {
 		this.score = score;
 		this.member = member;
 		this.place = place;

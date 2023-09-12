@@ -25,6 +25,7 @@ public class Member {
     private String nickname;
 
     @Enumerated(value = EnumType.STRING)
+    @Column(length = 10, nullable = false)
     private LoginType loginType;
 
     @Builder

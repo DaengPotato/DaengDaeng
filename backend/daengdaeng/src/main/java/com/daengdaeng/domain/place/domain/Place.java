@@ -30,22 +30,23 @@ public class Place {
 	@Column(nullable = false)
 	private String title;
 
-	@Column(nullable = false)
 	private String jibunAddress;
 
-	@Column(nullable = false)
 	private String roadAddress;
 
+	@Column(columnDefinition = "TEXT")
 	private String openingHour;
 
 	private String phoneNumber;
 
+	@Column(columnDefinition = "TEXT")
 	private String homepage;
 
+	@Column(columnDefinition = "TEXT")
 	private String content;
 
 	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	@JoinColumn(name = "category_id")
+	@JoinColumn(name = "category_id", nullable = false)
 	private Category category;
 
 }

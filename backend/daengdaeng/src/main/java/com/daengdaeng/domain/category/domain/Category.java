@@ -20,7 +20,7 @@ import lombok.NoArgsConstructor;
 public class Category {
 
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int categoryId;
+	private byte categoryId;
 
 	@Column(length = 20, unique = true, nullable = false)
 	private String category;

@@ -24,11 +24,11 @@ public class Image {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int imageId;
 
-	@Column(nullable = false)
+	@Column(length = 2048, nullable = false)
 	private String image;
 
 	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	@JoinColumn(name = "place_id")
+	@JoinColumn(name = "place_id", nullable = false)
 	private Place place;
 
 	@Builder

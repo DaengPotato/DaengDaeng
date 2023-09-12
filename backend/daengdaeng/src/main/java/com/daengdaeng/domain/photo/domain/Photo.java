@@ -17,12 +17,11 @@ public class Photo {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int photoId;
 
-    @Column(nullable = false)
+    @Column(length = 2048, nullable = false)
     private String image;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "member_id")
-    @Column(nullable = false)
+    @JoinColumn(name = "member_id", nullable = false)
     private Member member;
 
 
