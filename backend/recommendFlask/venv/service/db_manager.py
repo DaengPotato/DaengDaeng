@@ -7,9 +7,9 @@ def get_db():
     if 'db' not in g:
         # MariaDB 연결 생성
         conn = mysql.connect(host='127.0.0.1',
-                             user="root",
-                             password="root",
-                             db="test",
+                             user="ssafy",
+                             password="ssafy",
+                             db="daengdb",
                              charset='utf8')
         g.db = conn
     return g.db
@@ -42,11 +42,9 @@ def query_db(query, args):
 
 
 # 연결 테스트용 함수
-def show_test(table_name):
-    sql = "SELECT * FROM foreigntest where name like %s"
-
-    result = query_db(sql, ("%01",))
-
+def show_test():
+    sql = "SELECT * FROM member"
+    result = query_db(sql, ())
     # result = query_db(sql, (table_name,))
     # result = query_db(sql, ())
     return result
