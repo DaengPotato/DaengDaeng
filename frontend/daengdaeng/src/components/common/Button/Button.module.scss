@@ -1,0 +1,48 @@
+$orange: #ff9f38;
+$gray: #b9b9b9;
+$white: #ffffff;
+
+@mixin button-color($color) {
+  background-color: $color;
+  &:hover {
+    background: lighten($color, 10%);
+  }
+  &:active {
+    background: darken($color, 10%);
+  }
+}
+
+.Button {
+  padding: 8px 15px;
+  border-radius: 20px;
+  color: $white;
+  display: flex;
+  align-items: center;
+  & > span {
+    padding-right: 5px;
+    font-weight: 600;
+  }
+  &:hover {
+    cursor: pointer;
+  }
+}
+
+.small span {
+  font-size: 1.7rem;
+}
+
+.medium span {
+  font-size: 2rem;
+}
+
+.large span {
+  font-size: 2.3rem;
+}
+
+.bg-orange {
+  @include button-color($orange);
+}
+
+.bg-gray {
+  @include button-color($gray);
+}

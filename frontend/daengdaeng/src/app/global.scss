@@ -7,6 +7,9 @@ a {
 * {
   box-sizing: border-box;
 }
+html {
+  font-size: 62.5%;
+}
 html,
 body,
 div,
@@ -47,6 +50,8 @@ button {
   border: 0;
   background: transparent;
   cursor: pointer;
+  margin: 0;
+  padding: 0;
 }
 
 body {

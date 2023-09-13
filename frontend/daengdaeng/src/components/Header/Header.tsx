@@ -1,5 +1,7 @@
 'use client'
 
+import { useState } from 'react'
+
 import Image from 'next/image'
 import Link from 'next/link'
 
@@ -8,8 +10,7 @@ import BlankProfileImg from '@/public/images/blank-profile.webp'
 import TextLogo from '@/public/images/text-logo.png'
 
 import styles from './Header.module.scss'
-import { useState } from 'react'
-import Sidebar from '../Sidebar/SideBar'
+import Sidebar from '../Sidebar/Sidebar'
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false)
@@ -25,11 +26,13 @@ const Header = () => {
           className={styles['hamberger-menu-btn']}
           onClick={handleOpenSideMenuBar}
         >
-          <Image src={HambergerMenuIcon} width={30} height={30} alt="menu" />
+          <HambergerMenuIcon width="40px" height="40px" />
         </button>
-        <Link href="/">
-          <Image src={TextLogo} height={25} alt="textlogo" />
-        </Link>
+        <div className={styles['icon-container']}>
+          <Link href="/">
+            <Image src={TextLogo} height={25} alt="textlogo" />
+          </Link>
+        </div>
       </div>
       <div className={styles.right}>
         <div className={styles['profile-img']}>
