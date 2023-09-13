@@ -1,11 +1,8 @@
-from flask import Flask, jsonify, request, Response
+from flask import Flask, jsonify
 from flask_cors import CORS
-import pandas as pd
-import json
-import pickle
-from models.db_manager import * # db 연결 테스트용으로 임시 추가
-from models.recomm_dbti import dbti_recomm
-from models.recomm_review_heart import review_heart_recomm
+from service.db_manager import * # db 연결 테스트용으로 임시 추가
+from include.model.recomm_dbti import dbti_recomm
+from include.model.recomm_review_heart import review_heart_recomm
 
 # 플라스크 객체 인스턴스 생성
 app = Flask(__name__)
