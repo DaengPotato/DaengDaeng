@@ -42,7 +42,7 @@ public class Review {
 	private Place place;
 
 	@Column(columnDefinition = "TEXT")
-	private String comment;
+	private String reviewContent;
 
 	@Builder
 	public Review(byte score, Member member, Place place) {
