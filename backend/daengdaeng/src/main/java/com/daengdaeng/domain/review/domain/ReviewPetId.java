@@ -16,7 +16,7 @@ public class ReviewPetId implements Serializable {
     @Column(name = "review_id")
     private int reviewId;
 
-    @Column(name = "keyword_id")
-    private int keywordId;
+    @Column(name = "pet_id")
+    private int petId;
 
 }
