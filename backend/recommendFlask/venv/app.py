@@ -34,7 +34,7 @@ def by_review_heart():
 # db 연결 테스트용 api. 추후 삭제 예정
 @app.route('/dbtest')
 def dbtest():  # put application's code here
-    result = show_test("foreigntest")
+    result = show_test()
     print(result)
     res_data = []
     for item in result:
