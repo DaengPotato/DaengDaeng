@@ -1,3 +1,4 @@
-import HambergerMenuIcon from './hamburger_menu_icon.png'
+import HambergerMenuIcon from './hamburger-menu-icon.svg'
+import PawIcon from './paw-icon.svg'
 
-export { HambergerMenuIcon }
+export { HambergerMenuIcon, PawIcon }
