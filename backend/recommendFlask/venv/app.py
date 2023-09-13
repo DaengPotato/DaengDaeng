@@ -1,6 +1,6 @@
 from flask import Flask, jsonify
 from flask_cors import CORS
-from service.db_manager import * # db 연결 테스트용으로 임시 추가
+from service.db_manager import *  # db 연결 테스트용으로 임시 추가
 from include.model.recomm_dbti import dbti_recomm
 from include.model.recomm_review_heart import review_heart_recomm
 
@@ -38,9 +38,10 @@ def by_review_heart():
 #     print(result)
 #     res_data = []
 #     for item in result:
-#         id, name = item
-#         res_data.append({"id": id, "name": name})
+#         id, email, login_type, nickname = item
+#         res_data.append({"id": id, "email": email, "login_type": login_type, "nickname": nickname})
 #     return jsonify(res_data)
+
 
 if __name__ == '__main__':
     app.run()
