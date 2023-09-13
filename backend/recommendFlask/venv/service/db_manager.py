@@ -7,9 +7,9 @@ def get_db():
     if 'db' not in g:
         # MariaDB 연결 생성
         conn = mysql.connect(host='127.0.0.1',
-                             user="root",
-                             password="root",
-                             db="test",
+                             user="ssafy",
+                             password="ssafy",
+                             db="daengdb",
                              charset='utf8')
         g.db = conn
     return g.db
