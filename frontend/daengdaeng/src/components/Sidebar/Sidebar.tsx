@@ -1,4 +1,7 @@
-import { Dispatch, SetStateAction } from 'react'
+import type { Dispatch, SetStateAction } from 'react'
+
+import { CloseIcon } from '@/public/icons'
+
 import styles from './Sidebar.module.scss'
 
 const Sidebar = ({
@@ -14,12 +17,10 @@ const Sidebar = ({
 
   return (
     <div className={`${styles.Sidebar} ${isMenuOpen ? 'open' : ''}`}>
-      <img src="/img/close.png" alt="close" onClick={handleCloseMenu} />
-      <ul>
-        <li>메뉴1</li>
-        <li>메뉴2</li>
-        <li>메뉴3</li>
-      </ul>
+      <button onClick={handleCloseMenu}>
+        <CloseIcon width="30px" height="30px" />
+      </button>
+      <ul></ul>
     </div>
   )
 }
