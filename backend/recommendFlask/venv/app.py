@@ -21,8 +21,8 @@ def hello_world():  # put application's code here
 @app.route('/recom/byMbti', methods=['GET'])
 def by_dbti():
     # member_id = request.headers.get('member_id')
+    member_id = 1
     # print(member_id)
-    # result = dbti_recomm(member_id)
     result = dbti_recomm(member_id)
     return result
 

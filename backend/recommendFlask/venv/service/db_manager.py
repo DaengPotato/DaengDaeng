@@ -65,9 +65,22 @@ def get_data_for_dbti(mbti_id): # args = "sql에서 %s에 넣을 조건 들어�
     # 선배기수 플젝에서는 data/input/데이터파일에서 데이터 가져오고 계산한 result를 data/output/데이터파일에 저장했다가 계산하는데, 저장 안하고 바로 계산해도 상관없나?
     return result
 
-def get_pet(member_id):
+def get_pet_ids(member_id):
     sql="SELECT pet_id,mbti_id From pet WHERE member_id= %s"
     result = query_db(sql, (member_id))
+    return result
+
+def get_place_ids_by_pet_id(pet_id):
+    sql="""
+    SELECT place_id 
+    FROM review 
+    WHERE review_id IN (
+        SELECT review_id 
+        FROM review_pet 
+        WHERE pet_id = %s
+    )
+    """
+    result = query_db(sql, (pet_id))
     return result
 
 # 리뷰 및 찜 관련 추천에 사용할 데이터 가져오는 함수
