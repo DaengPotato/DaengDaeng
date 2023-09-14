@@ -1,7 +1,7 @@
 .Sidebar {
   z-index: 5;
   padding: 10px;
-  background-color: #ffffff;
+  background-color: var(--color-white);
   height: calc(100vh - 60px);
   top: 60px;
   position: absolute;
