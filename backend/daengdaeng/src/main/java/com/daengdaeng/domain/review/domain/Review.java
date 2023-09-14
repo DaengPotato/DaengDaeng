@@ -51,10 +51,11 @@ public class Review {
 
 
 	@Builder
-	public Review(byte score, Member member, Place place) {
+	public Review(byte score, Member member, Place place, Date registTime) {
 		this.score = score;
 		this.member = member;
 		this.place = place;
+		this.registTime = registTime;
 	}
 
 }
