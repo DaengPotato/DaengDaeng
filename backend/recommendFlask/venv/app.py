@@ -20,7 +20,10 @@ def hello_world():  # put application's code here
 # 반려견 성향 기반 추천 요청 api, 아이템 기반 협업 필터링
 @app.route('/recom/byMbti', methods=['GET'])
 def by_dbti():
-    result = dbti_recomm()
+    # member_id = request.headers.get('member_id')
+    # print(member_id)
+    # result = dbti_recomm(member_id)
+    result = dbti_recomm(member_id)
     return result
 
 

@@ -42,22 +42,33 @@ def query_db(query, args):
 
 
 # 연결 테스트용 함수
-def show_test():
-    sql = "SELECT * FROM member"
-    result = query_db(sql, ())
-    # result = query_db(sql, (table_name,))
-    # result = query_db(sql, ())
-    return result
+# def show_test():
+#     sql = "SELECT * FROM member"
+#     result = query_db(sql, ())
+#     # result = query_db(sql, (table_name,))
+#     # result = query_db(sql, ())
+#     return result
 
 
 # 반려견 성향 관련 추천에 사용할 데이터 가져오는 함수
-def get_data_for_dbti(args): # args = "sql에서 %s에 넣을 조건 들어갈 곳"
+def get_data_for_dbti(mbti_id): # args = "sql에서 %s에 넣을 조건 들어갈 곳"
     # 반려견 성향 관련 추천에 사용할 데이터 가져올 sql문 작성할 것
-    sql=""
-    result = query_db(sql, (args,))
+    sql="""
+    SELECT r.place_id, r.score, p.pet_id 
+    FROM review_pet rp
+        INNER JOIN (SELECT * FROM pet WHERE mbti_id = %s) p
+        USING (pet_id)
+        INNER JOIN review r
+        USING (review_id)
+    """
+    result = query_db(sql, (mbti_id))
     # 선배기수 플젝에서는 data/input/데이터파일에서 데이터 가져오고 계산한 result를 data/output/데이터파일에 저장했다가 계산하는데, 저장 안하고 바로 계산해도 상관없나?
     return result
 
+def get_pet(member_id):
+    sql="SELECT pet_id,mbti_id From pet WHERE member_id= %s"
+    result = query_db(sql, (member_id))
+    return result
 
 # 리뷰 및 찜 관련 추천에 사용할 데이터 가져오는 함수
 def get_data_for_review_heart(args): # args = "sql에서 %s에 넣을 조건 들어갈 곳"
