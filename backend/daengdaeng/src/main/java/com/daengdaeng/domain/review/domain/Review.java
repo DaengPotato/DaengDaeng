@@ -20,6 +20,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.Date;
+
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -43,6 +45,10 @@ public class Review {
 
 	@Column(columnDefinition = "TEXT")
 	private String reviewContent;
+
+	@Column(nullable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
+	private Date registTime;
+
 
 	@Builder
 	public Review(byte score, Member member, Place place) {
