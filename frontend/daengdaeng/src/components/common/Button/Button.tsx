@@ -5,7 +5,7 @@ import { PawIcon } from '@/public/icons'
 import styles from './Button.module.scss'
 
 type ButtonProps = {
-  text: string
+  children: React.ReactNode
   isDisabled?: boolean
   size: 'small' | 'medium' | 'large'
   backgroundColor: 'orange' | 'gray'
@@ -14,7 +14,7 @@ type ButtonProps = {
 }
 
 const Button = ({
-  text,
+  children,
   isDisabled,
   size,
   backgroundColor,
@@ -44,7 +44,7 @@ const Button = ({
           ${isDisabled ? styles.disabled : ''}
         `}
     >
-      <span>{text}</span>
+      <span>{children}</span>
       <div className={styles['icon-container']}></div>
       {icon && <PawIcon fill={white} width={width} height={height} />}
     </button>
