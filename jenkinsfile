@@ -21,7 +21,7 @@ pipeline {
 
 		stage('React Build') {
 			steps {
-				dir('frontend') {
+				dir('frontend/daengdaeng') {
 					sh 'npm install'
 					sh 'npm run build'
 				}
@@ -47,7 +47,7 @@ pipeline {
 //                     sh 'DOCKER_BUILDKIT=1 docker build -t herosof-trashbin:latest .'
                 }
 
-				dir('frontend') {
+				dir('frontend/daengdaeng') {
 					sh 'docker build -t deangdeangpotato-frontend:latest .'
 				}
 

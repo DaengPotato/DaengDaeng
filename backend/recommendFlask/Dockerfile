@@ -1,4 +1,4 @@
-FROM python:3.8
+FROM python:3.9
 WORKDIR /app
 
 RUN rm -rf /var/liv/apt/list/* && apt-get update && apt-get -y install libgl1-mesa-glx
