@@ -1,21 +1,17 @@
-$orange: #ff9f38;
-$gray: #b9b9b9;
-$white: #ffffff;
-
 @mixin button-color($color) {
-  background-color: $color;
+  background-color: var(--color-#{$color});
   &:hover {
-    background: lighten($color, 10%);
+    background: var(--color-#{$color}-lighter);
   }
   &:active {
-    background: darken($color, 10%);
+    background: var(--color-#{$color}-darker);
   }
 }
 
 .Button {
   padding: 8px 15px;
   border-radius: 20px;
-  color: $white;
+  color: var(--color-white);
   display: flex;
   align-items: center;
   & > span {
@@ -40,9 +36,9 @@ $white: #ffffff;
 }
 
 .bg-orange {
-  @include button-color($orange);
+  @include button-color('orange');
 }
 
 .bg-gray {
-  @include button-color($gray);
+  @include button-color('gray');
 }
