@@ -6,6 +6,7 @@ $color-blue: #477af6;
 $color-ligh-blue: #e4e9f6;
 $color-gray: #b9b9b9;
 $color-white: #ffffff;
+$color-black: #000000;
 
 :root {
   --color-orange: #{$color-orange};
@@ -18,6 +19,7 @@ $color-white: #ffffff;
   --color-gray-lighter: color-mix(in srgb, var(--color-gray), #fff 10%);
   --color-gray-darker: color-mix(in srgb, var(--color-gray), #000 10%);
   --color-white: #{$color-white};
+  --color-black: #{$color-black};
 }
 
 a {

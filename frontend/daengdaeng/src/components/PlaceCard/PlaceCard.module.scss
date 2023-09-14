@@ -1,0 +1,34 @@
+.PlaceCard {
+  width: 200px;
+  height: 230px;
+  padding: 10px;
+  position: relative;
+}
+
+.likeBtn {
+  width: fit-content;
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  z-index: 5;
+}
+
+.placeImg {
+  width: 100%;
+  height: 135px;
+  position: relative;
+  margin-bottom: 5px;
+}
+
+.placeTitle {
+  width: 100%;
+  font-weight: 700;
+  font-size: 1.6rem;
+  margin-top: 10px;
+}
+
+.placeAddress {
+  width: 100%;
+  font-size: 1.4rem;
+  margin-top: 10px;
+}

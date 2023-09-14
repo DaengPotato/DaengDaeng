@@ -1,7 +1,8 @@
 import React from 'react'
 
 import { PawIcon } from '@/public/icons'
-import { primaryOrange, gray } from '@/src/styles/colors'
+import { gray, primaryOrange } from '@/src/styles/colors'
+
 import styles from './LikeButton.module.scss'
 
 type LikeButtonProps = {
