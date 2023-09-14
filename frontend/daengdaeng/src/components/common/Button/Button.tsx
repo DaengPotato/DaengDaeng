@@ -23,14 +23,14 @@ const Button = ({
 }: ButtonProps) => {
   const white = '#FFFFFF'
 
-  let width = '2rem'
-  let height = '2rem'
+  let width = '2.4rem'
+  let height = '2.4rem'
   if (size === 'small') {
-    width = '1.7rem'
-    height = '1.7rem'
-  } else if (size === 'medium') {
-    width = '2rem'
-    height = '2rem'
+    width = '1.8rem'
+    height = '1.8rem'
+  } else if (size === 'large') {
+    width = '3.6rem'
+    height = '3.6rem'
   }
 
   return (
