@@ -3,7 +3,6 @@ pipeline {
 
     tools {
 		nodejs "nodejs"
-		python "python"
 	}
 
     stages {
