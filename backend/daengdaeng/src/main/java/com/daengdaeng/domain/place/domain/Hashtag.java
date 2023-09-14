@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class hashtag {
+public class Hashtag {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
