@@ -32,16 +32,7 @@ def by_review_heart():
 
 
 # db 연결 테스트용 api. 추후 삭제 예정
-# @app.route('/dbtest')
-# def dbtest():  # put application's code here
-#     result = show_test()
-#     print(result)
-#     res_data = []
-#     for item in result:
-#         id, email, login_type, nickname = item
-#         res_data.append({"id": id, "email": email, "login_type": login_type, "nickname": nickname})
-#     return jsonify(res_data)
-
+ 
 
 if __name__ == '__main__':
     app.run()
