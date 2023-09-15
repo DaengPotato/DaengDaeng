@@ -23,19 +23,18 @@ const Header = () => {
     <div className={styles.header}>
       <div className={styles.left}>
         <button
-          className={styles['hamberger-menu-btn']}
           onClick={handleOpenSideMenuBar}
         >
           <HambergerMenuIcon width="40px" height="40px" />
         </button>
-        <div className={styles['icon-container']}>
+        <div className={styles.iconContainer}>
           <Link href="/">
             <Image src={TextLogo} height={25} alt="textlogo" />
           </Link>
         </div>
       </div>
       <div className={styles.right}>
-        <div className={styles['profile-img']}>
+        <div className={styles.profileImg}>
           <Image src={BlankProfileImg} width={40} height={40} alt="profile" />
         </div>
       </div>

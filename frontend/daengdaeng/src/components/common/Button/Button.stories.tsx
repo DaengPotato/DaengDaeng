@@ -47,7 +47,7 @@ export const Large: Story = {
 export const LongText: Story = {
   args: {
     children: '댕BTI 검사하고 여행지 추천 받으러 가기',
-    size: 'medium',
+    size: 'large',
     backgroundColor: 'orange',
     icon: true,
   },

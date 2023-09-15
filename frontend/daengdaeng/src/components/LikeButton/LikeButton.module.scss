@@ -1,0 +1,7 @@
+.LikeButton {
+  background: color-mix(in srgb, var(--color-black) 30%, transparent);
+  padding: 5px;
+  display: flex;
+  align-items: center;
+  border-radius: 50%;
+}
