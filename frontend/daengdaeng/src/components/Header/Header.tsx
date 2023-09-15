@@ -1,30 +1,28 @@
-'use client'
+'use client';
 
-import { useState } from 'react'
+import { useState } from 'react';
 
-import Image from 'next/image'
-import Link from 'next/link'
+import Image from 'next/image';
+import Link from 'next/link';
 
-import { HambergerMenuIcon } from '@/public/icons'
-import BlankProfileImg from '@/public/images/blank-profile.webp'
-import TextLogo from '@/public/images/text-logo.png'
+import { HambergerMenuIcon } from '@/public/icons';
+import BlankProfileImg from '@/public/images/blank-profile.webp';
+import TextLogo from '@/public/images/text-logo.png';
 
-import styles from './Header.module.scss'
-import Sidebar from '../Sidebar/Sidebar'
+import styles from './Header.module.scss';
+import Sidebar from '../Sidebar/Sidebar';
 
 const Header = () => {
-  const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false)
+  const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
 
   const handleOpenSideMenuBar = () => {
-    setIsMenuOpen((prev) => !prev)
-  }
+    setIsMenuOpen((prev) => !prev);
+  };
 
   return (
     <div className={styles.header}>
       <div className={styles.left}>
-        <button
-          onClick={handleOpenSideMenuBar}
-        >
+        <button onClick={handleOpenSideMenuBar}>
           <HambergerMenuIcon width="40px" height="40px" />
         </button>
         <div className={styles.iconContainer}>
@@ -42,7 +40,7 @@ const Header = () => {
         <Sidebar isMenuOpen={isMenuOpen} setIsMenuOpen={setIsMenuOpen} />
       )}
     </div>
-  )
-}
+  );
+};
 
-export default Header
+export default Header;

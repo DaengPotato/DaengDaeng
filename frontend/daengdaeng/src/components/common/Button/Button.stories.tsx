@@ -1,16 +1,16 @@
-import Button from './Button'
+import Button from './Button';
 
-import type { Meta, StoryObj } from '@storybook/react'
+import type { Meta, StoryObj } from '@storybook/react';
 
 const meta: Meta<typeof Button> = {
   component: Button,
   title: 'Components/Common/Button',
   tags: ['autodocs'],
-}
+};
 
-export default meta
+export default meta;
 
-type Story = StoryObj<typeof Button>
+type Story = StoryObj<typeof Button>;
 
 export const Primary: Story = {
   args: {
@@ -19,7 +19,7 @@ export const Primary: Story = {
     backgroundColor: 'orange',
     icon: true,
   },
-}
+};
 
 export const Cancel: Story = {
   args: {
@@ -28,21 +28,21 @@ export const Cancel: Story = {
     backgroundColor: 'gray',
     icon: true,
   },
-}
+};
 
 export const Small: Story = {
   args: {
     ...Primary.args,
     size: 'small',
   },
-}
+};
 
 export const Large: Story = {
   args: {
     ...Primary.args,
     size: 'large',
   },
-}
+};
 
 export const LongText: Story = {
   args: {
@@ -51,4 +51,4 @@ export const LongText: Story = {
     backgroundColor: 'orange',
     icon: true,
   },
-}
+};

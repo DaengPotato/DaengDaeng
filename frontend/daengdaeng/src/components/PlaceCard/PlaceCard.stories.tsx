@@ -1,15 +1,15 @@
-import PlaceCard from './PlaceCard'
+import PlaceCard from './PlaceCard';
 
-import type { Meta, StoryObj } from '@storybook/react'
+import type { Meta, StoryObj } from '@storybook/react';
 
 const meta: Meta<typeof PlaceCard> = {
   title: 'Components/PlaceCard',
   component: PlaceCard,
-}
+};
 
-export default meta
+export default meta;
 
-type Story = StoryObj<typeof PlaceCard>
+type Story = StoryObj<typeof PlaceCard>;
 
 export const LikedTrip: Story = {
   args: {
@@ -22,11 +22,11 @@ export const LikedTrip: Story = {
     },
     isLiked: true,
   },
-}
+};
 
 export const NotLikedTrip: Story = {
   args: {
     ...LikedTrip.args,
     isLiked: false,
   },
-}
+};

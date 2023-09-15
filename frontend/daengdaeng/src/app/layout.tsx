@@ -1,14 +1,14 @@
-import React from 'react'
+import React from 'react';
 
-import './global.scss'
-import Header from '@/src/components/Header/Header'
+import './global.scss';
+import Header from '@/src/components/Header/Header';
 
-import Head from './head'
+import Head from './head';
 
 export default function RootLayout({
   children,
 }: {
-  children: React.ReactNode
+  children: React.ReactNode;
 }) {
   return (
     <html lang="en">
@@ -20,5 +20,5 @@ export default function RootLayout({
         </div>
       </body>
     </html>
-  )
+  );
 }

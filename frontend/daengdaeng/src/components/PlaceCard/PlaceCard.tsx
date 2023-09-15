@@ -1,17 +1,16 @@
-import React from 'react'
+import React from 'react';
 
-import Image from 'next/image'
+import Image from 'next/image';
 
+import styles from './PlaceCard.module.scss';
+import LikeButton from '../LikeButton/LikeButton';
 
-import styles from './PlaceCard.module.scss'
-import LikeButton from '../LikeButton/LikeButton'
-
-import type { Place } from '@/src/types/trip'
+import type { Place } from '@/src/types/trip';
 
 type PlaceCardProps = {
-  place: Place
-  isLiked: boolean
-}
+  place: Place;
+  isLiked: boolean;
+};
 
 const PlaceCard = ({ place, isLiked }: PlaceCardProps) => {
   return (
@@ -25,7 +24,7 @@ const PlaceCard = ({ place, isLiked }: PlaceCardProps) => {
       <div className={styles.placeTitle}>{place.title}</div>
       <div className={styles.placeAddress}>{place.address}</div>
     </div>
-  )
-}
+  );
+};
 
-export default PlaceCard
+export default PlaceCard;

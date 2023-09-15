@@ -1,17 +1,17 @@
-import React from 'react'
+import React from 'react';
 
-import { PawIcon } from '@/public/icons'
+import { PawIcon } from '@/public/icons';
 
-import styles from './Button.module.scss'
+import styles from './Button.module.scss';
 
 type ButtonProps = {
-  children: React.ReactNode
-  isDisabled?: boolean
-  size: 'small' | 'medium' | 'large'
-  backgroundColor: 'orange' | 'gray'
-  onClick?: React.MouseEventHandler<HTMLButtonElement>
-  icon: boolean
-}
+  children: React.ReactNode;
+  isDisabled?: boolean;
+  size: 'small' | 'medium' | 'large';
+  backgroundColor: 'orange' | 'gray';
+  onClick?: React.MouseEventHandler<HTMLButtonElement>;
+  icon: boolean;
+};
 
 const Button = ({
   children,
@@ -21,16 +21,16 @@ const Button = ({
   onClick,
   icon,
 }: ButtonProps) => {
-  const white = '#FFFFFF'
+  const white = '#FFFFFF';
 
-  let width = '2.4rem'
-  let height = '2.4rem'
+  let width = '2.4rem';
+  let height = '2.4rem';
   if (size === 'small') {
-    width = '1.8rem'
-    height = '1.8rem'
+    width = '1.8rem';
+    height = '1.8rem';
   } else if (size === 'large') {
-    width = '3.6rem'
-    height = '3.6rem'
+    width = '3.6rem';
+    height = '3.6rem';
   }
 
   return (
@@ -48,7 +48,7 @@ const Button = ({
       <div className={styles['icon-container']}></div>
       {icon && <PawIcon fill={white} width={width} height={height} />}
     </button>
-  )
-}
+  );
+};
 
-export default Button
+export default Button;

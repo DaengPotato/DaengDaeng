@@ -1,9 +1,9 @@
-import React from 'react'
+import React from 'react';
 
-import styles from './Card.module.scss'
+import styles from './Card.module.scss';
 
 const Card = ({ children }: { children: React.ReactNode }) => {
-  return <div className={styles.Card}>{children}</div>
-}
+  return <div className={styles.Card}>{children}</div>;
+};
 
-export default Card
+export default Card;

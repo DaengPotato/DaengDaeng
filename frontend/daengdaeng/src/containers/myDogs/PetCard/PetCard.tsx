@@ -1,24 +1,24 @@
-'use client'
-import React from 'react'
+'use client';
+import React from 'react';
 
-import Image from 'next/image'
+import Image from 'next/image';
 
-import { EditIcon } from '@/public/icons'
-import Button from '@/src/components/common/Button/Button'
+import { EditIcon } from '@/public/icons';
+import Button from '@/src/components/common/Button/Button';
 
-import styles from './PetCard.module.scss'
+import styles from './PetCard.module.scss';
 
-import type { Pet } from '@/src/types/pet'
+import type { Pet } from '@/src/types/pet';
 
 type PetCardProps = {
-  pet: Pet
-}
+  pet: Pet;
+};
 
 // TODO: mbti, 나이, 성별 변환 후 출력
 const PetCard = ({ pet }: PetCardProps) => {
   const handleEditClick = () => {
-    console.log(pet)
-  }
+    console.log(pet);
+  };
 
   return (
     <div className={styles.PetCard} onClick={handleEditClick}>
@@ -39,7 +39,7 @@ const PetCard = ({ pet }: PetCardProps) => {
         </Button>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default PetCard
+export default PetCard;

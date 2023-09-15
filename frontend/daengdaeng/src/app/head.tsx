@@ -7,5 +7,5 @@ export default function Head() {
       <meta name="theme-color" content="#fff" />
       <title>댕댕감자</title>
     </head>
-  )
+  );
 }

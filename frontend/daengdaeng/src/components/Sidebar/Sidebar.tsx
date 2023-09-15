@@ -1,19 +1,19 @@
-import type { Dispatch, SetStateAction } from 'react'
+import type { Dispatch, SetStateAction } from 'react';
 
-import { CloseIcon } from '@/public/icons'
+import { CloseIcon } from '@/public/icons';
 
-import styles from './Sidebar.module.scss'
+import styles from './Sidebar.module.scss';
 
 const Sidebar = ({
   isMenuOpen,
   setIsMenuOpen,
 }: {
-  isMenuOpen: boolean
-  setIsMenuOpen: Dispatch<SetStateAction<boolean>>
+  isMenuOpen: boolean;
+  setIsMenuOpen: Dispatch<SetStateAction<boolean>>;
 }) => {
   const handleCloseMenu = () => {
-    setIsMenuOpen(false)
-  }
+    setIsMenuOpen(false);
+  };
 
   return (
     <div className={`${styles.Sidebar} ${isMenuOpen ? 'open' : ''}`}>
@@ -22,7 +22,7 @@ const Sidebar = ({
       </button>
       <ul></ul>
     </div>
-  )
-}
+  );
+};
 
-export default Sidebar
+export default Sidebar;

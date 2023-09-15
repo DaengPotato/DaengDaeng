@@ -1,18 +1,18 @@
-import Card from './Card'
-import PlaceCard from '../../PlaceCard/PlaceCard'
+import Card from './Card';
+import PlaceCard from '../../PlaceCard/PlaceCard';
 
-import type { Meta, StoryObj } from '@storybook/react'
-import PetCard from '@/src/containers/myDogs/PetCard/PetCard'
+import type { Meta, StoryObj } from '@storybook/react';
+import PetCard from '@/src/containers/myDogs/PetCard/PetCard';
 
 const meta: Meta<typeof Card> = {
   component: Card,
   title: 'Components/Common/Card',
   tags: ['autodocs'],
-}
+};
 
-export default meta
+export default meta;
 
-type Story = StoryObj<typeof Card>
+type Story = StoryObj<typeof Card>;
 
 export const Place: Story = {
   args: {
@@ -29,7 +29,7 @@ export const Place: Story = {
       />
     ),
   },
-}
+};
 
 export const Pet: Story = {
   args: {
@@ -48,4 +48,4 @@ export const Pet: Story = {
       />
     ),
   },
-}
+};

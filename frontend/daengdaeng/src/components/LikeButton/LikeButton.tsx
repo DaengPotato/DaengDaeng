@@ -1,14 +1,14 @@
-import React from 'react'
+import React from 'react';
 
-import { PawIcon } from '@/public/icons'
-import { gray, primaryOrange } from '@/src/styles/colors'
+import { PawIcon } from '@/public/icons';
+import { gray, primaryOrange } from '@/src/styles/colors';
 
-import styles from './LikeButton.module.scss'
+import styles from './LikeButton.module.scss';
 
 type LikeButtonProps = {
-  isLiked: boolean
-  onClick?: React.MouseEventHandler<HTMLButtonElement>
-}
+  isLiked: boolean;
+  onClick?: React.MouseEventHandler<HTMLButtonElement>;
+};
 
 const LikeButton = ({ isLiked, onClick }: LikeButtonProps) => {
   return (
@@ -19,7 +19,7 @@ const LikeButton = ({ isLiked, onClick }: LikeButtonProps) => {
         <PawIcon fill={gray} width="2.4rem" />
       )}
     </button>
-  )
-}
+  );
+};
 
-export default LikeButton
+export default LikeButton;
