@@ -59,10 +59,14 @@ table {
   font-size: 10px;
   vertical-align: baseline;
 }
+html {
+  height: 100vh;
+}
 body {
   line-height: 1;
   font-family: 'Noto Sans KR', sans-serif;
   margin-bottom: 100px;
+  height: 100vh;
 }
 ol,
 ul {
@@ -83,7 +87,6 @@ body {
 
 .fixed-width {
   width: 500px;
-  height: 100vh;
   @media (max-width: 500px) {
     /* 화면 너비가 500px 이하가 되면 요소 너비를 100%로 고정*/
     width: 100%;
