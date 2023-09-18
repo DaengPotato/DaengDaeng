@@ -2,8 +2,19 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  height: fix-content;
+  height: 50px;
   padding: 5px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 5;
+}
+
+.hamburgerMenuBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .profileImg {
@@ -16,10 +27,13 @@
 .left {
   display: flex;
   text-align: center;
+  align-items: center;
 }
 
 .iconContainer {
   height: 50px;
+  display: flex;
+  align-items: center;
   & > img {
     vertical-align: middle;
   }

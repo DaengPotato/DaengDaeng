@@ -1,19 +1,38 @@
 .Sidebar {
-  z-index: 5;
-  padding: 10px;
+  z-index: 2;
   background-color: var(--color-white);
-  height: calc(100vh - 60px);
-  top: 60px;
+  height: 100vh;
   position: absolute;
-  transition:
-    transform 500ms linear,
-    opacity 500ms linear;
+  top: 0;
+  left: 0;
   width: 50%;
-  &.open {
-    transform: translateX(0%);
-  }
+  padding: 5px;
+}
+
+.header {
+  display: flex;
+  text-align: center;
+  align-items: center;
+  height: 40px;
+}
+
+.closeBtn {
+  width: 40px;
 }
 
 .menu {
-  margin: 30px 8px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+  text-align: center;
+}
+
+.menuItem {
+  & a {
+    font-size: 20px;
+    font-weight: 700;
+  }
+  margin-bottom: 20px;
 }
