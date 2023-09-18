@@ -41,6 +41,7 @@ def review_heart_recomm(member_id):
         review_by_person = [item[0] for item in review_by_person]
         review_by_recom_people.extend(review_by_person)
 
+    review_by_recom_people = list(set(review_by_recom_people))
     print(review_by_recom_people)
 
     return 'b'
