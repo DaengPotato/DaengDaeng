@@ -28,23 +28,12 @@ pipeline {
 			}
 		}
 
-        stage('Flask Build') {
-            steps {
-                dir('backend/recommendFlask') {
-                    sh 'pip install -r requirements.txt' // 필요한 Python 패키지 설치
-                    sh 'gunicorn -w 4 -b :5000 your_app:app &'
-                }
-            }
-        }
-
         // Docker 이미지 빌드 스테이지: Dockerfile을 기반으로 이미지를 빌드합니다.
 		stage('Docker Build') {
 			steps {
                 dir('backend/daengdaeng') {
                     // 이미지를 빌드합니다.
                     sh 'docker build -t deangdeangpotato-backend:latest .'
-// 일반 빌드가 deprecated 되어서, BuildKit을 사용하는 코드. 여기서는 안되서 이전 버젼으로 진행
-//                     sh 'DOCKER_BUILDKIT=1 docker build -t herosof-trashbin:latest .'
                 }
 
 				dir('frontend/daengdaeng') {
