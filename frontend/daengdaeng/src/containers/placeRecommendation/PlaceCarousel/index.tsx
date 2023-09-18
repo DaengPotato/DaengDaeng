@@ -4,15 +4,18 @@ import useEmblaCarousel from 'embla-carousel-react';
 
 import styles from './index.module.scss';
 import Card from '../../../components/common/Card';
+import PlaceCard from '@/src/components/PlaceCard';
+
+import { Place } from '@/src/types/trip';
 
 import type { EmblaOptionsType } from 'embla-carousel-react';
 
 type CarouselProps = {
-  slides: React.ReactNode[];
+  places: Place[];
   options?: EmblaOptionsType;
 };
 
-const PlaceCarousel = ({ slides, options }: CarouselProps) => {
+const PlaceCarousel = ({ places, options }: CarouselProps) => {
   const [emblaRef, _] = useEmblaCarousel(options);
 
   useEffect(() => {
@@ -23,9 +26,11 @@ const PlaceCarousel = ({ slides, options }: CarouselProps) => {
     <div className={styles.Carousel}>
       <div className={styles.viewport} ref={emblaRef}>
         <div className={styles.container}>
-          {slides.map((slide, index) => (
-            <div className={styles.slide} key={index}>
-              <Card>{slide}</Card>
+          {places.map((place, i) => (
+            <div className={styles.slide} key={i}>
+              <Card>
+                <PlaceCard key={place.placeId} place={place} isLiked={true} />
+              </Card>
             </div>
           ))}
         </div>
