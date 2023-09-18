@@ -14,7 +14,6 @@ def dbti_recomm(member_id):
 
     # DB에서 member_id를 가지고 pet 리스트 가지고 오기
     my_pets = get_pet_ids(member_id)
-    # print(my_pets)
 
 
     #강아지마다 추천 여행지 가지고 오기
@@ -24,7 +23,6 @@ def dbti_recomm(member_id):
         # 반려견이 좋아한 장소 가지고 오기
         likes = get_place_ids_by_pet_id(pet_id)
         likes = [item[0] for item in likes]
-        # print(likes)
 
         # 같은 mbti를 가진 강아지가 평가한 리뷰만 가지고 오기
         data_dbti = get_data_for_dbti(mbti_id)
@@ -42,17 +40,14 @@ def dbti_recomm(member_id):
         # 데이터 프레임 형태로 저장
         item_sim_df = pd.DataFrame(item_sim, index=ratings_matrix.index, columns=ratings_matrix.index)
         # item_sim_df.iloc[:4, :4]  # item_sim_df.shape: 9719 x 9719
-        # print(item_sim_df)
 
-        selected_columns = item_sim_df[likes]
-        # total_similarity = selected_columns.sum(axis=1)
 
         top_similar_places = []
         # 강아지가 좋아한 각 여행지마다 추천 여행지 20가지를 추리고
         # 각 여행지별 추천 여행지를 다 합쳐서 유사도가 가장 높은 20개의 여행지 중복제거 후 가지고오기
-        for column in selected_columns.columns:
+        for like in likes:
             # 현재 열의 값에서 상위 20개의 행(여행지)를 선택
-            col = selected_columns[column]
+            col = item_sim_df[like]
             top_20 = col.nlargest(20)
 
             # 상위 20개의 열(여행지)와 해당 값 가져오기
