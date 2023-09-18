@@ -93,7 +93,7 @@ def get_data_for_review_heart(member_id): # args = "sql에서 %s에 넣을 조�
 def get_heart_place():
     # 찜된 여행지 다 가지고 오기
     sql = "SELECT place_id,member_id,1 AS heart FROM heart"
-    result =  query_db(sql)
+    result =  query_db(sql,())
     return result
 
 def get_review_by_person(member_id):

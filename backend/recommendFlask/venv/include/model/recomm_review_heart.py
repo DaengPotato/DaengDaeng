@@ -3,12 +3,13 @@ from service.db_manager import get_data_for_review_heart, get_heart_place, get_r
 import pandas as pd
 import numpy as np
 
-
+from sklearn.metrics.pairwise import cosine_similarity #유사도 산출
 def review_heart_recomm(member_id):
 
     # 사용자가 찜한 장소 가지고 오기
-    my_hearts = get_data_for_review_heart()
+    my_hearts = get_data_for_review_heart(member_id)
     my_places = [item[0] for item in my_hearts]
+    print(my_places)
 
     # 찜이 된 여행지 가지고 오기
     data_review_heart = get_heart_place()
@@ -26,17 +27,20 @@ def review_heart_recomm(member_id):
 
     # 데이터 프레임 형태로 저장
     item_sim_df = pd.DataFrame(item_sim, index=ratings_matrix.index, columns=ratings_matrix.index)
+    print(item_sim_df)
 
     # 유사도가 높은 20명의 사용자 가지고 오기(본인 제외)
     recom_people = item_sim_df[member_id].sort_values(ascending=False)
     recom_people = recom_people[~recom_people.index.isin([member_id])][:20]
+    print(recom_people)
     # 유사도가 높은 사람들이 좋은 리뷰를 남긴 여행지
     review_by_recom_people = []
 
-    for person in recom_people:
-
+    for person in recom_people.index:
         review_by_person = get_review_by_person(person)
-        review_by_recom_people.append(review_by_person)
+        review_by_person = [item[0] for item in review_by_person]
+        review_by_recom_people.extend(review_by_person)
 
+    print(review_by_recom_people)
 
-    return review_by_recom_people
+    return 'b'
