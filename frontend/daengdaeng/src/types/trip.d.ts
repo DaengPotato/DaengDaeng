@@ -3,5 +3,5 @@ export type Place = {
   placeId: number;
   title: string;
   address: string;
-  placeImage: string;
+  placeImage: string | StaticImageData;
 };
