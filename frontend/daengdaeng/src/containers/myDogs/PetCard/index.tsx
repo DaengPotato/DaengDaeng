@@ -8,10 +8,10 @@ import Button from '@/src/components/common/Button';
 
 import styles from './index.module.scss';
 
-import type { Pet } from '@/src/types/pet';
+import type { PetDetail } from '@/src/types/pet';
 
 type PetCardProps = {
-  pet: Pet;
+  pet: PetDetail;
 };
 
 // TODO: mbti, 나이, 성별 변환 후 출력
