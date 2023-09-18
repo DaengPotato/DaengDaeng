@@ -70,8 +70,11 @@ def dbti_recomm(member_id):
         total_similarity = pd.concat(top_similar_places, ignore_index=True)
         # print(total_similarity)
 
-        # 정렬한 후 place_id로 중복제거 한 뒤 유사도가 높은 상위 20개 여행지 id 선별(여행지 제거 제거)
-        recom_place = total_similarity.sort_values(by = 'similarity', ascending=False).drop_duplicates(subset=['place_id'])[len(likes):20+len(likes)]
+        # 정렬한 후 place_id로 중복제거 한 뒤 유사도가 높은 상위 20개 여행지 id 선별(내가 좋아한 여행지 제거)
+        recom_place = total_similarity.sort_values(by='similarity', ascending=False).drop_duplicates(subset=['place_id'])
+        recom_place = recom_place[~recom_place['place_id'].isin(likes)][:20]
+        # recom_place = total_similarity.sort_values(by = 'similarity', ascending=False).drop_duplicates(subset=['place_id'])[len(likes):20+len(likes)]
+
         # print("pet_id: ", pet_id, "\n", recom_place)
 
         # 여행지 id만 가지고 오기
