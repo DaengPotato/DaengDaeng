@@ -2,8 +2,8 @@ import React, { useEffect } from 'react';
 
 import useEmblaCarousel from 'embla-carousel-react';
 
-import styles from './PlaceCarousel.module.scss';
-import Card from '../../../components/common/Card/Card';
+import styles from './index.module.scss';
+import Card from '../../../components/common/Card';
 
 import type { EmblaOptionsType } from 'embla-carousel-react';
 

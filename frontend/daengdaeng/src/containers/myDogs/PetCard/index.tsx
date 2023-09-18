@@ -4,9 +4,9 @@ import React from 'react';
 import Image from 'next/image';
 
 import { EditIcon } from '@/public/icons';
-import Button from '@/src/components/common/Button/Button';
+import Button from '@/src/components/common/Button';
 
-import styles from './PetCard.module.scss';
+import styles from './index.module.scss';
 
 import type { Pet } from '@/src/types/pet';
 
