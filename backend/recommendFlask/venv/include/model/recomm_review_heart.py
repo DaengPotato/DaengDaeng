@@ -1,5 +1,5 @@
 # 리뷰 및 찜 기반으로 추천하는 알고리즘 구현 파일
-from service.db_manager import get_data_for_review_heart, get_heart_place, get_review_by_person
+from service.db_manager import get_data_for_review_heart, get_heart_place, get_review_by_person, get_popular_place
 import pandas as pd
 import numpy as np
 
@@ -9,7 +9,11 @@ def review_heart_recomm(member_id):
     # 사용자가 찜한 장소 가지고 오기
     my_hearts = get_data_for_review_heart(member_id)
     my_places = [item[0] for item in my_hearts]
-    print(my_places)
+    if(len(my_hearts) == 0):
+        recom_place = get_popular_place()
+        recom_place = [item[0] for item in recom_place]
+        print(recom_place)
+        return recom_place
 
     # 찜이 된 여행지 가지고 오기
     data_review_heart = get_heart_place()
@@ -31,7 +35,7 @@ def review_heart_recomm(member_id):
 
     # 유사도가 높은 20명의 사용자 가지고 오기(본인 제외)
     recom_people = item_sim_df[member_id].sort_values(ascending=False)
-    recom_people = recom_people[~recom_people.index.isin([member_id])][:20]
+    recom_people = recom_people[~recom_people.index.isin([member_id])][:5]
     print(recom_people)
     # 유사도가 높은 사람들이 좋은 리뷰를 남긴 여행지
     review_by_recom_people = []

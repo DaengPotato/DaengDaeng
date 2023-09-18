@@ -97,6 +97,17 @@ def get_heart_place():
     return result
 
 def get_review_by_person(member_id):
-    sql = "SELECT place_id FROM review WHERE member_id = %s AND score >= 4"
+    sql = "SELECT place_id FROM review WHERE member_id = %s AND score > 4"
     result = query_db(sql, (member_id))
+    return result
+
+def get_popular_place():
+    sql = """
+    SELECT place_id, COUNT(*) AS count
+    FROM heart
+    GROUP BY place_id
+    ORDER BY count DESC
+    LIMIT 20
+    """
+    result = query_db(sql, ())
     return result
