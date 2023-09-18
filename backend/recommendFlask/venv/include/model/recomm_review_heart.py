@@ -1,20 +1,42 @@
 # 리뷰 및 찜 기반으로 추천하는 알고리즘 구현 파일
-from service.db_manager import get_data_for_review_heart
+from service.db_manager import get_data_for_review_heart, get_heart_place, get_review_by_person
 import pandas as pd
 import numpy as np
 
 
-def review_heart_recomm():
-    #DB에서 데이터 가져오기. 가져오는 sql문은 db_manager.py에서 구현할 것
-    data_review_heart = get_data_for_review_heart()
+def review_heart_recomm(member_id):
+
+    # 사용자가 찜한 장소 가지고 오기
+    my_hearts = get_data_for_review_heart()
+    my_places = [item[0] for item in my_hearts]
+
+    # 찜이 된 여행지 가지고 오기
+    data_review_heart = get_heart_place()
 
     # pandas로 데이터 프레임으로 변환
-    dataframe_dbti=pd.DataFrame(data_review_heart)
+    dataframe_hearts=pd.DataFrame(data_review_heart,columns=['place_id','member_id', 'heart'])
 
-    # pandas로 안하고 바로 np 행렬 변환하는 식 예시. 실제로 쓰려면 수정 필요
-    numeric_data = np.array([list(row.values()) for row in data_review_heart])
+    # pivot table 만들기
+    ratings_matrix = dataframe_hearts.pivot_table(index="member_id", columns="place_id", values="heart")
+    # null값은 0으로 채우기
+    ratings_matrix.fillna(0, inplace=True)
 
-    # 행렬로 유사도 계산하는 코드 들어갈 곳
+    # cosin으로 사용자 찜 유사도 구하기
+    item_sim = cosine_similarity(ratings_matrix, ratings_matrix)  # 협업필터링 아이템 기반
 
-    # 유사도 높은 데이터 반환 할 것. 데이터 통신하는 형식 얘기 필요
-    return "b"
+    # 데이터 프레임 형태로 저장
+    item_sim_df = pd.DataFrame(item_sim, index=ratings_matrix.index, columns=ratings_matrix.index)
+
+    # 유사도가 높은 20명의 사용자 가지고 오기(본인 제외)
+    recom_people = item_sim_df[member_id].sort_values(ascending=False)
+    recom_people = recom_people[~recom_people.index.isin([member_id])][:20]
+    # 유사도가 높은 사람들이 좋은 리뷰를 남긴 여행지
+    review_by_recom_people = []
+
+    for person in recom_people:
+
+        review_by_person = get_review_by_person(person)
+        review_by_recom_people.append(review_by_person)
+
+
+    return review_by_recom_people

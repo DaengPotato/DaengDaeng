@@ -66,7 +66,7 @@ def get_data_for_dbti(mbti_id): # args = "sql에서 %s에 넣을 조건 들어�
     return result
 
 def get_pet_ids(member_id):
-    sql="SELECT pet_id,mbti_id From pet WHERE member_id= %s"
+    sql="SELECT pet_id,mbti_id FROM pet WHERE member_id = %s"
     result = query_db(sql, (member_id))
     return result
 
@@ -84,9 +84,19 @@ def get_place_ids_by_pet_id(pet_id):
     return result
 
 # 리뷰 및 찜 관련 추천에 사용할 데이터 가져오는 함수
-def get_data_for_review_heart(args): # args = "sql에서 %s에 넣을 조건 들어갈 곳"
+def get_data_for_review_heart(member_id): # args = "sql에서 %s에 넣을 조건 들어갈 곳"
     # 리뷰 및 찜 관련 추천에 사용할 데이터 가져올 sql문 작성할 것
-    sql=""
-    result = query_db(sql, (args,))
-    # 선배기수 플젝에서는 data/input/데이터파일에서 데이터 가져오고 계산한 result를 data/output/데이터파일에 저장했다가 계산하는데, 저장 안하고 바로 계산해도 상관없나?
+    sql="SELECT place_id FROM heart WHERE member_id = %s"
+    result = query_db(sql, (member_id))
+    return result
+
+def get_heart_place():
+    # 찜된 여행지 다 가지고 오기
+    sql = "SELECT place_id,member_id,1 AS heart FROM heart"
+    result =  query_db(sql)
+    return result
+
+def get_review_by_person(member_id):
+    sql = "SELECT place_id FROM review WHERE member_id = %s AND score >= 4"
+    result = query_db(sql, (member_id))
     return result

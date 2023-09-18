@@ -30,7 +30,8 @@ def by_dbti():
 # 리뷰&찜 기반 추천 요청 api, 리뷰는 콘텐츠 기반 필터링, 찜은 사용자 기반 협업 필터링
 @app.route('/recom/byReviewHeart', methods=['GET'])
 def by_review_heart():
-    result = review_heart_recomm()
+    member_id = 1
+    result = review_heart_recomm(member_id)
     return result
 
 
