@@ -1,4 +1,4 @@
-import PlaceCard from './PlaceCard';
+import PlaceCard from '.';
 
 import type { Meta, StoryObj } from '@storybook/react';
 

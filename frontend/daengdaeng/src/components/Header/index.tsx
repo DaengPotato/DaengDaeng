@@ -9,8 +9,8 @@ import { HambergerMenuIcon } from '@/public/icons';
 import BlankProfileImg from '@/public/images/blank-profile.webp';
 import TextLogo from '@/public/images/text-logo.png';
 
-import styles from './Header.module.scss';
-import Sidebar from '../Sidebar/Sidebar';
+import styles from './index.module.scss';
+import Sidebar from '../Sidebar';
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);

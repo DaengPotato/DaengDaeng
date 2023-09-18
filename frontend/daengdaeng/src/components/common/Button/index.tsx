@@ -2,7 +2,7 @@ import React from 'react';
 
 import { PawIcon } from '@/public/icons';
 
-import styles from './Button.module.scss';
+import styles from './index.module.scss';
 
 type ButtonProps = {
   children: React.ReactNode;

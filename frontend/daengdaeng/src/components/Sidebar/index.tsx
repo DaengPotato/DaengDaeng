@@ -2,7 +2,7 @@ import type { Dispatch, SetStateAction } from 'react';
 
 import { CloseIcon } from '@/public/icons';
 
-import styles from './Sidebar.module.scss';
+import styles from './index.module.scss';
 
 const Sidebar = ({
   isMenuOpen,

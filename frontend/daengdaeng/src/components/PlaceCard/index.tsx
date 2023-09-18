@@ -2,8 +2,8 @@ import React from 'react';
 
 import Image from 'next/image';
 
-import styles from './PlaceCard.module.scss';
-import LikeButton from '../LikeButton/LikeButton';
+import styles from './index.module.scss';
+import LikeButton from '../LikeButton';
 
 import type { Place } from '@/src/types/trip';
 

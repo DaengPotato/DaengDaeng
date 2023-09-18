@@ -1,7 +1,7 @@
-import PetCard from '@/src/containers/myDogs/PetCard/PetCard';
+import PetCard from '@/src/containers/myDogs/PetCard';
 
-import Card from './Card';
-import PlaceCard from '../../PlaceCard/PlaceCard';
+import Card from '.';
+import PlaceCard from '../../PlaceCard';
 
 import type { Meta, StoryObj } from '@storybook/react';
 

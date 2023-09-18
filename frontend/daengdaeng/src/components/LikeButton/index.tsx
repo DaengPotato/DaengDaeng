@@ -3,7 +3,7 @@ import React from 'react';
 import { PawIcon } from '@/public/icons';
 import { gray, primaryOrange } from '@/src/styles/colors';
 
-import styles from './LikeButton.module.scss';
+import styles from './index.module.scss';
 
 type LikeButtonProps = {
   isLiked: boolean;

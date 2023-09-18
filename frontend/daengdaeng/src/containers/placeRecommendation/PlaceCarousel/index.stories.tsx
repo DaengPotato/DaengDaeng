@@ -1,5 +1,5 @@
-import PlaceCarousel from './PlaceCarousel';
-import PlaceCard from '../../../components/PlaceCard/PlaceCard';
+import PlaceCarousel from '.';
+import PlaceCard from '../../../components/PlaceCard';
 
 import type { Meta, StoryObj } from '@storybook/react';
 
