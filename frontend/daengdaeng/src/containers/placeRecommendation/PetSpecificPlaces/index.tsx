@@ -1,23 +1,36 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import { PetSimple } from '@/src/types/pet';
-import { Place } from '@/src/types/trip';
+import { Place, PlaceResponse } from '@/src/types/trip';
 
 import styles from './index.module.scss';
 import PlaceCarousel from '../PlaceCarousel';
+import { ReloadIcon } from '@/public/icons';
 
 type PetSpecificPlacesProps = {
   pet: PetSimple;
-  places: Place[];
+  places: PlaceResponse[];
 };
 
 const PetSpecificPlaces = ({ pet, places }: PetSpecificPlacesProps) => {
+  const [currentPlaceIndex, setCurrentPlaceIndex] = useState<number>(0);
+
+  const handleReloadClick = () => {
+    setCurrentPlaceIndex((prev) => (prev + 5) % places.length);
+  };
+
   return (
     <div className={styles.PetSpecificPlaces}>
       <div className={styles.header}>
         <span className={styles.petName}>{pet.name}</span>에게 추천하는 여행지
       </div>
-      <PlaceCarousel places={places} />
+      <PlaceCarousel places={places} startIndex={currentPlaceIndex} />
+      <div className={styles.reloadContainer}>
+        <button onClick={handleReloadClick} className={styles.reloadBtn}>
+          <ReloadIcon width={20} height={20} />
+          다시 추천 받기
+        </button>
+      </div>
     </div>
   );
 };
