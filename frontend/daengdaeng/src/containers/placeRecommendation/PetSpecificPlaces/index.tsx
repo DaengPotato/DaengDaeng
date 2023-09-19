@@ -14,7 +14,9 @@ type PetSpecificPlacesProps = {
 const PetSpecificPlaces = ({ pet, places }: PetSpecificPlacesProps) => {
   return (
     <div className={styles.PetSpecificPlaces}>
-      <div className={styles.header}>우리 {pet.name}에게 어울리는 여행지</div>
+      <div className={styles.header}>
+        <span className={styles.petName}>{pet.name}</span>에게 추천하는 여행지
+      </div>
       <PlaceCarousel places={places} />
     </div>
   );
