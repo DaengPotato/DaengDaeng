@@ -9,46 +9,37 @@ import PetCheckboxList from './PetCheckboxList';
 import styles from './index.module.scss';
 
 import PlaceExample from '@/public/images/place-example.jpg';
+import { PetSpecificPlacesResponse, PlaceResponse } from '@/src/types/trip';
 
 type PlaceRecommendationProps = {
   pets: PetSimple[];
 };
 
-const places = [
-  {
-    placeId: 1,
-    title: 'place 1',
-    address: 'address 1',
-    placeImage: PlaceExample,
-  },
-  {
-    placeId: 2,
-    title: 'place 2',
-    address: 'address 2',
-    placeImage: PlaceExample,
-  },
-  {
-    placeId: 3,
-    title: 'place 3',
-    address: 'address 3',
-    placeImage: PlaceExample,
-  },
-  {
-    placeId: 4,
-    title: 'place 4',
-    address: 'address 4',
-    placeImage: PlaceExample,
-  },
-  {
-    placeId: 5,
-    title: 'place 5',
-    address: 'address 5',
-    placeImage: PlaceExample,
-  },
-];
+const petSpecificPlacesData: PetSpecificPlacesResponse[] = Array.from(
+  { length: 4 },
+  (_, i: number): PetSpecificPlacesResponse => ({
+    pet: {
+      petId: i + 1,
+      name: `pet ${i + 1}`,
+    },
+    placeList: Array.from(
+      { length: 20 },
+      (_, j: number): PlaceResponse => ({
+        place: {
+          placeId: j + 1,
+          title: `place ${j + 1}`,
+          address: `address ${j + 1}`,
+          placeImage: PlaceExample,
+        },
+        isHeart: true,
+      }),
+    ),
+  }),
+);
 
 const PlaceRecommendation = ({ pets }: PlaceRecommendationProps) => {
-  const [checkedPets, setCheckedPets] = useState<number[]>([]);
+  const initialCheckedPets = pets.map((pet) => pet.petId);
+  const [checkedPets, setCheckedPets] = useState<number[]>(initialCheckedPets);
 
   return (
     <div className={styles.PlaceRecommendation}>
@@ -60,10 +51,16 @@ const PlaceRecommendation = ({ pets }: PlaceRecommendationProps) => {
         />
       </div>
       <div className={styles.placeListContainer}>
-        {pets.map((pet) => (
-          // TODO: fetch places
-          <PetSpecificPlaces key={pet.petId} pet={pet} places={places} />
-        ))}
+        {petSpecificPlacesData.map(
+          (petPlace) =>
+            checkedPets.includes(petPlace.pet.petId) && (
+              <PetSpecificPlaces
+                key={petPlace.pet.petId}
+                pet={petPlace.pet}
+                places={petPlace.placeList}
+              />
+            ),
+        )}
       </div>
     </div>
   );

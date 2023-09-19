@@ -13,10 +13,12 @@ type PlaceCardProps = {
 };
 
 const PlaceCard = ({ place, isLiked }: PlaceCardProps) => {
+  const handleLikeClick = () => {};
+
   return (
     <div className={styles.PlaceCard}>
       <div className={styles.likeBtn}>
-        <LikeButton isLiked={isLiked} />
+        <LikeButton isLiked={isLiked} onClick={handleLikeClick} />
       </div>
       <div className={styles.placeImg}>
         <Image src={place.placeImage} alt="place img" fill={true} />
