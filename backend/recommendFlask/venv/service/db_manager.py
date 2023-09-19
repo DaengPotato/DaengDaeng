@@ -41,15 +41,6 @@ def query_db(query, args):
     return result
 
 
-# 연결 테스트용 함수
-# def show_test():
-#     sql = "SELECT * FROM member"
-#     result = query_db(sql, ())
-#     # result = query_db(sql, (table_name,))
-#     # result = query_db(sql, ())
-#     return result
-
-
 # 반려견 성향 관련 추천에 사용할 데이터 가져오는 함수
 def get_data_for_dbti(mbti_id): # args = "sql에서 %s에 넣을 조건 들어갈 곳"
     # 반려견 성향 관련 추천에 사용할 데이터 가져올 sql문 작성할 것
@@ -110,4 +101,16 @@ def get_popular_place():
     LIMIT 20
     """
     result = query_db(sql, ())
+    return result
+
+
+def get_review_keyword():
+    sql = """
+    SELECT r.place_id, rk.keyword_id, COUNT(*)
+    FROM review r
+    INNER JOIN review_keyword rk ON r.review_id = rk.review_id
+    GROUP BY r.place_id, rk.keyword_id
+    ORDER BY r.place_id ASC
+    """
+    result = query_db(sql,())
     return result
