@@ -42,7 +42,7 @@ const Sidebar = ({
           <CloseIcon width="30px" height="30px" />
         </button>
         <div className={styles.iconContainer}>
-          <Link href="/">
+          <Link href="/" onClick={handleCloseMenu}>
             <Image src={TextLogo} height={25} alt="textlogo" />
           </Link>
         </div>
