@@ -103,6 +103,38 @@ def get_place_ids_by_pet_id(pet_id):
     return result
 
 
+def hashtag_review_place(sql_place_list):
+    sql = f"""
+    SELECT p.place_id,
+    CONCAT(
+        GROUP_CONCAT(DISTINCT k.keyword SEPARATOR ', '), 
+        ', ', 
+        GROUP_CONCAT(DISTINCT h.hashtag SEPARATOR ', ')
+    ) as combined_list
+    FROM place p
+    JOIN place_hashtag ph ON p.place_id = ph.place_id
+    JOIN hashtag h ON ph.hashtag_id = h.hashtag_id
+    JOIN review r ON p.place_id = r.place_id
+    JOIN review_keyword rk ON r.review_id = rk.review_id
+    JOIN keyword k ON rk.keyword_id = k.keyword_id
+    WHERE p.place_id IN ({','.join(map(str, sql_place_list))})
+    GROUP BY p.place_id;
+    """
+    result = query_db(sql)
+    return result
+
+
+
+def get_heart_place(memberid):
+    sql = f"""
+    SELECT place_id 
+    FROM heart
+    WHERE member_id = %s
+    """
+    result = query_db(sql, (memberid))
+    return result
+
+
 # 리뷰 및 찜 관련 추천에 사용할 데이터 가져오는 함수
 def get_data_for_review_heart(args):  # args = "sql에서 %s에 넣을 조건 들어갈 곳"
     # 리뷰 및 찜 관련 추천에 사용할 데이터 가져올 sql문 작성할 것

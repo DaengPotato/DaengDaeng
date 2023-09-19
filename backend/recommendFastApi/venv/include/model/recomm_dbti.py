@@ -62,6 +62,7 @@ async def dbti_recomm(member_id):
 
 async def get_likes_place_id(pet_id):
     # 반려견이 좋아한 장소 가지고 오기
+
     likes = await get_place_ids_by_pet_id(pet_id)
     likes = [item['place_id'] for item in likes]
     return likes

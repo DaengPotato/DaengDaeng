@@ -2,14 +2,27 @@
 from service.db_manager import get_data_for_review_heart
 import pandas as pd
 import numpy as np
-
+from sklearn.feature_extraction.text import CountVectorizer
+from sklearn.metrics.pairwise import cosine_similarity  # 유사도 산출
 
 def review_heart_recomm():
     #DB에서 데이터 가져오기. 가져오는 sql문은 db_manager.py에서 구현할 것
-    data_review_heart = get_data_for_review_heart()
+    # data_review_heart = get_data_for_review_heart()
 
+    data_hash_review = hashtag_review_place(place리스트)
+
+    combined_list = data_hash_review['combined_list'].tolist
+    combined_text = ' '.join(combined_list)
+
+    vectorizer = CountVectorizer()
+    # 문서 벡터화
+    combined = vectorizer.fit_transform([combined_text])
+
+    similarity_hash_review = cosine_similarity(combined, combined)
     # pandas로 데이터 프레임으로 변환
-    dataframe_dbti=pd.DataFrame(data_review_heart)
+    dataframe_hash = pd.DataFrame(similarity_hash_review, index = combined.index, columns=combined.index)
+
+
 
     # pandas로 안하고 바로 np 행렬 변환하는 식 예시. 실제로 쓰려면 수정 필요
     numeric_data = np.array([list(row.values()) for row in data_review_heart])
