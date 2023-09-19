@@ -73,7 +73,7 @@ def show_test():
 def get_data_for_dbti(mbti_id):  # args = "sql에서 %s에 넣을 조건 들어갈 곳"
     # 반려견 성향 관련 추천에 사용할 데이터 가져올 sql문 작성할 것
     sql = """
-    SELECT r.place_id, r.score, p.member_id 
+    SELECT r.place_id, r.score, p.pet_id 
     FROM review_pet rp
         INNER JOIN (SELECT * FROM pet WHERE mbti_id = %s) p
         USING (pet_id)

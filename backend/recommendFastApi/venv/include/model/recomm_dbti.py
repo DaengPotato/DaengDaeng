@@ -14,13 +14,15 @@ async def dbti_recomm(member_id):
 
     # DB에서 member_id를 가지고 pet 리스트 가지고 오기
     my_pets = await get_pet_ids(member_id)
-
+    # print(my_pets)
     # 강아지마다 추천 여행지 가지고 오기
     for pet in my_pets:
         pet_id, mbti_id = pet.values()
 
         # 반려견이 좋아한 장소, 같은 mbti를 가진 강아지가 평가한 리뷰로 판단한 장소 유사도 가져오기
         likes, item_sim_df = await asyncio.gather(get_likes_place_id(pet_id), select_similar_dbti_place_by_likes(mbti_id))
+        # print(likes)
+        print(item_sim_df)
 
         # 좋아한 여행지에 대한 데이터만 선택하기
         selected_columns = item_sim_df[likes]
@@ -66,14 +68,16 @@ async def get_likes_place_id(pet_id):
 
 
 async def select_similar_dbti_place_by_likes(mbti_id):
-    print(mbti_id)
+    # print(mbti_id)
     data_dbti = await get_data_for_dbti(mbti_id)
     print(data_dbti)
+
     # pandas로 데이터 프레임으로 변환
-    dataframe_dbti = pd.DataFrame(data_dbti, columns=['place_id', 'score', 'member_id'])
+    dataframe_dbti = pd.DataFrame(data_dbti, columns=['place_id', 'score', 'pet_id'])
+    print(dataframe_dbti)
 
     # pivot table 만들기
-    ratings_matrix = dataframe_dbti.pivot_table(index="place_id", columns="member_id", values="score")
+    ratings_matrix = dataframe_dbti.pivot_table(index="place_id", columns="pet_id", values="score")
 
     # null값은 0으로 채우기
     ratings_matrix.fillna(0, inplace=True)
