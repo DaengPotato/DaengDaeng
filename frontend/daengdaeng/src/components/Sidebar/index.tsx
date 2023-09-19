@@ -50,7 +50,9 @@ const Sidebar = ({
       <ul className={styles.menu}>
         {menuItems.map((item) => (
           <li key={item.label} className={styles.menuItem}>
-            <Link href={item.href}>{item.label}</Link>
+            <Link href={item.href} onClick={handleCloseMenu}>
+              {item.label}
+            </Link>
           </li>
         ))}
       </ul>

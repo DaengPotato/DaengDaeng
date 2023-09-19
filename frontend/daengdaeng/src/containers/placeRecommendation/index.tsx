@@ -6,6 +6,8 @@ import PetSpecificPlaces from './PetSpecificPlaces';
 import { PetSimple } from '@/src/types/pet';
 import PetCheckboxList from './PetCheckboxList';
 
+import styles from './index.module.scss';
+
 import PlaceExample from '@/public/images/place-example.jpg';
 
 type PlaceRecommendationProps = {
@@ -14,33 +16,33 @@ type PlaceRecommendationProps = {
 
 const places = [
   {
-    placeId: 0,
-    title: '집',
-    address: '서울시 강남구 어쩌구',
-    placeImage: PlaceExample,
-  },
-  {
     placeId: 1,
-    title: '집',
-    address: '서울시 강남구 어쩌구',
+    title: 'place 1',
+    address: 'address 1',
     placeImage: PlaceExample,
   },
   {
     placeId: 2,
-    title: '집',
-    address: '서울시 강남구 어쩌구',
+    title: 'place 2',
+    address: 'address 2',
     placeImage: PlaceExample,
   },
   {
     placeId: 3,
-    title: '집',
-    address: '서울시 강남구 어쩌구',
+    title: 'place 3',
+    address: 'address 3',
     placeImage: PlaceExample,
   },
   {
     placeId: 4,
-    title: '집',
-    address: '서울시 강남구 어쩌구',
+    title: 'place 4',
+    address: 'address 4',
+    placeImage: PlaceExample,
+  },
+  {
+    placeId: 5,
+    title: 'place 5',
+    address: 'address 5',
     placeImage: PlaceExample,
   },
 ];
@@ -49,16 +51,20 @@ const PlaceRecommendation = ({ pets }: PlaceRecommendationProps) => {
   const [checkedPets, setCheckedPets] = useState<number[]>([]);
 
   return (
-    <div>
-      <PetCheckboxList
-        pets={pets}
-        checkedPets={checkedPets}
-        setCheckedPets={setCheckedPets}
-      />
-      {pets.map((pet) => (
-        // TODO: fetch places
-        <PetSpecificPlaces key={pet.petId} pet={pet} places={places} />
-      ))}
+    <div className={styles.PlaceRecommendation}>
+      <div className={styles.petCheckboxContainer}>
+        <PetCheckboxList
+          pets={pets}
+          checkedPets={checkedPets}
+          setCheckedPets={setCheckedPets}
+        />
+      </div>
+      <div className={styles.placeListContainer}>
+        {pets.map((pet) => (
+          // TODO: fetch places
+          <PetSpecificPlaces key={pet.petId} pet={pet} places={places} />
+        ))}
+      </div>
     </div>
   );
 };
