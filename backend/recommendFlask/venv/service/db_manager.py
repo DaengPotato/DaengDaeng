@@ -42,8 +42,8 @@ def query_db(query, args):
 
 
 # 반려견 성향 관련 추천에 사용할 데이터 가져오는 함수
-def get_data_for_dbti(mbti_id): # args = "sql에서 %s에 넣을 조건 들어갈 곳"
-    # 반려견 성향 관련 추천에 사용할 데이터 가져올 sql문 작성할 것
+def get_data_for_dbti(mbti_id): 
+    # mbti가 일치하는 강아지 좋아한 장소 가지고 오기
     sql="""
     SELECT r.place_id, r.score, p.pet_id 
     FROM review_pet rp
@@ -53,15 +53,16 @@ def get_data_for_dbti(mbti_id): # args = "sql에서 %s에 넣을 조건 들어�
         USING (review_id)
     """
     result = query_db(sql, (mbti_id))
-    # 선배기수 플젝에서는 data/input/데이터파일에서 데이터 가져오고 계산한 result를 data/output/데이터파일에 저장했다가 계산하는데, 저장 안하고 바로 계산해도 상관없나?
     return result
 
 def get_pet_ids(member_id):
+    # 사용자의 반려견 정보 가지고 오기
     sql="SELECT pet_id,mbti_id FROM pet WHERE member_id = %s"
     result = query_db(sql, (member_id))
     return result
 
 def get_place_ids_by_pet_id(pet_id):
+    # 강아지가 좋아한 리뷰 가지고 오기
     sql="""
     SELECT place_id 
     FROM review 
@@ -75,8 +76,8 @@ def get_place_ids_by_pet_id(pet_id):
     return result
 
 # 리뷰 및 찜 관련 추천에 사용할 데이터 가져오는 함수
-def get_data_for_review_heart(member_id): # args = "sql에서 %s에 넣을 조건 들어갈 곳"
-    # 리뷰 및 찜 관련 추천에 사용할 데이터 가져올 sql문 작성할 것
+def get_data_for_review_heart(member_id): 
+    # 사용자가 찜한 장소 가지고 오기
     sql="SELECT place_id FROM heart WHERE member_id = %s"
     result = query_db(sql, (member_id))
     return result
@@ -87,12 +88,14 @@ def get_heart_place():
     result =  query_db(sql,())
     return result
 
-def get_review_by_person(member_id):
+def get_place_by_person_review(member_id):
+    # 사용자가 별점 5점을 남긴 장소 가지고 오기
     sql = "SELECT place_id FROM review WHERE member_id = %s AND score > 4"
     result = query_db(sql, (member_id))
     return result
 
 def get_popular_place():
+    # 가장 찜이 많이 된 장소 20개 가지고 오기
     sql = """
     SELECT place_id, COUNT(*) AS count
     FROM heart
@@ -105,6 +108,7 @@ def get_popular_place():
 
 
 def get_review_keyword():
+    # 장소별 리뷰 키워드 집계 데이터 가지고 오기
     sql = """
     SELECT r.place_id, rk.keyword_id, COUNT(*)
     FROM review r
