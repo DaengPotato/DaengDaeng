@@ -5,12 +5,12 @@ import { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 
-import { HambergerMenuIcon } from '@/public/icons';
+import { HamburgerMenuIcon } from '@/public/icons';
 import BlankProfileImg from '@/public/images/blank-profile.webp';
 import TextLogo from '@/public/images/text-logo.png';
 
-import styles from './Header.module.scss';
-import Sidebar from '../Sidebar/Sidebar';
+import styles from './index.module.scss';
+import Sidebar from '../Sidebar';
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
@@ -22,8 +22,8 @@ const Header = () => {
   return (
     <div className={styles.header}>
       <div className={styles.left}>
-        <button onClick={handleOpenSideMenuBar}>
-          <HambergerMenuIcon width="40px" height="40px" />
+        <button onClick={handleOpenSideMenuBar} className={styles.hamburgerMenuBtn}>
+          <HamburgerMenuIcon width="40px" height="40px" />
         </button>
         <div className={styles.iconContainer}>
           <Link href="/">

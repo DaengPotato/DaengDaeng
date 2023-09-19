@@ -2,8 +2,8 @@ import React, { useEffect } from 'react';
 
 import useEmblaCarousel from 'embla-carousel-react';
 
-import styles from './PlaceCarousel.module.scss';
-import Card from '../../../components/common/Card/Card';
+import styles from './index.module.scss';
+import Card from '../../../components/common/Card';
 
 import type { EmblaOptionsType } from 'embla-carousel-react';
 
@@ -12,11 +12,11 @@ type CarouselProps = {
   options?: EmblaOptionsType;
 };
 
-const PlaceCarousel = ({ slides, options }: CarouselProps) => {
+const PetCarousel = ({ slides, options }: CarouselProps) => {
   const [emblaRef, _] = useEmblaCarousel(options);
 
   useEffect(() => {
-    // TODO: 장소 정보 데이터 fetch
+    // TODO: 강아지 정보 데이터 fetch
   });
 
   return (
@@ -34,4 +34,4 @@ const PlaceCarousel = ({ slides, options }: CarouselProps) => {
   );
 };
 
-export default PlaceCarousel;
+export default PetCarousel;

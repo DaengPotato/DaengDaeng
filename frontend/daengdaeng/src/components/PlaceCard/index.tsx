@@ -2,8 +2,8 @@ import React from 'react';
 
 import Image from 'next/image';
 
-import styles from './PlaceCard.module.scss';
-import LikeButton from '../LikeButton/LikeButton';
+import styles from './index.module.scss';
+import LikeButton from '../LikeButton';
 
 import type { Place } from '@/src/types/trip';
 
@@ -13,10 +13,12 @@ type PlaceCardProps = {
 };
 
 const PlaceCard = ({ place, isLiked }: PlaceCardProps) => {
+  const handleLikeClick = () => {};
+
   return (
     <div className={styles.PlaceCard}>
       <div className={styles.likeBtn}>
-        <LikeButton isLiked={isLiked} />
+        <LikeButton isLiked={isLiked} onClick={handleLikeClick} />
       </div>
       <div className={styles.placeImg}>
         <Image src={place.placeImage} alt="place img" fill={true} />

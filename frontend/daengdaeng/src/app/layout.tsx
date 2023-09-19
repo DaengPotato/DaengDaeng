@@ -1,7 +1,7 @@
 import React from 'react';
 
 import './global.scss';
-import Header from '@/src/components/Header/Header';
+import Header from '@/src/components/Header';
 
 import Head from './head';
 

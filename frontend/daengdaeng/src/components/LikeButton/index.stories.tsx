@@ -1,4 +1,4 @@
-import LikeButton from './LikeButton';
+import LikeButton from '.';
 
 import type { Meta, StoryObj } from '@storybook/react';
 

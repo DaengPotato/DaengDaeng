@@ -1,4 +1,9 @@
-export type Pet = {
+export type PetSimple = {
+  petId: number;
+  name: string;
+};
+
+export type PetDetail = {
   petId: number;
   name: string;
   birth: string;

@@ -1,5 +1,5 @@
-import PetCarousel from './PetCarousel';
-import PetCard from '../PetCard/PetCard';
+import PetCarousel from '.';
+import PetCard from '../PetCard';
 
 import type { Meta, StoryObj } from '@storybook/react';
 

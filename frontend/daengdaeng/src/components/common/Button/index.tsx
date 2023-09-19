@@ -2,7 +2,9 @@ import React from 'react';
 
 import { PawIcon } from '@/public/icons';
 
-import styles from './Button.module.scss';
+import styles from './index.module.scss';
+
+import { white } from '@/src/styles/colors';
 
 type ButtonProps = {
   children: React.ReactNode;
@@ -21,8 +23,6 @@ const Button = ({
   onClick,
   icon,
 }: ButtonProps) => {
-  const white = '#FFFFFF';
-
   let width = '2.4rem';
   let height = '2.4rem';
   if (size === 'small') {

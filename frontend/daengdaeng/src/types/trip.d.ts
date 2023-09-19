@@ -3,5 +3,18 @@ export type Place = {
   placeId: number;
   title: string;
   address: string;
-  placeImage: string;
+  placeImage: string | StaticImageData;
+};
+
+export type PlaceResponse = {
+  place: Place;
+  isHeart: boolean;
+};
+
+export type PetSpecificPlacesResponse = {
+  pet: {
+    petId: number;
+    name: string;
+  };
+  placeList: PlaceResponse[];
 };
