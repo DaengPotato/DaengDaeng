@@ -40,7 +40,7 @@ pipeline {
 					sh 'docker build -t deangdeangpotato-frontend:latest .'
 				}
 
-                dir('backend/recommendFlask') {
+                dir('backend/recommendFlask/venv') {
                     sh 'docker build -t deangdeangpotato-flask:latest .'
                 }
 			}
