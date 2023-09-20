@@ -1,10 +1,10 @@
 import React from 'react';
 
 import { PawIcon } from '@/public/icons';
+import { white } from '@/src/styles/colors';
 
 import styles from './index.module.scss';
 
-import { white } from '@/src/styles/colors';
 
 type ButtonProps = {
   children: React.ReactNode;

@@ -2,12 +2,12 @@ import React from 'react';
 
 import useEmblaCarousel from 'embla-carousel-react';
 
-import styles from './index.module.scss';
-import Card from '../../../components/common/Card';
 import PlaceCard from '@/src/components/PlaceCard';
 
-import { PlaceResponse } from '@/src/types/trip';
+import styles from './index.module.scss';
+import Card from '../../../components/common/Card';
 
+import type { PlaceResponse } from '@/src/types/trip';
 import type { EmblaOptionsType } from 'embla-carousel-react';
 
 type CarouselProps = {

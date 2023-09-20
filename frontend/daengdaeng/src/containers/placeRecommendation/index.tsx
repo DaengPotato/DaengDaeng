@@ -1,15 +1,18 @@
 'use client';
 
 import React, { useState } from 'react';
-import PetSpecificPlaces from './PetSpecificPlaces';
 
-import { PetSimple } from '@/src/types/pet';
-import PetCheckboxList from './PetCheckboxList';
-
-import styles from './index.module.scss';
 
 import PlaceExample from '@/public/images/place-example.jpg';
-import { PetSpecificPlacesResponse, PlaceResponse } from '@/src/types/trip';
+
+
+import styles from './index.module.scss';
+import PetCheckboxList from './PetCheckboxList';
+import PetSpecificPlaces from './PetSpecificPlaces';
+
+import type { PetSimple } from '@/src/types/pet';
+import type { PetSpecificPlacesResponse, PlaceResponse } from '@/src/types/trip';
+
 
 type PlaceRecommendationProps = {
   pets: PetSimple[];

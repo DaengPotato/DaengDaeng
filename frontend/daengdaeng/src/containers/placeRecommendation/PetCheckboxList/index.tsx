@@ -1,8 +1,10 @@
-import React, { useState } from 'react';
+import React from 'react';
+
 
 import styles from './index.module.scss';
-import { PetSimple } from '@/src/types/pet';
 import PetCheckbox from '../PetCheckbox';
+
+import type { PetSimple } from '@/src/types/pet';
 
 type PetCheckboxListProps = {
   pets: PetSimple[];
