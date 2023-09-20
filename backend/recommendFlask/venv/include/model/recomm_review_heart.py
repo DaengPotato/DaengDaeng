@@ -1,20 +1,121 @@
 # 리뷰 및 찜 기반으로 추천하는 알고리즘 구현 파일
-from service.db_manager import get_data_for_review_heart
+from service.db_manager import get_data_for_review_heart, get_heart_place, get_place_by_person_review, get_popular_place, get_review_keyword
 import pandas as pd
 import numpy as np
 
+from sklearn.metrics.pairwise import cosine_similarity #유사도 산출
+def review_heart_recomm(member_id):
 
-def review_heart_recomm():
-    #DB에서 데이터 가져오기. 가져오는 sql문은 db_manager.py에서 구현할 것
-    data_review_heart = get_data_for_review_heart()
+    # 사용자가 찜한 장소 가지고 오기
+    my_hearts = get_data_for_review_heart(member_id)
+    my_places = [item[0] for item in my_hearts]
+    if(len(my_hearts) == 0):
+        recom_place = get_popular_place()
+        recom_place = [item[0] for item in recom_place]
+        print(recom_place)
+        return recom_place
+
+    # 찜 유사도가 높은 사용자들 추리기
+    recom_people = recommend_people(member_id)
+
+    # 유사도가 높은 사람들이 좋은 리뷰를 남긴 여행지들
+    recom_place = place_by_recom_people(recom_people)
+
+    # 유사도 테이블
+    similarity_table = review_heart_recomm_content()
+
+    # 추천 사용자가 높은 리뷰를 남긴 장소만 추리기
+    select_place = similarity_table[recom_place]
+
+    #사용자가 찜한 여행지와 추천 여행지(유사한 사용자가 좋은 리뷰를 남긴 여행지)와 유사도 계산
+    top_similar_places = []
+    for place in my_places:
+        top_20 = select_place.loc[place].nlargest(20)
+
+        # 상위 20개의 열(여행지)와 해당 값 가져오기
+        places = top_20.index
+        similarities = top_20.values
+
+        # 결과를 데이터프레임에 추가
+        df = pd.DataFrame({'place_id': places, 'similarity': similarities})
+        # print(df)
+
+        # 데이터프레임을 리스트에 추가
+        top_similar_places.append(df)
+
+    # 리스트를 하나의 데이터프레임으로 결합
+    total_similarity = pd.concat(top_similar_places, ignore_index=True)
+
+    # 정렬 후 place_id로 중복제거
+    recom_place = total_similarity.sort_values(by='similarity', ascending=False).drop_duplicates(subset=['place_id'])
+    # 내가 좋아한 여행지를 제외한 유사도가 높은 상위 20개 여행지 id 선별
+    recom_place = recom_place[~recom_place['place_id'].isin(my_places)][:20]
+
+    # 여행지 id만 가지고 오기
+    recom_place_id = recom_place['place_id'].tolist()
+
+    result = {
+        "recom_place": recom_place_id
+    }
+
+    return result
+
+
+def place_by_recom_people(recom_people): #유사도가 높은 사용자들이 높은 별점을 남긴 여행지들
+    recom_place = []
+    for person in recom_people.index:
+        # 별점을 5점 남긴 여행지 가지고 오기
+        place_by_person_review = get_place_by_person_review(person)
+        place_by_person_review = [item[0] for item in place_by_person_review]
+        # 다 더해주기
+        recom_place.extend(place_by_person_review)
+
+    recom_place = list(set(recom_place))
+    return recom_place
+
+
+def recommend_people(member_id): # 찜 유사도가 높은 사용자 가지고 오기
+    # 찜이 된 모든 여행지 가지고 오기
+    data_review_heart = get_heart_place()
 
     # pandas로 데이터 프레임으로 변환
-    dataframe_dbti=pd.DataFrame(data_review_heart)
+    dataframe_hearts=pd.DataFrame(data_review_heart,columns=['place_id','member_id', 'heart'])
 
-    # pandas로 안하고 바로 np 행렬 변환하는 식 예시. 실제로 쓰려면 수정 필요
-    numeric_data = np.array([list(row.values()) for row in data_review_heart])
+    # pivot table 만들기
+    ratings_matrix = dataframe_hearts.pivot_table(index="member_id", columns="place_id", values="heart")
+    # null값은 0으로 채우기
+    ratings_matrix.fillna(0, inplace=True)
 
-    # 행렬로 유사도 계산하는 코드 들어갈 곳
+    # cosin으로 사용자 찜 유사도 구하기
+    item_sim = cosine_similarity(ratings_matrix, ratings_matrix)  # 협업필터링 아이템 기반
 
-    # 유사도 높은 데이터 반환 할 것. 데이터 통신하는 형식 얘기 필요
-    return "b"
+    # 데이터 프레임 형태로 저장
+    item_sim_df = pd.DataFrame(item_sim, index=ratings_matrix.index, columns=ratings_matrix.index)
+
+    # 유사도가 높은 20명의 사용자 가지고 오기(본인 제외)
+    recom_people = item_sim_df[member_id].sort_values(ascending=False)
+    recom_people = recom_people[~recom_people.index.isin([member_id])][:5]
+
+    return recom_people
+
+
+def review_heart_recomm_content(): # 콘텐츠 기반 유사도 테이블
+    place_review_keyword = get_review_keyword()
+
+    # pandas로 데이터 프레임으로 변환
+    dataframe_dbti = pd.DataFrame(place_review_keyword, columns=['place_id', 'keyword_id', 'count'])
+    # pivot table 만들기
+    ratings_matrix = dataframe_dbti.pivot_table(index="place_id", columns="keyword_id", values="count")
+    # null값은 0으로 채우기
+    ratings_matrix.fillna(0, inplace=True)
+
+    # 각 행마다 리뷰 키워드 count를 비율로 설정
+    ratings_matrix = ratings_matrix.div(ratings_matrix.sum(axis=1), axis=0)
+
+    # cosin으로 여행지별 리뷰 유사도 구하기
+    item_sim = cosine_similarity(ratings_matrix, ratings_matrix)  # 협업필터링 아이템 기반
+
+    # 데이터 프레임 형태로 저장
+    item_sim_df = pd.DataFrame(item_sim, index=ratings_matrix.index, columns=ratings_matrix.index)
+
+    return item_sim_df

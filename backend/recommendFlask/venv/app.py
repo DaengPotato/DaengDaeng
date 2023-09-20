@@ -1,4 +1,5 @@
-from flask import Flask, jsonify
+# print(member_id)
+from flask import Flask, jsonify, request
 from flask_cors import CORS
 from service.db_manager import *  # db 연결 테스트용으로 임시 추가
 from include.model.recomm_dbti import dbti_recomm
@@ -20,27 +21,18 @@ def hello_world():  # put application's code here
 # 반려견 성향 기반 추천 요청 api, 아이템 기반 협업 필터링
 @app.route('/recom/byMbti', methods=['GET'])
 def by_dbti():
-    result = dbti_recomm()
+    member_id = request.headers.get('memberId')
+    result = dbti_recomm(member_id)
     return result
 
 
 # 리뷰&찜 기반 추천 요청 api, 리뷰는 콘텐츠 기반 필터링, 찜은 사용자 기반 협업 필터링
 @app.route('/recom/byReviewHeart', methods=['GET'])
 def by_review_heart():
-    result = review_heart_recomm()
+    member_id = request.headers.get('memberId')
+    member_id = int(member_id)
+    result = review_heart_recomm(member_id)
     return result
-
-
-# db 연결 테스트용 api. 추후 삭제 예정
-# @app.route('/dbtest')
-# def dbtest():  # put application's code here
-#     result = show_test()
-#     print(result)
-#     res_data = []
-#     for item in result:
-#         id, email, login_type, nickname = item
-#         res_data.append({"id": id, "email": email, "login_type": login_type, "nickname": nickname})
-#     return jsonify(res_data)
 
 
 if __name__ == '__main__':
