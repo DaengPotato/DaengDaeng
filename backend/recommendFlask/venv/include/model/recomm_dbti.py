@@ -28,9 +28,9 @@ def dbti_recomm(member_id):
         data_dbti = get_data_for_dbti(mbti_id)
 
         # pandas로 데이터 프레임으로 변환
-        dataframe_dbti=pd.DataFrame(data_dbti,columns=['place_id','score','member_id'])
+        dataframe_dbti=pd.DataFrame(data_dbti,columns=['place_id','score','pet_id'])
         # pivot table 만들기
-        ratings_matrix = dataframe_dbti.pivot_table(index="place_id",columns="member_id",values="score")
+        ratings_matrix = dataframe_dbti.pivot_table(index="place_id",columns="pet_id",values="score")
         # null값은 0으로 채우기
         ratings_matrix.fillna(0, inplace=True)
 
