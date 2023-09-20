@@ -1,0 +1,1 @@
+package com.daengdaeng.domain.place.dto.response;import java.util.ArrayList;import lombok.AllArgsConstructor;@AllArgsConstructorpublic class FindAllPlaceResponse {	private int page;	private ArrayList<PlaceResponse> placeResponseList;}
