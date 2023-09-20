@@ -41,7 +41,12 @@ dependencies {
     implementation "com.querydsl:querydsl-jpa:5.0.0"
     implementation "com.querydsl:querydsl-apt:5.0.0"
 
+//    S3연동을 위한 라이브러리
     implementation "org.springframework.cloud:spring-cloud-starter-aws:2.2.6.RELEASE"
+
+//    TODO: MultipartFile 사용을 위해 추가해야할 라이브러리 있는지 알아볼 것
+//    // 파일 업로드 관리를 위한 라이브러리
+//    implementation "org.springframework"
 }
 
 def querydslDir = "$buildDir/generated/querydsl"
