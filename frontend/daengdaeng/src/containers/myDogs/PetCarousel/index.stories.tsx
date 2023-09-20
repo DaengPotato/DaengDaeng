@@ -1,7 +1,8 @@
-import PetCarousel from '.';
 import PetCard from '../PetCard';
 
 import type { Meta, StoryObj } from '@storybook/react';
+
+import PetCarousel from '.';
 
 const meta: Meta = {
   title: 'Components/PetCarousel',

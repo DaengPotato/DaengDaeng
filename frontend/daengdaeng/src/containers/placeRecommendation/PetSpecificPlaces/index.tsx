@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 
-import { PetSimple } from '@/src/types/pet';
-import { Place, PlaceResponse } from '@/src/types/trip';
+import { ReloadIcon } from '@/public/icons';
 
 import styles from './index.module.scss';
 import PlaceCarousel from '../PlaceCarousel';
-import { ReloadIcon } from '@/public/icons';
+
+import type { PetSimple } from '@/src/types/pet';
+import type { PlaceResponse } from '@/src/types/trip';
 
 type PetSpecificPlacesProps = {
   pet: PetSimple;

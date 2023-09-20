@@ -1,6 +1,7 @@
+import type { Meta, StoryObj } from '@storybook/react';
+
 import PetCheckbox from '.';
 
-import type { Meta, StoryObj } from '@storybook/react';
 
 const meta: Meta = {
   title: 'Components/PetCheckbox',
