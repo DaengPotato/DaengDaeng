@@ -1,12 +1,12 @@
 import React from 'react';
 
-import styles from './index.module.scss';
 
 import { PawIcon } from '@/public/icons';
-
-import { PetSimple } from '@/src/types/pet';
-
 import { white } from '@/src/styles/colors';
+
+import styles from './index.module.scss';
+
+import type { PetSimple } from '@/src/types/pet';
 
 type PetCheckboxProps = {
   pet: PetSimple;

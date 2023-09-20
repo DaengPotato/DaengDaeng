@@ -1,5 +1,6 @@
 import PlaceRecommendation from '@/src/containers/placeRecommendation';
-import { PetSimple } from '@/src/types/pet';
+
+import type { PetSimple } from '@/src/types/pet';
 
 const pets: PetSimple[] = Array.from({ length: 4 }, (_, i) => ({
   petId: i + 1,

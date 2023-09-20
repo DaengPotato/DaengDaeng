@@ -1,4 +1,4 @@
-import { useState, useCallback, useEffect } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
 const useVh = (): number => {
   const isClient = typeof window === 'object';
@@ -20,7 +20,7 @@ const useVh = (): number => {
     return () => {
       window.removeEventListener('resize', updateVh);
     };
-  }, [updateVh]);
+  }, [updateVh, isClient]);
 
   return vh;
 };

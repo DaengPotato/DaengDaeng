@@ -1,6 +1,7 @@
+import type { Meta, StoryObj } from '@storybook/react';
+
 import PlaceCard from '.';
 
-import type { Meta, StoryObj } from '@storybook/react';
 
 const meta: Meta<typeof PlaceCard> = {
   title: 'Components/PlaceCard',
