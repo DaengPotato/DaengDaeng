@@ -11,6 +11,5 @@ public class PhotoResponse {
     String image;
 
     String place;
-
-
+    
 }
