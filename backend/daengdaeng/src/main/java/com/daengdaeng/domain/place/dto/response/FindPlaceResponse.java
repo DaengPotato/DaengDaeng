@@ -1,0 +1,1 @@
+package com.daengdaeng.domain.place.dto.response;import lombok.AllArgsConstructor;@AllArgsConstructorpublic class FindPlaceResponse {}
