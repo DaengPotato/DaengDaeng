@@ -44,6 +44,8 @@ spring:
         one-indexed-parameters: "true"
   mvc:
     throw-exception-if-no-handler-found: "true"
+    pathmatch:
+      matching-strategy: ant_path_matcher
   devtools:
     livereload:
       enabled: "true"
