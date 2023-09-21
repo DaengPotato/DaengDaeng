@@ -1,6 +1,7 @@
 package com.daengdaeng.domain.member.api;
 
 
+import com.daengdaeng.domain.member.dto.response.FindMemberResponse;
 import com.daengdaeng.domain.member.service.SocialService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -19,7 +20,14 @@ public class MemberController {
     @Value("${jwt.cookieName}")
     private String jwtCookieName;
 
-    @GetMapping("/login/{login_type}")
+    /**
+     * 로그인/회원가입
+     * @param code: 인가코드
+     * @param loginType: 로그인 타입(카카오/구글)
+     * @return accessToken
+     * refreshToken은 cookie에 저장
+     */
+    @PostMapping("/login/{login_type}")
     public ResponseEntity<String> login(@RequestParam String code, @PathVariable(name = "login_type") String loginType) {
 
         Map<String, String> token = socialService.login(code, loginType);

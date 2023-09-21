@@ -51,7 +51,7 @@ public class JwtTokenUtil {
         return doGenerateToken(email, JwtExpirationEnums.REFRESH_TOKEN_EXPIRATION_TIME.getValue());
     }
 
-    private String doGenerateToken(String email, long expireTime) { // 1
+    private String doGenerateToken(String email, long expireTime) {
         Claims claims = Jwts.claims();
         claims.put("email", email);
 
