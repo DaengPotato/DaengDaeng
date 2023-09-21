@@ -2,7 +2,7 @@ import PetCard from '@/src/containers/myDogs/PetCard';
 
 import PlaceCard from '../../PlaceCard';
 
-import type { PlaceWithLike } from '@/src/types/trip';
+import type { PlaceWithLike } from '@/src/types/place';
 import type { Meta, StoryObj } from '@storybook/react';
 
 import Card from '.';

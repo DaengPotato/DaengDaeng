@@ -1,8 +1,7 @@
-import type { PlaceDetailWithReview } from '@/src/types/trip';
+import type { PlaceDetailWithReview } from '@/src/types/place';
 import type { Meta, StoryObj } from '@storybook/react';
 
 import PlaceDetail from '.';
-
 
 const meta: Meta<typeof PlaceDetail> = {
   title: 'Components/PlaceDetail',

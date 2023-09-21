@@ -6,7 +6,7 @@ import styles from './index.module.scss';
 import PlaceCarousel from '../PlaceCarousel';
 
 import type { PetSimple } from '@/src/types/pet';
-import type { PlaceWithLike } from '@/src/types/trip';
+import type { PlaceWithLike } from '@/src/types/place';
 
 type PetSpecificPlacesProps = {
   pet: PetSimple;
