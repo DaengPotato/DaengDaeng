@@ -8,5 +8,6 @@ import com.daengdaeng.domain.member.domain.Member;
 @Repository
 public interface MemberRepository extends JpaRepository<Member, Integer> {
 //Optianal<Member> findMemberById(String )
+	Member findMemberByEmail(String email);
 
 }
