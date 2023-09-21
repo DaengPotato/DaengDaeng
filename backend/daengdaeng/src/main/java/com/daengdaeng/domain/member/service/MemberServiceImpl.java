@@ -37,11 +37,8 @@ public class MemberServiceImpl implements MemberService {
      * @return String : 이메일
      */
     private String getCurrentEmail() {
-        log.info("getCurrentEmail==========================================");
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        log.info("getCurrentEmail==========================================2");
         UserDetails principal = (UserDetails) authentication.getPrincipal();
-        log.info("getCurrentEmail==========================================3");
         return principal.getUsername();
     }
 

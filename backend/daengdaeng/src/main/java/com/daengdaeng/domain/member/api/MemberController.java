@@ -31,7 +31,6 @@ public class MemberController {
      */
     @GetMapping
     public ResponseEntity<FindMemberResponse> findMember() {
-            log.info("Controller========================================");
             return ResponseEntity.ok().body(memberService.findMember());
     }
 
