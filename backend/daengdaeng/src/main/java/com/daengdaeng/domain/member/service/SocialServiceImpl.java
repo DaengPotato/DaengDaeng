@@ -10,6 +10,7 @@ import com.daengdaeng.global.util.JwtTokenUtil;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -30,6 +31,7 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 @Transactional
+@Slf4j
 public class SocialServiceImpl implements SocialService {
     private final String KAKAO_TOKEN_URL = "https://kauth.kakao.com/oauth/token";
     private final String KAKAO_USERINFO_URL = "https://kapi.kakao.com/v2/user/me" ;
@@ -53,7 +55,7 @@ public class SocialServiceImpl implements SocialService {
 
     private final MemberRepository memberRepository;
     private final RefreshTokenRedisRepository refreshTokenRedisRepository;
-    private JwtTokenUtil jwtUtil;
+    private final JwtTokenUtil jwtUtil;
 
     @Override
     public Map<String, String> login(String code, String loginType) {
@@ -61,9 +63,8 @@ public class SocialServiceImpl implements SocialService {
 
         // 소셜 서버에서 전달 받은 인가 코드 (Authorization code)
         // 소셜 이름 (kakao 혹은 google)
-        String accessToken = "";
+        String accessToken;
         String email = null;
-        String jwtToken = "";
 
         if (loginType.equals("kakao")) {
             // 코드 to 액세스 토큰
@@ -77,22 +78,21 @@ public class SocialServiceImpl implements SocialService {
             }
             System.out.println("kakaoMemberInfo: " + email);
 
-            // 회원 정보 to JWT
-            jwtToken = jwtUtil.generateAccessToken(email);
-            System.out.println("jwtToken: " + jwtToken);
-
         } else if (loginType.equals("google")) {
             accessToken = getGoogleAccessToken(code);
             email = getGoogleMemberInfo(accessToken);
+            log.info("email========================="+email);
             if (email == null) {
                 throw new IllegalArgumentException("로그인 처리 중 에러 발생");
             }
-            jwtToken = jwtUtil.generateAccessToken(email);
         }
+
+        // 회원 정보 to JWT
+        String jwtToken = jwtUtil.generateAccessToken(email);
 
         RefreshToken refreshToken = saveRefreshToken(email);
 
-        token.put("accessToken", accessToken);
+        token.put("accessToken", jwtToken);
         token.put("refreshToken", refreshToken.getRefreshToken());
 
         return token;
@@ -143,18 +143,21 @@ public class SocialServiceImpl implements SocialService {
 
 
         JsonElement kakaoAccount = element.getAsJsonObject().get("kakao_account");
+        JsonElement profile = kakaoAccount.getAsJsonObject().get("profile");
 
-        Member kakaoMember = Member.builder()
-                .email(kakaoAccount.getAsJsonObject().get("email").getAsString())
-                .loginType(LoginType.KAKAO)
-                .build();
+        String userEmail = kakaoAccount.getAsJsonObject().get("email").getAsString();
 
-        Optional<Member> member = memberRepository.findByEmail(kakaoMember.getEmail());
+        Optional<Member> member = memberRepository.findByEmail(userEmail);
         if (member.isEmpty()) {
+            Member kakaoMember = Member.builder()
+                    .email(userEmail)
+                    .nickname(profile.getAsJsonObject().get("nickname").getAsString())
+                    .loginType(LoginType.KAKAO)
+                    .build();
             memberRepository.save(kakaoMember);
         }
 
-        return kakaoMember.getEmail();
+        return userEmail;
     }
 
     private String getGoogleAccessToken(String code) {
@@ -198,16 +201,18 @@ public class SocialServiceImpl implements SocialService {
 
         System.out.println(response.getBody().toString());
 
-        Member googleMember = Member.builder()
-                .email(response.getBody().get("email").toString())
-                .loginType(LoginType.GOOGLE)
-                .build();
+        String userEmail = response.getBody().get("email").toString();
 
-        Optional<Member> member = memberRepository.findByEmail(googleMember.getEmail());
+        Optional<Member> member = memberRepository.findByEmail(userEmail);
         if (member.isEmpty()) {
+            Member googleMember = Member.builder()
+                    .email(userEmail)
+                    .nickname(response.getBody().get("name").toString())
+                    .loginType(LoginType.GOOGLE)
+                    .build();
             memberRepository.save(googleMember);
         }
 
-        return googleMember.getEmail();
+        return userEmail;
     }
 }
