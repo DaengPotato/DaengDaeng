@@ -2,8 +2,7 @@ import React from 'react';
 
 import styles from './index.module.scss';
 
-import type { KeywordReview } from '@/src/types/trip';
-
+import type { KeywordReview } from '@/src/types/place';
 
 const KeywordReviewItem = ({ keyword }: { keyword: KeywordReview }) => {
   return (

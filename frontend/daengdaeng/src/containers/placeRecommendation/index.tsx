@@ -12,7 +12,7 @@ import type { PetSimple } from '@/src/types/pet';
 import type {
   PetSpecificPlacesResponse,
   PlaceWithLike,
-} from '@/src/types/trip';
+} from '@/src/types/place';
 
 type PlaceRecommendationProps = {
   pets: PetSimple[];

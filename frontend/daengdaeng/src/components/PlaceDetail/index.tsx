@@ -10,7 +10,7 @@ import type {
   KeywordReview,
   Place,
   PlaceDetailWithReview,
-} from '@/src/types/trip';
+} from '@/src/types/place';
 
 type PlaceDetailProps = {
   placeDetailWithReview: PlaceDetailWithReview;
