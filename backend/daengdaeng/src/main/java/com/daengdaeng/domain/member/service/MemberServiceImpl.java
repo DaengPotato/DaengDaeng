@@ -32,6 +32,11 @@ public class MemberServiceImpl implements MemberService {
                 .build();
     }
 
+    @Override
+    public boolean nicknameCheck(String nickname) {
+        return memberRepository.findByNickname(nickname).isEmpty();
+    }
+
     /**
      * 스프링 시큐리티 인증을 통과하여 저장된 회원의 인증 객체에서 이메일 추출
      * @return String : 이메일

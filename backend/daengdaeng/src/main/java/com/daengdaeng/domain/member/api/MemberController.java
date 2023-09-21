@@ -51,4 +51,14 @@ public class MemberController {
                 .body(token.get("accessToken"));
     }
 
+    /**
+     * 닉네임 중복 검사
+     * @param nickname : 닉네임
+     * @return Boolean : 중복 여부
+     */
+    @GetMapping("/nicknameCheck/{nickname}")
+    public ResponseEntity<Boolean> nicknameCheck(@PathVariable String nickname) {
+        return ResponseEntity.ok(memberService.nicknameCheck(nickname));
+    }
+
 }
