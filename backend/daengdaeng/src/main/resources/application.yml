@@ -10,7 +10,30 @@ management:
     context-path: /manage
 spa:
   default-file: /dist/index.html
+kakao:
+  rest-api-key: 7ea82d8a610fe51bcf3eca267069b264
+  redirect-uri: https://connectwithus.site/kakao
 spring:
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: 594259902249-6gubj4rdq3lko07198hjm2cblj3n1atk.apps.googleusercontent.com
+            client-secret: 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
+            redirect-uri: http://localhost:9001/api/oauth/google
+            scope:
+              - openid
+              - email
+              - profile
+
+        provider:
+          google:
+            authorization-uri: https://accounts.google.com/o/oauth2/auth
+            token-uri: https://accounts.google.com/o/oauth2/token
+            user-info-uri: https://www.googleapis.com/oauth2/v3/userinfo
+            user-name-attribute: email
+            jwk-set-uri: https://www.googleapis.com/oauth2/v3/certs
   web:
     resources:
       static-locations: classpath:/dist/
@@ -26,18 +49,18 @@ spring:
         dialect: org.hibernate.dialect.MySQL8Dialect
         show_sql: true
         format_sql: true
-#  datasource:
-#    driver-class-name: org.mariadb.jdbc.Driver
-#    hikari:
-#      username: ssafy
-#      password: ssafy
-#    url: jdbc:mariadb://localhost:3306/daengdb?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Seoul&zeroDateTimeBehavior=convertToNull&rewriteBatchedStatements=true
   datasource:
     driver-class-name: org.mariadb.jdbc.Driver
     hikari:
-      username: daeng
-      password: daengpotato
-    url: jdbc:mariadb://j9a103.p.ssafy.io:3324/daengdb?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Seoul&zeroDateTimeBehavior=convertToNull&rewriteBatchedStatements=true
+      username: ssafy
+      password: ssafy
+    url: jdbc:mariadb://localhost:3306/daengdb?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Seoul&zeroDateTimeBehavior=convertToNull&rewriteBatchedStatements=true
+#  datasource:
+#    driver-class-name: org.mariadb.jdbc.Driver
+#    hikari:
+#      username: daeng
+#      password: daengpotato
+#    url: jdbc:mariadb://j9a103.p.ssafy.io:3324/daengdb?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Seoul&zeroDateTimeBehavior=convertToNull&rewriteBatchedStatements=true
   data:
     web:
       pageable:
