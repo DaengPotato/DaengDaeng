@@ -1550,6 +1550,7 @@ This generated password is for development use only. Your security configuration
 2023-09-21 15:18:41.739  INFO 17788 --- [SpringApplicationShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
 2023-09-21 15:18:41.742  INFO 17788 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
 2023-09-21 15:18:41.750  INFO 17788 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+<<<<<<< HEAD
 2023-09-21 15:49:57.961  INFO 15272 --- [restartedMain] com.daengdaeng.DaengdaengApplication     : Starting DaengdaengApplication using Java 11.0.19 on DESKTOP-BLHP263 with PID 15272 (C:\Users\SSAFY\Desktop\daengdaeng\0920\backend\daengdaeng\build\classes\java\main started by SSAFY in C:\Users\SSAFY\Desktop\daengdaeng\0920\backend\daengdaeng)
 2023-09-21 15:49:57.961  INFO 15272 --- [restartedMain] com.daengdaeng.DaengdaengApplication     : No active profile set, falling back to 1 default profile: "default"
 2023-09-21 15:49:57.995  INFO 15272 --- [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
@@ -2658,3 +2659,5 @@ This generated password is for development use only. Your security configuration
 2023-09-21 17:55:32.073  INFO 3844 --- [SpringApplicationShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
 2023-09-21 17:55:32.078  INFO 3844 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
 2023-09-21 17:55:32.088  INFO 3844 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+=======
+>>>>>>> de0b71ad3f17f088cdf27868e950cb125048d368
