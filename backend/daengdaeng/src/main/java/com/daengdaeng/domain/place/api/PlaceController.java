@@ -17,8 +17,16 @@ import lombok.extern.slf4j.Slf4j;
 public class PlaceController {
 
 	@GetMapping("/")
-	public ResponseEntity<String> getPlace(int category, String keyword, int page ) {
+	public ResponseEntity<String> getAllPlace(int category, String keyword, int page ) {
 		//
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
+
+
+	@GetMapping("/recommend/dog")
+	public ResponseEntity<String> getRecommendPlaceByPet(int category, String keyword, int page ) {
+		//
+		return new ResponseEntity<>(HttpStatus.OK);
+	}
+
 }
