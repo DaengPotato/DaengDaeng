@@ -1,1 +1,1 @@
-package com.daengdaeng.domain.pet.service;import com.daengdaeng.domain.pet.dto.request.PetRequest;public interface PetService {    void addPet(PetRequest petRequest);}
+package com.daengdaeng.domain.pet.service;import com.daengdaeng.domain.pet.domain.Pet;import com.daengdaeng.domain.pet.dto.request.PetRequest;import java.util.List;public interface PetService {    List<Pet> findPetInfo();    void addPet(PetRequest petRequest);}
