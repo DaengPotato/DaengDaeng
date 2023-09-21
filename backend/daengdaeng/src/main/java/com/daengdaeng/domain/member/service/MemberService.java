@@ -6,4 +6,6 @@ public interface MemberService {
 
     FindMemberResponse findMember();
 
+    boolean nicknameCheck(String nickname);
+
 }
