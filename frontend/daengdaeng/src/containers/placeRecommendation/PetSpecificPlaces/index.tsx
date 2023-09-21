@@ -6,11 +6,11 @@ import styles from './index.module.scss';
 import PlaceCarousel from '../PlaceCarousel';
 
 import type { PetSimple } from '@/src/types/pet';
-import type { PlaceResponse } from '@/src/types/trip';
+import type { PlaceWithLike } from '@/src/types/trip';
 
 type PetSpecificPlacesProps = {
   pet: PetSimple;
-  places: PlaceResponse[];
+  places: PlaceWithLike[];
 };
 
 const PetSpecificPlaces = ({ pet, places }: PetSpecificPlacesProps) => {
