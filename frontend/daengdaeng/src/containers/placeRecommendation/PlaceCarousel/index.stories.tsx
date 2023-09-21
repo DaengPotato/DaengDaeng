@@ -1,4 +1,4 @@
-import type { PlaceResponse } from '@/src/types/trip';
+import type { PlaceWithLike } from '@/src/types/trip';
 import type { Meta, StoryObj } from '@storybook/react';
 
 import PlaceCarousel from '.';
@@ -12,7 +12,7 @@ export default meta;
 
 type Story = StoryObj<typeof PlaceCarousel>;
 
-const places = Array.from({ length: 10 }, (_, i): PlaceResponse => {
+const places = Array.from({ length: 10 }, (_, i): PlaceWithLike => {
   return {
     place: {
       placeId: i,

@@ -5,14 +5,16 @@ import Image from 'next/image';
 import styles from './index.module.scss';
 import LikeButton from '../LikeButton';
 
-import type { Place } from '@/src/types/trip';
+import type { PlaceWithLike } from '@/src/types/trip';
 
 type PlaceCardProps = {
-  place: Place;
-  isLiked: boolean;
+  placeWithLike: PlaceWithLike;
 };
 
-const PlaceCard = ({ place, isLiked }: PlaceCardProps) => {
+const PlaceCard = ({ placeWithLike }: PlaceCardProps) => {
+  const place = placeWithLike.place;
+  const isLiked = placeWithLike.isHeart;
+  
   const handleLikeClick = () => {};
 
   return (

@@ -2,17 +2,18 @@
 
 import React, { useState } from 'react';
 
-
 import PlaceExample from '@/public/images/place-example.jpg';
-
+import PlaceDetail from '@/src/components/PlaceDetail';
 
 import styles from './index.module.scss';
 import PetCheckboxList from './PetCheckboxList';
 import PetSpecificPlaces from './PetSpecificPlaces';
 
 import type { PetSimple } from '@/src/types/pet';
-import type { PetSpecificPlacesResponse, PlaceResponse } from '@/src/types/trip';
-
+import type {
+  PetSpecificPlacesResponse,
+  PlaceWithLike,
+} from '@/src/types/trip';
 
 type PlaceRecommendationProps = {
   pets: PetSimple[];
@@ -27,7 +28,7 @@ const petSpecificPlacesData: PetSpecificPlacesResponse[] = Array.from(
     },
     placeList: Array.from(
       { length: 20 },
-      (_, j: number): PlaceResponse => ({
+      (_, j: number): PlaceWithLike => ({
         place: {
           placeId: j + 1,
           title: `place ${j + 1}`,
