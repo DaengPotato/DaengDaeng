@@ -1,4 +1,4 @@
-package com.daengdaeng.global;
+package com.daengdaeng.global.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
