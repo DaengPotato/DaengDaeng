@@ -89,6 +89,7 @@ public class SocialServiceImpl implements SocialService {
         } else if (loginType.equals("google")) {
             accessToken = getGoogleAccessToken(code);
             email = getGoogleMemberInfo(accessToken);
+            log.info("email========================="+email);
             if (email == null) {
                 throw new IllegalArgumentException("로그인 처리 중 에러 발생");
             }
@@ -222,5 +223,4 @@ public class SocialServiceImpl implements SocialService {
 
         return userEmail;
     }
-
 }
