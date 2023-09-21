@@ -41,6 +41,8 @@ dependencies {
 
     implementation "com.querydsl:querydsl-jpa:5.0.0"
     implementation "com.querydsl:querydsl-apt:5.0.0"
+
+    implementation group: 'com.googlecode.json-simple', name: 'json-simple', version: '1.1.1' // 최신 버전을 사용하세요
 }
 
 def querydslDir = "$buildDir/generated/querydsl"
