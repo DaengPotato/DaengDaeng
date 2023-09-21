@@ -1,0 +1,18 @@
+.KeywordReviewItem {
+  border: 2px solid var(--color-orange);
+  border-radius: 100px;
+  padding: 8px 10px;
+  display: flex;
+  justify-content: center;
+  gap: 5px;
+  width: fit-content;
+  & > div {
+    width: fit-content;
+    font-size: 1.4rem;
+  }
+}
+
+.keywordCount {
+  color: var(--color-orange);
+  font-weight: 700;
+}
