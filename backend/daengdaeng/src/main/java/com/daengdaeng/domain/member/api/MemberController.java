@@ -2,8 +2,10 @@ package com.daengdaeng.domain.member.api;
 
 
 import com.daengdaeng.domain.member.dto.response.FindMemberResponse;
+import com.daengdaeng.domain.member.service.MemberService;
 import com.daengdaeng.domain.member.service.SocialService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,12 +15,25 @@ import java.util.Map;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/member")
+@Slf4j
 public class MemberController {
 
     private final SocialService socialService;
+    private final MemberService memberService;
 
     @Value("${jwt.cookieName}")
     private String jwtCookieName;
+
+    /**
+     * 회원 조회
+     * @return FindMemberResponse: 회원 정보
+     * - 본인 정보만 조회 가능
+     */
+    @GetMapping
+    public ResponseEntity<FindMemberResponse> findMember() {
+            log.info("Controller========================================");
+            return ResponseEntity.ok().body(memberService.findMember());
+    }
 
     /**
      * 로그인/회원가입

@@ -21,6 +21,7 @@ import java.util.stream.Collectors;
 @Builder
 public class CustomUserDetails implements UserDetails {
 
+    private String username = null;
     private String email;
     private String nickname;
     @Builder.Default
@@ -43,6 +44,7 @@ public class CustomUserDetails implements UserDetails {
     }
 
     @Override
+    @JsonIgnore
     public String getPassword() {
        return null;
     }
