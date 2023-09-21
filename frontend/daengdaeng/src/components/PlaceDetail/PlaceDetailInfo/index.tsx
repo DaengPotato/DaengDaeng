@@ -1,9 +1,9 @@
 import React from 'react';
 
 import styles from './index.module.scss';
+import LikeButton from '../../LikeButton';
 
 import type { Place } from '@/src/types/trip';
-import LikeButton from '../../LikeButton';
 
 type PlaceDetailInfoProps = {
   place: Place;
