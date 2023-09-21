@@ -65,7 +65,7 @@ def get_place_ids_by_pet_id(pet_id):
     # 강아지가 좋아한 리뷰 가지고 오기
     sql="""
     SELECT place_id 
-    FROM review 
+    FROM review r
     WHERE review_id IN (
         SELECT review_id 
         FROM review_pet 

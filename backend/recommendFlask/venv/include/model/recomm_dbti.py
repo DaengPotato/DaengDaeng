@@ -21,6 +21,7 @@ def dbti_recomm(member_id):
 
         # 반려견이 좋아한 장소 가지고 오기
         likes = get_place_ids_by_pet_id(pet_id)
+        print(likes)
         likes = [item[0] for item in likes]
 
         # 같은 mbti를 가진 강아지가 평가한 리뷰만 가지고 오기
