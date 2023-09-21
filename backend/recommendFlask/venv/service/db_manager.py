@@ -118,3 +118,29 @@ def get_review_keyword():
     """
     result = query_db(sql,())
     return result
+
+def hashtag_review_place():
+    sql = f"""
+    SELECT p.place_id,
+    CONCAT(
+        GROUP_CONCAT(DISTINCT k.keyword SEPARATOR ', '), 
+        ', ', 
+        GROUP_CONCAT(DISTINCT h.hashtag SEPARATOR ', ')
+    ) as combined_list
+    FROM place p
+    JOIN place_hashtag ph ON p.place_id = ph.place_id
+    JOIN hashtag h ON ph.hashtag_id = h.hashtag_id
+    JOIN review r ON p.place_id = r.place_id
+    JOIN review_keyword rk ON r.review_id = rk.review_id
+    JOIN keyword k ON rk.keyword_id = k.keyword_id
+    GROUP BY p.place_id;
+    """
+    result = query_db(sql, ())
+    return result
+
+
+def save_dataframe_to_db(dataframe):
+    # 데이터베이스 연결 얻기
+    conn = get_db()
+    dataframe.to_csv("./include/dataset/similarity_matrix.csv", index=False)
+    close_db()
