@@ -1,1 +1,1 @@
-package com.daengdaeng.domain.place.dto.response;import java.util.ArrayList;import lombok.AllArgsConstructor;@AllArgsConstructorpublic class FindPlaceByDogResponse {	private int petId;	private String name;	private ArrayList<FindPlaceResponse> placeList;}
+package com.daengdaeng.domain.place.dto.response;import java.util.List;import lombok.AllArgsConstructor;@AllArgsConstructorpublic class FindPlaceByDogResponse {	private int petId;	private String name;	private List<FindPlaceResponse> placeList;}
