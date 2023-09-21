@@ -33,15 +33,23 @@ import java.util.Optional;
 @Transactional
 @Slf4j
 public class SocialServiceImpl implements SocialService {
-    private final String KAKAO_TOKEN_URL = "https://kauth.kakao.com/oauth/token";
-    private final String KAKAO_USERINFO_URL = "https://kapi.kakao.com/v2/user/me" ;
-    private final String GOOGLE_TOKEN_URL = "https://oauth2.googleapis.com/token";
-    private final String GOOGLE_USERINFO_URL = "https://www.googleapis.com/oauth2/v3/userinfo";
 
-    @Value("${kakao.rest-api-key}")
+    @Value("${spring.security.oauth2.client.provider.kakao.token-uri}")
+    private String KAKAO_TOKEN_URL;
+
+    @Value("${pring.security.oauth2.client.provider.kakao.user-info-uri}")
+    private String KAKAO_USERINFO_URL;
+
+    @Value("${spring.security.oauth2.client.provider.google.token-uri}")
+    private String GOOGLE_TOKEN_URL;
+
+    @Value("${spring.security.oauth2.client.provider.google.user-info-uri}")
+    private String GOOGLE_USERINFO_URL;
+
+    @Value("${spring.security.oauth2.client.registration.kakao.client-id}")
     private String kakaoApiKey;
 
-    @Value("${kakao.redirect-uri}")
+    @Value("${spring.security.oauth2.client.registration.kakao.redirect-uri}")
     private String kakaoRedirectUri;
 
     @Value("${spring.security.oauth2.client.registration.google.client-id}")
@@ -81,7 +89,6 @@ public class SocialServiceImpl implements SocialService {
         } else if (loginType.equals("google")) {
             accessToken = getGoogleAccessToken(code);
             email = getGoogleMemberInfo(accessToken);
-            log.info("email========================="+email);
             if (email == null) {
                 throw new IllegalArgumentException("로그인 처리 중 에러 발생");
             }
@@ -215,4 +222,5 @@ public class SocialServiceImpl implements SocialService {
 
         return userEmail;
     }
+
 }

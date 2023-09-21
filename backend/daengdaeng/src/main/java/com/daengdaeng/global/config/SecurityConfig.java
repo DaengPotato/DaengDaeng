@@ -67,9 +67,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         ;
     }
 
-    // AuthenticationManagerBuilder를 설정 (사용자 세부 서비스와 비밀번호 인코더 설정)
+    // AuthenticationManagerBuilder를 설정 (사용자 세부 서비스)
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(customUserDetailService);
     }
+
 }
