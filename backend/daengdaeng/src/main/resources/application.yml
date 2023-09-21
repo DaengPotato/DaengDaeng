@@ -10,18 +10,18 @@ management:
     context-path: /manage
 spa:
   default-file: /dist/index.html
-kakao:
-  rest-api-key: bbc1c00867e7b19dabe76d4afd823b22
-  redirect-uri: http://localhost:3000
+
 spring:
   security:
     oauth2:
       client:
         registration:
+          kakao:
+            client-id: : bbc1c00867e7b19dabe76d4afd823b22
+            redirect-uri: http://localhost:3000
           google:
             client-id: 594259902249-6gubj4rdq3lko07198hjm2cblj3n1atk.apps.googleusercontent.com
             client-secret: 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
-#            redirect-uri: http://localhost:9001/api/member/login/google
             redirect-uri: http://localhost:3000/
             scope:
               - openid
@@ -29,12 +29,12 @@ spring:
               - profile
 
         provider:
+          kakao:
+            token-uri: https://kauth.kakao.com/oauth/token
+            user-info-uri: https://kapi.kakao.com/v2/user/me
           google:
-            authorization-uri: https://accounts.google.com/o/oauth2/auth
-            token-uri: https://accounts.google.com/o/oauth2/token
+            token-uri: https://oauth2.googleapis.com/token
             user-info-uri: https://www.googleapis.com/oauth2/v3/userinfo
-            user-name-attribute: email
-            jwk-set-uri: https://www.googleapis.com/oauth2/v3/certs
   web:
     resources:
       static-locations: classpath:/dist/

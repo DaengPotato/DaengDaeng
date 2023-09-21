@@ -22,4 +22,5 @@ public class CustomUserDetailService implements UserDetailsService {
         Member member = memberRepository.findByEmail(email).orElseThrow(() -> new IllegalArgumentException("user doesn't exist"));
         return CustomUserDetails.of(member);
     }
+
 }
