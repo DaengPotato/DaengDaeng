@@ -37,7 +37,7 @@ public class SocialServiceImpl implements SocialService {
     @Value("${spring.security.oauth2.client.provider.kakao.token-uri}")
     private String KAKAO_TOKEN_URL;
 
-    @Value("${pring.security.oauth2.client.provider.kakao.user-info-uri}")
+    @Value("${spring.security.oauth2.client.provider.kakao.user-info-uri}")
     private String KAKAO_USERINFO_URL;
 
     @Value("${spring.security.oauth2.client.provider.google.token-uri}")
@@ -46,10 +46,10 @@ public class SocialServiceImpl implements SocialService {
     @Value("${spring.security.oauth2.client.provider.google.user-info-uri}")
     private String GOOGLE_USERINFO_URL;
 
-    @Value("${spring.security.oauth2.client.registration.kakao.client-id}")
+    @Value("${kakao.rest-api-key}")
     private String kakaoApiKey;
 
-    @Value("${spring.security.oauth2.client.registration.kakao.redirect-uri}")
+    @Value("${kakao.redirect-uri}")
     private String kakaoRedirectUri;
 
     @Value("${spring.security.oauth2.client.registration.google.client-id}")
