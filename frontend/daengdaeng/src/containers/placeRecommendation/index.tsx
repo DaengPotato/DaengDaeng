@@ -3,7 +3,6 @@
 import React, { useState } from 'react';
 
 import PlaceExample from '@/public/images/place-example.jpg';
-import PlaceDetail from '@/src/components/PlaceDetail';
 
 import styles from './index.module.scss';
 import PetCheckboxList from './PetCheckboxList';
