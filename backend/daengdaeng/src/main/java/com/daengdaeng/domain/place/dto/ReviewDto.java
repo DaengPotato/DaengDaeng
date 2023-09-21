@@ -1,0 +1,1 @@
+package com.daengdaeng.domain.place.dto;import java.time.LocalDateTime;import java.util.Date;import org.springframework.data.annotation.CreatedDate;import lombok.AllArgsConstructor;@AllArgsConstructorpublic class ReviewDto {	private String reviewContent;	private LocalDateTime resitDate;}
