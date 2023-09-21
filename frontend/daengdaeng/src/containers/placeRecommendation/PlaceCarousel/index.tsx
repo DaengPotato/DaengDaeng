@@ -7,11 +7,11 @@ import PlaceCard from '@/src/components/PlaceCard';
 import styles from './index.module.scss';
 import Card from '../../../components/common/Card';
 
-import type { PlaceResponse } from '@/src/types/trip';
+import type { PlaceWithLike } from '@/src/types/trip';
 import type { EmblaOptionsType } from 'embla-carousel-react';
 
 type CarouselProps = {
-  places: PlaceResponse[];
+  places: PlaceWithLike[];
   startIndex: number;
   options?: EmblaOptionsType;
 };
@@ -21,17 +21,20 @@ const PlaceCarousel = ({ places, startIndex, options }: CarouselProps) => {
 
   const somePlaces = places.slice(startIndex, startIndex + 5);
 
+  const handleClickPlaceCard = () => {
+    
+  }
+  
   return (
     <div className={styles.Carousel}>
       <div className={styles.viewport} ref={emblaRef}>
         <div className={styles.container}>
           {somePlaces.map((place, i) => (
-            <div className={styles.slide} key={i}>
+            <div className={styles.slide} key={i} onClick={handleClickPlaceCard}>
               <Card>
                 <PlaceCard
                   key={place.place.placeId}
-                  place={place.place}
-                  isLiked={place.isHeart}
+                  placeWithLike={place}
                 />
               </Card>
             </div>

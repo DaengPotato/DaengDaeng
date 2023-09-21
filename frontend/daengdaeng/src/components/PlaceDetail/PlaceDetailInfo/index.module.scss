@@ -1,0 +1,24 @@
+.PlaceDetailInfo {
+  margin: 10px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  & > div {
+    font-size: 1.6rem;
+  }
+}
+
+.placeHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.placeTitle {
+  font-size: 2rem !important;
+  font-weight: 700;
+}
+
+.placeAddress {
+  font-size: 1.4rem;
+}
