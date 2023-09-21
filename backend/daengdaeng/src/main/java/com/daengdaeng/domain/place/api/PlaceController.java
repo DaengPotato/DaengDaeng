@@ -23,17 +23,14 @@ public class PlaceController {
     }
 
 
-    @GetMapping("/get_pet_recomm/{memberid}")
+    @GetMapping("/get_pet_recomm/{memberId}")
     public String getPetRecomm(@PathVariable int memberId){
-        System.out.print("왜 안돼 ");
+//        System.out.print("왜 안돼 ");
+        System.out.print(memberId);
+
         return recommendService.getPetRecommend(memberId);
     }
 
 }
 
-
-
-
-
-}
 

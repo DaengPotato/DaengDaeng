@@ -38,9 +38,10 @@ public class RecommendService {
     public String getPetRecommend(int memberId){
 
         String flaskUrl = "http://127.0.0.1:5000/recom/byMbti/" + memberId;
+//        System.out.print(flaskUrl);
         try {
-            System.out.println("여기?");
             ResponseEntity<String> response = restTemplate.getForEntity(flaskUrl, String.class);
+            System.out.println("여기?");
 
             if (response.getStatusCode().is2xxSuccessful()) {
                 return response.getBody();
