@@ -15,7 +15,6 @@ def dbti_recomm(member_id):
     # DB에서 member_id를 가지고 pet 리스트 가지고 오기
     my_pets = get_pet_ids(member_id)
 
-
     #강아지마다 추천 여행지 가지고 오기
     for pet in my_pets:
         pet_id,mbti_id = pet
