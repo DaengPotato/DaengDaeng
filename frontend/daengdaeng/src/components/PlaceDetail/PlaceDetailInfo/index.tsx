@@ -18,7 +18,7 @@ const PlaceDetailInfo = ({ place, score, isLiked }: PlaceDetailInfoProps) => {
         <div className={styles.placeTitle}>{place.title}</div>
         <LikeButton isLiked={isLiked} />
       </div>
-      <div className={styles.placeAddress}>{place.address}</div>
+      <div className={styles.placeAddress}>{place.roadAddress}</div>
       <div>별점 : {score}</div>
       <div>
         장소 설명입니다장소 설명입니다장소 설명입니다장소 설명입니다장소

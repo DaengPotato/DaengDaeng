@@ -5,15 +5,14 @@ import { ReloadIcon } from '@/public/icons';
 import styles from './index.module.scss';
 import PlaceCarousel from '../PlaceCarousel';
 
-import type { PetSimple } from '@/src/types/pet';
-import type { PlaceWithLike } from '@/src/types/place';
+import type { Place } from '@/src/types/place';
 
 type PetSpecificPlacesProps = {
-  pet: PetSimple;
-  places: PlaceWithLike[];
+  petName: string;
+  places: Place[];
 };
 
-const PetSpecificPlaces = ({ pet, places }: PetSpecificPlacesProps) => {
+const PetSpecificPlaceList = ({ petName, places }: PetSpecificPlacesProps) => {
   const [currentPlaceIndex, setCurrentPlaceIndex] = useState<number>(0);
 
   const handleReloadClick = () => {
@@ -23,7 +22,7 @@ const PetSpecificPlaces = ({ pet, places }: PetSpecificPlacesProps) => {
   return (
     <div className={styles.PetSpecificPlaces}>
       <div className={styles.header}>
-        <span className={styles.petName}>{pet.name}</span>에게 추천하는 여행지
+        <span className={styles.petName}>{petName}</span>에게 추천하는 여행지
       </div>
       <PlaceCarousel places={places} startIndex={currentPlaceIndex} />
       <div className={styles.reloadContainer}>
@@ -36,4 +35,4 @@ const PetSpecificPlaces = ({ pet, places }: PetSpecificPlacesProps) => {
   );
 };
 
-export default PetSpecificPlaces;
+export default PetSpecificPlaceList;

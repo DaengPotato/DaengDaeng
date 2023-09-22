@@ -6,6 +6,13 @@
   height: 70dvh;
   background-color: var(--color-white);
   padding: 30px;
+  z-index: 10;
+  box-shadow: 0 -5px 50px 0 rgba(0, 0, 0, 0.3);
+  display: flex;
+  flex-direction: column;
+}
+
+.placeInfo {
   overflow: auto;
 }
 

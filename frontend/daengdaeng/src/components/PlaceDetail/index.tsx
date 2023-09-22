@@ -6,23 +6,16 @@ import styles from './index.module.scss';
 import KeywordReviewItem from './KeywordReviewItem';
 import PlaceDetailInfo from './PlaceDetailInfo';
 
-import type {
-  KeywordReview,
-  Place,
-  PlaceDetailWithReview,
-} from '@/src/types/place';
+import type { KeywordReview, Place, PlaceWithReview } from '@/src/types/place';
 
 type PlaceDetailProps = {
-  placeDetailWithReview: PlaceDetailWithReview;
+  placeWithReview: PlaceWithReview;
   handleClose: () => void;
 };
 
-const PlaceDetail = ({
-  placeDetailWithReview,
-  handleClose,
-}: PlaceDetailProps) => {
-  const place: Place = placeDetailWithReview.place;
-  const keywordList: KeywordReview[] = placeDetailWithReview.keywordList;
+const PlaceDetail = ({ placeWithReview, handleClose }: PlaceDetailProps) => {
+  const place: Place = placeWithReview.place;
+  const keywordList: KeywordReview[] = placeWithReview.keywordList;
 
   return (
     <div className={styles.PlaceDetail}>
@@ -41,8 +34,8 @@ const PlaceDetail = ({
         <div className={styles.placeInfo}>
           <PlaceDetailInfo
             place={place}
-            score={placeDetailWithReview.score}
-            isLiked={placeDetailWithReview.isHeart}
+            score={placeWithReview.score}
+            isLiked={place.isHeart}
           />
         </div>
         <div className={styles.reviewContainer}>
