@@ -10,7 +10,7 @@ import PlaceDetail from '@/src/components/PlaceDetail';
 import styles from './index.module.scss';
 import Card from '../../../components/common/Card';
 
-import type { PlaceWithReview, Place } from '@/src/types/place';
+import type { Place, PlaceWithReview } from '@/src/types/place';
 import type { EmblaOptionsType } from 'embla-carousel-react';
 
 type CarouselProps = {

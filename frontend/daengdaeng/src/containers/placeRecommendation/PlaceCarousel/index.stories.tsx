@@ -1,8 +1,9 @@
+import PlaceExample from '@/public/images/place-example.jpg';
+
 import type { Place } from '@/src/types/place';
 import type { Meta, StoryObj } from '@storybook/react';
 
 import PlaceCarousel from '.';
-import PlaceExample from '@/public/images/place-example.jpg';
 
 const meta: Meta = {
   title: 'Components/PlaceCarousel',
