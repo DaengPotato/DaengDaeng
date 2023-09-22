@@ -2,7 +2,7 @@ import PetCard from '@/src/containers/myDogs/PetCard';
 
 import PlaceCard from '../../PlaceCard';
 
-import type { PlaceWithLike } from '@/src/types/place';
+import type { Place } from '@/src/types/place';
 import type { Meta, StoryObj } from '@storybook/react';
 
 import Card from '.';
@@ -17,20 +17,26 @@ export default meta;
 
 type Story = StoryObj<typeof Card>;
 
-const placeWithLike: PlaceWithLike = {
-  place: {
-    placeId: 1,
-    title: '짱멋진 여행지',
-    address: '강원도 어딘가 어쩌구',
-    placeImage:
-      'https://image.edaily.co.kr/images/Photo/files/NP/S/2020/10/PS20101500220.jpg',
-  },
+const place: Place = {
+  placeId: 1,
+  title: '짱멋진 여행지',
+  roadAddress: '강원도 어딘가 어쩌구',
+  placeImage:
+    'https://image.edaily.co.kr/images/Photo/files/NP/S/2020/10/PS20101500220.jpg',
   isHeart: true,
+  jibunAddress: '',
+  homepage: [],
+  openingHour: [],
+  phoneNumber: '',
+  content: '',
+  hashtag: [],
+  heartCnt: 0,
+  category: '',
 };
 
-export const Place: Story = {
+export const PlaceCardStory: Story = {
   args: {
-    children: <PlaceCard placeWithLike={placeWithLike} />,
+    children: <PlaceCard place={place} />,
   },
 };
 

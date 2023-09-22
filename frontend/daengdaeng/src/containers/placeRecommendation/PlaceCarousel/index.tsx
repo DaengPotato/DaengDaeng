@@ -10,24 +10,32 @@ import PlaceDetail from '@/src/components/PlaceDetail';
 import styles from './index.module.scss';
 import Card from '../../../components/common/Card';
 
-import type { PlaceDetailWithReview, PlaceWithLike } from '@/src/types/place';
+import type { PlaceWithReview, Place } from '@/src/types/place';
 import type { EmblaOptionsType } from 'embla-carousel-react';
 
 type CarouselProps = {
-  places: PlaceWithLike[];
+  places: Place[];
   startIndex: number;
   options?: EmblaOptionsType;
 };
 
 // dummy data
-const placeDetailWithReview: PlaceDetailWithReview = {
+const placeWithReview: PlaceWithReview = {
   place: {
     placeId: 1,
     title: '짱멋진 여행지',
-    address: '강원도 어딘가 어쩌구',
+    roadAddress: '강원도 어딘가 어쩌구',
     placeImage: PlaceExample,
+    isHeart: true,
+    jibunAddress: '',
+    homepage: [],
+    openingHour: [],
+    phoneNumber: '',
+    content: '',
+    hashtag: [],
+    heartCnt: 0,
+    category: '',
   },
-  isHeart: true,
   score: 3,
   keywordList: [
     {
@@ -61,9 +69,9 @@ const placeDetailWithReview: PlaceDetailWithReview = {
 
 const PlaceCarousel = ({ places, startIndex, options }: CarouselProps) => {
   const [emblaRef, _] = useEmblaCarousel(options);
-  const [currentPlace, setCurrentPlace] = useState<
-    PlaceDetailWithReview | undefined
-  >(undefined);
+  const [currentPlace, setCurrentPlace] = useState<PlaceWithReview | undefined>(
+    undefined,
+  );
 
   const somePlaces = places.slice(startIndex, startIndex + 5);
 
@@ -71,7 +79,7 @@ const PlaceCarousel = ({ places, startIndex, options }: CarouselProps) => {
     // TODO: 여행지 상세 정보(리뷰) fetch
     console.log(placeId);
 
-    setCurrentPlace(placeDetailWithReview);
+    setCurrentPlace(placeWithReview);
   };
 
   const handleClosePlaceDetail = () => {
@@ -86,10 +94,10 @@ const PlaceCarousel = ({ places, startIndex, options }: CarouselProps) => {
             <div
               className={styles.slide}
               key={i}
-              onClick={() => handleClickPlaceCard(place.place.placeId)}
+              onClick={() => handleClickPlaceCard(place.placeId)}
             >
               <Card>
-                <PlaceCard key={place.place.placeId} placeWithLike={place} />
+                <PlaceCard key={place.placeId} place={place} />
               </Card>
             </div>
           ))}
@@ -97,7 +105,7 @@ const PlaceCarousel = ({ places, startIndex, options }: CarouselProps) => {
       </div>
       {currentPlace && (
         <PlaceDetail
-          placeDetailWithReview={currentPlace}
+        placeWithReview={currentPlace}
           handleClose={handleClosePlaceDetail}
         />
       )}
