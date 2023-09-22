@@ -27,7 +27,7 @@ const PlaceDetail = ({
   return (
     <div className={styles.PlaceDetail}>
       <div className={styles.closeBtn} onClick={handleClose}>
-        X
+        닫기
       </div>
       <div className={styles.placeInfo}>
         <div className={styles.placeImage}>

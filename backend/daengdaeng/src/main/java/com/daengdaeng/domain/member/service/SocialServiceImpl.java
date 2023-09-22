@@ -37,7 +37,7 @@ public class SocialServiceImpl implements SocialService {
     @Value("${spring.security.oauth2.client.provider.kakao.token-uri}")
     private String KAKAO_TOKEN_URL;
 
-    @Value("${spring.security.oauth2.client.provider.kakao.user-info-uri}")
+    @Value("${pring.security.oauth2.client.provider.kakao.user-info-uri}")
     private String KAKAO_USERINFO_URL;
 
     @Value("${spring.security.oauth2.client.provider.google.token-uri}")
@@ -46,10 +46,10 @@ public class SocialServiceImpl implements SocialService {
     @Value("${spring.security.oauth2.client.provider.google.user-info-uri}")
     private String GOOGLE_USERINFO_URL;
 
-    @Value("${kakao.rest-api-key}")
+    @Value("${spring.security.oauth2.client.registration.kakao.client-id}")
     private String kakaoApiKey;
 
-    @Value("${kakao.redirect-uri}")
+    @Value("${spring.security.oauth2.client.registration.kakao.redirect-uri}")
     private String kakaoRedirectUri;
 
     @Value("${spring.security.oauth2.client.registration.google.client-id}")
@@ -89,7 +89,6 @@ public class SocialServiceImpl implements SocialService {
         } else if (loginType.equals("google")) {
             accessToken = getGoogleAccessToken(code);
             email = getGoogleMemberInfo(accessToken);
-            log.info("email========================="+email);
             if (email == null) {
                 throw new IllegalArgumentException("로그인 처리 중 에러 발생");
             }
@@ -223,4 +222,5 @@ public class SocialServiceImpl implements SocialService {
 
         return userEmail;
     }
+
 }

@@ -7,8 +7,6 @@
   background-color: var(--color-white);
   padding: 30px;
   overflow: auto;
-  z-index: 10;
-  box-shadow: 0 -5px 50px 5px rgba(0, 0, 0, 0.3);
 }
 
 .placeImage {
@@ -27,8 +25,4 @@
   margin: 20px 0 10px 0;
   font-size: 1.6rem;
   font-weight: 800;
-}
-
-.closeBtn {
-  padding-bottom: 10px;
 }
