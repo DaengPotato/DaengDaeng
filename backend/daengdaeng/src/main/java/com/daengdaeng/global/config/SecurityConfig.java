@@ -18,56 +18,38 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @RequiredArgsConstructor
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-    // JWT 인증 실패 시 실행
     private final JwtEntryPoint jwtEntryPoint;
-    // JWT 토큰을 처리할 필터
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
-    // 사용자 정보 로드 서비스
     private final CustomUserDetailService customUserDetailService;
-    private final CustomOAuth2UserService customOAuth2UserService;
 
-
-    // AuthenticationManager Bean 생성
     @Bean
     public AuthenticationManager authenticationManager() throws Exception {
         return super.authenticationManagerBean();
     }
 
-    // HttpSecurity 설정 (인증, 권한, JWT 필터 등 다양한 보안 설정)
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http
-                .cors()
-
+        http.cors()
                 .and()
+                .csrf().disable();
 
-                .oauth2Login()
-                .userInfoEndpoint()
-                .userService(customOAuth2UserService)
-                .and()
-                .defaultSuccessUrl("/loginSuccess")
-                .failureUrl("/loginFailure")
-                .and()
 
-                .csrf().disable()
-                .authorizeRequests() // 5
-                .antMatchers("/", "/member/login/*", "/member/nicknameCheck/*", "/swagger-resources/**", "/swagger-ui/**", "/v3/api-docs", "/swagger-ui/index.html").permitAll()
-                .anyRequest().hasRole("USER")
+        // url 별 권한 관리 설정
+        http.authorizeRequests()
+                .mvcMatchers("/", "/member/login/*", "/member/nicknameCheck/*", "/swagger-resources/**", "/swagger-ui/**", "/v3/api-docs", "/swagger-ui/index.html").permitAll()
+                .anyRequest().authenticated();
 
-                .and()
-                .exceptionHandling()
-                .authenticationEntryPoint(jwtEntryPoint)
+        // 예외 처리 설정
+        http.exceptionHandling()
+                .authenticationEntryPoint(jwtEntryPoint);
 
-                .and()
-                .logout().disable()
+        http.logout().disable()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-
                 .and()
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
         ;
     }
 
-    // AuthenticationManagerBuilder를 설정 (사용자 세부 서비스)
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(customUserDetailService);
