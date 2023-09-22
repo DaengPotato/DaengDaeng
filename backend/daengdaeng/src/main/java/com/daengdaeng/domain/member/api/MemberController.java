@@ -62,7 +62,7 @@ public class MemberController {
     }
 
     @PatchMapping("/modifyNickname")
-    public ResponseEntity<Void> modifyNickname(String nickname) {
+    public ResponseEntity<Void> modifyNickname(@RequestParam String nickname) {
         memberService.modifyNickname(nickname);
         return ResponseEntity.ok().build();
     }
