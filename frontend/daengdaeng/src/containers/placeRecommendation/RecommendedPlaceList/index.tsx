@@ -1,3 +1,5 @@
+'use client';
+
 import React, { useState } from 'react';
 
 import { ReloadIcon } from '@/public/icons';
@@ -7,12 +9,17 @@ import PlaceCarousel from '../PlaceCarousel';
 
 import type { Place } from '@/src/types/place';
 
-type PetSpecificPlacesProps = {
-  petName: string;
+type RecommendedPlaceListProps = {
+  isPet: boolean;
+  name: string[] | string;
   places: Place[];
 };
 
-const PetSpecificPlaceList = ({ petName, places }: PetSpecificPlacesProps) => {
+const RecommendedPlaceList = ({
+  isPet,
+  name,
+  places,
+}: RecommendedPlaceListProps) => {
   const [currentPlaceIndex, setCurrentPlaceIndex] = useState<number>(0);
 
   const handleReloadClick = () => {
@@ -20,9 +27,24 @@ const PetSpecificPlaceList = ({ petName, places }: PetSpecificPlacesProps) => {
   };
 
   return (
-    <div className={styles.PetSpecificPlaces}>
+    <div className={styles.RecommendedPlaceList}>
       <div className={styles.header}>
-        <span className={styles.petName}>{petName}</span>에게 추천하는 여행지
+        {isPet ? (
+          typeof name === 'string' ? (
+            <>
+              <span className={styles.name}>{name}</span>에게 추천하는 여행지
+            </>
+          ) : (
+            <>
+              <span className={styles.name}>{name.join(', ')}</span>에게
+              추천하는 여행지
+            </>
+          )
+        ) : (
+          <>
+            <span className={styles.name}>{name}</span>님에게 추천하는 여행지
+          </>
+        )}
       </div>
       <PlaceCarousel places={places} startIndex={currentPlaceIndex} />
       <div className={styles.reloadContainer}>
@@ -35,4 +57,4 @@ const PetSpecificPlaceList = ({ petName, places }: PetSpecificPlacesProps) => {
   );
 };
 
-export default PetSpecificPlaceList;
+export default RecommendedPlaceList;
