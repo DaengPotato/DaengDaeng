@@ -1,24 +1,8 @@
 package com.daengdaeng.domain.place.api;
 
-import java.util.List;
+import org.springframework.stereotype.Controller;
 
-import com.daengdaeng.domain.place.dto.response.FindPlaceResponse;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
-import com.daengdaeng.domain.place.dto.response.FindPlaceByDogResponse;
-import com.daengdaeng.domain.place.service.FlaskPlaceService;
-
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-
-@RequiredArgsConstructor
-@RestController
-@Slf4j
-@RequestMapping("/place")
+@Controller
 public class PlaceController {
 
 	private final FlaskPlaceService flaskPlaceService;

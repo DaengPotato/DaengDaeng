@@ -1,15 +1,6 @@
 package com.daengdaeng.domain.place.domain;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
 
 import com.daengdaeng.domain.category.domain.Category;
 
@@ -17,6 +8,9 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -52,4 +46,24 @@ public class Place {
 	@JoinColumn(name = "category_id", nullable = false)
 	private Category category;
 
+	@OneToMany(mappedBy = "place", cascade = CascadeType.ALL, orphanRemoval = true)
+	private List<Image> images = new ArrayList<>();
+
+
+	@Builder
+	public Place(String title, String jibunAddress, String roadAddress, String openingHour, String phoneNumber,
+				 String homepage, String content, Category category) {
+		this.title = title;
+		this.jibunAddress = jibunAddress;
+		this.roadAddress = roadAddress;
+		this.openingHour = openingHour;
+		this.phoneNumber = phoneNumber;
+		this.homepage = homepage;
+		this.content = content;
+		this.category = category;
+	}
+
+	public List<Image> getImages() {
+		return images;
+	}
 }

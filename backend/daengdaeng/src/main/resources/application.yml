@@ -50,18 +50,18 @@ spring:
         dialect: org.hibernate.dialect.MySQL8Dialect
         show_sql: true
         format_sql: true
-#  datasource:
-#    driver-class-name: org.mariadb.jdbc.Driver
-#    hikari:
-#      username: ssafy
-#      password: ssafy
-#    url: jdbc:mariadb://localhost:3306/daengdb?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Seoul&zeroDateTimeBehavior=convertToNull&rewriteBatchedStatements=true
   datasource:
     driver-class-name: org.mariadb.jdbc.Driver
     hikari:
-      username: daeng
-      password: daengpotato
-    url: jdbc:mariadb://j9a103.p.ssafy.io:3324/daengdb?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Seoul&zeroDateTimeBehavior=convertToNull&rewriteBatchedStatements=true
+      username: ssafy
+      password: ssafy
+    url: jdbc:mariadb://localhost:3306/daengdb?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Seoul&zeroDateTimeBehavior=convertToNull&rewriteBatchedStatements=true
+#  datasource:
+#    driver-class-name: org.mariadb.jdbc.Driver
+#    hikari:
+#      username: daeng
+#      password: daengpotato
+#    url: jdbc:mariadb://j9a103.p.ssafy.io:3324/daengdb?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Seoul&zeroDateTimeBehavior=convertToNull&rewriteBatchedStatements=true
   data:
     web:
       pageable:
