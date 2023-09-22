@@ -6,35 +6,36 @@ import PlaceExample from '@/public/images/place-example.jpg';
 
 import styles from './index.module.scss';
 import PetCheckboxList from './PetCheckboxList';
-import PetSpecificPlaces from './PetSpecificPlaces';
+import PetSpecificPlaceList from './PetSpecificPlaceList';
 
 import type { PetSimple } from '@/src/types/pet';
-import type {
-  PetSpecificPlacesResponse,
-  PlaceWithLike,
-} from '@/src/types/place';
+import type { PetSpecificPlaces, Place } from '@/src/types/place';
 
 type PlaceRecommendationProps = {
   pets: PetSimple[];
 };
 
-const petSpecificPlacesData: PetSpecificPlacesResponse[] = Array.from(
+const petSpecificPlacesData: PetSpecificPlaces[] = Array.from(
   { length: 4 },
-  (_, i: number): PetSpecificPlacesResponse => ({
-    pet: {
-      petId: i + 1,
-      name: `pet ${i + 1}`,
-    },
+  (_, i: number): PetSpecificPlaces => ({
+    petId: i + 1,
+    name: `pet ${i + 1}`,
     placeList: Array.from(
       { length: 20 },
-      (_, j: number): PlaceWithLike => ({
-        place: {
-          placeId: j + 1,
-          title: `place ${j + 1}`,
-          address: `address ${j + 1}`,
-          placeImage: PlaceExample,
-        },
+      (_, j: number): Place => ({
+        placeId: j + 1,
+        title: `place ${j + 1}`,
+        roadAddress: `address ${j + 1}`,
+        placeImage: PlaceExample,
         isHeart: true,
+        jibunAddress: '',
+        homepage: [],
+        openingHour: [],
+        phoneNumber: '',
+        content: '',
+        hashtag: [],
+        heartCnt: 0,
+        category: '',
       }),
     ),
   }),
@@ -56,10 +57,10 @@ const PlaceRecommendation = ({ pets }: PlaceRecommendationProps) => {
       <div className={styles.placeListContainer}>
         {petSpecificPlacesData.map(
           (petPlace) =>
-            checkedPets.includes(petPlace.pet.petId) && (
-              <PetSpecificPlaces
-                key={petPlace.pet.petId}
-                pet={petPlace.pet}
+            checkedPets.includes(petPlace.petId) && (
+              <PetSpecificPlaceList
+                key={petPlace.petId}
+                petName={petPlace.name}
                 places={petPlace.placeList}
               />
             ),
