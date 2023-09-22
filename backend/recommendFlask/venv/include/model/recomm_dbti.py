@@ -76,13 +76,13 @@ def dbti_recomm(member_id):
         recom_place_id = recom_place['place_id'].tolist()
 
         result = {
-            "pet_id":pet_id,
-            "recom_place": recom_place_id
+            "petId":pet_id,
+            "recommendPlaceList": recom_place_id
         }
 
         result_list.append(result)
 
-    json_data = json.dumps(result_list, indent=4)
+    # json_data = json.dumps(result_list, indent=4)
     # print(json_data)
 
-    return json_data
+    return result_list

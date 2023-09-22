@@ -30,15 +30,32 @@ def dataframe_to_db():
     return "ok"
 
 
+# # 반려견 성향 기반 추천 요청 api, 아이템 기반 협업 필터링
+# @app.route('/recom/byMbti/<int:member_id>', methods=['GET'])
+# def by_dbti(member_id):
+#     result = dbti_recomm(member_id)
+#     return result
+# 
+# # 리뷰&찜 기반 추천 요청 api, 리뷰는 콘텐츠 기반 필터링, 찜은 사용자 기반 협업 필터링
+# @app.route('/recom/byReviewHeart/<int:member_id>', methods=['GET'])
+# def by_review_heart(member_id):
+#     result = review_heart_recomm(member_id)
+#     return result
+
+
 # 반려견 성향 기반 추천 요청 api, 아이템 기반 협업 필터링
-@app.route('/recom/byMbti/<int:member_id>', methods=['GET'])
-def by_dbti(member_id):
+@app.route('/recom/byMbti', methods=['GET'])
+def by_dbti():
+    member_id = request.headers.get('memberId')
     result = dbti_recomm(member_id)
     return result
 
+
 # 리뷰&찜 기반 추천 요청 api, 리뷰는 콘텐츠 기반 필터링, 찜은 사용자 기반 협업 필터링
-@app.route('/recom/byReviewHeart/<int:member_id>', methods=['GET'])
-def by_review_heart(member_id):
+@app.route('/recom/byReviewHeart', methods=['GET'])
+def by_review_heart():
+    member_id = request.headers.get('memberId')
+    member_id = int(member_id)
     result = review_heart_recomm(member_id)
     return result
 

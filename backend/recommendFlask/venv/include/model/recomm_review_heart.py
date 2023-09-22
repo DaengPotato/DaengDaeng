@@ -54,7 +54,7 @@ def review_heart_recomm(member_id):
     recom_place_id = recom_place['place_id'].tolist()
 
     result = {
-        "recom_place": recom_place_id
+        "recommendPlaceList": recom_place_id
     }
 
     return result
