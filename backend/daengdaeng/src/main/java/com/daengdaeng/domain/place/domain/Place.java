@@ -1,6 +1,15 @@
 package com.daengdaeng.domain.place.domain;
 
-import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 
 import com.daengdaeng.domain.category.domain.Category;
 
@@ -8,9 +17,6 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
 @Getter
@@ -45,19 +51,5 @@ public class Place {
 	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinColumn(name = "category_id", nullable = false)
 	private Category category;
-
-	@Builder
-	public Place(String title, String jibunAddress, String roadAddress, String openingHour, String phoneNumber,
-				 String homepage, String content, String image, Category category) {
-		this.title = title;
-		this.jibunAddress = jibunAddress;
-		this.roadAddress = roadAddress;
-		this.openingHour = openingHour;
-		this.phoneNumber = phoneNumber;
-		this.homepage = homepage;
-		this.content = content;
-		this.image = image;
-		this.category = category;
-	}
 
 }

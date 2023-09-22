@@ -36,7 +36,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
         // url 별 권한 관리 설정
         http.authorizeRequests()
-                .mvcMatchers("/", "/member/login/*", "/member/nicknameCheck/*", "/swagger-resources/**", "/swagger-ui/**", "/v3/api-docs", "/swagger-ui/index.html").permitAll()
+                .mvcMatchers("/","/place/recommend/dog", "/place/recommend/member", "/member/login/*", "/member/nicknameCheck/*", "/swagger-resources/**", "/swagger-ui/**", "/v3/api-docs", "/swagger-ui/index.html").permitAll()
                 .anyRequest().authenticated();
 
         // 예외 처리 설정
