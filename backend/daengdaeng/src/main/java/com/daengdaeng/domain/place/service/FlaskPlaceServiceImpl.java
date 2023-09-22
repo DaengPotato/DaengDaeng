@@ -3,7 +3,7 @@ package com.daengdaeng.domain.place.service;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.daengdaeng.domain.member.repository.HeartRepository;
+// import com.daengdaeng.domain.member.repository.HeartRepository;
 import com.daengdaeng.domain.pet.repository.PetRepository;
 import com.daengdaeng.domain.place.domain.Place;
 import com.daengdaeng.domain.place.dto.flask.PlaceForDogResponse;
@@ -33,7 +33,7 @@ public class FlaskPlaceServiceImpl implements FlaskPlaceService {
 
 	private final MemberRepository memberRepository;
 	private final PlaceRespository placeRespository;
-	private final HeartRepository heartRepository;
+	// private final HeartRepository heartRepository;
 	private final PetRepository petRepository;
 	private final RestTemplate restTemplate;
 
@@ -53,6 +53,7 @@ public class FlaskPlaceServiceImpl implements FlaskPlaceService {
 		List<PlaceForDogResponse> placeForDogResponseList = responseEntity.getBody();
 		return placeForDogResponseList;
 	}
+
 
 	public PlaceForMemberResponse flaskGetPlaceForMemberData(int memberId) {
 		HttpHeaders headers = new HttpHeaders();
@@ -77,14 +78,10 @@ public class FlaskPlaceServiceImpl implements FlaskPlaceService {
 		List<FindPlaceByDogResponse> findPlaceByDogResponseList = new ArrayList<>();
 
 		// String email= getCurrentId();
-		String email  = "";
-		Member member = memberRepository.findMemberByEmail(email);
-		int memberId = member.getMemberId();
-
-//		String flaskUrl = "http://127.0.0.1:5000/recom/byMbti";
-//		List<PlaceForDogResponse> placeForDogResponseList =  restTemplate.getForObject(flaskUrl,PlaceForDogResponse.class);
-//		PlaceForDogResponse[] placeForDogResponseList = restTemplate.getForObject(flaskUrl, PlaceForDogResponse[].class);
-
+		// String email  = "";
+		// Member member = memberRepository.findMemberByEmail(email);
+		// int memberId = member.getMemberId();
+		int memberId = 1;
 		List<PlaceForDogResponse> getPlaceForDogDataList = flaskGetPlaceForDogData(memberId);
 
 
@@ -104,25 +101,22 @@ public class FlaskPlaceServiceImpl implements FlaskPlaceService {
 				placeList.add(findPlaceResponse);
 
 			}
-
-			String name = petRepository.findNameByPetId(petId);
+			String name = petRepository.findByPetId(petId).getName();
 			FindPlaceByDogResponse findPlaceByDogResponse = new FindPlaceByDogResponse(petId, name, placeList);
 			findPlaceByDogResponseList.add(findPlaceByDogResponse);
 
 		}
-
 			return findPlaceByDogResponseList;
 	}
 
 	@Override
 	public List<FindPlaceResponse> recommendPlaceByMember() {
 		// String email= getCurrentId();
-		String email  = "";
-		Member member = memberRepository.findMemberByEmail(email);
-		int memberId = member.getMemberId();
+		// String email  = "";
+		// Member member = memberRepository.findMemberByEmail(email);
+		// int memberId = member.getMemberId();
 
-//		String flaskUrl = "http://127.0.0.1:5000/recom/byReviewHeart";
-//		PlaceForMemberResponse placeForMemberResponse =  restTemplate.getForObject(flaskUrl, PlaceForMemberResponse.class);
+		int memberId = 1;
 
 
 		PlaceForMemberResponse getPlaceForMemberDataList = flaskGetPlaceForMemberData(memberId);
@@ -148,8 +142,10 @@ public class FlaskPlaceServiceImpl implements FlaskPlaceService {
 
 	private FindPlaceResponse findPlaceInformation(int memberId, int placeId){
 
-		int heartCnt = heartRepository.countByPlaceId(placeId);
-		boolean isHeart = heartRepository.existsByMemberIdAndPlaceId(memberId, placeId);
+		// int heartCnt = heartRepository.countByPlaceId(placeId);
+		int heartCnt = 1;
+		// boolean isHeart = heartRepository.existsByMemberIdAndPlaceId(memberId, placeId);
+		boolean isHeart = false;
 		Place place = placeRespository.findPlaceByPlaceId(placeId);
 		String category = place.getCategory().getCategory();
 
@@ -160,14 +156,15 @@ public class FlaskPlaceServiceImpl implements FlaskPlaceService {
 			ObjectMapper objectMapper = new ObjectMapper();
 
 			String homepageListJson = place.getHomepage();
-			List<String> homepageList = objectMapper.readValue(homepageListJson, new TypeReference<List<String>>() {});
-			homepage = homepageList;
+			// List<String> homepageList = objectMapper.readValue(homepageListJson, new TypeReference<List<String>>() {});
+			// homepage = homepageList;
 
-			String openingHourListListJson = place.getHomepage();
-			List<String> openingHourList = objectMapper.readValue(openingHourListListJson, new TypeReference<List<String>>() {});
-			openingHour = openingHourList;
 
-		}catch (JsonProcessingException  e){
+			String openingHourListListJson = place.getOpeningHour();
+			// List<String> openingHourList = objectMapper.readValue(openingHourListListJson, new TypeReference<List<String>>() {});
+			// openingHour = openingHourList;
+
+		}catch (Exception  e){
 			e.printStackTrace();
 		}
 
