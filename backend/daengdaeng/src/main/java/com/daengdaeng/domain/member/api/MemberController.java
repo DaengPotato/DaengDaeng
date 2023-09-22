@@ -61,4 +61,14 @@ public class MemberController {
         return ResponseEntity.ok(memberService.nicknameCheck(nickname));
     }
 
+    /**
+     * 닉네임 변경
+     * @param nickname: 닉네임
+     */
+    @PatchMapping("/modifyNickname")
+    public ResponseEntity<Void> modifyNickname(@RequestParam String nickname) {
+        memberService.modifyNickname(nickname);
+        return ResponseEntity.ok().build();
+    }
+
 }
