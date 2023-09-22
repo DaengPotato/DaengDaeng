@@ -61,4 +61,10 @@ public class MemberController {
         return ResponseEntity.ok(memberService.nicknameCheck(nickname));
     }
 
+    @PatchMapping("/modifyNickname")
+    public ResponseEntity<Void> modifyNickname(String nickname) {
+        memberService.modifyNickname(nickname);
+        return ResponseEntity.ok().build();
+    }
+
 }
