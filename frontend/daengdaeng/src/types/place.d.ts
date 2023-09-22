@@ -9,7 +9,6 @@ export type Place = {
   openingHour: string[];
   phoneNumber: string;
   content: string;
-  hashtag: string[];
   heartCnt: number;
   placeImage: string | StaticImageData;
   category: string;
