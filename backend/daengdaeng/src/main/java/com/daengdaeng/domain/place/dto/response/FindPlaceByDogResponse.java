@@ -1,0 +1,1 @@
+package com.daengdaeng.domain.place.dto.response;import java.util.List;import lombok.AllArgsConstructor;import lombok.Data;@AllArgsConstructor@Datapublic class FindPlaceByDogResponse {	private int petId;	private String name;	private List<FindPlaceResponse> placeList;}

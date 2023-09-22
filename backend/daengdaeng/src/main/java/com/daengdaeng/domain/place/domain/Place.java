@@ -45,6 +45,9 @@ public class Place {
 	@Column(columnDefinition = "TEXT")
 	private String content;
 
+	@Column(length = 2048)
+	private String image;
+
 	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinColumn(name = "category_id", nullable = false)
 	private Category category;
