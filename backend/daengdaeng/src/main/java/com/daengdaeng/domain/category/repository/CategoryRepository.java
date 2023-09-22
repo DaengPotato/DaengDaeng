@@ -7,4 +7,7 @@ import com.daengdaeng.domain.category.domain.Category;
 
 @Repository
 public interface CategoryRepository extends JpaRepository<Category, Integer> {
+
+    Category findByCategoryId(int categoryId);
+
 }
