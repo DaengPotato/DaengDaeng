@@ -1,5 +1,4 @@
 package com.daengdaeng.domain.place.dto.response;
-import com.daengdaeng.domain.place.domain.Image;
 import com.daengdaeng.domain.place.domain.Place;
 
 import lombok.Getter;
@@ -23,7 +22,7 @@ public class MemberRecommendResponse {
 
     private String homepage;
 
-    private List<Image> imageList;
+    private String image;
 
     public static MemberRecommendResponse from (Place place) {
         MemberRecommendResponse memberRecommendResponse = new MemberRecommendResponse();
@@ -34,7 +33,7 @@ public class MemberRecommendResponse {
         memberRecommendResponse.openingHour = place.getOpeningHour();
         memberRecommendResponse.phoneNumber = place.getPhoneNumber();
         memberRecommendResponse.homepage = place.getHomepage();
-        memberRecommendResponse.imageList = place.getImages();
+        memberRecommendResponse.image = place.getImage();
 
         return memberRecommendResponse;
     }
