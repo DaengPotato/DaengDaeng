@@ -8,4 +8,6 @@ public interface MemberService {
 
     boolean nicknameCheck(String nickname);
 
+    void modifyNickname(String nickname);
+
 }

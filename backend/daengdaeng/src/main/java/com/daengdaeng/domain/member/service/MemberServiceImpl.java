@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.NoSuchElementException;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -35,6 +36,19 @@ public class MemberServiceImpl implements MemberService {
     @Override
     public boolean nicknameCheck(String nickname) {
         return memberRepository.findByNickname(nickname).isEmpty();
+    }
+
+    @Override
+    public void modifyNickname(String nickname) {
+        String email = getCurrentEmail();
+        Optional<Member> member = memberRepository.findByEmail(email);
+
+        if (member.isEmpty()) {
+            throw new NoSuchElementException("회원이 존재하지 않습니다.");
+        }
+
+        Member loginMember = member.get();
+        loginMember.updateNickname(nickname);
     }
 
     /**
