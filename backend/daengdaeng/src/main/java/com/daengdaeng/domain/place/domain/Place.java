@@ -46,13 +46,9 @@ public class Place {
 	@JoinColumn(name = "category_id", nullable = false)
 	private Category category;
 
-	@OneToMany(mappedBy = "place", cascade = CascadeType.ALL, orphanRemoval = true)
-	private List<Image> images = new ArrayList<>();
-
-
 	@Builder
 	public Place(String title, String jibunAddress, String roadAddress, String openingHour, String phoneNumber,
-				 String homepage, String content, Category category) {
+				 String homepage, String content, String image, Category category) {
 		this.title = title;
 		this.jibunAddress = jibunAddress;
 		this.roadAddress = roadAddress;
@@ -60,10 +56,8 @@ public class Place {
 		this.phoneNumber = phoneNumber;
 		this.homepage = homepage;
 		this.content = content;
+		this.image = image;
 		this.category = category;
 	}
 
-	public List<Image> getImages() {
-		return images;
-	}
 }

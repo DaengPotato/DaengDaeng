@@ -8,9 +8,7 @@ import com.daengdaeng.domain.pet.repository.PetRepository;
 import com.daengdaeng.domain.place.domain.Place;
 import com.daengdaeng.domain.place.dto.flask.PlaceForDogResponse;
 import com.daengdaeng.domain.place.dto.flask.PlaceForMemberResponse;
-import com.daengdaeng.domain.place.repository.PlaceRespository;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.core.type.TypeReference;
+import com.daengdaeng.domain.place.repository.PlaceRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
@@ -32,7 +30,7 @@ import org.springframework.web.client.RestTemplate;
 public class FlaskPlaceServiceImpl implements FlaskPlaceService {
 
 	private final MemberRepository memberRepository;
-	private final PlaceRespository placeRespository;
+	private final PlaceRepository placeRespository;
 	// private final HeartRepository heartRepository;
 	private final PetRepository petRepository;
 	private final RestTemplate restTemplate;
