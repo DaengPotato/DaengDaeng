@@ -10,7 +10,31 @@ management:
     context-path: /manage
 spa:
   default-file: /dist/index.html
+
+kakao:
+  rest-api-key: bbc1c00867e7b19dabe76d4afd823b22
+  redirect-uri: http://localhost:3000
 spring:
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: 594259902249-6gubj4rdq3lko07198hjm2cblj3n1atk.apps.googleusercontent.com
+            client-secret: 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
+            redirect-uri: http://localhost:3000/
+            scope:
+              - openid
+              - email
+              - profile
+
+        provider:
+          kakao:
+            token-uri: https://kauth.kakao.com/oauth/token
+            user-info-uri: https://kapi.kakao.com/v2/user/me
+          google:
+            token-uri: https://oauth2.googleapis.com/token
+            user-info-uri: https://www.googleapis.com/oauth2/v3/userinfo
   web:
     resources:
       static-locations: classpath:/dist/
