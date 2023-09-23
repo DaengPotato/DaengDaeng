@@ -1,4 +1,29 @@
+delete from mbti;
+insert into mbti(mbti_id, mbti) values(1, 'EWOS');
+insert into mbti(mbti_id, mbti) values(2, 'EWON');
+insert into mbti(mbti_id, mbti) values(3, 'EWHS');
+insert into mbti(mbti_id, mbti) values(4, 'EWHN');
+insert into mbti(mbti_id, mbti) values(5, 'EDOS');
+insert into mbti(mbti_id, mbti) values(6, 'EDON');
+insert into mbti(mbti_id, mbti) values(7, 'EDHS');
+insert into mbti(mbti_id, mbti) values(8, 'EDHN');
+insert into mbti(mbti_id, mbti) values(9, 'IWOS');
+insert into mbti(mbti_id, mbti) values(10, 'IWON');
+insert into mbti(mbti_id, mbti) values(11, 'IWHS');
+insert into mbti(mbti_id, mbti) values(12, 'IWHN');
+insert into mbti(mbti_id, mbti) values(13, 'IDOS');
+insert into mbti(mbti_id, mbti) values(14, 'IDON');
+insert into mbti(mbti_id, mbti) values(15, 'IDHS');
+insert into mbti(mbti_id, mbti) values(16, 'IDHN');
+
 delete from mbti_question;
+delete from mbti_type;
+
+insert into mbti_type(type_id, typeA, typeB) values(1, 'D', 'W');
+insert into mbti_type(type_id, typeA, typeB) values(2, 'O', 'H');
+insert into mbti_type(type_id, typeA, typeB) values(3, 'S', 'N');
+insert into mbti_type(type_id, typeA, typeB) values(4, 'E', 'D');
+
 insert into mbti_question(question_id, question, answera, answerb, type_id) values(1, '목욕을 하자고 할 때,', '나는 물 싫어.. 무서워(크으응)', '물 좋아!!! 아싸', 1);
 insert into mbti_question(question_id, question, answera, answerb, type_id) values(2, '물 웅덩이에 장난감이 빠졌다.', '꺼내줘ㅠㅠ', '퐁당!', 1);
 insert into mbti_question(question_id, question, answera, answerb, type_id) values(3, '물 속에서 나는', '끄응...헥헥', '폴폴폴폴', 1);
