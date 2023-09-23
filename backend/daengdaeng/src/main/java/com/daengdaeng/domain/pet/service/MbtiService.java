@@ -1,1 +1,1 @@
-package com.daengdaeng.domain.pet.service;public interface MbtiService {}
+package com.daengdaeng.domain.pet.service;import com.daengdaeng.domain.pet.dto.response.MbtiResponse;import java.util.List;public interface MbtiService {    List<MbtiResponse> findMbtiQuestion();}
