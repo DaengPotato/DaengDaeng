@@ -10,4 +10,8 @@ public interface MemberService {
 
     void modifyNickname(String nickname);
 
+    void logout(String accessToken, String email);
+
+    void removeMember(String accessToken, String email);
+
 }

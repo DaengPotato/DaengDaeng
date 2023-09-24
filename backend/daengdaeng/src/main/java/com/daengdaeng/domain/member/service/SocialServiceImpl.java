@@ -3,6 +3,8 @@ package com.daengdaeng.domain.member.service;
 import com.daengdaeng.domain.member.domain.LoginType;
 import com.daengdaeng.domain.member.domain.Member;
 import com.daengdaeng.domain.member.repository.MemberRepository;
+import com.daengdaeng.global.domain.LoginAccessToken;
+import com.daengdaeng.global.domain.LoginAccessTokenRedisRepository;
 import com.daengdaeng.global.domain.RefreshToken;
 import com.daengdaeng.global.domain.RefreshTokenRedisRepository;
 import com.daengdaeng.global.jwt.JwtExpirationEnums;
@@ -63,6 +65,7 @@ public class SocialServiceImpl implements SocialService {
 
     private final MemberRepository memberRepository;
     private final RefreshTokenRedisRepository refreshTokenRedisRepository;
+    private final LoginAccessTokenRedisRepository loginAccessTokenRedisRepository;
     private final JwtTokenUtil jwtUtil;
 
     @Override
@@ -71,7 +74,7 @@ public class SocialServiceImpl implements SocialService {
 
         // 소셜 서버에서 전달 받은 인가 코드 (Authorization code)
         // 소셜 이름 (kakao 혹은 google)
-        String accessToken;
+        String accessToken = null;
         String email = null;
 
         if (loginType.equals("kakao")) {
@@ -85,7 +88,6 @@ public class SocialServiceImpl implements SocialService {
                 throw new IllegalArgumentException("로그인 처리 중 에러 발생");
             }
             System.out.println("kakaoMemberInfo: " + email);
-
         } else if (loginType.equals("google")) {
             accessToken = getGoogleAccessToken(code);
             email = getGoogleMemberInfo(accessToken);
@@ -93,6 +95,9 @@ public class SocialServiceImpl implements SocialService {
                 throw new IllegalArgumentException("로그인 처리 중 에러 발생");
             }
         }
+
+        // 24시간 저장
+        loginAccessTokenRedisRepository.save(LoginAccessToken.createLoginAccessToken(email, accessToken, 1000L * 60 * 60 * 24));
 
         // 회원 정보 to JWT
         String jwtToken = jwtUtil.generateAccessToken(email);
@@ -221,6 +226,38 @@ public class SocialServiceImpl implements SocialService {
         }
 
         return userEmail;
+    }
+
+    @Override
+    public void logout(String email) {
+        String url = "https://kapi.kakao.com/v1/user/logout";
+
+        String token = loginAccessTokenRedisRepository.findById(email).toString();
+
+        WebClient webClient = WebClient.create(url);
+        webClient.post()
+                .uri(url)
+                .header("Authorization", "Bearer " + token)
+                .retrieve()
+                .bodyToMono(String.class)
+                .block();
+    }
+
+    @Override
+    public void removeMember(String email) {
+        logout(email);
+
+        String url = "https://kapi.kakao.com/v1/user/unlink";
+
+        String token = loginAccessTokenRedisRepository.findById(email).toString();
+
+        WebClient webClient = WebClient.create(url);
+        webClient.post()
+                .uri(url)
+                .header("Authorization", "Bearer " + token)
+                .retrieve()
+                .bodyToMono(String.class)
+                .block();
     }
 
 }
