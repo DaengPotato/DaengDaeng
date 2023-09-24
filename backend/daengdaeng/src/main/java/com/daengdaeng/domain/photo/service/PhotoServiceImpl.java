@@ -2,21 +2,33 @@ package com.daengdaeng.domain.photo.service;
 
 import com.daengdaeng.common.dto.ResponseMessage;
 import com.daengdaeng.domain.photo.domain.Photo;
+import com.daengdaeng.domain.photo.repository.PhotoRepository;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
+@Slf4j
+@RequiredArgsConstructor
 @Service
+@Transactional
 public class PhotoServiceImpl implements PhotoService {
+    private final PhotoRepository photoRepository;
+
     // 모든 댕댕네컷 정보 조회
     @Override
     public List<Photo> findDaengsCutsAll() {
-        return null;
+        List<Photo> photoList = photoRepository.findAll();
+
+        return photoList;
     }
 
     // memberId에 해당하는 댕댕네컷 정보 조회
     @Override
     public List<Photo> findDaengsCutsByMemberId(int memberId) {
+        List<Photo> photoList = photoRepository.
         return null;
     }
 
