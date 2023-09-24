@@ -2,6 +2,7 @@ package com.daengdaeng.domain.place.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
@@ -15,9 +16,17 @@ import com.daengdaeng.domain.member.domain.Member;
 import com.daengdaeng.domain.member.repository.HeartRepository;
 import com.daengdaeng.domain.member.repository.MemberRepository;
 import com.daengdaeng.domain.place.domain.Place;
+import com.daengdaeng.domain.place.dto.KeywordDto;
+import com.daengdaeng.domain.place.dto.ReviewDto;
 import com.daengdaeng.domain.place.dto.response.FindAllPlaceResponse;
+import com.daengdaeng.domain.place.dto.response.FindPlaceDetailResponse;
 import com.daengdaeng.domain.place.dto.response.FindPlaceResponse;
 import com.daengdaeng.domain.place.repository.PlaceRepository;
+import com.daengdaeng.domain.review.domain.Keyword;
+import com.daengdaeng.domain.review.domain.Review;
+import com.daengdaeng.domain.review.repository.KeywordRepository;
+import com.daengdaeng.domain.review.repository.ReviewKeywordRepository;
+import com.daengdaeng.domain.review.repository.ReviewRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Service
@@ -27,6 +36,9 @@ public class PlaceServiceImpl implements PlaceService {
 	private final PlaceRepository placeRepository;
 	private final HeartRepository heartRepository;
 	private final MemberRepository memberRepository;
+	private final ReviewRepository reviewRepository;
+	private final KeywordRepository keywordRepository;
+	private final ReviewKeywordRepository reviewKeywordRepository;
 
 	@Override
 	public FindAllPlaceResponse placeList(Byte category, String keyword, int cursor) {
@@ -48,6 +60,45 @@ public class PlaceServiceImpl implements PlaceService {
 		FindAllPlaceResponse findAllPlaceResponse = new FindAllPlaceResponse(findPlaceResponseList, nextCursor);
 
 		return findAllPlaceResponse;
+	}
+
+	@Override
+	public FindPlaceDetailResponse placeDetail(int placeId) {
+
+		int memberId = 1;
+
+		Place place = placeRepository.findPlaceByPlaceId(placeId);
+
+		FindPlaceResponse findPlaceResponse = findPlaceInformation(memberId, place);
+
+		int score = 0;
+		Optional<Integer> averageScore = reviewRepository.findAverageScoreByPlaceId(placeId);
+		if (averageScore.isPresent()) {
+			score = averageScore.get();
+		}
+
+		List<KeywordDto> keywordDtoList = new ArrayList<>();
+		List<Keyword> keywordList = keywordRepository.findByCategoryCategoryId(place.getCategory().getCategoryId());
+		for(Keyword keyword : keywordList){
+			int keywordCnt = reviewKeywordRepository.countByReviewPlacePlaceIdAndKeywordKeywordId(placeId,keyword.getKeywordId());
+			KeywordDto keywordDto = new KeywordDto(keyword.getKeywordId(), keyword.getKeyword(), keywordCnt);
+			keywordDtoList.add(keywordDto);
+		}
+
+		List<ReviewDto> reviewDtoList = new ArrayList<>();
+		List<Review> reviewList = reviewRepository.findByPlacePlaceId(placeId);
+		System.out.println(reviewList.size());
+		reviewList.forEach(review -> {
+			ReviewDto reviewDto = new ReviewDto(review.getReviewContent(), review.getRegistTime());
+			reviewDtoList.add(reviewDto);
+		});
+
+		FindPlaceDetailResponse findPlaceDetailResponse = new FindPlaceDetailResponse(findPlaceResponse, score, keywordDtoList, reviewDtoList);
+
+		return findPlaceDetailResponse;
+
+
+
 	}
 
 	private FindPlaceResponse findPlaceInformation(int memberId, Place place){
