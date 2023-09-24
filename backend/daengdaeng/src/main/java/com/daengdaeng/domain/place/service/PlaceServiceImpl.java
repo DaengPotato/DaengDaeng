@@ -11,6 +11,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 
+import com.daengdaeng.domain.member.domain.Member;
+import com.daengdaeng.domain.member.repository.HeartRepository;
+import com.daengdaeng.domain.member.repository.MemberRepository;
 import com.daengdaeng.domain.place.domain.Place;
 import com.daengdaeng.domain.place.dto.response.FindAllPlaceResponse;
 import com.daengdaeng.domain.place.dto.response.FindPlaceResponse;
@@ -22,16 +25,20 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 public class PlaceServiceImpl implements PlaceService {
 
 	private final PlaceRepository placeRepository;
+	private final HeartRepository heartRepository;
+	private final MemberRepository memberRepository;
 
 	@Override
 	public FindAllPlaceResponse placeList(Byte category, String keyword, int cursor) {
+
+		int memberId = 1;
 
 		Pageable pageable = PageRequest.of(cursor, 20); // 2페이지, 페이지 크기 20
 		List<Place> findPlaceList = placeRepository.findByKeywordAndCategory(keyword, category, pageable);
 		List<FindPlaceResponse> findPlaceResponseList = new ArrayList<>();
 
 		for(Place findPlace : findPlaceList){
-			FindPlaceResponse findPlaceRespons = findPlaceInformation(findPlace);
+			FindPlaceResponse findPlaceRespons = findPlaceInformation(memberId, findPlace);
 			findPlaceResponseList.add(findPlaceRespons);
 		}
 
@@ -43,12 +50,12 @@ public class PlaceServiceImpl implements PlaceService {
 		return findAllPlaceResponse;
 	}
 
-	private FindPlaceResponse findPlaceInformation(Place place){
+	private FindPlaceResponse findPlaceInformation(int memberId, Place place){
 
-		// int heartCnt = heartRepository.countByPlaceId(placeId);
-		int heartCnt = 1;
-		// boolean isHeart = heartRepository.existsByMemberIdAndPlaceId(memberId, placeId);
-		boolean isHeart = false;
+
+		boolean isHeart = heartRepository.existsByMemberMemberIdAndPlacePlaceId(memberId, place.getPlaceId());
+
+		int heartCnt = heartRepository.countByPlacePlaceId(place.getPlaceId());
 
 		String category = place.getCategory().getCategory();
 
