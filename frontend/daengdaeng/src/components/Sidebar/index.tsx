@@ -3,13 +3,17 @@ import type { Dispatch, SetStateAction } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 
+
 import { CloseIcon } from '@/public/icons';
 import TextLogo from '@/public/images/text-logo.png';
-
 
 import styles from './index.module.scss';
 
 const menuItems = [
+  {
+    label: '나의 강아지',
+    href: '/mypets',
+  },
   {
     label: '댕BTI',
     href: '/petnalitytest',
