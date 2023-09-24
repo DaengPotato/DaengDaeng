@@ -7,10 +7,8 @@ import lombok.*;
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor(access =  AccessLevel.PROTECTED)
-public class PhotoResponse {
-    String image;
-
-    String place;
+public class FrameResponse {
+    String frameUrl;
 
 
 }
