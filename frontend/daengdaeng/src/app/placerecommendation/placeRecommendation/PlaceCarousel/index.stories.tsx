@@ -5,6 +5,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 
 import PlaceCarousel from '.';
 
+
 const meta: Meta = {
   title: 'Components/PlaceCarousel',
   component: PlaceCarousel,
@@ -26,7 +27,6 @@ const places = Array.from({ length: 10 }, (_, i): Place => {
     openingHour: [],
     phoneNumber: '',
     content: '',
-    hashtag: [],
     heartCnt: 0,
     category: '',
   };

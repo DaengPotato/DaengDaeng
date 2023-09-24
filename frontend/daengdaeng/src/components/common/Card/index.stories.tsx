@@ -1,4 +1,4 @@
-import PetCard from '@/src/containers/myDogs/PetCard';
+import PetCard from '@/src/app/mypets/myPets/PetCard';
 
 import PlaceCard from '../../PlaceCard';
 
@@ -29,7 +29,6 @@ const place: Place = {
   openingHour: [],
   phoneNumber: '',
   content: '',
-  hashtag: [],
   heartCnt: 0,
   category: '',
 };

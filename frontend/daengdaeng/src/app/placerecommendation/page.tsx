@@ -1,4 +1,4 @@
-import PlaceRecommendation from '@/src/containers/placeRecommendation';
+import PlaceRecommendation from '@/src/app/placerecommendation/placeRecommendation';
 
 import type { PetSimple } from '@/src/types/pet';
 import type { PetSpecificPlaces, Place } from '@/src/types/place';
@@ -48,6 +48,7 @@ const PlaceRecommendationPage = async () => {
 export default PlaceRecommendationPage;
 
 // dummy data
+
 const pets: PetSimple[] = Array.from({ length: 4 }, (_, i) => ({
   petId: i + 1,
   name: `Pet ${i + 1}`,
