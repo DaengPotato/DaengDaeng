@@ -15,6 +15,10 @@ kakao:
   rest-api-key: bbc1c00867e7b19dabe76d4afd823b22
   redirect-uri: http://localhost:3000
 spring:
+  servlet:
+    multipart:
+      max-file-size: 50MB
+      max-request-size: 50MB
   security:
     oauth2:
       client:
@@ -116,11 +120,11 @@ springfox:
       use-model-v3: 'false'
 
 # TODO: 2023.09.20 AWS 계정 만들고 s3 버킷 만들고 IAM 계정 만들고 access key, secret key 발급 받고, 해당 내용 추가할 것
-spring:
-  servlet:
-    multipart:
-      max-file-size: 50MB
-      max-request-size: 50MB
+#spring:
+#  servlet:
+#    multipart:
+#      max-file-size: 50MB
+#      max-request-size: 50MB
 
 cloud:
   aws:

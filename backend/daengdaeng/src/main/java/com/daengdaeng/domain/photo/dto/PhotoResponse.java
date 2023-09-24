@@ -7,6 +7,7 @@ import lombok.*;
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor(access =  AccessLevel.PROTECTED)
+
 public class PhotoResponse {
     String image;
 
