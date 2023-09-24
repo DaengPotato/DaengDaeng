@@ -53,4 +53,19 @@ public class Place {
 	private Category category;
 	
 
+	@Builder
+	public Place(String title, String jibunAddress, String roadAddress, String openingHour, String phoneNumber,
+		String homepage, String content, String image, Category category) {
+		this.title = title;
+		this.jibunAddress = jibunAddress;
+		this.roadAddress = roadAddress;
+		this.openingHour = openingHour;
+		this.phoneNumber = phoneNumber;
+		this.homepage = homepage;
+		this.content = content;
+		this.image = image;
+		this.category = category;
+	}
+
+
 }
