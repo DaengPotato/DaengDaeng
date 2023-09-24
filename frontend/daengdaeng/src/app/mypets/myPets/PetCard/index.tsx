@@ -10,6 +10,7 @@ import styles from './index.module.scss';
 
 import type { PetDetail } from '@/src/types/pet';
 
+
 type PetCardProps = {
   pet: PetDetail;
 };

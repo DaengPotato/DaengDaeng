@@ -1,0 +1,30 @@
+.RecommendedPlaceList {
+  margin: 15px 0;
+}
+
+.header {
+  font-size: 1.8rem;
+  width: fit-content;
+  margin: 0 auto;
+  font-weight: 700;
+}
+
+.name {
+  font-size: 1.8rem;
+  color: var(--color-orange);
+  font-weight: 700;
+}
+
+.reloadContainer {
+  display: flex;
+  justify-content: flex-end;
+  margin-right: 15px;
+}
+
+.reloadBtn {
+  font-size: 1.4rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+}
