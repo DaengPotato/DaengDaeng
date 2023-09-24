@@ -1,14 +1,18 @@
 package com.daengdaeng.domain.place.api;
 
+import com.daengdaeng.domain.place.dto.response.FindAllPlaceResponse;
 import com.daengdaeng.domain.place.dto.response.FindPlaceByDogResponse;
 import com.daengdaeng.domain.place.dto.response.FindPlaceResponse;
 import com.daengdaeng.domain.place.service.FlaskPlaceService;
+import com.daengdaeng.domain.place.service.PlaceService;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -19,13 +23,16 @@ import java.util.List;
 public class PlaceController {
 
 	private final FlaskPlaceService flaskPlaceService;
+	private final PlaceService placeService;
 
-	@GetMapping("/")
-	public ResponseEntity<String> getAllPlace(int category, String keyword, int page ) {
 
-		return new ResponseEntity<>(HttpStatus.OK);
+	@GetMapping("")
+	public ResponseEntity<FindAllPlaceResponse> getAllPlace(Byte category, String keyword, int cursor) {
+		System.out.println(category);
+		FindAllPlaceResponse findAllPlaceResponse = placeService.placeList(category, keyword, cursor);
+		return new ResponseEntity<>(findAllPlaceResponse,HttpStatus.OK);
 	}
-
+	
 
 	@GetMapping("/recommend/dog")
 	public ResponseEntity<List<FindPlaceByDogResponse>> getRecommendPlaceByPet() {
@@ -44,5 +51,6 @@ public class PlaceController {
 
 		return new ResponseEntity<>(findPlaceResponseList,HttpStatus.OK);
 	}
+
 
 }
