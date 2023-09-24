@@ -1,7 +1,7 @@
 package com.daengdaeng.domain.photo.service;
 
-import com.daengdaeng.common.dto.ResponseMessage;
 import com.daengdaeng.domain.photo.domain.Photo;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -16,13 +16,13 @@ public interface PhotoService {
     public List<Photo> findFrames();
 
     // 업로드한 댕댕네컷 파일에 대한 정보를 DB에 추가
-    public ResponseMessage addDaengCut(String image, int memberId, int placeId);
+    public String addDaengCut(String image, int memberId, int placeId);
 
     // S3에 파일 업로드
-    public ResponseMessage addFileAtS3(String fileName);
+    public String addFileAtS3(String fileName, MultipartFile file);
 
-    // S3에서 파일명으로 조회
-    public ResponseMessage findFileAtS3(String fileName);
+//    // S3에서 파일명으로 조회
+//    public String findFileAtS3(String fileName);
 
 
 }

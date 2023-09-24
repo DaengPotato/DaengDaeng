@@ -47,7 +47,7 @@ dependencies {
     implementation 'com.google.code.gson:gson:2.8.7'
 
 //    S3연동을 위한 라이브러리
-    implementation "org.springframework.cloud:spring-cloud-starter-aws:2.2.6"
+    implementation "org.springframework.cloud:spring-cloud-starter-aws:2.2.6.RELEASE"
 
     // 파일 업로드를 위한 라이브러리
     implementation "commons-io:commons-io:2.11.0"
