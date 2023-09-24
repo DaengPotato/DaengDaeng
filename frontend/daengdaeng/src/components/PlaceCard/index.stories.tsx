@@ -4,6 +4,8 @@ import type { Meta, StoryObj } from '@storybook/react';
 
 import PlaceCard from '.';
 
+
+
 const meta: Meta<typeof PlaceCard> = {
   title: 'Components/PlaceCard',
   component: PlaceCard,
@@ -26,7 +28,6 @@ export const LikedTrip: Story = {
       openingHour: [],
       phoneNumber: '',
       content: '',
-      hashtag: [],
       heartCnt: 0,
       category: '',
     },
