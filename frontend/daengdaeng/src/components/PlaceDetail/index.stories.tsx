@@ -26,7 +26,6 @@ const placeWithReview: PlaceWithReview = {
     openingHour: [],
     phoneNumber: '',
     content: '',
-    hashtag: [],
     heartCnt: 0,
     category: '',
   },

@@ -1,31 +1,33 @@
-import React, { useEffect } from 'react';
+'use client';
+
+import React from 'react';
 
 import useEmblaCarousel from 'embla-carousel-react';
 
 import styles from './index.module.scss';
-import Card from '../../../components/common/Card';
+import Card from '../../../../components/common/Card';
+import PetCard from '../PetCard';
 
+import type { PetDetail } from '@/src/types/pet';
 import type { EmblaOptionsType } from 'embla-carousel-react';
 
 type CarouselProps = {
-  slides: React.ReactNode[];
+  pets: PetDetail[];
   options?: EmblaOptionsType;
 };
 
-const PetCarousel = ({ slides, options }: CarouselProps) => {
+const PetCarousel = ({ pets, options }: CarouselProps) => {
   const [emblaRef, _] = useEmblaCarousel(options);
-
-  useEffect(() => {
-    // TODO: 강아지 정보 데이터 fetch
-  });
 
   return (
     <div className={styles.Carousel}>
       <div className={styles.viewport} ref={emblaRef}>
         <div className={styles.container}>
-          {slides.map((slide, index) => (
-            <div className={styles.slide} key={index}>
-              <Card>{slide}</Card>
+          {pets.map((pet, i) => (
+            <div className={styles.slide} key={i}>
+              <Card>
+                <PetCard pet={pet} />
+              </Card>
             </div>
           ))}
         </div>

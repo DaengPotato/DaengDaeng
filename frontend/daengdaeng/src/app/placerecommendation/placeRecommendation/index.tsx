@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 
 import styles from './index.module.scss';
 import PetCheckboxList from './PetCheckboxList';
-import PetSpecificPlaceList from './RecommendedPlaceList';
+import RecommendedPlaceList from './RecommendedPlaceList';
 
 import type { PetSimple } from '@/src/types/pet';
 import type { PetSpecificPlaces, Place } from '@/src/types/place';
@@ -41,7 +41,7 @@ const PlaceRecommendation = ({
           petSpecificPlaces.map(
             (petPlace: PetSpecificPlaces) =>
               checkedPets.includes(petPlace.petId) && (
-                <PetSpecificPlaceList
+                <RecommendedPlaceList
                   key={petPlace.petId}
                   isPet={true}
                   name={petPlace.name}
@@ -53,7 +53,7 @@ const PlaceRecommendation = ({
         {/* {
           // 강아지 조합 추천 여행지
           petCombinationPlaces.map((place: Place) => (
-            <PetSpecificPlaceList
+            <RecommendedPlaceList
               key={petPlace.petId}
               isPet={true}
               name={petPlace.name}
@@ -63,7 +63,7 @@ const PlaceRecommendation = ({
         } */}
         {
           // 사용자 찜 기반 추천 여행지
-          <PetSpecificPlaceList
+          <RecommendedPlaceList
             isPet={false}
             name={userName}
             places={userSpecificPlaces}
@@ -75,30 +75,3 @@ const PlaceRecommendation = ({
 };
 
 export default PlaceRecommendation;
-
-// dummy data
-// const petSpecificPlacesData: PetSpecificPlaces[] = Array.from(
-//   { length: 4 },
-//   (_, i: number): PetSpecificPlaces => ({
-//     petId: i + 1,
-//     name: `pet ${i + 1}`,
-//     placeList: Array.from(
-//       { length: 20 },
-//       (_, j: number): Place => ({
-//         placeId: j + 1,
-//         title: `place ${j + 1}`,
-//         roadAddress: `address ${j + 1}`,
-//         placeImage: PlaceExample,
-//         isHeart: true,
-//         jibunAddress: '',
-//         homepage: [],
-//         openingHour: [],
-//         phoneNumber: '',
-//         content: '',
-//         hashtag: [],
-//         heartCnt: 0,
-//         category: '',
-//       }),
-//     ),
-//   }),
-// );

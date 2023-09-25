@@ -1,14 +1,16 @@
-import React from 'react';
-import { useState } from 'react';
+import React, { useState } from 'react';
 
 import useEmblaCarousel from 'embla-carousel-react';
+
+
 
 import PlaceExample from '@/public/images/place-example.jpg';
 import PlaceCard from '@/src/components/PlaceCard';
 import PlaceDetail from '@/src/components/PlaceDetail';
 
+
 import styles from './index.module.scss';
-import Card from '../../../components/common/Card';
+import Card from '../../../../components/common/Card';
 
 import type { Place, PlaceWithReview } from '@/src/types/place';
 import type { EmblaOptionsType } from 'embla-carousel-react';
@@ -32,7 +34,6 @@ const placeWithReview: PlaceWithReview = {
     openingHour: [],
     phoneNumber: '',
     content: '',
-    hashtag: [],
     heartCnt: 0,
     category: '',
   },
@@ -105,7 +106,7 @@ const PlaceCarousel = ({ places, startIndex, options }: CarouselProps) => {
       </div>
       {currentPlace && (
         <PlaceDetail
-        placeWithReview={currentPlace}
+          placeWithReview={currentPlace}
           handleClose={handleClosePlaceDetail}
         />
       )}

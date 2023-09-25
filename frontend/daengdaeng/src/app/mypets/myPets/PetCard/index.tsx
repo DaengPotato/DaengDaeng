@@ -35,7 +35,7 @@ const PetCard = ({ pet }: PetCardProps) => {
       </div>
       <div className={styles.petPlaceBtn}>
         <Button size="small" backgroundColor="orange" icon={true}>
-          {pet.name} 맞춤 여행지
+          맞춤 여행지 추천
         </Button>
       </div>
     </div>
