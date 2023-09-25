@@ -1,8 +1,9 @@
-FROM nginx:stable-alpine
-WORKDIR /app
-RUN mkdir ./build
-ADD ./.next ./build
-RUN rm /etc/nginx/conf.d/default.conf
-COPY ./front.conf /etc/nginx/conf.d
-EXPOSE 3126
-CMD ["nginx", "-g", "daemon off;"]
+FROM node:alpine
+ENV PORT 3126
+WORKDIR /usr/src/app
+COPY package*.json ./
+RUN npm install
+COPY ./ ./
+ENV NODE_ENV production
+RUN npm run build
+CMD ["npm", "run", "start"]
