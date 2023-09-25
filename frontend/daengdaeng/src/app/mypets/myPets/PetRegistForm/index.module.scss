@@ -1,0 +1,11 @@
+.petImage {
+  & > img {
+    border-radius: 50%;
+  }
+}
+
+.petImageUpload {
+  & > input {
+    display: none;
+  }
+}
