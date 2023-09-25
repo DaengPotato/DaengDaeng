@@ -5,7 +5,7 @@ import React, { useState } from 'react';
 import { ReloadIcon } from '@/public/icons';
 
 import styles from './index.module.scss';
-import PlaceCarousel from '../PlaceCarousel';
+import PlaceCarousel from '../../../../components/PlaceCarousel';
 
 import type { Place } from '@/src/types/place';
 
