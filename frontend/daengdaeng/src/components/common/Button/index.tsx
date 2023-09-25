@@ -5,9 +5,9 @@ import { white } from '@/src/styles/colors';
 
 import styles from './index.module.scss';
 
-
 type ButtonProps = {
   children: React.ReactNode;
+  type?: 'button' | 'submit' | 'reset';
   isDisabled?: boolean;
   size: 'small' | 'medium' | 'large';
   backgroundColor: 'orange' | 'gray';
@@ -17,6 +17,7 @@ type ButtonProps = {
 
 const Button = ({
   children,
+  type,
   isDisabled,
   size,
   backgroundColor,
@@ -35,6 +36,7 @@ const Button = ({
 
   return (
     <button
+      type={type}
       onClick={onClick}
       disabled={isDisabled}
       className={`
