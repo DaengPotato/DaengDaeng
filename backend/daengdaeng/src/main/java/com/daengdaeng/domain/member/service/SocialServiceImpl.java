@@ -97,7 +97,6 @@ public class SocialServiceImpl implements SocialService {
         }
 
         // 24시간 저장
-        log.info("login accessToken==========================================" + accessToken);
         loginAccessTokenRedisRepository.save(LoginAccessToken.createLoginAccessToken(email, accessToken, 1000L * 60 * 60 * 24));
 
         // 회원 정보 to JWT

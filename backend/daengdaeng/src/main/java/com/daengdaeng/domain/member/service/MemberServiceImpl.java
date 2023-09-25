@@ -150,4 +150,5 @@ public class MemberServiceImpl implements MemberService {
         UserDetails principal = (UserDetails) authentication.getPrincipal();
         return principal.getUsername();
     }
+
 }
