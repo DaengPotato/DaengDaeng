@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 
 import styles from './index.module.scss';
 import PetCheckboxList from './PetCheckboxList';
-import PetSpecificPlaceList from './RecommendedPlaceList';
+import RecommendedPlaceList from './RecommendedPlaceList';
 
 import type { PetSimple } from '@/src/types/pet';
 import type { PetSpecificPlaces, Place } from '@/src/types/place';
@@ -41,7 +41,7 @@ const PlaceRecommendation = ({
           petSpecificPlaces.map(
             (petPlace: PetSpecificPlaces) =>
               checkedPets.includes(petPlace.petId) && (
-                <PetSpecificPlaceList
+                <RecommendedPlaceList
                   key={petPlace.petId}
                   isPet={true}
                   name={petPlace.name}
@@ -53,7 +53,7 @@ const PlaceRecommendation = ({
         {/* {
           // 강아지 조합 추천 여행지
           petCombinationPlaces.map((place: Place) => (
-            <PetSpecificPlaceList
+            <RecommendedPlaceList
               key={petPlace.petId}
               isPet={true}
               name={petPlace.name}
@@ -63,7 +63,7 @@ const PlaceRecommendation = ({
         } */}
         {
           // 사용자 찜 기반 추천 여행지
-          <PetSpecificPlaceList
+          <RecommendedPlaceList
             isPet={false}
             name={userName}
             places={userSpecificPlaces}
