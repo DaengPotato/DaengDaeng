@@ -1,9 +1,10 @@
 import React from 'react';
 
+import styles from './index.module.scss';
+
 import { PawIcon } from '@/public/icons';
 import { white } from '@/src/styles/colors';
-
-import styles from './index.module.scss';
+import { ssurround } from '@/src/styles/fonts';
 
 type ButtonProps = {
   children: React.ReactNode;
@@ -44,6 +45,7 @@ const Button = ({
           ${styles[size]}
           ${styles[`bg-${backgroundColor}`]}
           ${isDisabled ? styles.disabled : ''}
+          ${ssurround.className}
         `}
     >
       <span>{children}</span>
