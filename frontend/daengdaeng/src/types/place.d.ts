@@ -1,30 +1,18 @@
 import type { StaticImageData } from 'next/image';
 
-// TODO: 속성 추가 해야 함
 export type Place = {
   placeId: number;
   title: string;
-  address: string;
+  jibunAddress: string;
+  roadAddress: string;
+  homepage: string[]; // 홈페이지, 인스타, 유튜브 주소...
+  openingHour: string[];
+  phoneNumber: string;
+  content: string;
+  heartCnt: number;
   placeImage: string | StaticImageData;
-};
-
-export type PlaceWithLike = {
-  place: Place;
+  category: string;
   isHeart: boolean;
-};
-
-export type PetSpecificPlacesResponse = {
-  pet: {
-    petId: number;
-    name: string;
-  };
-  placeList: PlaceWithLike[];
-};
-
-export type KeywordReview = {
-  keywordId: number;
-  keyword: string;
-  keywordCnt: number;
 };
 
 export type Review = {
@@ -32,10 +20,21 @@ export type Review = {
   registDate: string;
 };
 
-export type PlaceDetailWithReview = {
+export type PlaceWithReview = {
   place: Place;
-  isHeart: boolean;
   score: number;
   keywordList: KeywordReview[];
   reviewList: Review[];
+};
+
+export type PetSpecificPlaces = {
+  petId: number;
+  name: string;
+  placeList: Place[];
+};
+
+export type KeywordReview = {
+  keywordId: number;
+  keyword: string;
+  keywordCnt: number;
 };

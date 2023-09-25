@@ -2,47 +2,29 @@
 
 import React, { useState } from 'react';
 
-import PlaceExample from '@/public/images/place-example.jpg';
-
 import styles from './index.module.scss';
 import PetCheckboxList from './PetCheckboxList';
-import PetSpecificPlaces from './PetSpecificPlaces';
+import PetSpecificPlaceList from './RecommendedPlaceList';
 
 import type { PetSimple } from '@/src/types/pet';
-import type {
-  PetSpecificPlacesResponse,
-  PlaceWithLike,
-} from '@/src/types/place';
+import type { PetSpecificPlaces, Place } from '@/src/types/place';
 
 type PlaceRecommendationProps = {
   pets: PetSimple[];
+  petSpecificPlaces: PetSpecificPlaces[];
+  userSpecificPlaces: Place[];
 };
 
-const petSpecificPlacesData: PetSpecificPlacesResponse[] = Array.from(
-  { length: 4 },
-  (_, i: number): PetSpecificPlacesResponse => ({
-    pet: {
-      petId: i + 1,
-      name: `pet ${i + 1}`,
-    },
-    placeList: Array.from(
-      { length: 20 },
-      (_, j: number): PlaceWithLike => ({
-        place: {
-          placeId: j + 1,
-          title: `place ${j + 1}`,
-          address: `address ${j + 1}`,
-          placeImage: PlaceExample,
-        },
-        isHeart: true,
-      }),
-    ),
-  }),
-);
-
-const PlaceRecommendation = ({ pets }: PlaceRecommendationProps) => {
+const PlaceRecommendation = ({
+  pets,
+  petSpecificPlaces,
+  userSpecificPlaces,
+}: PlaceRecommendationProps) => {
   const initialCheckedPets = pets.map((pet) => pet.petId);
   const [checkedPets, setCheckedPets] = useState<number[]>(initialCheckedPets);
+
+  // TODO: 사용자 이름 가져오기
+  const userName = '김민지';
 
   return (
     <div className={styles.PlaceRecommendation}>
@@ -54,19 +36,69 @@ const PlaceRecommendation = ({ pets }: PlaceRecommendationProps) => {
         />
       </div>
       <div className={styles.placeListContainer}>
-        {petSpecificPlacesData.map(
-          (petPlace) =>
-            checkedPets.includes(petPlace.pet.petId) && (
-              <PetSpecificPlaces
-                key={petPlace.pet.petId}
-                pet={petPlace.pet}
-                places={petPlace.placeList}
-              />
-            ),
-        )}
+        {
+          // 강아지별 추천 여행지
+          petSpecificPlaces.map(
+            (petPlace: PetSpecificPlaces) =>
+              checkedPets.includes(petPlace.petId) && (
+                <PetSpecificPlaceList
+                  key={petPlace.petId}
+                  isPet={true}
+                  name={petPlace.name}
+                  places={petPlace.placeList}
+                />
+              ),
+          )
+        }
+        {/* {
+          // 강아지 조합 추천 여행지
+          petCombinationPlaces.map((place: Place) => (
+            <PetSpecificPlaceList
+              key={petPlace.petId}
+              isPet={true}
+              name={petPlace.name}
+              places={petPlace.placeList}
+            />
+          ))
+        } */}
+        {
+          // 사용자 찜 기반 추천 여행지
+          <PetSpecificPlaceList
+            isPet={false}
+            name={userName}
+            places={userSpecificPlaces}
+          />
+        }
       </div>
     </div>
   );
 };
 
 export default PlaceRecommendation;
+
+// dummy data
+// const petSpecificPlacesData: PetSpecificPlaces[] = Array.from(
+//   { length: 4 },
+//   (_, i: number): PetSpecificPlaces => ({
+//     petId: i + 1,
+//     name: `pet ${i + 1}`,
+//     placeList: Array.from(
+//       { length: 20 },
+//       (_, j: number): Place => ({
+//         placeId: j + 1,
+//         title: `place ${j + 1}`,
+//         roadAddress: `address ${j + 1}`,
+//         placeImage: PlaceExample,
+//         isHeart: true,
+//         jibunAddress: '',
+//         homepage: [],
+//         openingHour: [],
+//         phoneNumber: '',
+//         content: '',
+//         hashtag: [],
+//         heartCnt: 0,
+//         category: '',
+//       }),
+//     ),
+//   }),
+// );

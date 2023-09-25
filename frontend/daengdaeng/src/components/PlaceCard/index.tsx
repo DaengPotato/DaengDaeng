@@ -5,28 +5,25 @@ import Image from 'next/image';
 import styles from './index.module.scss';
 import LikeButton from '../LikeButton';
 
-import type { PlaceWithLike } from '@/src/types/place';
+import type { Place } from '@/src/types/place';
 
 type PlaceCardProps = {
-  placeWithLike: PlaceWithLike;
+  place: Place;
 };
 
-const PlaceCard = ({ placeWithLike }: PlaceCardProps) => {
-  const place = placeWithLike.place;
-  const isLiked = placeWithLike.isHeart;
-
+const PlaceCard = ({ place }: PlaceCardProps) => {
   const handleLikeClick = () => {};
 
   return (
     <div className={styles.PlaceCard}>
       <div className={styles.likeBtn}>
-        <LikeButton isLiked={isLiked} onClick={handleLikeClick} />
+        <LikeButton isLiked={place.isHeart} onClick={handleLikeClick} />
       </div>
       <div className={styles.placeImg}>
         <Image src={place.placeImage} alt="place img" fill={true} />
       </div>
       <div className={styles.placeTitle}>{place.title}</div>
-      <div className={styles.placeAddress}>{place.address}</div>
+      <div className={styles.placeAddress}>{place.roadAddress}</div>
     </div>
   );
 };

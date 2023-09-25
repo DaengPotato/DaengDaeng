@@ -1,4 +1,6 @@
-import type { PlaceWithLike } from '@/src/types/place';
+import PlaceExample from '@/public/images/place-example.jpg';
+
+import type { Place } from '@/src/types/place';
 import type { Meta, StoryObj } from '@storybook/react';
 
 import PlaceCarousel from '.';
@@ -12,20 +14,25 @@ export default meta;
 
 type Story = StoryObj<typeof PlaceCarousel>;
 
-const places = Array.from({ length: 10 }, (_, i): PlaceWithLike => {
+const places = Array.from({ length: 10 }, (_, i): Place => {
   return {
-    place: {
-      placeId: i,
-      title: `Place ${i}`,
-      address: `Address ${i}`,
-      placeImage:
-        'https://image.edaily.co.kr/images/Photo/files/NP/S/2020/10/PS20101500220.jpg',
-    },
+    placeId: i,
+    title: `Place ${i}`,
+    roadAddress: `Address ${i}`,
+    placeImage: PlaceExample,
     isHeart: true,
+    jibunAddress: '',
+    homepage: [],
+    openingHour: [],
+    phoneNumber: '',
+    content: '',
+    hashtag: [],
+    heartCnt: 0,
+    category: '',
   };
 });
 
-export const Place: Story = {
+export const PlaceCarouselStory: Story = {
   args: {
     places,
     options: { dragFree: true, containScroll: 'trimSnaps' },

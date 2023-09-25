@@ -1,4 +1,6 @@
-import type { PlaceDetailWithReview } from '@/src/types/place';
+import PlaceExample from '@/public/images/place-example.jpg';
+
+import type { PlaceWithReview } from '@/src/types/place';
 import type { Meta, StoryObj } from '@storybook/react';
 
 import PlaceDetail from '.';
@@ -12,15 +14,22 @@ export default meta;
 
 type Story = StoryObj<typeof PlaceDetail>;
 
-const placeDetailWithReview: PlaceDetailWithReview = {
+const placeWithReview: PlaceWithReview = {
   place: {
     placeId: 1,
     title: '짱멋진 여행지',
-    address: '강원도 어딘가 어쩌구',
-    placeImage:
-      'https://image.edaily.co.kr/images/Photo/files/NP/S/2020/10/PS20101500220.jpg',
+    roadAddress: '강원도 어딘가 어쩌구',
+    placeImage: PlaceExample,
+    isHeart: true,
+    jibunAddress: '',
+    homepage: [],
+    openingHour: [],
+    phoneNumber: '',
+    content: '',
+    hashtag: [],
+    heartCnt: 0,
+    category: '',
   },
-  isHeart: true,
   score: 3,
   keywordList: [
     {
@@ -54,6 +63,6 @@ const placeDetailWithReview: PlaceDetailWithReview = {
 
 export const Place: Story = {
   args: {
-    placeDetailWithReview,
+    placeWithReview,
   },
 };
