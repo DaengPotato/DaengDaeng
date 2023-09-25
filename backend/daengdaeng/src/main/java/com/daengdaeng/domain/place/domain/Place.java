@@ -51,20 +51,6 @@ public class Place {
 	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinColumn(name = "category_id", nullable = false)
 	private Category category;
-
-	@Builder
-	public Place(String title, String jibunAddress, String roadAddress, String openingHour, String phoneNumber,
-		String homepage, String content, String image, Category category) {
-		this.title = title;
-		this.jibunAddress = jibunAddress;
-		this.roadAddress = roadAddress;
-		this.openingHour = openingHour;
-		this.phoneNumber = phoneNumber;
-		this.homepage = homepage;
-		this.content = content;
-		this.image = image;
-		this.category = category;
-	}
-
+	
 
 }
