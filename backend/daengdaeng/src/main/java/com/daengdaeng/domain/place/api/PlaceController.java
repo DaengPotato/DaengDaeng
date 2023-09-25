@@ -7,6 +7,12 @@ import com.daengdaeng.domain.place.dto.response.FindPlaceResponse;
 import com.daengdaeng.domain.place.service.FlaskPlaceService;
 import com.daengdaeng.domain.place.service.PlaceService;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
+import io.swagger.annotations.Example;
+import io.swagger.annotations.ExampleProperty;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,38 +25,50 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
+@Api(tags = "여행지 API", description = "여행지 관련 API (PlaceController)")
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/place")
+@ApiResponses({
+	@ApiResponse(code = 500, message = "서버 연결 오류", examples = @Example(value = @ExampleProperty(mediaType = "application/json", value = "{ \n errorCode: 500, \n message: 서버 연결 오류 \n}")))
+})
 public class PlaceController {
 
 	private final FlaskPlaceService flaskPlaceService;
 	private final PlaceService placeService;
 
 
-	@GetMapping("")
+	@ApiOperation(value = "여행지 목록 조회", notes = "반려동물 목록을 조회/검색하는 API")
+	@ApiResponses({
+		@ApiResponse(code = 200, message = "장소 리스트 조회 성공"),
+		@ApiResponse(code = 401, message = "미로그인", examples = @Example(value = @ExampleProperty(mediaType = "application/json", value = "{ \n errorCode: 401, \n message: fail \n}")))
+	})
+	@GetMapping
 	public ResponseEntity<FindAllPlaceResponse> getAllPlace(Byte category, String keyword, int cursor) {
-		FindAllPlaceResponse findAllPlaceResponse = placeService.placeList(category, keyword, cursor);
-		return new ResponseEntity<>(findAllPlaceResponse,HttpStatus.OK);
+		return ResponseEntity.ok().body(placeService.placeList(category, keyword, cursor));
 	}
 
+	@ApiOperation(value = "여행지 상세 조회", notes = "선택한 여행지의 상세 정보를 조회하는 API")
+	@ApiResponses({
+		@ApiResponse(code = 200, message = "여행지 상세 조회 성공"),
+		@ApiResponse(code = 403, message = "로그인 만료/비로그인", examples = @Example(value = @ExampleProperty(mediaType = "application/json", value = "{ \n errorCode: 403, \n message: expired \n}"))),
+		@ApiResponse(code = 404, message = "DB에 해당 정보가 들어있지 않음", examples = @Example(value = @ExampleProperty(mediaType = "application/json", value = "{ \n errorCode: 404, \n message: not exist \n}")))
+	})
 	@GetMapping("/{placeId}")
 	public ResponseEntity<FindPlaceDetailResponse> getDetailPlace(@PathVariable int placeId) {
-
-		FindPlaceDetailResponse findPlaceDetailResponse = placeService.placeDetail(placeId);
-
-		return new ResponseEntity<>(findPlaceDetailResponse,HttpStatus.OK);
+		return ResponseEntity.ok().body(placeService.placeDetail(placeId));
 	}
+
 
 
 	@GetMapping("/recommend/dog")
 	public ResponseEntity<List<FindPlaceByDogResponse>> getRecommendPlaceByPet() {
-		// String email = "1";
 
 		List<FindPlaceByDogResponse> findPlaceByDogResponseList = flaskPlaceService.recommendPlaceByPet();
 
 		return new ResponseEntity<>(findPlaceByDogResponseList,HttpStatus.OK);
 	}
+
 
 	@GetMapping("/recommend/member")
 	public ResponseEntity<List<FindPlaceResponse>> getRecommendPlaceByMember() {
