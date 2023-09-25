@@ -1,21 +1,31 @@
 'use client';
 
 import React from 'react';
+import { useState } from 'react';
+
+import Modal from '@/src/components/common/Modal';
 
 import AddPetButton from './AddPetButton';
 import styles from './index.module.scss';
 import PetCarousel from './PetCarousel';
+import PetRegistForm from './PetRegistForm';
 
 import type { PetDetail } from '@/src/types/pet';
+
 
 type MyPetsProps = {
   pets: PetDetail[];
 };
 
 const MyPets = ({ pets }: MyPetsProps) => {
+  const [isOpen, setIsOpen] = useState<boolean>(false);
+
   // TODO: 내 강아지 데이터 fetch
 
-  const handleClickAddPet = () => {};
+  const handleClickAddPet = () => {
+    // TODO: 모달 열기
+    setIsOpen(true);
+  };
 
   return (
     <div>
@@ -30,6 +40,11 @@ const MyPets = ({ pets }: MyPetsProps) => {
           options={{ dragFree: true, containScroll: 'trimSnaps' }}
         />
       </div>
+      {isOpen && (
+        <Modal setIsOpen={setIsOpen}>
+          <PetRegistForm setIsOpen={setIsOpen} />
+        </Modal>
+      )}
     </div>
   );
 };
