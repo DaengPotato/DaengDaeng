@@ -47,7 +47,7 @@ export const Pet: Story = {
           petId: 1,
           name: '마루',
           birth: '2020-10-15',
-          gender: 0,
+          gender: true,
           weight: 5,
           image:
             'https://i.namu.wiki/i/qLHBqQCkDCnivN_6TyTD4nGdLzRRA8cqsybsrH9foke0w56twTmnACNBhoab8dsGn5DPn03NR0TZw2HN1WRQuw.webp',
