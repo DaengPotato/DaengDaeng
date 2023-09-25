@@ -11,6 +11,7 @@ import com.daengdaeng.domain.review.domain.Review;
 import com.daengdaeng.domain.review.domain.ReviewKeyword;
 import com.daengdaeng.domain.review.domain.ReviewPet;
 import com.daengdaeng.domain.review.dto.request.ReviewRequest;
+import com.daengdaeng.domain.review.dto.response.ReviewResponse;
 import com.daengdaeng.domain.review.repository.KeywordRepository;
 import com.daengdaeng.domain.review.repository.ReviewKeywordRepository;
 import com.daengdaeng.domain.review.repository.ReviewPetRepository;
@@ -24,6 +25,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
@@ -137,6 +139,23 @@ public class ReviewServiceImpl implements ReviewService {
             reviewRepository.deleteById(reviewId);
         }
     }
+
+
+    // member별 작성한 후기 리스트
+    public List<ReviewResponse> findReviewList(){
+        Member member = memberRepository.findByEmail(getCurrentEmail())
+                .orElseThrow(() -> new NoSuchElementException("존재하지 않는 사용자입니다."));
+        List<Review> reviews = reviewRepository.findByMemberId(member.getMemberId());
+        List<ReviewResponse> reviewResponses = new ArrayList<>();
+        for (Review review : reviews) {
+            reviewResponses.add(new ReviewResponse().from(review));
+        }
+        return reviewResponses;
+    }
+
+    // 후기 상세 조회
+
+
 
     private String getCurrentEmail() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
