@@ -1,6 +1,7 @@
 package com.daengdaeng.domain.place.repository;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -12,7 +13,7 @@ import com.daengdaeng.domain.place.domain.Place;
 @Repository
 public interface PlaceRepository extends JpaRepository<Place, Integer> {
 
-    Place findPlaceByPlaceId(int placeId);
+    Optional<Place> findPlaceByPlaceId(int placeId);
 
     // 키워드와 카테고리 ID를 사용하여 Place를 검색하는 메서드
     @Query("SELECT p FROM Place p WHERE " +

@@ -15,6 +15,8 @@ public interface ReviewRepository extends JpaRepository<Review, Integer> {
 
     Optional<Review> findByReviewId(int reviewId);
 
+	List<Review> findByMemberId(int memberId);
+
 	@Query("SELECT AVG(r.score) FROM Review r WHERE r.place.placeId = :placeId")
 	Optional<Integer> findAverageScoreByPlaceId(int placeId);
 
