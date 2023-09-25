@@ -53,4 +53,5 @@ public class Place {
 	private Category category;
 
 
+
 }

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 // import com.daengdaeng.domain.member.repository.HeartRepository;
+import com.daengdaeng.domain.member.repository.HeartRepository;
 import com.daengdaeng.domain.pet.repository.PetRepository;
 import com.daengdaeng.domain.place.domain.Place;
 import com.daengdaeng.domain.place.dto.flask.PlaceForDogResponse;
@@ -35,6 +36,7 @@ public class FlaskPlaceServiceImpl implements FlaskPlaceService {
 	private final PlaceRepository placeRepository;
 	private final PetRepository petRepository;
 	private final RestTemplate restTemplate;
+	private final HeartRepository heartRepository;
 
 	public List<PlaceForDogResponse> flaskGetPlaceForDogData(int memberId) {
 		HttpHeaders headers = new HttpHeaders();
@@ -141,10 +143,10 @@ public class FlaskPlaceServiceImpl implements FlaskPlaceService {
 
 	private FindPlaceResponse findPlaceInformation(int memberId, int placeId){
 
-		// int heartCnt = heartRepository.countByPlaceId(placeId);
-		int heartCnt = 1;
-		// boolean isHeart = heartRepository.existsByMemberIdAndPlaceId(memberId, placeId);
-		boolean isHeart = false;
+		boolean isHeart = heartRepository.existsByMemberMemberIdAndPlacePlaceId(memberId, placeId);
+
+		int heartCnt = heartRepository.countByPlacePlaceId(placeId);
+
 		Place place = placeRepository.findPlaceByPlaceId(placeId);
 		String category = place.getCategory().getCategory();
 
