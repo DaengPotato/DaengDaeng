@@ -5,11 +5,14 @@ import java.util.List;
 import java.util.NoSuchElementException;
 
 // import com.daengdaeng.domain.member.repository.HeartRepository;
+import com.daengdaeng.domain.member.repository.HeartRepository;
 import com.daengdaeng.domain.pet.repository.PetRepository;
 import com.daengdaeng.domain.place.domain.Place;
 import com.daengdaeng.domain.place.dto.flask.PlaceForDogResponse;
 import com.daengdaeng.domain.place.dto.flask.PlaceForMemberResponse;
 import com.daengdaeng.domain.place.repository.PlaceRepository;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
@@ -31,10 +34,10 @@ import org.springframework.web.client.RestTemplate;
 public class FlaskPlaceServiceImpl implements FlaskPlaceService {
 
 	private final MemberRepository memberRepository;
-	private final PlaceRepository placeRespository;
-	// private final HeartRepository heartRepository;
+	private final PlaceRepository placeRepository;
 	private final PetRepository petRepository;
 	private final RestTemplate restTemplate;
+	private final HeartRepository heartRepository;
 
 	public List<PlaceForDogResponse> flaskGetPlaceForDogData(int memberId) {
 		HttpHeaders headers = new HttpHeaders();
@@ -43,10 +46,10 @@ public class FlaskPlaceServiceImpl implements FlaskPlaceService {
 		HttpEntity<?> requestEntity = new HttpEntity<>(headers);
 
 		ResponseEntity<List<PlaceForDogResponse>> responseEntity = restTemplate.exchange(
-				"http://127.0.0.1:5000/recom/byMbti",
-				HttpMethod.GET,
-				requestEntity,
-				new ParameterizedTypeReference<List<PlaceForDogResponse>>() {}
+			"http://127.0.0.1:5000/recom/byMbti",
+			HttpMethod.GET,
+			requestEntity,
+			new ParameterizedTypeReference<List<PlaceForDogResponse>>() {}
 		);
 
 		List<PlaceForDogResponse> placeForDogResponseList = responseEntity.getBody();
@@ -61,10 +64,10 @@ public class FlaskPlaceServiceImpl implements FlaskPlaceService {
 		HttpEntity<?> requestEntity = new HttpEntity<>(headers);
 
 		ResponseEntity<PlaceForMemberResponse> responseEntity = restTemplate.exchange(
-				"http://127.0.0.1:5000/recom/byReviewHeart",
-				HttpMethod.GET,
-				requestEntity,
-				new ParameterizedTypeReference<PlaceForMemberResponse>() {}
+			"http://127.0.0.1:5000/recom/byReviewHeart",
+			HttpMethod.GET,
+			requestEntity,
+			new ParameterizedTypeReference<PlaceForMemberResponse>() {}
 		);
 
 		PlaceForMemberResponse placeForMEmberResponseList = responseEntity.getBody();
@@ -107,7 +110,7 @@ public class FlaskPlaceServiceImpl implements FlaskPlaceService {
 			findPlaceByDogResponseList.add(findPlaceByDogResponse);
 
 		}
-			return findPlaceByDogResponseList;
+		return findPlaceByDogResponseList;
 	}
 
 	@Override
@@ -143,11 +146,11 @@ public class FlaskPlaceServiceImpl implements FlaskPlaceService {
 
 	private FindPlaceResponse findPlaceInformation(int memberId, int placeId){
 
-		// int heartCnt = heartRepository.countByPlaceId(placeId);
-		int heartCnt = 1;
-		// boolean isHeart = heartRepository.existsByMemberIdAndPlaceId(memberId, placeId);
-		boolean isHeart = false;
-		Place place = placeRespository.findPlaceByPlaceId(placeId);
+		boolean isHeart = heartRepository.existsByMemberMemberIdAndPlacePlaceId(memberId, placeId);
+
+		int heartCnt = heartRepository.countByPlacePlaceId(placeId);
+
+		Place place = placeRepository.findPlaceByPlaceId(placeId);
 		String category = place.getCategory().getCategory();
 
 		List<String> homepage = new ArrayList<>();
@@ -171,9 +174,9 @@ public class FlaskPlaceServiceImpl implements FlaskPlaceService {
 
 
 		FindPlaceResponse findPlaceResponse =  new FindPlaceResponse(
-				place.getPlaceId(), place.getTitle(), place.getJibunAddress(),
-				place.getRoadAddress(), homepage, openingHour, place.getPhoneNumber(),
-				place.getContent(), heartCnt, place.getImage(), category, isHeart
+			place.getPlaceId(), place.getTitle(), place.getJibunAddress(),
+			place.getRoadAddress(), homepage, openingHour, place.getPhoneNumber(),
+			place.getContent(), heartCnt, place.getImage(), category, isHeart
 		);
 
 		return findPlaceResponse;

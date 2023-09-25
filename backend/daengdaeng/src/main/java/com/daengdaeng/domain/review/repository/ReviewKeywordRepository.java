@@ -7,4 +7,8 @@ import com.daengdaeng.domain.review.domain.ReviewKeyword;
 
 @Repository
 public interface ReviewKeywordRepository extends JpaRepository<ReviewKeyword, Integer> {
+
+	// int countByKeywordKeywordId(int keywordId);
+	int countByReviewPlacePlaceIdAndKeywordKeywordId(int placeId, int keywordId);
+
 }
