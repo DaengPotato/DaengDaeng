@@ -2,6 +2,7 @@ package com.daengdaeng.domain.review.domain;
 
 import com.daengdaeng.domain.pet.domain.Pet;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -22,5 +23,15 @@ public class ReviewPet {
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "pet_id", insertable = false, updatable = false, nullable = false)
     private Pet pet;
+
+    @Builder
+    public ReviewPet(Review review, Pet pet){
+        this.review = review;
+        this.pet = pet;
+    }
+
+    public void modifyReviewPet(Pet Pet){
+        this.pet = pet;
+    }
 
 }

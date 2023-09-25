@@ -1,5 +1,6 @@
 package com.daengdaeng.domain.review.repository;
 
+import com.daengdaeng.domain.place.domain.Place;
 import java.util.List;
 import java.util.Optional;
 
@@ -11,6 +12,8 @@ import com.daengdaeng.domain.review.domain.Review;
 
 @Repository
 public interface ReviewRepository extends JpaRepository<Review, Integer> {
+
+    Optional<Review> findByReviewId(int reviewId);
 
 	@Query("SELECT AVG(r.score) FROM Review r WHERE r.place.placeId = :placeId")
 	Optional<Double> findAverageScoreByPlaceId(int placeId);

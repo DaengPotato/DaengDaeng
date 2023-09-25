@@ -11,6 +11,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
 import com.daengdaeng.domain.member.domain.Member;
+import com.daengdaeng.domain.review.dto.request.ReviewRequest;
 import org.hibernate.annotations.ColumnDefault;
 
 import com.daengdaeng.domain.place.domain.Place;
@@ -20,6 +21,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Entity
@@ -47,15 +49,21 @@ public class Review {
 	private String reviewContent;
 
 	@Column(nullable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
-	private Date registTime;
+	private LocalDateTime registTime;
 
 
 	@Builder
-	public Review(byte score, Member member, Place place, Date registTime) {
+	public Review(byte score, Member member, Place place, LocalDateTime registTime, String reviewContent) {
 		this.score = score;
 		this.member = member;
 		this.place = place;
 		this.registTime = registTime;
+		this.reviewContent = reviewContent;
 	}
 
+	// 리뷰 수정
+	public void modifyReview(ReviewRequest reviewRequest){
+		this.reviewContent = reviewRequest.getReviewContent();
+		this.score = reviewRequest.getScore();
+	}
 }
