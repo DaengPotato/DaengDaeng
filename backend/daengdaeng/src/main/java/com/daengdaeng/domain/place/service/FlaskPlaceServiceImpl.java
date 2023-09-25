@@ -2,6 +2,7 @@ package com.daengdaeng.domain.place.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 // import com.daengdaeng.domain.member.repository.HeartRepository;
 import com.daengdaeng.domain.pet.repository.PetRepository;
@@ -99,7 +100,9 @@ public class FlaskPlaceServiceImpl implements FlaskPlaceService {
 				placeList.add(findPlaceResponse);
 
 			}
-			String name = petRepository.findByPetId(petId).getName();
+			String name = petRepository.findByPetId(petId)
+				.orElseThrow(() -> new NoSuchElementException("반려동물 정보가 없습니다."))
+				.getName();
 			FindPlaceByDogResponse findPlaceByDogResponse = new FindPlaceByDogResponse(petId, name, placeList);
 			findPlaceByDogResponseList.add(findPlaceByDogResponse);
 
