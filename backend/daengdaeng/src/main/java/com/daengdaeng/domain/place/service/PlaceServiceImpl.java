@@ -4,23 +4,19 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 import lombok.AllArgsConstructor;
-import lombok.RequiredArgsConstructor;
 
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.parameters.P;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import com.daengdaeng.domain.member.domain.Member;
 import com.daengdaeng.domain.member.repository.HeartRepository;
 import com.daengdaeng.domain.member.repository.MemberRepository;
-import com.daengdaeng.domain.pet.dto.response.PetResponse;
 import com.daengdaeng.domain.place.domain.Place;
 import com.daengdaeng.domain.place.dto.KeywordDto;
 import com.daengdaeng.domain.place.dto.ReviewDto;
@@ -33,6 +29,7 @@ import com.daengdaeng.domain.review.domain.Review;
 import com.daengdaeng.domain.review.repository.KeywordRepository;
 import com.daengdaeng.domain.review.repository.ReviewKeywordRepository;
 import com.daengdaeng.domain.review.repository.ReviewRepository;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Service
@@ -75,7 +72,6 @@ public class PlaceServiceImpl implements PlaceService {
 		Member member = memberRepository.findByEmail(getCurrentEmail())
 			.orElseThrow(() -> new NoSuchElementException("존재하지 않는 사용자입니다."));
 
-
 		Place place = placeRepository.findPlaceByPlaceId(placeId)
 			.orElseThrow(() -> new NoSuchElementException("장소 정보가 없습니다."));
 
@@ -108,29 +104,25 @@ public class PlaceServiceImpl implements PlaceService {
 
 	}
 
-	private FindPlaceResponse findPlaceInformation(int memberId, Place place){
-
+	private FindPlaceResponse findPlaceInformation(int memberId, Place place) {
 
 		boolean isHeart = heartRepository.existsByMemberMemberIdAndPlacePlaceId(memberId, place.getPlaceId());
-
 		int heartCnt = heartRepository.countByPlacePlaceId(place.getPlaceId());
 
 		String category = place.getCategory().getCategory();
 
 		List<String> homepage = new ArrayList<>();
-		List<String> openingHour = new ArrayList<>();
+		List<List<String>> openingHour = new ArrayList<>();
 		try {
 
 			ObjectMapper objectMapper = new ObjectMapper();
 
 			String homepageListJson = place.getHomepage();
-			// List<String> homepageList = objectMapper.readValue(homepageListJson, new TypeReference<List<String>>() {});
-			// homepage = homepageList;
+			homepage = objectMapper.readValue(homepageListJson, new TypeReference<List<String>>() {});
 
+			String openingHourListJson = place.getOpeningHour();
+			openingHour = objectMapper.readValue(openingHourListJson, new TypeReference<List<List<String>>>() {});
 
-			String openingHourListListJson = place.getOpeningHour();
-			// List<String> openingHourList = objectMapper.readValue(openingHourListListJson, new TypeReference<List<String>>() {});
-			// openingHour = openingHourList;
 
 		}catch (Exception  e){
 			e.printStackTrace();

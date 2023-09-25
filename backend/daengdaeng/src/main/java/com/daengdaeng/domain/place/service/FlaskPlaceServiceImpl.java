@@ -11,9 +11,7 @@ import com.daengdaeng.domain.place.domain.Place;
 import com.daengdaeng.domain.place.dto.flask.PlaceForDogResponse;
 import com.daengdaeng.domain.place.dto.flask.PlaceForMemberResponse;
 import com.daengdaeng.domain.place.repository.PlaceRepository;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
+
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -88,7 +86,7 @@ public class FlaskPlaceServiceImpl implements FlaskPlaceService {
 		List<PlaceForDogResponse> getPlaceForDogDataList = flaskGetPlaceForDogData(member.getMemberId());
 
 
-		for (PlaceForDogResponse placeForDogResponse : getPlaceForDogDataList){
+		for (PlaceForDogResponse placeForDogResponse : getPlaceForDogDataList) {
 
 			int petId = placeForDogResponse.getPetId();
 
@@ -96,7 +94,7 @@ public class FlaskPlaceServiceImpl implements FlaskPlaceService {
 
 			List<FindPlaceResponse> placeList = new ArrayList<>();
 
-			for (int placeId :  recommendPlaceList){
+			for (int placeId :  recommendPlaceList) {
 
 				FindPlaceResponse findPlaceResponse = findPlaceInformation(member.getMemberId(), placeId);
 
@@ -135,12 +133,10 @@ public class FlaskPlaceServiceImpl implements FlaskPlaceService {
 		return placeList;
 	}
 
-	private FindPlaceResponse findPlaceInformation(int memberId, int placeId){
+	private FindPlaceResponse findPlaceInformation(int memberId, int placeId) {
 
 		boolean isHeart = heartRepository.existsByMemberMemberIdAndPlacePlaceId(memberId, placeId);
-
 		int heartCnt = heartRepository.countByPlacePlaceId(placeId);
-
 
 		Place place = placeRepository.findPlaceByPlaceId(placeId)
 			.orElseThrow(() -> new NoSuchElementException("장소 정보가 없습니다."));
@@ -149,24 +145,7 @@ public class FlaskPlaceServiceImpl implements FlaskPlaceService {
 		String category = place.getCategory().getCategory();
 
 		List<String> homepage = new ArrayList<>();
-		List<String> openingHour = new ArrayList<>();
-		try {
-
-			ObjectMapper objectMapper = new ObjectMapper();
-
-			String homepageListJson = place.getHomepage();
-			// List<String> homepageList = objectMapper.readValue(homepageListJson, new TypeReference<List<String>>() {});
-			// homepage = homepageList;
-
-
-			String openingHourListListJson = place.getOpeningHour();
-			// List<String> openingHourList = objectMapper.readValue(openingHourListListJson, new TypeReference<List<String>>() {});
-			// openingHour = openingHourList;
-
-		}catch (Exception  e){
-			e.printStackTrace();
-		}
-
+		List<List<String>> openingHour = new ArrayList<>();
 
 		FindPlaceResponse findPlaceResponse =  new FindPlaceResponse(
 			place.getPlaceId(), place.getTitle(), place.getJibunAddress(),
