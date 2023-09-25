@@ -1,9 +1,11 @@
 import React from 'react';
 
 import './global.scss';
-import Header from '@/src/components/Header';
 
 import Head from './head';
+import { ssurround } from '../styles/fonts';
+
+import Header from '@/src/components/Header';
 
 export default function RootLayout({
   children,
@@ -13,7 +15,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <Head></Head>
-      <body>
+      <body className={`${ssurround.className}`}>
         <div className="fixed-width">
           <Header />
           {children}
