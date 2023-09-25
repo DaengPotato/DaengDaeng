@@ -21,6 +21,9 @@ import java.util.stream.Collectors;
 @Builder
 public class CustomUserDetails implements UserDetails {
 
+    private String username = null;
+    private String password = null;
+    private String authorities = null;
     private String email;
     private String nickname;
     @Builder.Default

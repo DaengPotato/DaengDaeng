@@ -5,6 +5,7 @@ import com.daengdaeng.global.jwt.JwtEntryPoint;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -36,7 +37,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
         // url 별 권한 관리 설정
         http.authorizeRequests()
-                .mvcMatchers("/", "/member/login/*", "/member/nicknameCheck/*", "/swagger-resources/**", "/swagger-ui/**", "/v3/api-docs", "/swagger-ui/index.html").permitAll()
+//                .mvcMatchers("/",  "/swagger-resources/**", "/swagger-ui/**", "/v3/api-docs", "/swagger-ui/index.html").permitAll()
+                .antMatchers(HttpMethod.POST, "/member/login/*", "/member/reissue").permitAll()
+                .antMatchers(HttpMethod.GET, "/member/nicknameCheck/*").permitAll()
                 .anyRequest().authenticated();
 
         // 예외 처리 설정

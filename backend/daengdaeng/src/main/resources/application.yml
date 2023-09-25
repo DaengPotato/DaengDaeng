@@ -13,7 +13,7 @@ spa:
 
 kakao:
   rest-api-key: bbc1c00867e7b19dabe76d4afd823b22
-  redirect-uri: http://localhost:3000
+  redirect-uri: http://localhost:3126
 spring:
   security:
     oauth2:
@@ -22,7 +22,7 @@ spring:
           google:
             client-id: 594259902249-6gubj4rdq3lko07198hjm2cblj3n1atk.apps.googleusercontent.com
             client-secret: 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
-            redirect-uri: http://localhost:3000/
+            redirect-uri: http://localhost:3126/
             scope:
               - openid
               - email
