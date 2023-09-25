@@ -19,6 +19,9 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import com.daengdaeng.domain.member.domain.Member;
@@ -79,13 +82,10 @@ public class FlaskPlaceServiceImpl implements FlaskPlaceService {
 
 		List<FindPlaceByDogResponse> findPlaceByDogResponseList = new ArrayList<>();
 
-		// String email= getCurrentId();
-		// String email  = "";
-		// Member member = memberRepository.findMemberByEmail(email);
-		// int memberId = member.getMemberId();
-		int memberId = 1;
-		List<PlaceForDogResponse> getPlaceForDogDataList = flaskGetPlaceForDogData(memberId);
+		Member member = memberRepository.findByEmail(getCurrentEmail())
+			.orElseThrow(() -> new NoSuchElementException("존재하지 않는 사용자입니다."));
 
+		List<PlaceForDogResponse> getPlaceForDogDataList = flaskGetPlaceForDogData(member.getMemberId());
 
 
 		for (PlaceForDogResponse placeForDogResponse : getPlaceForDogDataList){
@@ -98,7 +98,7 @@ public class FlaskPlaceServiceImpl implements FlaskPlaceService {
 
 			for (int placeId :  recommendPlaceList){
 
-				FindPlaceResponse findPlaceResponse = findPlaceInformation(memberId, placeId);
+				FindPlaceResponse findPlaceResponse = findPlaceInformation(member.getMemberId(), placeId);
 
 				placeList.add(findPlaceResponse);
 
@@ -106,6 +106,7 @@ public class FlaskPlaceServiceImpl implements FlaskPlaceService {
 			String name = petRepository.findByPetId(petId)
 				.orElseThrow(() -> new NoSuchElementException("반려동물 정보가 없습니다."))
 				.getName();
+
 			FindPlaceByDogResponse findPlaceByDogResponse = new FindPlaceByDogResponse(petId, name, placeList);
 			findPlaceByDogResponseList.add(findPlaceByDogResponse);
 
@@ -115,21 +116,17 @@ public class FlaskPlaceServiceImpl implements FlaskPlaceService {
 
 	@Override
 	public List<FindPlaceResponse> recommendPlaceByMember() {
-		// String email= getCurrentId();
-		// String email  = "";
-		// Member member = memberRepository.findMemberByEmail(email);
-		// int memberId = member.getMemberId();
 
-		int memberId = 1;
+		Member member = memberRepository.findByEmail(getCurrentEmail())
+			.orElseThrow(() -> new NoSuchElementException("존재하지 않는 사용자입니다."));
 
-
-		PlaceForMemberResponse getPlaceForMemberDataList = flaskGetPlaceForMemberData(memberId);
+		PlaceForMemberResponse getPlaceForMemberDataList = flaskGetPlaceForMemberData(member.getMemberId());
 
 		List<FindPlaceResponse> placeList = new ArrayList<>();
 
 		for(int placeId : getPlaceForMemberDataList.getRecommendPlaceList()){
 
-			FindPlaceResponse findPlaceResponse = findPlaceInformation(memberId, placeId);
+			FindPlaceResponse findPlaceResponse = findPlaceInformation(member.getMemberId(), placeId);
 
 			placeList.add(findPlaceResponse);
 
@@ -138,19 +135,17 @@ public class FlaskPlaceServiceImpl implements FlaskPlaceService {
 		return placeList;
 	}
 
-	// private String getCurrentId() {
-	// 	Neo4jProperties.Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-	// 	UserDetails principal = (UserDetails) authentication.getPrincipal();
-	// 	return principal.getUsername();
-	// }
-
 	private FindPlaceResponse findPlaceInformation(int memberId, int placeId){
 
 		boolean isHeart = heartRepository.existsByMemberMemberIdAndPlacePlaceId(memberId, placeId);
 
 		int heartCnt = heartRepository.countByPlacePlaceId(placeId);
 
-		Place place = placeRepository.findPlaceByPlaceId(placeId);
+
+		Place place = placeRepository.findPlaceByPlaceId(placeId)
+			.orElseThrow(() -> new NoSuchElementException("장소 정보가 없습니다."));
+
+
 		String category = place.getCategory().getCategory();
 
 		List<String> homepage = new ArrayList<>();
@@ -180,6 +175,18 @@ public class FlaskPlaceServiceImpl implements FlaskPlaceService {
 		);
 
 		return findPlaceResponse;
+	}
+
+	// private String getCurrentId() {
+	// 	Neo4jProperties.Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+	// 	UserDetails principal = (UserDetails) authentication.getPrincipal();
+	// 	return principal.getUsername();
+	// }
+
+	private String getCurrentEmail() {
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		UserDetails principal = (UserDetails) authentication.getPrincipal();
+		return principal.getUsername();
 	}
 
 

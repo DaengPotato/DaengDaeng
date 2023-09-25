@@ -2,19 +2,25 @@ package com.daengdaeng.domain.place.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.parameters.P;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import com.daengdaeng.domain.member.domain.Member;
 import com.daengdaeng.domain.member.repository.HeartRepository;
 import com.daengdaeng.domain.member.repository.MemberRepository;
+import com.daengdaeng.domain.pet.dto.response.PetResponse;
 import com.daengdaeng.domain.place.domain.Place;
 import com.daengdaeng.domain.place.dto.KeywordDto;
 import com.daengdaeng.domain.place.dto.ReviewDto;
@@ -43,14 +49,15 @@ public class PlaceServiceImpl implements PlaceService {
 	@Override
 	public FindAllPlaceResponse placeList(Byte category, String keyword, int cursor) {
 
-		int memberId = 1;
+		Member member = memberRepository.findByEmail(getCurrentEmail())
+			.orElseThrow(() -> new NoSuchElementException("존재하지 않는 사용자입니다."));
 
 		Pageable pageable = PageRequest.of(cursor, 20); // 2페이지, 페이지 크기 20
 		List<Place> findPlaceList = placeRepository.findByKeywordAndCategory(keyword, category, pageable);
 		List<FindPlaceResponse> findPlaceResponseList = new ArrayList<>();
 
 		for(Place findPlace : findPlaceList){
-			FindPlaceResponse findPlaceRespons = findPlaceInformation(memberId, findPlace);
+			FindPlaceResponse findPlaceRespons = findPlaceInformation(member.getMemberId(), findPlace);
 			findPlaceResponseList.add(findPlaceRespons);
 		}
 
@@ -65,14 +72,17 @@ public class PlaceServiceImpl implements PlaceService {
 	@Override
 	public FindPlaceDetailResponse placeDetail(int placeId) {
 
-		int memberId = 1;
+		Member member = memberRepository.findByEmail(getCurrentEmail())
+			.orElseThrow(() -> new NoSuchElementException("존재하지 않는 사용자입니다."));
 
-		Place place = placeRepository.findPlaceByPlaceId(placeId);
 
-		FindPlaceResponse findPlaceResponse = findPlaceInformation(memberId, place);
+		Place place = placeRepository.findPlaceByPlaceId(placeId)
+			.orElseThrow(() -> new NoSuchElementException("장소 정보가 없습니다."));
 
-		int score = 0;
-		Optional<Integer> averageScore = reviewRepository.findAverageScoreByPlaceId(placeId);
+		FindPlaceResponse findPlaceResponse = findPlaceInformation(member.getMemberId(), place);
+
+		Double score = 0.0;
+		Optional<Double> averageScore = reviewRepository.findAverageScoreByPlaceId(placeId);
 		if (averageScore.isPresent()) {
 			score = averageScore.get();
 		}
@@ -87,7 +97,6 @@ public class PlaceServiceImpl implements PlaceService {
 
 		List<ReviewDto> reviewDtoList = new ArrayList<>();
 		List<Review> reviewList = reviewRepository.findByPlacePlaceId(placeId);
-		System.out.println(reviewList.size());
 		reviewList.forEach(review -> {
 			ReviewDto reviewDto = new ReviewDto(review.getReviewContent(), review.getRegistTime());
 			reviewDtoList.add(reviewDto);
@@ -96,8 +105,6 @@ public class PlaceServiceImpl implements PlaceService {
 		FindPlaceDetailResponse findPlaceDetailResponse = new FindPlaceDetailResponse(findPlaceResponse, score, keywordDtoList, reviewDtoList);
 
 		return findPlaceDetailResponse;
-
-
 
 	}
 
@@ -138,4 +145,11 @@ public class PlaceServiceImpl implements PlaceService {
 
 		return findPlaceResponse;
 	}
+
+	private String getCurrentEmail() {
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		UserDetails principal = (UserDetails) authentication.getPrincipal();
+		return principal.getUsername();
+	}
+
 }
