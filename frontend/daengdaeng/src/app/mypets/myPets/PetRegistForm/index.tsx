@@ -5,17 +5,16 @@ import React, { useRef, useState } from 'react';
 import Image from 'next/image';
 import { useForm } from 'react-hook-form';
 
+import styles from './index.module.scss';
+
+import type { StaticImageData } from 'next/image';
+
 import { PawIcon } from '@/public/icons';
 import BlankProfileImg from '@/public/images/blank-profile.webp';
 import Button from '@/src/components/common/Button';
 import ErrorMessage from '@/src/components/ErrorMessage';
 import { gray, primaryOrange } from '@/src/styles/colors';
 import { validatePetName } from '@/src/utils/validate';
-
-import styles from './index.module.scss';
-
-
-import type { StaticImageData } from 'next/image';
 
 type PetRegistFormProps = {
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
