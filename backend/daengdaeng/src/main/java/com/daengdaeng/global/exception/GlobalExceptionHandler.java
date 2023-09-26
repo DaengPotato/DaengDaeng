@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
+import java.io.IOException;
 import java.nio.file.AccessDeniedException;
 import java.util.NoSuchElementException;
 
@@ -51,16 +52,26 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.FORBIDDEN).body(e.getMessage());
     }
 
+    /**
+     * 
+     * 파일 업로드 과정에서 S3 내 처리 오류시 발생한 에러 처리
+     */
+    @ExceptionHandler(S3Exception.class)
+    protected  ResponseEntity<String> handleS3Exception(S3Exception e){
+        log.error("S3Exception", e);
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+    }
+
+    @ExceptionHandler(IOException.class)
+    protected ResponseEntity<String> handleSIOException(IOException e){
+        log.error("IOException", e);
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+    }
+
     @ExceptionHandler(Exception.class)
     protected ResponseEntity<String> handleException(Exception e) {
         log.error("handleException", e);
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
-    }
-
-    @ExceptionHandler(S3Exception.class)
-    protected  ResponseEntity<String> handleS3Exception(S3Exception e){
-        log.error("S3Exception", e);
-        return ResponseEntity.status()
     }
 
 }

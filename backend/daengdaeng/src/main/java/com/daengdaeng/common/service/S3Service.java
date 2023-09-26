@@ -1,9 +1,9 @@
 package com.daengdaeng.common.service;
 
-import com.amazonaws.services.s3.model.GeneratePresignedUrlRequest;
+import com.daengdaeng.common.dto.FileNameAndUrlResponse;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.Date;
+import java.util.List;
 
 public interface S3Service {
 
@@ -21,5 +21,7 @@ public interface S3Service {
 
 //    public String downloadFile(String folderName, String fileName);
 
-    public String deleteFile(String folderName, String fileName) ;
+    public boolean deleteFile(String folderName, String fileName) ;
+
+    public List<FileNameAndUrlResponse> getFileNameAndUrlAtFolder(String forderName);
 }
