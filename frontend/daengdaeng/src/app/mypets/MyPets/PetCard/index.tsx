@@ -7,8 +7,11 @@ import styles from './index.module.scss';
 
 import type { PetDetail } from '@/src/types/pet';
 
+<<<<<<<< HEAD:frontend/daengdaeng/src/app/mypets/MyPets/PetCard/index.tsx
 import { EditIcon } from '@/public/icons';
 import Button from '@/src/components/common/Button';
+========
+>>>>>>>> 4d99e5a (rename: container 폴더 삭제 후 해당하는 페이지 아래로 옮김):frontend/daengdaeng/src/app/mypets/myPets/PetCard/index.tsx
 
 type PetCardProps = {
   pet: PetDetail;
