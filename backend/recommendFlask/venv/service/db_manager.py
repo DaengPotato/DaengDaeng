@@ -51,6 +51,9 @@ def get_data_for_dbti(mbti_id):
         USING (pet_id)
         INNER JOIN review r
         USING (review_id)
+        INNER JOIN place p
+        USING (place_id)
+    WHERE p.category_id = 1
     """
     result = query_db(sql, (mbti_id))
     return result
@@ -66,11 +69,14 @@ def get_place_ids_by_pet_id(pet_id):
     sql="""
     SELECT place_id 
     FROM review r
+    LEFT JOIN place p
+    USING (place_id)
     WHERE review_id IN (
         SELECT review_id 
         FROM review_pet 
         WHERE pet_id = %s
     )
+    AND p.category_id = 1
     """
     result = query_db(sql, (pet_id))
     return result
@@ -78,28 +84,48 @@ def get_place_ids_by_pet_id(pet_id):
 # 리뷰 및 찜 관련 추천에 사용할 데이터 가져오는 함수
 def get_data_for_review_heart(member_id): 
     # 사용자가 찜한 장소 가지고 오기
-    sql="SELECT place_id FROM heart WHERE member_id = %s"
+    sql="""
+    SELECT h.place_id 
+    FROM heart h
+    INNER JOIN place p
+    USING (place_id)
+    WHERE h.member_id = %s AND p.category_id = 1
+    """
     result = query_db(sql, (member_id))
     return result
 
 def get_heart_place():
     # 찜된 여행지 다 가지고 오기
-    sql = "SELECT place_id,member_id,1 AS heart FROM heart"
+    sql = """
+    SELECT h.place_id, h.member_id, 1 AS heart 
+    FROM heart h
+    INNER JOIN place p
+    USING (place_id)
+    WHERE p.category_id = 1
+    """
     result =  query_db(sql,())
     return result
 
 def get_place_by_person_review(member_id):
     # 사용자가 별점 5점을 남긴 장소 가지고 오기
-    sql = "SELECT place_id FROM review WHERE member_id = %s AND score > 4"
+    sql = """
+    SELECT r.place_id 
+    FROM review r
+    INNER JOIN place p
+    USING (place_id)
+    WHERE r.member_id = %s AND r.score > 4 AND p.category_id = 1 """
     result = query_db(sql, (member_id))
     return result
 
 def get_popular_place():
     # 가장 찜이 많이 된 장소 20개 가지고 오기
     sql = """
-    SELECT place_id, COUNT(*) AS count
-    FROM heart
-    GROUP BY place_id
+    SELECT h.place_id, COUNT(*) AS count
+    FROM heart h
+    INNER JOIN place p
+    USING (place_id)
+    WHERE p.category_id = 1
+    GROUP BY h.place_id
     ORDER BY count DESC
     LIMIT 20
     """
@@ -113,6 +139,9 @@ def get_review_keyword():
     SELECT r.place_id, rk.keyword_id, COUNT(*)
     FROM review r
     INNER JOIN review_keyword rk ON r.review_id = rk.review_id
+    INNER JOIN place p
+    USING (place_id)
+    WHERE p.category_id = 1
     GROUP BY r.place_id, rk.keyword_id
     ORDER BY r.place_id ASC
     """
@@ -133,6 +162,7 @@ def hashtag_review_place():
     JOIN review r ON p.place_id = r.place_id
     JOIN review_keyword rk ON r.review_id = rk.review_id
     JOIN keyword k ON rk.keyword_id = k.keyword_id
+    WHERE p.category_id = 1
     GROUP BY p.place_id;
     """
     result = query_db(sql, ())

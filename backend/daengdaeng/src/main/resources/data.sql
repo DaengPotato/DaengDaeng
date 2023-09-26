@@ -36,3 +36,7 @@ insert into mbti_question(question_id, question, answera, answerb, type_id) valu
 insert into mbti_question(question_id, question, answera, answerb, type_id) values(10, '주인이 다가오면', '호다닥 뛰어간다', '언제 오나 지켜본다', 4);
 insert into mbti_question(question_id, question, answera, answerb, type_id) values(11, '심심할 때 나는', '뛰어 놀아 (뛰뛰)', '바닥 좋아 (눕눕)', 4);
 insert into mbti_question(question_id, question, answera, answerb, type_id) values(12, '내가 안보일 때 주인이 나에게 하는 말은?', '안돼! 멈춰!', '어딨니~?', 4);
+
+
+delete from category;
+insert into category (category) values ("여행지"), ("동물병원"), ("동물약국"), ("문예회관"), ("미술관"), ("미용"), ("박물관"), ("반려동물용품"),("식당"), ("위탁관리"), ("카페"), ("펜션"), ("호텔") ;
