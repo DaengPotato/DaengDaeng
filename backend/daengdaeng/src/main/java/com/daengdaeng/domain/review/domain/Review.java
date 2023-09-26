@@ -21,7 +21,6 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
 import java.util.Date;
 
 @Entity
@@ -49,11 +48,11 @@ public class Review {
 	private String reviewContent;
 
 	@Column(nullable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
-	private LocalDateTime registTime;
+	private Date registTime;
 
 
 	@Builder
-	public Review(byte score, Member member, Place place, LocalDateTime registTime, String reviewContent) {
+	public Review(byte score, Member member, Place place, Date registTime, String reviewContent) {
 		this.score = score;
 		this.member = member;
 		this.place = place;
