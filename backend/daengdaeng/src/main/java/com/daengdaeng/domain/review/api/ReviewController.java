@@ -39,7 +39,7 @@ public class ReviewController {
 
     @ApiOperation(value = "리뷰 수정", notes = "리뷰 수정하는 API")
     @ApiResponses({
-            @ApiResponse(code = 200, message = "리뷰 추가 성공", response = HttpStatus.class),
+            @ApiResponse(code = 200, message = "리뷰 수정 성공", response = HttpStatus.class),
             @ApiResponse(code = 400, message = "필요 정보 누락", examples = @Example(value = @ExampleProperty(mediaType = "application/json", value = "{ \n errorCode: 400, \n message: fail \n}"))),
             @ApiResponse(code = 401, message = "미로그인", examples = @Example(value = @ExampleProperty(mediaType = "application/json", value = "{ \n errorCode: 401, \n message: fail \n}"))),
             @ApiResponse(code = 403, message = "권한 없음", examples = @Example(value = @ExampleProperty(mediaType = "application/json", value = "{ \n errorCode: 403, \n message: fail \n}"))),
@@ -54,8 +54,8 @@ public class ReviewController {
 
     @ApiOperation(value = "리뷰 삭제", notes = "리뷰 삭제하는 API")
     @ApiResponses({
-            @ApiResponse(code = 200, message = "리뷰 추가 성공", response = HttpStatus.class),
-            @ApiResponse(code = 400, message = "필요 정보 누락", examples = @Example(value = @ExampleProperty(mediaType = "application/json", value = "{ \n errorCode: 400, \n message: fail \n}"))),
+            @ApiResponse(code = 200, message = "리뷰 삭제 성공", response = HttpStatus.class),
+            @ApiResponse(code = 401, message = "미로그인", examples = @Example(value = @ExampleProperty(mediaType = "application/json", value = "{ \n errorCode: 401, \n message: fail \n}"))),
             @ApiResponse(code = 403, message = "권한 없음", examples = @Example(value = @ExampleProperty(mediaType = "application/json", value = "{ \n errorCode: 403, \n message: fail \n}"))),
             @ApiResponse(code = 404, message = "대상 없음", examples = @Example(value = @ExampleProperty(mediaType = "application/json", value = "{ \n errorCode: 404, \n message: fail \n}")))
     })
