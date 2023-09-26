@@ -1,7 +1,7 @@
-import PlaceRecommendation from '@/src/app/placerecommendation/placeRecommendation';
-
 import type { PetSimple } from '@/src/types/pet';
 import type { PetSpecificPlaces, Place } from '@/src/types/place';
+
+import PlaceRecommendation from '@/src/app/placerecommendation/PlaceRecommendation';
 
 // const fetchPetList = async (): Promise<PetSimple[]> => {
 //   const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/pet`);

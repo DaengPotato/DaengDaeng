@@ -1,10 +1,9 @@
 import React from 'react';
 
+import styles from './index.module.scss';
 
 import { AddIcon } from '@/public/icons';
 import { white } from '@/src/styles/colors';
-
-import styles from './index.module.scss';
 
 type AddPetButtonProps = {
   onClick: React.MouseEventHandler<HTMLButtonElement>;

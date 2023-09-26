@@ -1,9 +1,8 @@
-import PetExample from '@/public/images/pet-example.webp';
-
-import MyPets from './myPets';
+import MyPets from './MyPets';
 
 import type { PetDetail } from '@/src/types/pet';
 
+import PetExample from '@/public/images/pet-example.webp';
 
 // dummy data
 const pets: PetDetail[] = Array.from({ length: 4 }, (_, i) => ({

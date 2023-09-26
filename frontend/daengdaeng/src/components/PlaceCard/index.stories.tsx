@@ -1,10 +1,8 @@
-import PlaceExample from '@/public/images/place-example.jpg';
-
 import type { Meta, StoryObj } from '@storybook/react';
 
 import PlaceCard from '.';
 
-
+import PlaceExample from '@/public/images/place-example.jpg';
 
 const meta: Meta<typeof PlaceCard> = {
   title: 'Components/PlaceCard',

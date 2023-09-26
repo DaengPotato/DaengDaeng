@@ -2,12 +2,12 @@
 
 import React, { useState } from 'react';
 
-import { ReloadIcon } from '@/public/icons';
-
 import styles from './index.module.scss';
 import PlaceCarousel from '../PlaceCarousel';
 
 import type { Place } from '@/src/types/place';
+
+import { ReloadIcon } from '@/public/icons';
 
 type RecommendedPlaceListProps = {
   isPet: boolean;
