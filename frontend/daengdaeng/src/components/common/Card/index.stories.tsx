@@ -1,11 +1,11 @@
-import PetCard from '@/src/app/mypets/myPets/PetCard';
-
 import PlaceCard from '../../PlaceCard';
 
 import type { Place } from '@/src/types/place';
 import type { Meta, StoryObj } from '@storybook/react';
 
 import Card from '.';
+
+import PetCard from '@/src/app/mypets/MyPets/PetCard';
 
 const meta: Meta<typeof Card> = {
   component: Card,

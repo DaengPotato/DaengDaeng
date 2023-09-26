@@ -1,0 +1,52 @@
+.PetCard {
+  padding: 15px;
+  width: 220px;
+  position: relative;
+}
+
+.editIcon {
+  position: absolute;
+  width: fit-content;
+  top: 10px;
+  right: 10px;
+}
+
+.petName {
+  color: var(--color-orange);
+  font-weight: 800;
+  font-size: 1.8rem;
+  width: fit-content;
+  margin: 0 auto;
+  margin-bottom: 5px;
+}
+
+.petMbti {
+  width: fit-content;
+  margin: 0 auto;
+  font-size: 1.6rem;
+  margin-bottom: 10px;
+  font-weight: 800;
+}
+
+.petImg {
+  position: relative;
+  width: 120px;
+  height: 120px;
+  margin: 0 auto;
+  margin-bottom: 10px;
+  & > img {
+    border-radius: 50%;
+  }
+}
+
+.petDetail {
+  width: fit-content;
+  margin: 0 auto;
+  margin-bottom: 10px;
+  font-size: 1.4rem;
+}
+
+.petPlaceBtn {
+  width: fit-content;
+  margin: 0 auto;
+}
