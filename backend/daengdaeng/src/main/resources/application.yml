@@ -80,6 +80,7 @@ spring:
   redis:
     host: j9a103.p.ssafy.io
     port: 6379
+    password: ssafy
 logging:
   level:
     org:
