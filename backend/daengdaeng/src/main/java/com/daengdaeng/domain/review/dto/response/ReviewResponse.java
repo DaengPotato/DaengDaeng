@@ -4,7 +4,6 @@ import com.daengdaeng.domain.place.domain.Place;
 import com.daengdaeng.domain.review.domain.Review;
 import lombok.Getter;
 
-import java.util.List;
 
 @Getter
 public class ReviewResponse {
