@@ -4,4 +4,6 @@ public interface HeartService {
 
     void addHeart(int placeId);
 
+    void removeHeart(int placeId);
+
 }
