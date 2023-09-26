@@ -105,10 +105,13 @@ const PlaceCarousel = ({ places, startIndex, options }: CarouselProps) => {
         </div>
       </div>
       {currentPlace && (
-        <PlaceDetail
-          placeWithReview={currentPlace}
-          handleClose={handleClosePlaceDetail}
-        />
+        <>
+          <div className={styles.background} onClick={handleClosePlaceDetail} />
+          <PlaceDetail
+            placeWithReview={currentPlace}
+            handleClose={handleClosePlaceDetail}
+          />
+        </>
       )}
     </div>
   );

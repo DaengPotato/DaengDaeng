@@ -22,10 +22,10 @@ const PetCard = ({ pet }: PetCardProps) => {
 
   return (
     <div className={styles.PetCard}>
-      <button className={styles.editIcon}>
+      <button className={styles.editIcon} onClick={handleEditClick}>
         <EditIcon fill={'#000000'} width={20} height={20} />
       </button>
-      <div onClick={handleEditClick}>
+      <div>
         <div className={styles.petName}>{pet.name}</div>
         <div className={styles.petMbti}>{pet.mbtiId}</div>
         <div className={styles.petImg}>

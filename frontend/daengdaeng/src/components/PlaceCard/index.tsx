@@ -12,7 +12,10 @@ type PlaceCardProps = {
 };
 
 const PlaceCard = ({ place }: PlaceCardProps) => {
-  const handleLikeClick = () => {};
+  const handleLikeClick = (event: { stopPropagation: () => void }) => {
+    event.stopPropagation();
+    console.log('조아요');
+  };
 
   return (
     <div className={styles.PlaceCard}>
