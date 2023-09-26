@@ -1,0 +1,35 @@
+.MBTITest {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  width: fit-content;
+  margin: 0 auto;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.title {
+  font-size: 1.6rem;
+  width: fit-content;
+  margin: 0 auto;
+  font-weight: 800;
+}
+
+.petList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  width: 350px;
+  max-height: 500px;
+  overflow: auto;
+  margin: 0 auto;
+  justify-content: center;
+  padding: 5px;
+}
+
+.startButton {
+  width: fit-content;
+  margin: 0 auto;
+}

@@ -5,7 +5,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 
 import Card from '.';
 
-import PetSimpleCard from '@/src/app/mbtitest/MBTITest/PetSimpleCard';
+import PetSimpleCard from '@/src/app/mbti/MBTI/PetSimpleCard';
 import PetCard from '@/src/app/mypets/MyPets/PetCard';
 
 const meta: Meta<typeof Card> = {

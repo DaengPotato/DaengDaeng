@@ -15,7 +15,7 @@ const menuItems = [
   },
   {
     label: '댕BTI 검사',
-    href: '/mbtitest',
+    href: '/mbti',
   },
   {
     label: '여행지 추천',
