@@ -11,4 +11,11 @@ import java.util.List;
 @NoArgsConstructor(access =  AccessLevel.PROTECTED)
 public class FrameListResponse {
     List<FrameResponse> frameList;
+
+
+    public static FrameListResponse of(List<FrameResponse> frameList){
+        return FrameListResponse.builder()
+                .frameList(frameList)
+                .build();
+    }
 }
