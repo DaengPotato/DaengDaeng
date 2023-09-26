@@ -104,7 +104,7 @@ def recommend_people(member_id): # 찜 유사도가 높은 사용자 가지고 �
 
     # 유사도가 높은 20명의 사용자 가지고 오기(본인 제외)
     recom_people = item_sim_df[member_id].sort_values(ascending=False)
-    recom_people = recom_people[~recom_people.index.isin([member_id])][:5]
+    recom_people = recom_people[~recom_people.index.isin([member_id])][:10]
 
     return recom_people
 

@@ -48,7 +48,7 @@ def dbti_recomm(member_id):
         data_dbti = get_data_for_dbti(mbti_id)
 
         #만약 같은 mbti가 평가한 리뷰가 없을 경우 -> 이건 더미데이터로 처리
-        if len(data_dbti == 0) :
+        if len(data_dbti) == 0 :
             # 인기있는 지역 가지고 오기
             recom_place_id = no_my_heart()
 
