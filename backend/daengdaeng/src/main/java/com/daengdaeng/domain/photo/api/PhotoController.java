@@ -40,12 +40,14 @@ public class PhotoController {
         return ResponseEntity.ok().body(photoService.findDaengsCutsByMemberId(memberId));
     }
 
+    @GetMapping("frame")
     // 댕댕네컷 프레임 조회. 프레임은 s3에 있음
     public ResponseEntity<?> seeFrames() {
         // s3에서 전체 댕댕네컷 프레임 조회
         return ResponseEntity.ok().body(photoService.findFrames());
     }
 
+    @PostMapping("upload/request")
     // 댕댕네컷 s3 업로드 요청, 헤더 엑세스 토큰
     public ResponseEntity<?> uploadDaengCut(@RequestHeader("Authorization") String token, @RequestBody MultipartFile file) {
         // 엑세스 토큰에서 유저 아이디 뽑기
@@ -59,6 +61,7 @@ public class PhotoController {
         return null;
     }
 
+    @PostMapping("photo/upload")
     // 댕댕네컷 업로드 결과 전송, 헤더 엑세스 토큰
     public ResponseEntity<?> isSuccessedUploadDaengCut() {
         // 헤더 엑세스 토큰에서 유저 아이디 뽑기

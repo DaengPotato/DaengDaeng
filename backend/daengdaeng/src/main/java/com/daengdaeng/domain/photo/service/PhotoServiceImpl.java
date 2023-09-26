@@ -33,7 +33,8 @@ public class PhotoServiceImpl implements PhotoService {
     // memberId에 해당하는 댕댕네컷 정보 조회
     @Override
     public List<Photo> findDaengsCutsByMemberId(int memberId) {
-        return photoRepository.findByMemberId(memberId);
+            return null;
+//        return photoRepository.findByMemberId(memberId);
     }
 
     // s3에서 프레임 정보 조회

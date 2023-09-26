@@ -11,6 +11,6 @@ import java.util.List;
 @Repository
 public interface PhotoRepository extends JpaRepository<Photo, Long> {
 
-    @Query("select Photo from Photo as ph where ph.member.memberId = :memberId")
-    List<Photo> findByMemberId(int memberId);
+//    @Query("select Photo from Photo as ph where ph.member.memberId = :memberId")
+//    List<Photo> findByMemberId(int memberId);
 }

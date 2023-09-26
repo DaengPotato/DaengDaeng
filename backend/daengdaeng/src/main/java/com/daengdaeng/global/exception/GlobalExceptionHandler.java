@@ -57,4 +57,10 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
     }
 
+    @ExceptionHandler(S3Exception.class)
+    protected  ResponseEntity<String> handleS3Exception(S3Exception e){
+        log.error("S3Exception", e);
+        return ResponseEntity.status()
+    }
+
 }
