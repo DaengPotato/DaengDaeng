@@ -5,11 +5,9 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.data.domain.Persistable;
 
 import javax.persistence.*;
-
-import com.daengdaeng.domain.member.domain.HeartId;
-import org.springframework.data.domain.Persistable;
 
 @Entity
 @Table(name = "heart")
@@ -31,6 +29,11 @@ public class Heart implements Persistable<HeartId> {
     @Override
     public boolean isNew() {
         return this.id == null;
+    }
+
+    @Builder
+    public Heart(HeartId heartId) {
+        this.id = heartId;
     }
 
 }
