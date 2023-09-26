@@ -42,6 +42,23 @@ public class HeartServiceImpl implements HeartService {
                 .build());
     }
 
+    @Override
+    public void removeHeart(int placeId) {
+        Member member = memberRepository.findByEmail(getCurrentEmail())
+                .orElseThrow(() -> new NoSuchElementException("존재하지 않는 사용자입니다."));
+
+        if (!heartRepository.existsByMemberMemberIdAndPlacePlaceId(member.getMemberId(), placeId)) {
+            throw new NoSuchElementException("해당 멤버가 찜한 장소 정보가 없습니다.");
+        }
+
+        heartRepository.delete(Heart.builder()
+                        .heartId(HeartId.builder()
+                                .memberId(member.getMemberId())
+                                .placeId(placeId)
+                                .build())
+                .build());
+    }
+
     /**
      * 스프링 시큐리티 인증을 통과하여 저장된 회원의 인증 객체에서 이메일 추출
      * @return String : 이메일
