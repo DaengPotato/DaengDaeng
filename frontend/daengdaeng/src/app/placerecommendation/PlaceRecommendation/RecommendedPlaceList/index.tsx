@@ -3,11 +3,11 @@
 import React, { useState } from 'react';
 
 import styles from './index.module.scss';
-import PlaceCarousel from '../PlaceCarousel';
 
 import type { Place } from '@/src/types/place';
 
 import { ReloadIcon } from '@/public/icons';
+import PlaceCarousel from '@/src/components/PlaceCarousel';
 
 type RecommendedPlaceListProps = {
   isPet: boolean;
