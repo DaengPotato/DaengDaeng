@@ -1,6 +1,5 @@
 package com.daengdaeng.domain.review.repository;
 
-import com.daengdaeng.domain.pet.domain.Pet;
 import com.daengdaeng.domain.review.domain.Review;
 import com.daengdaeng.domain.review.domain.ReviewPet;
 import com.daengdaeng.domain.review.domain.ReviewPetId;

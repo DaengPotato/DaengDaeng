@@ -77,7 +77,7 @@ public class SocialServiceImpl implements SocialService {
         String accessToken = null;
         String email = null;
 
-        if (loginType.equals("kakao")) {
+        if (loginType.equals("KAKAO")) {
             // 코드 to 액세스 토큰
             accessToken = getKakaoAccessToken(code);
             System.out.println("access token: " + accessToken);
@@ -88,7 +88,7 @@ public class SocialServiceImpl implements SocialService {
                 throw new IllegalArgumentException("로그인 처리 중 에러 발생");
             }
             System.out.println("kakaoMemberInfo: " + email);
-        } else if (loginType.equals("google")) {
+        } else if (loginType.equals("GOOGLE")) {
             accessToken = getGoogleAccessToken(code);
             email = getGoogleMemberInfo(accessToken);
             if (email == null) {
@@ -230,7 +230,7 @@ public class SocialServiceImpl implements SocialService {
 
     @Override
     public void logout(String email) {
-        if (memberRepository.findByEmail(email).get().getLoginType().equals("google"))
+        if (memberRepository.findByEmail(email).get().getLoginType().equals("GOOGLE"))
             return;
 
         String url = "https://kapi.kakao.com/v1/user/logout";
@@ -251,7 +251,7 @@ public class SocialServiceImpl implements SocialService {
     public void removeMember(String email) {
         String token = loginAccessTokenRedisRepository.findById(email).get().getLoginAccessToken();
 
-        if (memberRepository.findByEmail(email).get().getLoginType().equals("kakao")) {
+        if (memberRepository.findByEmail(email).get().getLoginType().equals("KAKAO")) {
             String url = "https://kapi.kakao.com/v1/user/unlink";
             WebClient webClient = WebClient.create(url);
             webClient.post()

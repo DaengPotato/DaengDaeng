@@ -8,7 +8,6 @@ import org.springframework.stereotype.Repository;
 import com.daengdaeng.domain.review.domain.ReviewKeyword;
 
 import java.util.List;
-import java.util.Optional;
 
 @Repository
 public interface ReviewKeywordRepository extends JpaRepository<ReviewKeyword, Integer> {
