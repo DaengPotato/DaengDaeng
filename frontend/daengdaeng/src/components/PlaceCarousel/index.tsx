@@ -2,22 +2,19 @@ import React, { useState } from 'react';
 
 import useEmblaCarousel from 'embla-carousel-react';
 
+import styles from './index.module.scss';
+import Card from '../common/Card';
 
+import type { Place, PlaceWithReview } from '@/src/types/place';
+import type { EmblaOptionsType } from 'embla-carousel-react';
 
 import PlaceExample from '@/public/images/place-example.jpg';
 import PlaceCard from '@/src/components/PlaceCard';
 import PlaceDetail from '@/src/components/PlaceDetail';
 
-
-import styles from './index.module.scss';
-import Card from '../../../../components/common/Card';
-
-import type { Place, PlaceWithReview } from '@/src/types/place';
-import type { EmblaOptionsType } from 'embla-carousel-react';
-
 type CarouselProps = {
   places: Place[];
-  startIndex: number;
+  startIndex?: number;
   options?: EmblaOptionsType;
 };
 
@@ -74,7 +71,10 @@ const PlaceCarousel = ({ places, startIndex, options }: CarouselProps) => {
     undefined,
   );
 
-  const somePlaces = places.slice(startIndex, startIndex + 5);
+  const somePlaces =
+    typeof startIndex !== 'undefined'
+      ? places.slice(startIndex, startIndex + 5)
+      : places;
 
   const handleClickPlaceCard = (placeId: number) => {
     // TODO: 여행지 상세 정보(리뷰) fetch
@@ -105,10 +105,13 @@ const PlaceCarousel = ({ places, startIndex, options }: CarouselProps) => {
         </div>
       </div>
       {currentPlace && (
-        <PlaceDetail
-          placeWithReview={currentPlace}
-          handleClose={handleClosePlaceDetail}
-        />
+        <>
+          <div className={styles.background} onClick={handleClosePlaceDetail} />
+          <PlaceDetail
+            placeWithReview={currentPlace}
+            handleClose={handleClosePlaceDetail}
+          />
+        </>
       )}
     </div>
   );
