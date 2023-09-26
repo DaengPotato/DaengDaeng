@@ -50,6 +50,10 @@ spring:
         dialect: org.hibernate.dialect.MySQL8Dialect
         show_sql: true
         format_sql: true
+    defer-datasource-initialization: true
+  sql:
+      init:
+        mode: always
 #  datasource:
 #    driver-class-name: org.mariadb.jdbc.Driver
 #    hikari:
@@ -74,7 +78,7 @@ spring:
     livereload:
       enabled: "true"
   redis:
-    host: 127.0.0.1
+    host: j9a103.p.ssafy.io
     port: 6379
 logging:
   level:
