@@ -5,7 +5,12 @@ import com.daengdaeng.domain.member.domain.HeartId;
 import com.daengdaeng.domain.member.domain.Member;
 import com.daengdaeng.domain.member.repository.HeartRepository;
 import com.daengdaeng.domain.member.repository.MemberRepository;
+import com.daengdaeng.domain.place.domain.Place;
+import com.daengdaeng.domain.place.dto.response.FindPlaceResponse;
 import com.daengdaeng.domain.place.repository.PlaceRepository;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
@@ -14,7 +19,11 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -40,6 +49,62 @@ public class HeartServiceImpl implements HeartService {
                         .placeId(placeId)
                         .build())
                 .build());
+    }
+
+    @Override
+    public void removeHeart(int placeId) {
+        Member member = memberRepository.findByEmail(getCurrentEmail())
+                .orElseThrow(() -> new NoSuchElementException("존재하지 않는 사용자입니다."));
+
+        if (!heartRepository.existsByMemberMemberIdAndPlacePlaceId(member.getMemberId(), placeId)) {
+            throw new NoSuchElementException("해당 멤버가 찜한 장소 정보가 없습니다.");
+        }
+
+        heartRepository.delete(Heart.builder()
+                        .heartId(HeartId.builder()
+                                .memberId(member.getMemberId())
+                                .placeId(placeId)
+                                .build())
+                .build());
+    }
+
+    @Override
+    public List<FindPlaceResponse> findHeart() {
+        Member member = memberRepository.findByEmail(getCurrentEmail())
+                .orElseThrow(() -> new NoSuchElementException("존재하지 않는 사용자입니다."));
+
+        List<Place> placeList = heartRepository.findAllByMemberId(member.getMemberId());
+        List<FindPlaceResponse> findPlaceResponseList = placeList.stream()
+                .map(place -> {
+                    ObjectMapper objectMapper = new ObjectMapper();
+
+                    List<String> homepage = new ArrayList<>();
+                    List<List<String>> openingHour = new ArrayList<>();
+                    try {
+                        homepage = objectMapper.readValue(place.getHomepage(), new TypeReference<List<String>>() {});
+                        openingHour = objectMapper.readValue(place.getOpeningHour(), new TypeReference<List<List<String>>>() {});
+                    } catch (JsonProcessingException e) {
+                        throw new RuntimeException(e.getMessage());
+                    }
+
+                    return new FindPlaceResponse(
+                            place.getPlaceId(),
+                            place.getTitle(),
+                            place.getJibunAddress(),
+                            place.getRoadAddress(),
+                            homepage,
+                            openingHour,
+                            place.getPhoneNumber(),
+                            place.getContent(),
+                            heartRepository.countByPlacePlaceId(place.getPlaceId()),
+                            place.getImage(),
+                            place.getCategory().getCategory(),
+                            true
+                    );
+                })
+                .collect(Collectors.toList());
+
+        return findPlaceResponseList;
     }
 
     /**

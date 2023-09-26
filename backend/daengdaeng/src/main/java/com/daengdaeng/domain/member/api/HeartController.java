@@ -1,16 +1,16 @@
 package com.daengdaeng.domain.member.api;
 
 import com.daengdaeng.domain.member.service.HeartService;
+import com.daengdaeng.domain.place.dto.response.FindPlaceResponse;
 import io.swagger.annotations.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @Api(tags = "찜 API", description = "찜 관련 API (HeartController)")
 @Slf4j
@@ -38,6 +38,30 @@ public class HeartController {
         heartService.addHeart(placeId);
 
         return ResponseEntity.status(HttpStatus.CREATED).build();
+    }
+
+    @ApiOperation(value = "찜 취소", notes = "장소를 찜을 취소하는 API")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "찜 취소 성공", response = HttpStatus.class),
+            @ApiResponse(code = 400, message = "필요 정보 누락", examples = @Example(value = @ExampleProperty(mediaType = "application/json", value = "{ \n errorCode: 400, \n message: fail \n}"))),
+            @ApiResponse(code = 404, message = "DB에 해당 정보가 들어있지 않음", examples = @Example(value = @ExampleProperty(mediaType = "application/json", value = "{ \n errorCode: 404, \n message: not exist \n}")))
+
+    })
+    @DeleteMapping("/{placeId}")
+    public ResponseEntity<Void> removeHeart(@PathVariable int placeId) {
+
+        heartService.removeHeart(placeId);
+
+        return ResponseEntity.status(HttpStatus.OK).build();
+    }
+
+    @ApiOperation(value = "찜 목록 조회", notes = "찜한 내역을 조회하는 API")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "찜 조회 성공", response = HttpStatus.class),
+    })
+    @GetMapping
+    public ResponseEntity<List<FindPlaceResponse>> findHeart() {
+        return ResponseEntity.ok().body(heartService.findHeart());
     }
 
 }
