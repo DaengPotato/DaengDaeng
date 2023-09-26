@@ -2,14 +2,16 @@ package com.daengdaeng.domain.place.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 import lombok.AllArgsConstructor;
-import lombok.RequiredArgsConstructor;
 
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.security.core.parameters.P;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import com.daengdaeng.domain.member.domain.Member;
@@ -27,6 +29,7 @@ import com.daengdaeng.domain.review.domain.Review;
 import com.daengdaeng.domain.review.repository.KeywordRepository;
 import com.daengdaeng.domain.review.repository.ReviewKeywordRepository;
 import com.daengdaeng.domain.review.repository.ReviewRepository;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Service
@@ -43,14 +46,15 @@ public class PlaceServiceImpl implements PlaceService {
 	@Override
 	public FindAllPlaceResponse placeList(Byte category, String keyword, int cursor) {
 
-		int memberId = 1;
+		Member member = memberRepository.findByEmail(getCurrentEmail())
+			.orElseThrow(() -> new NoSuchElementException("존재하지 않는 사용자입니다."));
 
 		Pageable pageable = PageRequest.of(cursor, 20); // 2페이지, 페이지 크기 20
 		List<Place> findPlaceList = placeRepository.findByKeywordAndCategory(keyword, category, pageable);
 		List<FindPlaceResponse> findPlaceResponseList = new ArrayList<>();
 
 		for(Place findPlace : findPlaceList){
-			FindPlaceResponse findPlaceRespons = findPlaceInformation(memberId, findPlace);
+			FindPlaceResponse findPlaceRespons = findPlaceInformation(member.getMemberId(), findPlace);
 			findPlaceResponseList.add(findPlaceRespons);
 		}
 
@@ -65,14 +69,16 @@ public class PlaceServiceImpl implements PlaceService {
 	@Override
 	public FindPlaceDetailResponse placeDetail(int placeId) {
 
-		int memberId = 1;
+		Member member = memberRepository.findByEmail(getCurrentEmail())
+			.orElseThrow(() -> new NoSuchElementException("존재하지 않는 사용자입니다."));
 
-		Place place = placeRepository.findPlaceByPlaceId(placeId);
+		Place place = placeRepository.findPlaceByPlaceId(placeId)
+			.orElseThrow(() -> new NoSuchElementException("장소 정보가 없습니다."));
 
-		FindPlaceResponse findPlaceResponse = findPlaceInformation(memberId, place);
+		FindPlaceResponse findPlaceResponse = findPlaceInformation(member.getMemberId(), place);
 
-		int score = 0;
-		Optional<Integer> averageScore = reviewRepository.findAverageScoreByPlaceId(placeId);
+		Double score = 0.0;
+		Optional<Double> averageScore = reviewRepository.findAverageScoreByPlaceId(placeId);
 		if (averageScore.isPresent()) {
 			score = averageScore.get();
 		}
@@ -87,7 +93,6 @@ public class PlaceServiceImpl implements PlaceService {
 
 		List<ReviewDto> reviewDtoList = new ArrayList<>();
 		List<Review> reviewList = reviewRepository.findByPlacePlaceId(placeId);
-		System.out.println(reviewList.size());
 		reviewList.forEach(review -> {
 			ReviewDto reviewDto = new ReviewDto(review.getReviewContent(), review.getRegistTime());
 			reviewDtoList.add(reviewDto);
@@ -97,33 +102,27 @@ public class PlaceServiceImpl implements PlaceService {
 
 		return findPlaceDetailResponse;
 
-
-
 	}
 
-	private FindPlaceResponse findPlaceInformation(int memberId, Place place){
-
+	private FindPlaceResponse findPlaceInformation(int memberId, Place place) {
 
 		boolean isHeart = heartRepository.existsByMemberMemberIdAndPlacePlaceId(memberId, place.getPlaceId());
-
 		int heartCnt = heartRepository.countByPlacePlaceId(place.getPlaceId());
 
 		String category = place.getCategory().getCategory();
 
 		List<String> homepage = new ArrayList<>();
-		List<String> openingHour = new ArrayList<>();
+		List<List<String>> openingHour = new ArrayList<>();
 		try {
 
 			ObjectMapper objectMapper = new ObjectMapper();
 
 			String homepageListJson = place.getHomepage();
-			// List<String> homepageList = objectMapper.readValue(homepageListJson, new TypeReference<List<String>>() {});
-			// homepage = homepageList;
+			homepage = objectMapper.readValue(homepageListJson, new TypeReference<List<String>>() {});
 
+			String openingHourListJson = place.getOpeningHour();
+			openingHour = objectMapper.readValue(openingHourListJson, new TypeReference<List<List<String>>>() {});
 
-			String openingHourListListJson = place.getOpeningHour();
-			// List<String> openingHourList = objectMapper.readValue(openingHourListListJson, new TypeReference<List<String>>() {});
-			// openingHour = openingHourList;
 
 		}catch (Exception  e){
 			e.printStackTrace();
@@ -138,4 +137,11 @@ public class PlaceServiceImpl implements PlaceService {
 
 		return findPlaceResponse;
 	}
+
+	private String getCurrentEmail() {
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		UserDetails principal = (UserDetails) authentication.getPrincipal();
+		return principal.getUsername();
+	}
+
 }
