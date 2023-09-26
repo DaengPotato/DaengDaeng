@@ -1,6 +1,7 @@
 package com.daengdaeng.domain.member.api;
 
 import com.daengdaeng.domain.member.service.HeartService;
+import com.daengdaeng.domain.place.dto.response.FindPlaceResponse;
 import io.swagger.annotations.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -8,6 +9,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @Api(tags = "찜 API", description = "찜 관련 API (HeartController)")
 @Slf4j
@@ -50,6 +53,15 @@ public class HeartController {
         heartService.removeHeart(placeId);
 
         return ResponseEntity.status(HttpStatus.OK).build();
+    }
+
+    @ApiOperation(value = "찜 목록 조회", notes = "찜한 내역을 조회하는 API")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "찜 조회 성공", response = HttpStatus.class),
+    })
+    @GetMapping
+    public ResponseEntity<List<FindPlaceResponse>> findHeart() {
+        return ResponseEntity.ok().body(heartService.findHeart());
     }
 
 }
