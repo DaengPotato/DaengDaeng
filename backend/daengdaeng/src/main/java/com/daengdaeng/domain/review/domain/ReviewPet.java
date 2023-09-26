@@ -25,9 +25,8 @@ public class ReviewPet {
     private Pet pet;
 
     @Builder
-    public ReviewPet(Review review, Pet pet){
-        this.review = review;
-        this.pet = pet;
+    public ReviewPet(ReviewPetId reviewPetId){
+        this.reviewPetId = reviewPetId;
     }
 
     public void modifyReviewPet(Pet Pet){

@@ -30,13 +30,15 @@ public class ReviewKeyword {
 	private Keyword keyword;
 
 	@Builder
-	public ReviewKeyword(Review review, Keyword keyword) {
-		this.review = review;
-		this.keyword = keyword;
+	public ReviewKeyword(ReviewKeywordId reviewKeywordId) {
+		this.reviewKeywordId = reviewKeywordId;
 	}
 
 	// 리뷰키워드 수정
 	public void modifyKeyword(Keyword keyword){
 		this.keyword = keyword;
 	}
+
 }
+
+
