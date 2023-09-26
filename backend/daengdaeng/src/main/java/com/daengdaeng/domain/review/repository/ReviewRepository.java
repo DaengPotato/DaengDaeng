@@ -4,6 +4,7 @@ import com.daengdaeng.domain.member.domain.Member;
 import java.util.List;
 import java.util.Optional;
 
+import com.daengdaeng.domain.place.domain.Place;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
