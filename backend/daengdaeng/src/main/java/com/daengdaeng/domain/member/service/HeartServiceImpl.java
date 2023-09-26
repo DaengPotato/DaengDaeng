@@ -5,7 +5,6 @@ import com.daengdaeng.domain.member.domain.HeartId;
 import com.daengdaeng.domain.member.domain.Member;
 import com.daengdaeng.domain.member.repository.HeartRepository;
 import com.daengdaeng.domain.member.repository.MemberRepository;
-import com.daengdaeng.domain.place.domain.Place;
 import com.daengdaeng.domain.place.repository.PlaceRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -32,10 +31,8 @@ public class HeartServiceImpl implements HeartService {
         Member member = memberRepository.findByEmail(getCurrentEmail())
                 .orElseThrow(() -> new NoSuchElementException("존재하지 않는 사용자입니다."));
 
-        Place place = placeRepository.findPlaceByPlaceId(placeId);
-        if (place == null) {
-            throw new NoSuchElementException("존재하지 않는 장소입니다.");
-        }
+        placeRepository.findPlaceByPlaceId(placeId)
+                .orElseThrow(() -> new NoSuchElementException("존재하지 않는 장소입니다."));
 
         heartRepository.save(Heart.builder()
                 .heartId(HeartId.builder()
