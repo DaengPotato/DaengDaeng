@@ -7,7 +7,7 @@
     "lint:fix": "next lint --fix",
     "dev": "npm run lint:fix && next dev -p 3126",
     "build": "next build",
-    "start": "npm run lint:fix && next start -p 3126",
+    "start": "next start -p 3126",
     "format": "prettier --check --ignore-path .gitignore .",
     "format:fix": "prettier --write --ignore-path .gitignore .",
     "storybook": "storybook dev -p 6006",
