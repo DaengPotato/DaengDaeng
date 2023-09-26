@@ -14,8 +14,8 @@ const menuItems = [
     href: '/mypets',
   },
   {
-    label: '댕BTI',
-    href: '/petnalitytest',
+    label: '댕BTI 검사',
+    href: '/mbtitest',
   },
   {
     label: '여행지 추천',

@@ -3,3 +3,7 @@
   background-color: var(--color-white);
   border-radius: 10px;
 }
+
+.selected {
+  outline: 3px solid var(--color-orange);
+}
