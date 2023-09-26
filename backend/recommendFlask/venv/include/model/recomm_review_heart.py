@@ -10,9 +10,20 @@ def review_heart_recomm(member_id):
     # 사용자가 찜한 장소 가지고 오기
     my_hearts = get_data_for_review_heart(member_id)
     my_places = [item[0] for item in my_hearts]
+
+    # 사용자가 찜한 장소가 없을 때
     if(len(my_hearts) == 0):
-        recom_place = get_popular_place()
+        recom_place = get_popular_place() #가장 인기있는 장소 가지고 오기(찜)
         recom_place = [item[0] for item in recom_place]
+
+        if len(recom_place)==0: #찜이 없어서 가지고오지 못했다면
+            for i in range(1,21): #임의로 넣어주기
+                recom_place.append(i)
+
+        recom_place = {
+            "recommendPlaceList": recom_place
+        }
+
         return recom_place
 
     # 찜 유사도가 높은 사용자들 추리기

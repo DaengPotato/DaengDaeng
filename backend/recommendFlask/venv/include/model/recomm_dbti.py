@@ -1,7 +1,7 @@
 # 반려견 성향 기반으로 추천하는 알고리즘 구현 파일
 import json
 
-from service.db_manager import get_data_for_dbti, get_pet_ids, get_place_ids_by_pet_id
+from service.db_manager import get_data_for_dbti, get_pet_ids, get_place_ids_by_pet_id, get_popular_place
 import pandas as pd
 import numpy as np
 
@@ -15,17 +15,51 @@ def dbti_recomm(member_id):
     # DB에서 member_id를 가지고 pet 리스트 가지고 오기
     my_pets = get_pet_ids(member_id)
 
+    # 강아지가 없을 경우
+    if(len(my_pets)==0):
+        result = {
+            "petId": None,
+            "recommendPlaceList": []
+        }
+        result_list.append(result)
+        return result_list
+
     #강아지마다 추천 여행지 가지고 오기
     for pet in my_pets:
         pet_id,mbti_id = pet
 
-        # 반려견이 좋아한 장소 가지고 오기
-        likes = get_place_ids_by_pet_id(pet_id)
-        print(likes)
-        likes = [item[0] for item in likes]
+
+        # mbti_id가 없을 경우
+        if mbti_id is None:
+            # 인기있는 지역 가지고 오기
+            recom_place_id = no_my_heart()
+
+            result = {
+                "petId": pet_id,
+                "recommendPlaceList": recom_place_id
+            }
+
+            result_list.append(result)
+
+            continue
+
 
         # 같은 mbti를 가진 강아지가 평가한 리뷰만 가지고 오기
         data_dbti = get_data_for_dbti(mbti_id)
+
+        #만약 같은 mbti가 평가한 리뷰가 없을 경우 -> 이건 더미데이터로 처리
+        if len(data_dbti == 0) :
+            # 인기있는 지역 가지고 오기
+            recom_place_id = no_my_heart()
+
+            result = {
+                "petId": pet_id,
+                "recommendPlaceList": recom_place_id
+            }
+            result_list.append(result)
+
+            continue
+
 
         # pandas로 데이터 프레임으로 변환
         dataframe_dbti=pd.DataFrame(data_dbti,columns=['place_id','score','pet_id'])
@@ -45,6 +79,15 @@ def dbti_recomm(member_id):
         top_similar_places = []
         # 강아지가 좋아한 각 여행지마다 추천 여행지 20가지를 추리고
         # 각 여행지별 추천 여행지를 다 합쳐서 유사도가 가장 높은 20개의 여행지 중복제거 후 가지고오기
+
+        # 반려견이 좋아한 장소 가지고 오기
+        likes = get_place_ids_by_pet_id(pet_id)
+        likes = [item[0] for item in likes]
+
+        # 반려견이 좋아한 장소가 없을 경우, 가장 인기있는 지역 가지고 오기
+        if likes == 0:
+            likes = no_my_heart()
+
         for like in likes:
             # 현재 열의 값에서 상위 20개의 행(여행지)를 선택
             col = item_sim_df[like]
@@ -86,3 +129,16 @@ def dbti_recomm(member_id):
     # print(json_data)
 
     return result_list
+
+
+def no_my_heart():
+
+    recom_place_id = get_popular_place()  # 찜이 가장 많이된 여행지 가지고 오기
+    recom_place_id = [item[0] for item in recom_place_id]
+
+    if len(recom_place_id) == 0:  # 만약 찜된 여행지가 없다면
+        for i in range(1, 21):
+            recom_place_id.append(i)
+
+    return recom_place_id
+
