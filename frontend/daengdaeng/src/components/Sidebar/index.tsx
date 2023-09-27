@@ -34,6 +34,10 @@ const menuItems = [
     label: 'Login',
     href: '/login',
   },
+  {
+    label: '여행지 검색',
+    href: '/placesearch',
+  },
 ];
 
 const Sidebar = ({
