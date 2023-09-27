@@ -1,6 +1,8 @@
 package com.daengdaeng.domain.place.api;
 
+import com.daengdaeng.domain.category.service.CategoryService;
 import com.daengdaeng.domain.place.dto.response.FindAllPlaceResponse;
+import com.daengdaeng.domain.place.dto.response.FindCategoryResponse;
 import com.daengdaeng.domain.place.dto.response.FindPlaceByDogResponse;
 import com.daengdaeng.domain.place.dto.response.FindPlaceDetailResponse;
 import com.daengdaeng.domain.place.dto.response.FindPlaceResponse;
@@ -16,11 +18,9 @@ import io.swagger.annotations.ExampleProperty;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -36,6 +36,7 @@ public class PlaceController {
 
 	private final FlaskPlaceService flaskPlaceService;
 	private final PlaceService placeService;
+	private final CategoryService categoryService;
 
 
 	@ApiOperation(value = "여행지 목록 조회", notes = "반려동물 목록을 조회/검색하는 API")
@@ -57,6 +58,15 @@ public class PlaceController {
 	@GetMapping("/{placeId}")
 	public ResponseEntity<FindPlaceDetailResponse> getDetailPlace(@PathVariable int placeId) {
 		return ResponseEntity.ok().body(placeService.placeDetail(placeId));
+	}
+
+	@ApiOperation(value = "카테고리 정보 조회", notes = "카테고리 정보를 조회하는 API")
+	@ApiResponses({
+		@ApiResponse(code = 200, message = "카테고리 상세 조회 성공"),
+	})
+	@GetMapping("/category")
+	public ResponseEntity<List<FindCategoryResponse>> getCategory() {
+		return ResponseEntity.ok().body(categoryService.getCategory());
 	}
 
 

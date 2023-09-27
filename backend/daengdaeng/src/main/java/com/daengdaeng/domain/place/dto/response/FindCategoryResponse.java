@@ -1,1 +1,1 @@
-package com.daengdaeng.domain.place.dto.response;import lombok.AllArgsConstructor;@AllArgsConstructorpublic class FindCategoryResponse {	private int categoryId;	private String category;}
+package com.daengdaeng.domain.place.dto.response;import lombok.AllArgsConstructor;import lombok.Data;@AllArgsConstructor@Datapublic class FindCategoryResponse {	private int categoryId;	private String category;}
