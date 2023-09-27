@@ -22,7 +22,7 @@ import java.util.List;
 @Slf4j
 @RequiredArgsConstructor
 public class S3ServiceImpl implements S3Service {
-    private S3Config s3Config;
+    private final S3Config s3Config;
     private final AmazonS3Client amazonS3Client;
 
     @Value("${cloud.aws.s3.bucket}")

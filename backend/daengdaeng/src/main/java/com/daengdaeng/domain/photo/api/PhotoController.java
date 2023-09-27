@@ -46,7 +46,7 @@ public class PhotoController {
     // 내 댕댕네컷 조회, 헤더 엑세스 토큰
     public ResponseEntity<?> seeMyDaengs(@RequestHeader("Authorization") String token, int cursor) {
         // 엑세스 토큰에서 멤버아이디 뽑기
-        String userEmail = "userOVcxHW42@kakao.com";
+        String userEmail = getCurrentEmail();
         Member member = memberRepository.findByEmail(userEmail).orElseThrow(() -> new NoSuchElementException("회원이 없습니다."));
 
 
@@ -65,7 +65,9 @@ public class PhotoController {
     // 댕댕네컷 s3 업로드, 헤더 엑세스 토큰
     public ResponseEntity<?> uploadDaengCut(@RequestHeader("Authorization") String token, MultipartFile file, int placeId) {
         // 엑세스 토큰에서 멤버 아이디 뽑기
-        String userEmail = "userOVcxHW42@kakao.com";
+//        String userEmail = "userOVcxHW42@kakao.com";
+//        String userEmail = jwtTokenUtil.getUsername(token);
+        String userEmail = getCurrentEmail();
         Optional<Member> thisMember = memberRepository.findByEmail(userEmail);
         int memberId = thisMember.get().getMemberId();
 
