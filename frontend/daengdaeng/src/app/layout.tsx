@@ -2,16 +2,11 @@ import React from 'react';
 
 import './global.scss';
 
-<<<<<<< Updated upstream
-=======
 import Header from '@/src/components/Header';
 
->>>>>>> Stashed changes
 import Head from './head';
 import AuthScript from '../components/common/AuthScript';
 import { ssurround } from '../styles/fonts';
-
-import Header from '@/src/components/Header';
 
 export default function RootLayout({
   children,
