@@ -2,10 +2,11 @@ import React from 'react';
 
 import './global.scss';
 
-import Head from './head';
-import { ssurround } from '../styles/fonts';
-
 import Header from '@/src/components/Header';
+
+import Head from './head';
+import AuthScript from '../components/common/AuthScript';
+import { ssurround } from '../styles/fonts';
 
 export default function RootLayout({
   children,
@@ -20,6 +21,7 @@ export default function RootLayout({
           <Header />
           {children}
         </div>
+        <AuthScript />
       </body>
     </html>
   );
