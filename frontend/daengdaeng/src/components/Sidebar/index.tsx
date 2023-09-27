@@ -3,10 +3,10 @@ import type { Dispatch, SetStateAction } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 
-import styles from './index.module.scss';
-
 import { CloseIcon } from '@/public/icons';
 import TextLogo from '@/public/images/text-logo.png';
+
+import styles from './index.module.scss';
 
 const menuItems = [
   {
@@ -24,6 +24,10 @@ const menuItems = [
   {
     label: '댕댕네컷',
     href: '/daengphoto',
+  },
+  {
+    label: '여행지 검색',
+    href: '/placesearch',
   },
 ];
 
