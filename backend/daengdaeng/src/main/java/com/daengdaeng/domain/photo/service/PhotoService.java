@@ -20,7 +20,7 @@ public interface PhotoService {
     public String addDaengCutWithDateAtS3(int memberId, MultipartFile file);
 
     // 업로드한 댕댕네컷 파일에 대한 정보를 DB에 추가
-    public boolean addDaengCut(String image, Member member, Place place);
+    public boolean addDaengCut(String image, int memberId, int placeId);
 
 //    // S3에서 파일명으로 조회
 //    public String findFileAtS3(String fileName);

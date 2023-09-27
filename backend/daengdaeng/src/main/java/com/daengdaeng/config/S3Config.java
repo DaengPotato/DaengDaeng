@@ -34,7 +34,7 @@ public class S3Config {
 
 
     @Bean
-    public AmazonS3Client s3Client() {
+    public AmazonS3Client amazonS3Client() {
         BasicAWSCredentials awsCredentials = new BasicAWSCredentials(iamAccessKey, iamSecretKey);
         return (AmazonS3Client) AmazonS3ClientBuilder.standard()
                 .withRegion(region).enablePathStyleAccess()

@@ -11,6 +11,7 @@ import com.daengdaeng.domain.photo.dto.PhotoResponse;
 import com.daengdaeng.domain.photo.dto.PhotoSearchResponse;
 import com.daengdaeng.domain.photo.repository.PhotoRepository;
 import com.daengdaeng.domain.place.domain.Place;
+import com.daengdaeng.domain.place.repository.PlaceRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
@@ -23,6 +24,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Slf4j
@@ -32,6 +34,7 @@ import java.util.UUID;
 public class PhotoServiceImpl implements PhotoService {
     private final PhotoRepository photoRepository;
     private final MemberRepository memberRepository;
+    private final PlaceRepository placeRepository;
     private final S3ServiceImpl s3Service;
 
     private int pageSize = 10;
@@ -99,7 +102,11 @@ public class PhotoServiceImpl implements PhotoService {
         List<FileNameAndUrlResponse> searchResult = s3Service.getFileNameAndUrlAtFolder("frame");
 
         // dto 옮겨담기
-        for (FileNameAndUrlResponse res : searchResult) {
+//        for (FileNameAndUrlResponse res : searchResult) {
+//            frameResult.add(FrameResponse.of(res.getFileName(), res.getFileUrl()));
+//        }
+        for (int i = 1; i < searchResult.size(); i++) {
+            FileNameAndUrlResponse res = searchResult.get(i);
             frameResult.add(FrameResponse.of(res.getFileName(), res.getFileUrl()));
         }
 
@@ -120,11 +127,13 @@ public class PhotoServiceImpl implements PhotoService {
 
     // 업로드한 댕댕네컷 파일에 대한 정보를 DB에 추가
     @Override
-    public boolean addDaengCut(String imageUrl, Member member, Place place) {
+    public boolean addDaengCut(String imageUrl, int memberId, int placeId) {
+        Optional<Member> member = memberRepository.findById(memberId);
+        Optional<Place> place = placeRepository.findById(placeId);
         Photo newPhoto = Photo.builder()
                 .image(imageUrl)
-                .member(member)
-                .place(place)
+                .member(member.get())
+                .place(place.get())
                 .build();
         Photo savedPhoto = photoRepository.save(newPhoto);
 

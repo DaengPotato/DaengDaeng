@@ -6,12 +6,16 @@ import com.daengdaeng.domain.photo.service.PhotoServiceImpl;
 import com.daengdaeng.global.util.JwtTokenUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.web.PageableDefault;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.util.NoSuchElementException;
+import java.util.Optional;
 
 @Slf4j
 @RestController
@@ -21,6 +25,13 @@ public class PhotoController {
     private final PhotoServiceImpl photoService;
     private final MemberRepository memberRepository;
     private final JwtTokenUtil jwtTokenUtil;
+
+    @GetMapping("/test")
+    // 전체 댕댕네컷 조회
+    public ResponseEntity<?> test() {
+
+        return ResponseEntity.ok().body("test");
+    }
 
     // TODO: 페이지네이션 처리 할 것
     @GetMapping
@@ -35,11 +46,12 @@ public class PhotoController {
     // 내 댕댕네컷 조회, 헤더 엑세스 토큰
     public ResponseEntity<?> seeMyDaengs(@RequestHeader("Authorization") String token, int cursor) {
         // 엑세스 토큰에서 멤버아이디 뽑기
-        String userEmail = jwtTokenUtil.getUsername(token);
-        int memberId = memberRepository.findMemberByEmail(userEmail).getMemberId();
+        String userEmail = "userOVcxHW42@kakao.com";
+        Member member = memberRepository.findByEmail(userEmail).orElseThrow(() -> new NoSuchElementException("회원이 없습니다."));
+
 
         // 뽑은 유저 아이디로 댕댕네컷 조회해서 반환
-        return ResponseEntity.ok().body(photoService.findDaengCutsByMemberId(memberId, cursor));
+        return ResponseEntity.ok().body(photoService.findDaengCutsByMemberId(member.getMemberId(), cursor));
     }
 
     @GetMapping("frame")
@@ -51,19 +63,19 @@ public class PhotoController {
 
     @PostMapping("upload/request")
     // 댕댕네컷 s3 업로드, 헤더 엑세스 토큰
-    public ResponseEntity<?> uploadDaengCut(@RequestHeader("Authorization") String token, @RequestBody MultipartFile file) {
+    public ResponseEntity<?> uploadDaengCut(@RequestHeader("Authorization") String token, MultipartFile file, int placeId) {
         // 엑세스 토큰에서 멤버 아이디 뽑기
-        String userEmail = jwtTokenUtil.getUsername(token);
-        Member thisMember = memberRepository.findMemberByEmail(userEmail);
-        int memberId = thisMember.getMemberId();
+        String userEmail = "userOVcxHW42@kakao.com";
+        Optional<Member> thisMember = memberRepository.findByEmail(userEmail);
+        int memberId = thisMember.get().getMemberId();
 
         // s3에 업로드
         String savedUrl = photoService.addDaengCutWithDateAtS3(memberId, file);
 
         //업로드 된 정보를 DB에 저장
+        photoService.addDaengCut(savedUrl,memberId,placeId);
 
-
-        return null;
+        return ResponseEntity.ok().body("upload success");
     }
 //
 //    @PostMapping("/upload")
@@ -74,4 +86,14 @@ public class PhotoController {
 //        //
 //        return null;
 //    }
+
+    /**
+     * 스프링 시큐리티 인증을 통과하여 저장된 회원의 인증 객체에서 이메일 추출
+     * @return String : 이메일
+     */
+    private String getCurrentEmail() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        UserDetails principal = (UserDetails) authentication.getPrincipal();
+        return principal.getUsername();
+    }
 }
