@@ -56,6 +56,7 @@ public class MemberController {
 
         Map<String, String> token = socialService.login(code, loginType);
 
+        log.info(token.get("accessToken"));
         return ResponseEntity.ok()
                 .header("Set-Cookie", jwtCookieName + "=" + token.get("refreshToken") + "; HttpOnly; Max-Age=" + 1000L * 60 * 60 * 24 + "; SameSite=None; Secure")
                 .body(token.get("accessToken"));
