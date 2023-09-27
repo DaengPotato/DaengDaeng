@@ -26,6 +26,7 @@ const PetSelect = ({
   };
 
   const handleClickStartButton = () => {
+    if (!selectedPet) return;
     setStart(true);
   };
 

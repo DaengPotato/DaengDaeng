@@ -1,0 +1,28 @@
+.Question {
+  text-align: center;
+}
+
+.questionTitle {
+  font-size: 1.8rem;
+  font-weight: 800;
+  margin-bottom: 30px;
+}
+
+.answer {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.answerItem {
+  font-size: 1.6rem;
+  width: 300px;
+  background-color: var(--color-white);
+  padding: 20px;
+  border-radius: 100px;
+}
+
+.selected {
+  outline: 2px solid var(--color-orange);
+  background-color: var(--color-orange);
+}

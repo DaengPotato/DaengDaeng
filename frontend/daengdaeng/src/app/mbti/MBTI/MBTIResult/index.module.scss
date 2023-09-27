@@ -1,0 +1,72 @@
+.MBTIResult {
+  text-align: center;
+  height: calc(100dvh - 50px);
+  overflow: auto;
+}
+
+.mbti {
+  font-size: 2rem;
+  font-weight: 800;
+}
+
+.petImage {
+  padding: 30px;
+  & > img {
+    border-radius: 50%;
+  }
+}
+
+.mbtiRatioList {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.mbtiRatio {
+  display: flex;
+  align-items: center;
+}
+
+.progress {
+  width: 200px;
+  height: 30px;
+  background-color: var(--color-white);
+  border-radius: 50px;
+  position: relative;
+  margin: 5px;
+}
+
+.progressBar {
+  background-color: var(--color-orange);
+  height: 30px;
+  border-radius: 50px;
+  position: absolute;
+  top: 0;
+  right: 0;
+  z-index: 1;
+  &.left {
+    left: 0;
+  }
+}
+
+.oneThird {
+  width: 33%;
+}
+
+.twoThirds {
+  width: 66%;
+}
+
+.full {
+  width: 100%;
+}
+
+.type {
+  font-size: 20px;
+  width: 20px;
+  text-align: center;
+  &.selected {
+    font-weight: 800;
+    color: var(--color-orange);
+  }
+}

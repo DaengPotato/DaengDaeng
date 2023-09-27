@@ -13,26 +13,23 @@ type MBTITestProps = {
 
 const MBTITest = ({ pet, questions }: MBTITestProps) => {
   const [selectedTypes, setSelectedTypes] = useState<string[]>([]);
-  const [finish, setFinish] = useState<boolean>(false);
+  const [questionIndex, setQuestionIndex] = useState<number>(0);
 
   return (
     <>
-      {finish ? (
+      {questionIndex > 11 ? (
         <MBTIResult
           pet={pet}
           selectedTypes={selectedTypes}
-          totalCount={questions.length}
         />
       ) : (
         <div>
-          {questions.map((question) => (
-            <Question
-              key={question.questionId}
-              question={question}
-              setSelectedTypes={setSelectedTypes}
-              setFinish={setFinish}
-            />
-          ))}
+          <Question
+            key={questions[questionIndex].questionId}
+            question={questions[questionIndex]}
+            setSelectedTypes={setSelectedTypes}
+            setQuestionIndex={setQuestionIndex}
+          />
         </div>
       )}
     </>

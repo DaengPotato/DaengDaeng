@@ -3,9 +3,6 @@
 import React from 'react';
 import { useState } from 'react';
 
-import Modal from '@/src/components/common/Modal';
-import PlaceCarousel from '@/src/components/PlaceCarousel';
-
 import AddPetButton from './AddPetButton';
 import styles from './index.module.scss';
 import PetCarousel from './PetCarousel';
@@ -14,6 +11,8 @@ import PetRegistForm from './PetRegistForm';
 import type { PetDetail } from '@/src/types/pet';
 import type { Place } from '@/src/types/place';
 
+import Modal from '@/src/components/common/Modal';
+import PlaceCarousel from '@/src/components/PlaceCarousel';
 
 type MyPetsProps = {
   pets: PetDetail[];
