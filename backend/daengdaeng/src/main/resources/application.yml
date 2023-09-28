@@ -13,7 +13,7 @@ spa:
 
 kakao:
   rest-api-key: bbc1c00867e7b19dabe76d4afd823b22
-  redirect-uri: https://j9a103.p.ssafy.io
+  redirect-uri: https://j9a103.p.ssafy.io/kakao
 spring:
   security:
     oauth2:
@@ -54,12 +54,6 @@ spring:
   sql:
       init:
         mode: always
-#  datasource:
-#    driver-class-name: org.mariadb.jdbc.Driver
-#    hikari:
-#      username: ssafy
-#      password: ssafy
-#    url: jdbc:mariadb://localhost:3306/daengdb?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Seoul&zeroDateTimeBehavior=convertToNull&rewriteBatchedStatements=true
   datasource:
     driver-class-name: org.mariadb.jdbc.Driver
     hikari:

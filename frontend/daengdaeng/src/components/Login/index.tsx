@@ -8,7 +8,7 @@ import styles from './index.module.scss';
 const Login = () => {
   function kakaoLogin() {
     window.Kakao.Auth.authorize({
-      redirectUri: 'http://localhost:3126/kakao',
+      redirectUri: `${process.env.NEXT_PUBLIC_REDIRECT_URL}/kakao`,
     });
   }
 
