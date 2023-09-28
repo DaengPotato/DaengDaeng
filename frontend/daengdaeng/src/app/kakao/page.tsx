@@ -13,11 +13,9 @@ const Kakao: NextPage = () => {
   const searchParams = useSearchParams();
   const authCode = searchParams.get('code');
   const kakaoServerError = searchParams.get('error');
-  // const { code: authCode, error: kakaoServerError } = router.query;
 
   const loginHandler = useCallback(
     async (code: string | string[]) => {
-      console.log('code===============' + code);
       // 백엔드에 전송
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_API_URL}/member/login/KAKAO?code=${code}`,
@@ -25,12 +23,10 @@ const Kakao: NextPage = () => {
           method: 'POST',
         },
       );
-      // const data = await response.json();
 
       if (response.ok) {
         // 성공하면 홈으로 리다이렉트
         const accessToken = await response.text();
-        console.log(accessToken);
 
         if (typeof window !== 'undefined') {
           saveUser(accessToken);

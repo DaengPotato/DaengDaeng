@@ -8,6 +8,12 @@ import Head from './head';
 import AuthScript from '../components/common/AuthScript';
 import { ssurround } from '../styles/fonts';
 
+declare global {
+  interface Window {
+    Kakao: any;
+  }
+}
+
 export default function RootLayout({
   children,
 }: {
