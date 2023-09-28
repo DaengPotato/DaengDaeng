@@ -27,55 +27,73 @@ const MBTIResult = ({ pet, selectedTypes }: MBTIResultProps) => {
 
   const mbti = mbtiTypes.reduce((acc: string[], types: string[]) => {
     if (typeCounts[types[0]] > 1) acc.push(types[0]);
-    else acc.push(types[1]);
+    else acc.push(types[2]);
     return acc;
   }, []);
 
   return (
     <div className={styles.MBTIResult}>
-      <div className={styles.mbti}>{mbti.join('')}</div>
-      <div className={styles.petImage}>
-        <Image src={pet.image} width={100} height={100} alt="pet Image" />
-      </div>
-      <div className={styles.mbtiRatioList}>
-        {mbtiTypes.map((types, i) => {
-          const count: number = typeCounts[types[0]];
-          let widthClass: string;
+      <div className={styles.petMbti}>
+        <div className={styles.mbti}>{mbti.join('')}</div>
+        <div className={styles.petImage}>
+          <Image src={pet.image} width={100} height={100} alt="pet Image" />
+        </div>
+        <div className={styles.mbtiRatioList}>
+          {mbtiTypes.map((types, i) => {
+            const count: number = typeCounts[types[0]];
+            let widthClass: string;
 
-          if (count === 1) widthClass = styles.oneThird;
-          else if (count === 2) widthClass = styles.twoThirds;
-          else widthClass = styles.full;
+            if (count === 1) widthClass = styles.oneThird;
+            else if (count === 2) widthClass = styles.twoThirds;
+            else widthClass = styles.full;
 
-          console.log(types[0], count, widthClass);
-
-          return (
-            <div className={styles.mbtiRatio} key={i}>
-              <span
-                className={`${styles.type} ${
-                  count > 1 ? `${styles.selected}` : ''
-                }`}
-              >
-                {types[0]}
-              </span>
-              <div className={styles.progress}>
-                <div
-                  className={`${styles.progressBar} ${widthClass} ${
-                    count > 1 ? `${styles.left}` : ''
-                  }`}
-                ></div>
+            return (
+              <div className={styles.mbtiRatio} key={i}>
+                <div>
+                  <div
+                    className={`${styles.type} ${
+                      count > 1 ? `${styles.selected}` : ''
+                    }`}
+                  >
+                    {types[0]}
+                  </div>
+                  <div
+                    className={`${styles.typeDetail} ${
+                      count > 1 ? `${styles.selected}` : ''
+                    }`}
+                  >
+                    {types[1]}
+                  </div>
+                </div>
+                <div className={styles.progress}>
+                  <div
+                    className={`${styles.progressBar} ${widthClass} ${
+                      count > 1 ? `${styles.left}` : ''
+                    }`}
+                  ></div>
+                </div>
+                <div>
+                  <div
+                    className={`${styles.type} ${
+                      count > 1 ? '' : `${styles.selected}`
+                    }`}
+                  >
+                    {types[2]}
+                  </div>
+                  <div
+                    className={`${styles.typeDetail} ${
+                      count > 1 ? '' : `${styles.selected}`
+                    }`}
+                  >
+                    {types[3]}
+                  </div>
+                </div>
               </div>
-              <span
-                className={`${styles.type} ${
-                  count > 1 ? '' : `${styles.selected}`
-                }`}
-              >
-                {types[1]}
-              </span>
-            </div>
-          );
-        })}
+            );
+          })}
+        </div>
       </div>
-      {/* <div>
+      <div className={styles.placeRecommendation}>
         <div className={styles.placeRecommendHeader}>
           <span className={styles.title}>
             {mbti.join('')} 성향의 친구들이 좋아한 곳
@@ -86,7 +104,7 @@ const MBTIResult = ({ pet, selectedTypes }: MBTIResultProps) => {
           places={places}
           options={{ dragFree: true, containScroll: 'trimSnaps' }}
         />
-      </div> */}
+      </div>
     </div>
   );
 };

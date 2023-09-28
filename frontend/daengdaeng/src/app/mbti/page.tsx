@@ -1,16 +1,16 @@
 import React from 'react';
 
-import MBTITest from './MBTI';
+import MBTI from './MBTI';
 
 import type { mbtiQuestion } from '@/src/types/mbti';
 
-const MBTITestPage = () => {
+const MBTIPage = () => {
   // TODO: mbti 질문 리스트 fetch
 
-  return <MBTITest questions={questions} />;
+  return <MBTI questions={questions} />;
 };
 
-export default MBTITestPage;
+export default MBTIPage;
 
 // dummy data
 const questions: mbtiQuestion[] = [

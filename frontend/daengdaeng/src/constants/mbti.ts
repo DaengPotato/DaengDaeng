@@ -1,6 +1,6 @@
 export const mbtiTypes = [
-  ['E', 'I'],
-  ['S', 'N'],
-  ['O', 'H'],
-  ['W', 'D'],
+  ['E', 'Extraversion', 'I', 'Introversion'],
+  ['S', 'Social', 'N', 'Nonsocial'],
+  ['O', 'Outside', 'H', 'Home'],
+  ['W', 'Wet', 'D', 'Dry'],
 ];

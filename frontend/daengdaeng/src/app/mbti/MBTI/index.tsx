@@ -35,7 +35,7 @@ const MBTI = ({ questions }: MBTIProps) => {
   const [start, setStart] = useState<boolean>(false);
 
   return (
-    <div className={styles.MBTITest}>
+    <div className={styles.MBTI}>
       {!start ? (
         <PetSelect
           pets={pets}

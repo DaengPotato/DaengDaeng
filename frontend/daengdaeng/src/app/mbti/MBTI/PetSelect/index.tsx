@@ -31,7 +31,7 @@ const PetSelect = ({
   };
 
   return (
-    <>
+    <div className={styles.PetSelect}>
       <div className={styles.title}>댕BTI를 검사할 반려견을 선택해주세요.</div>
       <div className={styles.petList}>
         {pets.map((pet: PetDetail) => (
@@ -55,7 +55,7 @@ const PetSelect = ({
           검사 시작하기
         </Button>
       </div>
-    </>
+    </div>
   );
 };
 

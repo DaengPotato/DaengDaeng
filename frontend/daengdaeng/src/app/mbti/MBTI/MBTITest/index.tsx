@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 
+import styles from './index.module.scss';
 import MBTIResult from '../MBTIResult/index';
 import Question from '../Question';
 
@@ -16,12 +17,9 @@ const MBTITest = ({ pet, questions }: MBTITestProps) => {
   const [questionIndex, setQuestionIndex] = useState<number>(0);
 
   return (
-    <>
+    <div className={styles.MBTITest}>
       {questionIndex > 11 ? (
-        <MBTIResult
-          pet={pet}
-          selectedTypes={selectedTypes}
-        />
+        <MBTIResult pet={pet} selectedTypes={selectedTypes} />
       ) : (
         <div>
           <Question
@@ -32,7 +30,7 @@ const MBTITest = ({ pet, questions }: MBTITestProps) => {
           />
         </div>
       )}
-    </>
+    </div>
   );
 };
 
