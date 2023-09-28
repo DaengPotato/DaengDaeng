@@ -15,6 +15,10 @@ kakao:
   rest-api-key: bbc1c00867e7b19dabe76d4afd823b22
   redirect-uri: https://j9a103.p.ssafy.io/kakao
 spring:
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
   security:
     oauth2:
       client:
@@ -113,3 +117,15 @@ springfox:
   documentation:
     swagger:
       use-model-v3: 'false'
+cloud:
+  aws:
+    s3:
+      bucket: daengdaeng-bucket
+    region:
+      static: ap-northeast-2
+      auto: false
+    stack:
+      auto: false
+    credentials:
+      access-key: AKIAZPGUZGK2ELTIE55G
+      secret-key: 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
