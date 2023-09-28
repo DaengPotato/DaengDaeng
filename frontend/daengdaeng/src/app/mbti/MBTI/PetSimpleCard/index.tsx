@@ -18,7 +18,7 @@ const PetSimpleCard = ({ pet }: PetProps) => {
     <div className={styles.PetCard}>
       <div className={styles.header}>
         <div className={styles.name}>{pet.name}</div>
-        <PawIcon fill={primaryOrange} width={20} />
+        <PawIcon fill={primaryOrange} width={20} height={20} />
       </div>
       <div className={styles.petImage}>
         <Image src={pet.image} alt="pet image" width={120} height={120} />
