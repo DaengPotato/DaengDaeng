@@ -77,7 +77,6 @@ public class MemberController {
     @PostMapping("/reissue")
     public ResponseEntity<String> reissue(HttpServletRequest request) {
         Cookie[] cookies = request.getCookies();
-        log.info("cookies : {}", cookies);
 
         String refreshToken = null;
 

@@ -21,8 +21,11 @@ import java.util.stream.Collectors;
 @Builder
 public class CustomUserDetails implements UserDetails {
 
+    @Builder.Default
     private String username = null;
+    @Builder.Default
     private String password = null;
+    @Builder.Default
     private String authorities = null;
     private String email;
     private String nickname;
@@ -47,7 +50,7 @@ public class CustomUserDetails implements UserDetails {
 
     @Override
     public String getPassword() {
-       return null;
+        return null;
     }
 
     @Override
