@@ -4,7 +4,7 @@ import styles from './index.module.scss';
 
 type CardProps = {
   children: React.ReactNode;
-  isSelected: boolean;
+  isSelected?: boolean;
   onClick?: React.MouseEventHandler<HTMLDivElement>;
 };
 
