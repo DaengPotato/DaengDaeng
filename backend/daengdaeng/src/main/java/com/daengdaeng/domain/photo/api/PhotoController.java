@@ -36,14 +36,14 @@ public class PhotoController {
         return ResponseEntity.ok().body(photoService.findMyDaengCuts(cursor));
     }
 
-    @GetMapping("frame")
+    @GetMapping("/frame")
     // 댕댕네컷 프레임 조회. 프레임은 s3에 있음
     public ResponseEntity<FrameListResponse> seeFrames() {
         // s3에서 전체 댕댕네컷 프레임 조회
         return ResponseEntity.ok().body(photoService.findFrames());
     }
 
-    @PostMapping("upload/request")
+    @PostMapping("/upload/request")
     // 댕댕네컷 s3 업로드, 헤더 엑세스 토큰
     public ResponseEntity<String> uploadDaengCut(MultipartFile file, int placeId) {
         // s3에 업로드
