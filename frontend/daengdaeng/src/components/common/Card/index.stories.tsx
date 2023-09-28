@@ -5,6 +5,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 
 import Card from '.';
 
+import PetSimpleCard from '@/src/app/mbti/MBTI/PetSimpleCard';
 import PetCard from '@/src/app/mypets/MyPets/PetCard';
 
 const meta: Meta<typeof Card> = {
@@ -39,10 +40,29 @@ export const PlaceCardStory: Story = {
   },
 };
 
-export const Pet: Story = {
+export const PetDetail: Story = {
   args: {
     children: (
       <PetCard
+        pet={{
+          petId: 1,
+          name: '마루',
+          birth: '2020-10-15',
+          gender: true,
+          weight: 5,
+          image:
+            'https://i.namu.wiki/i/qLHBqQCkDCnivN_6TyTD4nGdLzRRA8cqsybsrH9foke0w56twTmnACNBhoab8dsGn5DPn03NR0TZw2HN1WRQuw.webp',
+          mbtiId: 1,
+        }}
+      />
+    ),
+  },
+};
+
+export const PetSimple: Story = {
+  args: {
+    children: (
+      <PetSimpleCard
         pet={{
           petId: 1,
           name: '마루',

@@ -1,0 +1,24 @@
+.PetCard {
+  padding: 15px;
+  text-align: center;
+}
+
+.header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+}
+
+.name {
+  font-size: 1.6rem;
+  font-weight: 800;
+  color: var(--color-orange);
+}
+
+.petImage {
+  margin-top: 10px;
+  & > img {
+    border-radius: 50%;
+  }
+}
