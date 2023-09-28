@@ -39,4 +39,4 @@ insert into mbti_question(question_id, question, answera, answerb, type_id) valu
 
 
 delete from category;
-insert into category (category) values ("여행지"), ("동물병원"), ("동물약국"), ("문예회관"), ("미술관"), ("미용"), ("박물관"), ("반려동물용품"),("식당"), ("위탁관리"), ("카페"), ("펜션"), ("호텔") ;
+insert into category (category_id, category) values (1, "여행지"), (2, "동물병원"), (3, "동물약국"), (4, "문예회관"), (5, "미술관"), (6, "미용"), (7, "박물관"), (8, "반려동물용품"),(9, "식당"), (10, "위탁관리"), (11, "카페"), (12, "펜션"), (13, "호텔") ;
