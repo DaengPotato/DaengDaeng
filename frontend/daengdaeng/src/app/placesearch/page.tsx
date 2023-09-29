@@ -1,5 +1,5 @@
 'use client';
-import { useCallback, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import PlaceSearch from '@/src/app/placesearch/PlaceSearch';
 
@@ -22,23 +22,30 @@ const categoryExample: Category[] = Array.from({ length: 5 }, (_, i) => ({
   category: `Category`,
 }));
 
-const PlaceSearchPage = async () => {
+const fetchCategories = async () => {
+  const response = await fetch(
+    `${process.env.NEXT_PUBLIC_API_URL}/place/category`,
+    {
+      method: 'GET',
+    },
+  );
+
+  if (!response.ok) {
+    throw new Error('카테고리 조회 실패');
+  }
+  const data = JSON.parse(await response.text());
+
+  return data;
+};
+
+const PlaceSearchPage = () => {
   const [categories, setCategories] = useState<Category[]>(categoryExample);
 
-  const fetchCategories = useCallback(async () => {
-    const response = await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL}/place/category`,
-    );
-    if (!response.ok) {
-      throw new Error('카테고리 조회 실패');
-    }
-    const data = await response.json();
-    setCategories(data);
-  }, []);
-
   useEffect(() => {
-    fetchCategories();
-  }, [fetchCategories]);
+    (async () => {
+      setCategories(await fetchCategories());
+    })();
+  }, [categories]);
 
   return <PlaceSearch location={location} categories={categories} />;
 };

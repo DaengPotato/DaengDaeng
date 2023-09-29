@@ -14,6 +14,31 @@ type LocationProps = {
 
 function KakaoMap({ location }: LocationProps) {
   const [locationDir, setState] = useState<Location>(location);
+  const [searchText, setSearchText] = useState<string>('');
+
+  const handleSearchText = (searchText: string) => {
+    setSearchText(searchText);
+  };
+
+  const handleSearchPlace = async () => {
+    // searchText 넘겨서 장소 리스트 받기
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/place?category=1&keyword=${searchText}&cursor=1`,
+      {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      },
+    );
+
+    if (!response.ok) {
+      throw new Error('장소 검색 실패');
+    }
+    const data = await response.json();
+    console.log(data);
+  };
+
   useEffect(() => {
     if (navigator.geolocation) {
       // GeoLocation을 이용해서 접속 위치를 얻어옵니다
@@ -36,8 +61,11 @@ function KakaoMap({ location }: LocationProps) {
       <Map center={locationDir.center} className={styles.mapContainer}>
         {locationDir.isLoading && <MapMarker position={locationDir.center} />}
         <div className={styles.formItem}>
-          <input type="text" />
-          <div onClick={() => console.log('click')}>
+          <input
+            type="text"
+            onChange={(word) => handleSearchText(word.target.value)}
+          />
+          <div onClick={() => handleSearchPlace()}>
             <SearchIcon />
           </div>
         </div>
