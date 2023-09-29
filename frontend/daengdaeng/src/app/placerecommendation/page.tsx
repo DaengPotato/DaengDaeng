@@ -13,8 +13,9 @@ const fetchPetList = async (token: string) => {
     method: 'GET',
     headers: { Authorization: `Bearer ${token}` },
   });
-  // const data = await res.json();
-  return res;
+  const data = JSON.parse(await res.text());
+
+  return data;
 };
 
 const fetchPetSpecificPlaces = async (token: string) => {
@@ -29,8 +30,6 @@ const fetchPetSpecificPlaces = async (token: string) => {
 
     const data = JSON.parse(await res.text());
 
-    console.log('....................응답.................', data);
-    // const data = await res.json();
     return data;
   }
 };
@@ -45,15 +44,15 @@ const fetchUserSpecificPlaces = async (token: string) => {
   );
 
   const data = JSON.parse(await res.text());
-  console.log(data);
 
-  // console.log('....................응답.................', data);
-  // const data = await res.json();
-  return res;
+  return data;
 };
 
 const PlaceRecommendationPage = () => {
   const [token, setToken] = useState<string | undefined>(undefined);
+  const [pets, setPets] = useState([]);
+  const [petSpecificPlaces, setPetSpecificPlaces] = useState([]);
+  const [userSpecificPlaces, setUserSpecificPlaces] = useState([]);
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
@@ -64,24 +63,29 @@ const PlaceRecommendationPage = () => {
   useEffect(() => {
     if (typeof token !== 'undefined') {
       (async () => {
-        console.log(token);
-        // const pets = await fetchPetList();
-        // await fetchPetList(token);
-        // // const petSpecificPlaces: PetSpecificPlaces[] = await fetchPetSpecificPlaces();
-        // await fetchPetSpecificPlaces(token);
-        // const userSpecificPlaces: Place[] = await fetchUserSpecificPlaces();
-        await fetchUserSpecificPlaces(token);
+        setPets(await fetchPetList(token));
+
+        setUserSpecificPlaces(await fetchUserSpecificPlaces(token));
       })();
     }
   }, [token]);
 
+  useEffect(() => {
+    if (typeof token !== 'undefined') {
+      (async () => {
+        if (pets.length !== 0) {
+          setPetSpecificPlaces(await fetchPetSpecificPlaces(token));
+        }
+      })();
+    }
+  }, [pets]);
+
   return (
-    // <PlaceRecommendation
-    //   pets={pets}
-    //   petSpecificPlaces={petSpecificPlaces}
-    //   userSpecificPlaces={userSpecificPlaces}
-    // />
-    <></>
+    <PlaceRecommendation
+      pets={pets}
+      petSpecificPlaces={petSpecificPlaces}
+      userSpecificPlaces={userSpecificPlaces}
+    />
   );
 };
 
