@@ -130,6 +130,11 @@ public class MemberController {
         return ResponseEntity.ok().build();
     }
 
+    @GetMapping
+    public ResponseEntity<FindMemberResponse> findMember() {
+        return ResponseEntity.ok().body(memberService.findMember());
+    }
+
     @ApiOperation(value = "로그아웃", notes = "로그아웃 하는 API")
     @ApiResponses({
             @ApiResponse(code = 200, message = "로그아웃 성공"),
