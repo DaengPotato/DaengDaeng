@@ -5,4 +5,5 @@ export type Location = {
   },
   errMsg: string | undefined,
   isLoading: boolean,
-}
+};
+

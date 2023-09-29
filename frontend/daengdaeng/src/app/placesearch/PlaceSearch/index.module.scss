@@ -3,3 +3,10 @@
   background-color: white;
   height: calc(100dvh - 50px);
 }
+
+.categoryContainer {
+  position: absolute;
+  width: 100%;
+  top: 16%;
+  z-index: 1;
+}
