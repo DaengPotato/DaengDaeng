@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 
-// import com.daengdaeng.domain.member.repository.HeartRepository;
 import com.daengdaeng.domain.member.repository.HeartRepository;
 import com.daengdaeng.domain.pet.repository.PetRepository;
 import com.daengdaeng.domain.place.domain.Place;
@@ -12,6 +11,7 @@ import com.daengdaeng.domain.place.dto.flask.PlaceForDogResponse;
 import com.daengdaeng.domain.place.dto.flask.PlaceForMemberResponse;
 import com.daengdaeng.domain.place.repository.PlaceRepository;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -40,6 +40,9 @@ public class FlaskPlaceServiceImpl implements FlaskPlaceService {
 	private final RestTemplate restTemplate;
 	private final HeartRepository heartRepository;
 
+	@Value("${flask-server.url}")
+	private String flaskUrl;
+
 	public List<PlaceForDogResponse> flaskGetPlaceForDogData(int memberId) {
 		HttpHeaders headers = new HttpHeaders();
 		headers.add("memberId", String.valueOf(memberId)); // memberId 헤더 추가
@@ -47,7 +50,7 @@ public class FlaskPlaceServiceImpl implements FlaskPlaceService {
 		HttpEntity<?> requestEntity = new HttpEntity<>(headers);
 
 		ResponseEntity<List<PlaceForDogResponse>> responseEntity = restTemplate.exchange(
-			"http://127.0.0.1:5000/recom/byMbti",
+				flaskUrl+"recom/byMbti",
 			HttpMethod.GET,
 			requestEntity,
 			new ParameterizedTypeReference<List<PlaceForDogResponse>>() {}
@@ -65,7 +68,7 @@ public class FlaskPlaceServiceImpl implements FlaskPlaceService {
 		HttpEntity<?> requestEntity = new HttpEntity<>(headers);
 
 		ResponseEntity<PlaceForMemberResponse> responseEntity = restTemplate.exchange(
-			"http://127.0.0.1:5000/recom/byReviewHeart",
+				flaskUrl+"recom/byReviewHeart",
 			HttpMethod.GET,
 			requestEntity,
 			new ParameterizedTypeReference<PlaceForMemberResponse>() {}

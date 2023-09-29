@@ -117,6 +117,10 @@ springfox:
   documentation:
     swagger:
       use-model-v3: 'false'
+
+flask-server:
+  url: https://j9a103.p.ssafy.io/rec/
+
 cloud:
   aws:
     s3:
