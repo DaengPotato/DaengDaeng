@@ -73,7 +73,9 @@ const PlaceRecommendationPage = () => {
   useEffect(() => {
     if (typeof token !== 'undefined') {
       (async () => {
-        setPetSpecificPlaces(await fetchPetSpecificPlaces(token));
+        if (pets.length !== 0) {
+          setPetSpecificPlaces(await fetchPetSpecificPlaces(token));
+        }
       })();
     }
   }, [pets]);
