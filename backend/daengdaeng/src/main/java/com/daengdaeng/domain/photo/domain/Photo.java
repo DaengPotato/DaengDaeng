@@ -24,11 +24,9 @@ public class Photo {
     @JoinColumn(name = "member_id", nullable = false)
     private Member member;
 
-
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "place_id")
     private Place place;
-
 
     @Builder
     public Photo(String image, Member member, Place place) {
