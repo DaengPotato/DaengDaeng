@@ -12,7 +12,7 @@ type CameraButtonProps = {
 const PhotoCamera = ({ onClick }: CameraButtonProps) => {
   return (
     <button className={styles.cameraButton} onClick={onClick}>
-      <CameraIcon width={20} height={30} fill={white} />
+      <CameraIcon width={30} height={30} fill={white} />
     </button>
   );
 };

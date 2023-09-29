@@ -1,16 +1,14 @@
-import { PassThrough } from 'stream';
 import styles from './index.module.scss';
 import PhotoCamera from './PhotoCamera';
+import PhotoPage from './PhotoPage';
 
 const DaengPhoto = async () => {
-  const handleClickCreaePhoto = () => {
-   
-  };
+  const handleClickCreatePhoto = () => {};
 
   return (
     <div>
       <div>
-        <PhotoCamera onClick={handleClickCreaePhoto} />
+        <PhotoCamera />
       </div>
       <div className={styles.container}>
         <div className={styles.photoList}>
@@ -20,7 +18,9 @@ const DaengPhoto = async () => {
             </div>
           ))}
         </div>
-        <div className={styles.pagebutton}></div>
+        <div className={styles.pagebutton}>
+          <PhotoPage />
+        </div>
       </div>
     </div>
   );
