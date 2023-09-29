@@ -8,11 +8,11 @@ import styles from './index.module.scss';
 
 import type { Location } from '@/src/types/placesearch';
 
-type LocationProps = {
+type KakaoMapProps = {
   location: Location;
 };
 
-function KakaoMap({ location }: LocationProps) {
+function KakaoMap({ location }: KakaoMapProps) {
   const [locationDir, setState] = useState<Location>(location);
   const [searchText, setSearchText] = useState<string>('');
 

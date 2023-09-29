@@ -3,7 +3,6 @@ import { useEffect, useState } from 'react';
 
 import PlaceSearch from '@/src/app/placesearch/PlaceSearch';
 
-import type { Category } from '@/src/types/category';
 import type { Location } from '@/src/types/placesearch';
 
 // dummy data
@@ -15,12 +14,6 @@ const location: Location = {
   errMsg: '',
   isLoading: true,
 };
-
-// dummy data
-const categoryExample: Category[] = Array.from({ length: 5 }, (_, i) => ({
-  categoryId: i + 1,
-  category: `Category`,
-}));
 
 const fetchCategories = async () => {
   const response = await fetch(
@@ -39,7 +32,7 @@ const fetchCategories = async () => {
 };
 
 const PlaceSearchPage = () => {
-  const [categories, setCategories] = useState<Category[]>(categoryExample);
+  const [categories, setCategories] = useState([]);
 
   useEffect(() => {
     (async () => {
