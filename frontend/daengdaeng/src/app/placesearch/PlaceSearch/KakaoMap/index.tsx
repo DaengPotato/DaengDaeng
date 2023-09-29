@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 
 import { Map, MapMarker } from 'react-kakao-maps-sdk';
 
+import { SearchIcon } from '@/public/icons';
+
 import styles from './index.module.scss';
 
 import type { Location } from '@/src/types/placesearch';
@@ -33,6 +35,12 @@ function KakaoMap({ location }: LocationProps) {
     <>
       <Map center={locationDir.center} className={styles.mapContainer}>
         {locationDir.isLoading && <MapMarker position={locationDir.center} />}
+        <div className={styles.formItem}>
+          <input type="text" />
+          <div onClick={() => console.log('click')}>
+            <SearchIcon />
+          </div>
+        </div>
       </Map>
     </>
   );
