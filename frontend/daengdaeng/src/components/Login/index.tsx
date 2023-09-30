@@ -10,8 +10,19 @@ import styles from './index.module.scss';
 const Login = () => {
   function kakaoLogin() {
     window.Kakao.Auth.authorize({
-      redirectUri: `${process.env.NEXT_PUBLIC_REDIRECT_URL}/kakao`,
+      redirectUri: `${process.env.NEXT_PUBLIC_REDIRECT_URL}/kakao?type=KAKAO`,
     });
+  }
+
+  function googleLogin() {
+    const googleAuthUrl =
+      'https://accounts.google.com/o/oauth2/auth?client_id=' +
+      process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID +
+      '&redirect_uri=' +
+      process.env.NEXT_PUBLIC_REDIRECT_URL +
+      '/kakao?type=GOOGLE' +
+      '&response_type=code&scope=https://www.googleapis.com/auth/userinfo.email+https://www.googleapis.com/auth/userinfo.profile+openid';
+    window.location.href = googleAuthUrl;
   }
 
   return (
@@ -28,7 +39,10 @@ const Login = () => {
           <Image src={SymbolKakao} height={24} alt="logo-kakao" />
           <span>카카오로 로그인하기</span>
         </button>
-        <button className={`${styles.Body} ${styles.LoginGoogle}`}>
+        <button
+          className={`${styles.Body} ${styles.LoginGoogle}`}
+          onClick={googleLogin}
+        >
           <Image src={SymbolGoogle} height={24} alt="login-google" />
           <span>Google로 로그인하기</span>
         </button>

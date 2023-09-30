@@ -11,14 +11,15 @@ import type { NextPage } from 'next';
 const Kakao: NextPage = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
+  const loginType = searchParams.get('type');
   const authCode = searchParams.get('code');
   const kakaoServerError = searchParams.get('error');
 
   const loginHandler = useCallback(
-    async (code: string | string[]) => {
+    async (type: string, code: string | string[]) => {
       // 백엔드에 전송
       const response = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/member/login/KAKAO?code=${code}`,
+        `${process.env.NEXT_PUBLIC_API_URL}/member/login/${type}?code=${code}`,
         {
           method: 'POST',
         },
@@ -41,8 +42,8 @@ const Kakao: NextPage = () => {
   );
 
   useEffect(() => {
-    if (authCode) {
-      loginHandler(authCode);
+    if (loginType && authCode) {
+      loginHandler(loginType, authCode);
       console.log('loginHandler 완');
       // 인가코드를 제대로 못 받았을 경우에 에러 페이지를 띄운다.
     } else if (kakaoServerError) {
