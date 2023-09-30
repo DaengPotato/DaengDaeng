@@ -11,13 +11,13 @@ type KakaoMapProps = {
 };
 
 function KakaoMap({ location }: KakaoMapProps) {
-  const [locationDir, setState] = useState<Location>(location);
+  const [locationDir, setLocationDir] = useState<Location>(location);
 
   useEffect(() => {
     if (navigator.geolocation) {
       // GeoLocation을 이용해서 접속 위치를 얻어옵니다
       navigator.geolocation.getCurrentPosition((position) => {
-        setState((prev) => ({
+        setLocationDir((prev) => ({
           ...prev,
           center: {
             lat: position.coords.latitude, // 위도
