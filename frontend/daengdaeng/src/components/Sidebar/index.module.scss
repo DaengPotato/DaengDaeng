@@ -36,3 +36,16 @@
   }
   margin-bottom: 20px;
 }
+
+.bottom {
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+  text-align: center;
+  bottom: 5vh;
+}
+
+.userBtn {
+  padding: 0 5px;
+}

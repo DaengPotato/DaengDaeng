@@ -230,7 +230,7 @@ public class SocialServiceImpl implements SocialService {
 
     @Override
     public void logout(String email) {
-        if (memberRepository.findByEmail(email).get().getLoginType().equals("GOOGLE"))
+        if (memberRepository.findByEmail(email).get().getLoginType().toString().equals("GOOGLE"))
             return;
 
         String url = "https://kapi.kakao.com/v1/user/logout";
@@ -251,7 +251,7 @@ public class SocialServiceImpl implements SocialService {
     public void removeMember(String email) {
         String token = loginAccessTokenRedisRepository.findById(email).get().getLoginAccessToken();
 
-        if (memberRepository.findByEmail(email).get().getLoginType().equals("KAKAO")) {
+        if (memberRepository.findByEmail(email).get().getLoginType().toString().equals("KAKAO")) {
             String url = "https://kapi.kakao.com/v1/user/unlink";
             WebClient webClient = WebClient.create(url);
             webClient.post()
