@@ -38,7 +38,7 @@ const PlaceSearchPage = () => {
     (async () => {
       setCategories(await fetchCategories());
     })();
-  }, [categories]);
+  }, []);
 
   return <PlaceSearch location={location} categories={categories} />;
 };

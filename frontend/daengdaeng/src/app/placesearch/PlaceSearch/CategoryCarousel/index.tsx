@@ -12,9 +12,14 @@ import type { EmblaOptionsType } from 'embla-carousel-react';
 type CarouselProps = {
   categories: Category[];
   options?: EmblaOptionsType;
+  onClickCategory: (categoryId: number) => void;
 };
 
-const CategoryCarousel = ({ categories, options }: CarouselProps) => {
+const CategoryCarousel = ({
+  categories,
+  options,
+  onClickCategory,
+}: CarouselProps) => {
   const [emblaRef, _] = useEmblaCarousel(options);
 
   return (
@@ -23,7 +28,7 @@ const CategoryCarousel = ({ categories, options }: CarouselProps) => {
         <div className={styles.container}>
           {categories.map((category, i) => (
             <div className={styles.slide} key={i}>
-              <CategoryCard category={category} />
+              <CategoryCard category={category} onClick={onClickCategory} />
             </div>
           ))}
         </div>
