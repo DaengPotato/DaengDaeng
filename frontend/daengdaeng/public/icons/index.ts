@@ -7,6 +7,7 @@ import LeftIcon from './left-icon.svg';
 import PawIcon from './paw-icon.svg';
 import ReloadIcon from './reload-icon.svg';
 import RightIcon from './right-icon.svg';
+import SearchIcon from './search-icon.svg';
 
 export {
   AddIcon,
@@ -18,4 +19,5 @@ export {
   CameraIcon,
   LeftIcon,
   RightIcon,
+    SearchIcon
 };

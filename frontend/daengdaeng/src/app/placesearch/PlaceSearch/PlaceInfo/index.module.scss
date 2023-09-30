@@ -1,0 +1,27 @@
+.placeContainer {
+  background-color: white;
+  padding: 4rem 2rem;
+  margin: 10px 10px;
+  border-radius: 10px;
+}
+
+.title {
+  width: 100%;
+  font-weight: 800;
+  font-size: 1.6rem;
+  margin-top: 10px;
+}
+
+.address {
+  width: 100%;
+  font-size: 1.4rem;
+  margin-top: 10px;
+}
+
+.likeBtn {
+  width: fit-content;
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  z-index: 5;
+}
