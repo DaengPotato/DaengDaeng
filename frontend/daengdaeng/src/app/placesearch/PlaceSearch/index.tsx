@@ -21,7 +21,8 @@ type PlaceSearchProps = {
 
 const PlaceSearch = ({ location, categories }: PlaceSearchProps) => {
   const [token, setToken] = useState<string | undefined>(undefined);
-  const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [viewMode, setViewMode] = useState<'map' | 'results'>('map');
+  // const [isOpen, setIsOpen] = useState<boolean>(false);
   const [searchResults, setSearchResults] = useState<Place[]>([]);
   const [selectedCategoryId, setSelectedCategoryId] = useState<number>(0);
   const [searchText, setSearchText] = useState<string>('');
@@ -29,16 +30,16 @@ const PlaceSearch = ({ location, categories }: PlaceSearchProps) => {
   const handleSearchPlace = (searchText: string) => {
     setSearchText(searchText);
     if (typeof token !== 'undefined') {
-      fetchSearchPlace(token);
+      fetchSearchPlace(token, searchText);
     }
   };
 
-  const fetchSearchPlace = async (token: string) => {
+  const fetchSearchPlace = async (token: string, searchText: string) => {
     let url = '';
     if (selectedCategoryId == 0) {
-      url = `${process.env.NEXT_PUBLIC_API_URL}/place?keyword=${searchText}&cursor=1`;
+      url = `${process.env.NEXT_PUBLIC_API_URL}/place?category&keyword=${searchText}&cursor=0`;
     } else {
-      url = `${process.env.NEXT_PUBLIC_API_URL}/place?category=${selectedCategoryId}&keyword=${searchText}&cursor=1`;
+      url = `${process.env.NEXT_PUBLIC_API_URL}/place?category=${selectedCategoryId}&keyword=${searchText}&cursor=0`;
     }
     const response = await fetch(url, {
       method: 'GET',
@@ -54,18 +55,20 @@ const PlaceSearch = ({ location, categories }: PlaceSearchProps) => {
     } else {
       console.error('API response is not an array:', data);
     }
-    setIsOpen(true);
+    // setIsOpen(true);
+    setViewMode('results');
   };
 
   const handleClickPlaceInfo = (placeId: number) => {
     console.log(placeId);
-    setIsOpen(false);
+    // setIsOpen(false);
+    setViewMode('map');
   };
 
   const handleClickCategory = (categoryId: number) => {
     setSelectedCategoryId(categoryId);
     if (typeof token !== 'undefined') {
-      fetchSearchPlace(token);
+      fetchSearchPlace(token, searchText);
     }
   };
 
@@ -77,7 +80,7 @@ const PlaceSearch = ({ location, categories }: PlaceSearchProps) => {
 
   return (
     <>
-      {isOpen ? (
+      {viewMode === 'results' ? (
         <div className={styles.placeListContainer}>
           {searchResults.map((result, i) => (
             <div
@@ -94,7 +97,7 @@ const PlaceSearch = ({ location, categories }: PlaceSearchProps) => {
           <KakaoMap location={location} />
         </div>
       )}
-      <Search isOpen={isOpen} onSearch={handleSearchPlace} />
+      <Search isOpen={viewMode === 'results'} onSearch={handleSearchPlace} />
       <div className={styles.categoryContainer}>
         <CategoryCarousel
           categories={categories}
