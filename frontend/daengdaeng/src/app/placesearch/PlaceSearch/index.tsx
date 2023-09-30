@@ -46,6 +46,8 @@ const PlaceSearch = ({ location, categories }: PlaceSearchProps) => {
 
   const handleClickPlaceInfo = (placeId: number) => {
     console.log(placeId);
+    setIsOpen(false);
+    
   };
 
   return (
