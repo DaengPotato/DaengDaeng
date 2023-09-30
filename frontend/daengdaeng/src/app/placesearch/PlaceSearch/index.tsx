@@ -1,6 +1,8 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+
+import { getUser } from '@/src/hooks/useLocalStorage';
 
 import CategoryCarousel from './CategoryCarousel';
 import styles from './index.module.scss';
@@ -18,19 +20,31 @@ type PlaceSearchProps = {
 };
 
 const PlaceSearch = ({ location, categories }: PlaceSearchProps) => {
-  const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [token, setToken] = useState<string | undefined>(undefined);
+  const [viewMode, setViewMode] = useState<'map' | 'results'>('map');
+  // const [isOpen, setIsOpen] = useState<boolean>(false);
   const [searchResults, setSearchResults] = useState<Place[]>([]);
+  const [selectedCategoryId, setSelectedCategoryId] = useState<number>(0);
+  const [searchText, setSearchText] = useState<string>('');
 
-  const handleSearchPlace = async (searchText: string) => {
-    const response = await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL}/place?category=1&keyword=${searchText}&cursor=1`,
-      {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      },
-    );
+  const handleSearchPlace = (searchText: string) => {
+    setSearchText(searchText);
+    if (typeof token !== 'undefined') {
+      fetchSearchPlace(token, searchText);
+    }
+  };
+
+  const fetchSearchPlace = async (token: string, searchText: string) => {
+    let url = '';
+    if (selectedCategoryId == 0) {
+      url = `${process.env.NEXT_PUBLIC_API_URL}/place?category&keyword=${searchText}&cursor=0`;
+    } else {
+      url = `${process.env.NEXT_PUBLIC_API_URL}/place?category=${selectedCategoryId}&keyword=${searchText}&cursor=0`;
+    }
+    const response = await fetch(url, {
+      method: 'GET',
+      headers: { Authorization: `Bearer ${token}` },
+    });
 
     if (!response.ok) {
       throw new Error('장소 검색 실패');
@@ -41,18 +55,32 @@ const PlaceSearch = ({ location, categories }: PlaceSearchProps) => {
     } else {
       console.error('API response is not an array:', data);
     }
-    setIsOpen(true);
+    // setIsOpen(true);
+    setViewMode('results');
   };
 
   const handleClickPlaceInfo = (placeId: number) => {
     console.log(placeId);
-    setIsOpen(false);
-
+    // setIsOpen(false);
+    setViewMode('map');
   };
+
+  const handleClickCategory = (categoryId: number) => {
+    setSelectedCategoryId(categoryId);
+    if (typeof token !== 'undefined') {
+      fetchSearchPlace(token, searchText);
+    }
+  };
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      setToken(getUser() as string);
+    }
+  }, []);
 
   return (
     <>
-      {isOpen ? (
+      {viewMode === 'results' ? (
         <div className={styles.placeListContainer}>
           {searchResults.map((result, i) => (
             <div
@@ -69,11 +97,12 @@ const PlaceSearch = ({ location, categories }: PlaceSearchProps) => {
           <KakaoMap location={location} />
         </div>
       )}
-      <Search isOpen={isOpen} onSearch={handleSearchPlace} />
+      <Search isOpen={viewMode === 'results'} onSearch={handleSearchPlace} />
       <div className={styles.categoryContainer}>
         <CategoryCarousel
           categories={categories}
           options={{ dragFree: true, containScroll: 'trimSnaps' }}
+          onClickCategory={handleClickCategory}
         />
       </div>
     </>

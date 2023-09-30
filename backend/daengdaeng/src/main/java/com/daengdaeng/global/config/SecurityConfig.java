@@ -39,7 +39,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.authorizeRequests()
             .mvcMatchers("/",  "/swagger-resources/**", "/swagger-ui/**", "/v3/api-docs", "/swagger-ui/index.html").permitAll()
             .antMatchers(HttpMethod.POST, "/member/login/*", "/member/reissue").permitAll()
-            .antMatchers(HttpMethod.GET, "/member/nicknameCheck/*").permitAll()
+            .antMatchers(HttpMethod.GET, "/member/nicknameCheck/*", "/place/category").permitAll()
             .anyRequest().authenticated();
 
         // 예외 처리 설정
