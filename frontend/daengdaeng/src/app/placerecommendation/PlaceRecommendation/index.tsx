@@ -8,6 +8,7 @@ import RecommendedPlaceList from './RecommendedPlaceList';
 
 import type { PetSimple } from '@/src/types/pet';
 import type { PetSpecificPlaces, Place } from '@/src/types/place';
+import { getUserInfo } from '@/src/hooks/useLocalStorage';
 
 type PlaceRecommendationProps = {
   pets: PetSimple[];
@@ -23,8 +24,7 @@ const PlaceRecommendation = ({
   const initialCheckedPets = pets.map((pet) => pet.petId);
   const [checkedPets, setCheckedPets] = useState<number[]>(initialCheckedPets);
 
-  // TODO: 사용자 이름 가져오기
-  const userName = '김민지';
+  const userName = getUserInfo()?.nickname as string;
 
   return (
     <div className={styles.PlaceRecommendation}>
