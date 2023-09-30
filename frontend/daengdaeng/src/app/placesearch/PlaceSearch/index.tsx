@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 
+import PlaceDetail from '@/src/components/PlaceDetail';
 import { getUser } from '@/src/hooks/useLocalStorage';
 
 import CategoryCarousel from './CategoryCarousel';
@@ -11,7 +12,7 @@ import PlaceInfo from './PlaceInfo';
 import Search from './Search';
 
 import type { Category } from '@/src/types/category';
-import type { Place } from '@/src/types/place';
+import type { Place, PlaceWithReview } from '@/src/types/place';
 import type { Location } from '@/src/types/placesearch';
 
 type PlaceSearchProps = {
@@ -22,10 +23,15 @@ type PlaceSearchProps = {
 const PlaceSearch = ({ location, categories }: PlaceSearchProps) => {
   const [token, setToken] = useState<string | undefined>(undefined);
   const [viewMode, setViewMode] = useState<'map' | 'results'>('map');
-  // const [isOpen, setIsOpen] = useState<boolean>(false);
   const [searchResults, setSearchResults] = useState<Place[]>([]);
   const [selectedCategoryId, setSelectedCategoryId] = useState<number>(0);
   const [searchText, setSearchText] = useState<string>('');
+  const [selectedPlaceId, setSelectedPlaceId] = useState<number | undefined>(
+    undefined,
+  ); 
+  const [selectedPlaceWithReview, setSelectedPlaceWithReview] = useState<
+    PlaceWithReview | undefined
+  >(undefined);
 
   const handleSearchPlace = (searchText: string) => {
     setSearchText(searchText);
@@ -55,14 +61,33 @@ const PlaceSearch = ({ location, categories }: PlaceSearchProps) => {
     } else {
       console.error('API response is not an array:', data);
     }
-    // setIsOpen(true);
     setViewMode('results');
   };
 
+  const fetchPlaceWithReview = async (token: string, placeId: number) => {
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/place/${placeId}`,
+      {
+        method: 'GET',
+        headers: { Authorization: `Bearer ${token}` },
+      },
+    );
+
+    if (!response.ok) {
+      throw new Error('장소 상세 정보 조회 실패');
+    }
+
+    const data = await response.json();
+    console.log(data);
+    setSelectedPlaceWithReview(data);
+  };
+
   const handleClickPlaceInfo = (placeId: number) => {
-    console.log(placeId);
-    // setIsOpen(false);
     setViewMode('map');
+    setSelectedPlaceId(placeId);
+    if (typeof token !== 'undefined') {
+      fetchPlaceWithReview(token, placeId);
+    }
   };
 
   const handleClickCategory = (categoryId: number) => {
@@ -97,7 +122,7 @@ const PlaceSearch = ({ location, categories }: PlaceSearchProps) => {
           <KakaoMap location={location} />
         </div>
       )}
-      <Search isOpen={viewMode === 'results'} onSearch={handleSearchPlace} />
+      <Search onSearch={handleSearchPlace} />
       <div className={styles.categoryContainer}>
         <CategoryCarousel
           categories={categories}
@@ -105,6 +130,14 @@ const PlaceSearch = ({ location, categories }: PlaceSearchProps) => {
           onClickCategory={handleClickCategory}
         />
       </div>
+
+      {selectedPlaceId !== undefined && (
+        <></>
+        // <PlaceDetail
+        //   placeWithReview={selectedPlaceWithReview}
+        //   handleClose={() => setSelectedPlaceId(undefined)}
+        // />
+      )}
     </>
   );
 };
