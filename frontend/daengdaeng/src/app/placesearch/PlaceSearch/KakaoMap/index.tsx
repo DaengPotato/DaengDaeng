@@ -2,8 +2,6 @@ import React, { useEffect, useState } from 'react';
 
 import { Map, MapMarker } from 'react-kakao-maps-sdk';
 
-import { SearchIcon } from '@/public/icons';
-
 import styles from './index.module.scss';
 
 import type { Location } from '@/src/types/placesearch';
@@ -14,30 +12,6 @@ type KakaoMapProps = {
 
 function KakaoMap({ location }: KakaoMapProps) {
   const [locationDir, setState] = useState<Location>(location);
-  const [searchText, setSearchText] = useState<string>('');
-
-  const handleSearchText = (searchText: string) => {
-    setSearchText(searchText);
-  };
-
-  const handleSearchPlace = async () => {
-    // searchText 넘겨서 장소 리스트 받기
-    const response = await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL}/place?category=1&keyword=${searchText}&cursor=1`,
-      {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      },
-    );
-
-    if (!response.ok) {
-      throw new Error('장소 검색 실패');
-    }
-    const data = await response.json();
-    console.log(data);
-  };
 
   useEffect(() => {
     if (navigator.geolocation) {
@@ -60,15 +34,6 @@ function KakaoMap({ location }: KakaoMapProps) {
     <>
       <Map center={locationDir.center} className={styles.mapContainer}>
         {locationDir.isLoading && <MapMarker position={locationDir.center} />}
-        <div className={styles.formItem}>
-          <input
-            type="text"
-            onChange={(word) => handleSearchText(word.target.value)}
-          />
-          <div onClick={() => handleSearchPlace()}>
-            <SearchIcon />
-          </div>
-        </div>
       </Map>
     </>
   );

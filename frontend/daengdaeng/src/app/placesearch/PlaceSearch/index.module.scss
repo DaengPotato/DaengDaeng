@@ -4,10 +4,22 @@
   height: calc(100dvh - 50px);
 }
 
+.placeListContainer {
+  margin: auto 10%;
+  margin-top: 35%;
+}
+
 .categoryContainer {
   position: absolute;
   width: 100%;
   top: 16%;
   left: 5%;
   z-index: 1;
+}
+
+.slide {
+  flex: 0 0 var(--slide-size);
+  min-width: 0;
+  padding-left: var(--slide-spacing);
+  position: relative;
 }
