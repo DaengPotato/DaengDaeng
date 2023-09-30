@@ -1,0 +1,20 @@
+.container {
+  padding: 30px 20px;
+}
+
+.photoList {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.photo {
+  height: 400px;
+  width: 150px;
+  background-color: aliceblue;
+  margin: 12px;
+}
+
+.pagebutton {
+  height: 50px;
+  padding-top: 10px;
+}
