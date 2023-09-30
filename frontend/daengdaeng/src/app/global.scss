@@ -62,12 +62,11 @@ table {
   vertical-align: baseline;
 }
 html {
-  height: 100vh;
+  height: 100dvh;
 }
 body {
   line-height: 1;
   margin-bottom: 100px;
-  height: 100vh;
 }
 ol,
 ul {
@@ -93,7 +92,8 @@ body {
     /* 화면 너비가 500px 이하가 되면 요소 너비를 100%로 고정*/
     width: 100vw;
   }
-  height: 100dvh;
   background-color: #fff0de;
   position: relative;
+  height: 100dvh;
+  overflow: auto;
 }
