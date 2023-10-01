@@ -2,11 +2,13 @@ import type { Dispatch, SetStateAction } from 'react';
 
 import Image from 'next/image';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+
+import styles from './index.module.scss';
+import Button from '../common/Button';
 
 import { CloseIcon } from '@/public/icons';
 import TextLogo from '@/public/images/text-logo.png';
-
-import styles from './index.module.scss';
 import {
   getUser,
   removeUser,
@@ -31,10 +33,6 @@ const menuItems = [
     href: '/daengphoto',
   },
   {
-    label: 'Login',
-    href: '/login',
-  },
-  {
     label: '여행지 검색',
     href: '/placesearch',
   },
@@ -47,8 +45,17 @@ const Sidebar = ({
   isMenuOpen: boolean;
   setIsMenuOpen: Dispatch<SetStateAction<boolean>>;
 }) => {
+  const router = useRouter();
+
   const handleCloseMenu = () => {
     setIsMenuOpen(false);
+    const rootDiv = document.querySelector<HTMLDivElement>('#rootDiv');
+    rootDiv!.style.overflow = 'auto';
+  };
+
+  const handleClickLogin = () => {
+    router.push('/login');
+    handleCloseMenu();
   };
 
   const logout = async () => {
@@ -117,6 +124,16 @@ const Sidebar = ({
             <Image src={TextLogo} height={25} alt="textlogo" />
           </Link>
         </div>
+      </div>
+      <div className={styles.login}>
+        <Button
+          size={'small'}
+          backgroundColor={'orange'}
+          icon={true}
+          onClick={handleClickLogin}
+        >
+          로그인
+        </Button>
       </div>
       <ul className={styles.menu}>
         {menuItems.map((item) => (

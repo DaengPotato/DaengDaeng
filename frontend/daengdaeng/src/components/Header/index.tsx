@@ -5,24 +5,35 @@ import { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 
+import styles from './index.module.scss';
+import Sidebar from '../Sidebar';
+
 import { HamburgerMenuIcon } from '@/public/icons';
 import BlankProfileImg from '@/public/images/blank-profile.webp';
 import TextLogo from '@/public/images/text-logo.png';
-
-import styles from './index.module.scss';
-import Sidebar from '../Sidebar';
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
 
   const handleOpenSideMenuBar = () => {
     setIsMenuOpen((prev) => !prev);
+    const rootDiv = document.querySelector<HTMLDivElement>('#rootDiv');
+    rootDiv!.style.overflow = 'hidden';
+  };
+
+  const handleCloseSidebar = () => {
+    setIsMenuOpen(false);
+    const rootDiv = document.querySelector<HTMLDivElement>('#rootDiv');
+    rootDiv!.style.overflow = 'auto';
   };
 
   return (
     <div className={styles.header}>
       <div className={styles.left}>
-        <button onClick={handleOpenSideMenuBar} className={styles.hamburgerMenuBtn}>
+        <button
+          onClick={handleOpenSideMenuBar}
+          className={styles.hamburgerMenuBtn}
+        >
           <HamburgerMenuIcon width="40px" height="40px" />
         </button>
         <div className={styles.iconContainer}>
@@ -37,7 +48,10 @@ const Header = () => {
         </div>
       </div>
       {isMenuOpen && (
-        <Sidebar isMenuOpen={isMenuOpen} setIsMenuOpen={setIsMenuOpen} />
+        <>
+          <div className={styles.background} onClick={handleCloseSidebar}></div>
+          <Sidebar isMenuOpen={isMenuOpen} setIsMenuOpen={setIsMenuOpen} />
+        </>
       )}
     </div>
   );

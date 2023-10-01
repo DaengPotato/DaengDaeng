@@ -1,11 +1,11 @@
 import Image from 'next/image';
 
+import styles from './index.module.scss';
+
 import Logo from '@/public/images/logo192.png';
-import TextLogo from '@/public/images/text-logo.png';
 import SymbolGoogle from '@/public/images/symbol-google.png';
 import SymbolKakao from '@/public/images/symbol-kakao.png';
-
-import styles from './index.module.scss';
+import TextLogo from '@/public/images/text-logo.png';
 
 const Login = () => {
   function kakaoLogin() {
