@@ -21,3 +21,20 @@
 .moreBtn {
   font-size: 1.4rem;
 }
+
+.nodata {
+  text-align: center;
+  height: 300px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  justify-content: center;
+  & > .nodataTitle {
+    font-size: 1.6rem;
+  }
+  & > .nodataButton {
+    width: fit-content;
+    margin: 0 auto;
+  }
+}
