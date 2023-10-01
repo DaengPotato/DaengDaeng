@@ -4,7 +4,6 @@ import './global.scss';
 
 import Head from './head';
 import AuthScript from '../components/common/AuthScript';
-import RecoilRootWrapper from '../components/common/RecoilRootWrapper';
 import { ssurround } from '../styles/fonts';
 
 import Header from '@/src/components/Header';
@@ -25,10 +24,8 @@ export default function RootLayout({
       <Head></Head>
       <body className={`${ssurround.className}`}>
         <div id="rootDiv" className="fixed-width">
-          <RecoilRootWrapper>
-            <Header />
-            {children}
-          </RecoilRootWrapper>
+          <Header />
+          {children}
         </div>
         <AuthScript />
       </body>
