@@ -8,6 +8,7 @@ import RecommendedPlaceList from './RecommendedPlaceList';
 
 import type { PetSimple } from '@/src/types/pet';
 import type { PetSpecificPlaces, Place } from '@/src/types/place';
+
 import { getUserInfo } from '@/src/hooks/useLocalStorage';
 
 type PlaceRecommendationProps = {
