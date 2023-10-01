@@ -130,12 +130,24 @@
   height: 100%;
   margin-top: 8px;
   padding: 0 12px 0 24px;
-  & > .currentMonth {
-    font-size: 1.6rem;
-  }
 }
 
 .monthBtn {
   display: flex;
   align-items: center;
+}
+
+.yearSelect {
+  border: none;
+  font-size: 1.6rem;
+}
+
+.currentYearMonth {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.currentMonth {
+  font-size: 1.6rem;
 }
