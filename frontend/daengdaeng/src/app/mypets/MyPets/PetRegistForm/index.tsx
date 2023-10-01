@@ -11,12 +11,14 @@ import { Controller, useForm } from 'react-hook-form';
 
 import styles from './index.module.scss';
 
-import type { StaticImageData } from 'next/image';
+import type { PetDetail } from '@/src/types/pet';
+import type { FieldValues } from 'react-hook-form';
 
 import { NextArrowIcon, PawIcon, PrevArrowIcon } from '@/public/icons';
-import BlankProfileImg from '@/public/images/blank-profile.webp';
 import Button from '@/src/components/common/Button';
 import ErrorMessage from '@/src/components/ErrorMessage';
+import { YEARS } from '@/src/constants/calendar';
+import { getUser } from '@/src/hooks/useLocalStorage';
 import { gray, primaryOrange } from '@/src/styles/colors';
 import { validatePetName } from '@/src/utils/validate';
 
@@ -26,12 +28,28 @@ type PetRegistFormProps = {
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
+const createPet = async (token: string, pet: PetDetail) => {
+  try {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/pet`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(pet),
+    });
+
+    if (!res.ok) {
+      throw new Error(`HTTP error! Status: ${res.status}`);
+    }
+  } catch (err) {
+    console.error(err);
+  }
+};
+
 const PetRegistForm = ({ setIsOpen }: PetRegistFormProps) => {
-  const [petImage, setPetImage] = useState<string | StaticImageData>(
-    BlankProfileImg,
-  );
+  const [petImage, setPetImage] = useState<string | null>(null);
   const [selectedGender, setSelectedGender] = useState<string>('');
-  const [date, setDate] = useState<Date | null>(null);
 
   const {
     register,
@@ -65,7 +83,7 @@ const PetRegistForm = ({ setIsOpen }: PetRegistFormProps) => {
   };
 
   const handleRemoveImage = () => {
-    setPetImage(BlankProfileImg);
+    setPetImage(null);
     if (petImageInput.current) {
       petImageInput.current.value = '';
     }
@@ -77,17 +95,30 @@ const PetRegistForm = ({ setIsOpen }: PetRegistFormProps) => {
     }
   };
 
-  const handleRegist = async () => {
+  const handleRegist = async (data: FieldValues) => {
     // TODO: 강아지 등록 api
-    console.log('submitted');
 
-    //   {
-    //     "name": String,
-    //     "birth": Date,
-    //     "gender": boolean,
-    //     "weight": float,
-    //     "image": String,
-    // }
+    const year = data.birth.getFullYear(); // 연도 가져오기
+    const month = String(data.birth.getMonth() + 1).padStart(2, '0'); // 월 가져오기 (0부터 시작하므로 +1 필요), 2자리로 포맷
+    const day = String(data.birth.getDate()).padStart(2, '0'); // 일 가져오기, 2자리로 포맷
+
+    const formattedDate = `${year}-${month}-${day}`;
+
+    const pet: PetDetail = {
+      name: data.name,
+      birth: formattedDate,
+      gender: data.gender === '1' ? true : false,
+      weight: data.weight,
+    };
+
+    if (petImage) {
+      pet.image = petImage;
+    }
+
+    if (typeof window !== 'undefined') {
+      const token = getUser() as string;
+      await createPet(token, pet);
+    }
   };
 
   const handleCancel = () => {
@@ -104,11 +135,15 @@ const PetRegistForm = ({ setIsOpen }: PetRegistFormProps) => {
         <div className={styles.title}>강아지 등록하기</div>
         <div className={styles.petImageUpload}>
           <div onClick={handlePetImageClick} className={styles.petImage}>
-            <Image src={petImage} width={100} height={100} alt="pet Image" />
+            {petImage ? (
+              <Image src={petImage} width={100} height={100} alt="pet Image" />
+            ) : (
+              <PawIcon width={100} height={100} fill={gray} />
+            )}
           </div>
           <input
             type="file"
-            accept="image/jpg,image/png,image/jpeg"
+            accept="image/jpg,image/png,image/jpeg,image/webp"
             ref={petImageInput}
             onChange={handleUploadImage}
           />
@@ -206,6 +241,7 @@ const PetRegistForm = ({ setIsOpen }: PetRegistFormProps) => {
                 onChange={(date) => field.onChange(date)}
                 renderCustomHeader={({
                   date,
+                  changeYear,
                   decreaseMonth,
                   increaseMonth,
                   prevMonthButtonDisabled,
@@ -222,8 +258,21 @@ const PetRegistForm = ({ setIsOpen }: PetRegistFormProps) => {
                         <PrevArrowIcon width={20} height={20} />
                       </button>
                     </div>
-                    <div className={styles.currentMonth}>
-                      {getYear(date)}.{getMonth(date) + 1}
+                    <div className={styles.currentYearMonth}>
+                      <select
+                        value={getYear(date)}
+                        className={styles.yearSelect}
+                        onChange={({ target: { value } }) => changeYear(+value)}
+                      >
+                        {YEARS.map((option) => (
+                          <option key={option} value={option}>
+                            {option}
+                          </option>
+                        ))}
+                      </select>
+                      <div className={styles.currentMonth}>
+                        {getMonth(date) + 1}월
+                      </div>
                     </div>
                     <div>
                       <button
