@@ -1,5 +1,5 @@
 .Sidebar {
-  z-index: 2;
+  z-index: 10;
   background-color: var(--color-white);
   height: 100vh;
   position: absolute;
@@ -48,4 +48,10 @@
 
 .userBtn {
   padding: 0 5px;
+}
+
+.login {
+  margin: 0 auto;
+  margin-top: 30px;
+  width: fit-content;
 }

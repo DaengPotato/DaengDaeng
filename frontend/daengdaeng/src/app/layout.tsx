@@ -2,11 +2,12 @@ import React from 'react';
 
 import './global.scss';
 
-import Header from '@/src/components/Header';
-
 import Head from './head';
 import AuthScript from '../components/common/AuthScript';
+import RecoilRootWrapper from '../components/common/RecoilRootWrapper';
 import { ssurround } from '../styles/fonts';
+
+import Header from '@/src/components/Header';
 
 declare global {
   interface Window {
@@ -23,9 +24,11 @@ export default function RootLayout({
     <html lang="en">
       <Head></Head>
       <body className={`${ssurround.className}`}>
-        <div className="fixed-width">
-          <Header />
-          {children}
+        <div id="rootDiv" className="fixed-width">
+          <RecoilRootWrapper>
+            <Header />
+            {children}
+          </RecoilRootWrapper>
         </div>
         <AuthScript />
       </body>
