@@ -2,19 +2,25 @@
 
 import React, { useRef, useState } from 'react';
 
+import getMonth from 'date-fns/getMonth';
+import getYear from 'date-fns/getYear';
+import ko from 'date-fns/locale/ko';
 import Image from 'next/image';
-import { useForm } from 'react-hook-form';
+import DatePicker, { registerLocale } from 'react-datepicker';
+import { Controller, useForm } from 'react-hook-form';
 
 import styles from './index.module.scss';
 
 import type { StaticImageData } from 'next/image';
 
-import { PawIcon } from '@/public/icons';
+import { NextArrowIcon, PawIcon, PrevArrowIcon } from '@/public/icons';
 import BlankProfileImg from '@/public/images/blank-profile.webp';
 import Button from '@/src/components/common/Button';
 import ErrorMessage from '@/src/components/ErrorMessage';
 import { gray, primaryOrange } from '@/src/styles/colors';
 import { validatePetName } from '@/src/utils/validate';
+
+import 'react-datepicker/dist/react-datepicker.css';
 
 type PetRegistFormProps = {
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -25,13 +31,16 @@ const PetRegistForm = ({ setIsOpen }: PetRegistFormProps) => {
     BlankProfileImg,
   );
   const [selectedGender, setSelectedGender] = useState<string>('');
+  const [date, setDate] = useState<Date | null>(null);
 
   const {
     register,
+    control,
     formState: { errors, isSubmitting },
     handleSubmit,
-    setValue,
   } = useForm({ mode: 'onBlur' });
+
+  registerLocale('ko', ko);
 
   const petImageInput = useRef<HTMLInputElement>(null);
 
@@ -68,9 +77,17 @@ const PetRegistForm = ({ setIsOpen }: PetRegistFormProps) => {
     }
   };
 
-  const handleRegist = () => {
+  const handleRegist = async () => {
     // TODO: 강아지 등록 api
     console.log('submitted');
+
+    //   {
+    //     "name": String,
+    //     "birth": Date,
+    //     "gender": boolean,
+    //     "weight": float,
+    //     "image": String,
+    // }
   };
 
   const handleCancel = () => {
@@ -106,7 +123,7 @@ const PetRegistForm = ({ setIsOpen }: PetRegistFormProps) => {
           </div>
         </div>
         <div className={styles.formItem}>
-          <div>이름</div>
+          <div className={styles.formLabel}>이름</div>
           <input
             type="text"
             {...register('name', {
@@ -122,7 +139,7 @@ const PetRegistForm = ({ setIsOpen }: PetRegistFormProps) => {
           {errors?.name && <ErrorMessage>{errors?.name?.message}</ErrorMessage>}
         </div>
         <div className={styles.formItem}>
-          <div>성별</div>
+          <div className={styles.formLabel}>성별</div>
           <fieldset className={styles.genderRadioGroup}>
             <label className={styles.label}>
               <input
@@ -169,16 +186,79 @@ const PetRegistForm = ({ setIsOpen }: PetRegistFormProps) => {
             <ErrorMessage>{errors?.gender?.message}</ErrorMessage>
           )}
         </div>
-        <div className={styles.formItem}>
-          <div>생일</div>
-          <input type="text" />
+        <div className={styles.formItemDate}>
+          <div className={styles.formLabel}>생일</div>
+          <Controller
+            name="birth"
+            control={control}
+            rules={{ required: '생일을 선택해주세요.' }}
+            render={({ field }) => (
+              <DatePicker
+                {...field}
+                className={styles.datepicker}
+                calendarClassName={styles.datepickerCalendar}
+                dateFormat="yyyy년 MM월 dd일"
+                dateFormatCalendar="yyyy년 MM월"
+                locale="ko"
+                shouldCloseOnSelect={false}
+                maxDate={new Date()}
+                selected={field.value}
+                onChange={(date) => field.onChange(date)}
+                renderCustomHeader={({
+                  date,
+                  decreaseMonth,
+                  increaseMonth,
+                  prevMonthButtonDisabled,
+                  nextMonthButtonDisabled,
+                }) => (
+                  <div className={styles.customHeaderContainer}>
+                    <div>
+                      <button
+                        type="button"
+                        className={styles.monthBtn}
+                        onClick={decreaseMonth}
+                        disabled={prevMonthButtonDisabled}
+                      >
+                        <PrevArrowIcon width={20} height={20} />
+                      </button>
+                    </div>
+                    <div className={styles.currentMonth}>
+                      {getYear(date)}.{getMonth(date) + 1}
+                    </div>
+                    <div>
+                      <button
+                        type="button"
+                        className={styles.monthBtn}
+                        onClick={increaseMonth}
+                        disabled={nextMonthButtonDisabled}
+                      >
+                        <NextArrowIcon width={20} height={20} />
+                      </button>
+                    </div>
+                  </div>
+                )}
+              />
+            )}
+          />
+          {errors?.birth && (
+            <ErrorMessage>{errors?.birth?.message}</ErrorMessage>
+          )}
         </div>
         <div className={styles.formItem}>
-          <div>몸무게</div>
+          <div className={styles.formLabel}>몸무게</div>
           <div>
-            <input type="number" className={styles.weight} />
+            <input
+              type="number"
+              className={styles.weight}
+              {...register('weight', {
+                required: '몸무게를 입력해주세요.',
+              })}
+            />
             <span>kg</span>
           </div>
+          {errors?.weight && (
+            <ErrorMessage>{errors?.weight?.message}</ErrorMessage>
+          )}
         </div>
         <div className={styles.buttons}>
           <Button
