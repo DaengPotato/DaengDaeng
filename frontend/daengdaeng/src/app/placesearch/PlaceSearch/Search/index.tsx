@@ -5,7 +5,6 @@ import { SearchIcon } from '@/public/icons';
 import styles from './index.module.scss';
 
 type SearchProps = {
-  isOpen: boolean;
   onSearch: (searchText: string) => void;
 };
 
