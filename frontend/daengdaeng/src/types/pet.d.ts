@@ -4,7 +4,7 @@ export type PetSimple = {
 };
 
 export type PetDetail = {
-  petId?: number;
+  petId: number;
   name: string;
   birth: string;
   gender: boolean;

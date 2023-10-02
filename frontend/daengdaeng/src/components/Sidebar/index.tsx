@@ -29,12 +29,12 @@ const menuItems = [
     href: '/placerecommendation',
   },
   {
-    label: '댕댕네컷',
-    href: '/daengphoto',
-  },
-  {
     label: '여행지 검색',
     href: '/placesearch',
+  },
+  {
+    label: '댕댕네컷',
+    href: '/daengphoto',
   },
 ];
 
