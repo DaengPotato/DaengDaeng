@@ -1,0 +1,61 @@
+.InfoRegistForm {
+  padding: 20px;
+  background-color: var(--color-white);
+  border-radius: 20px;
+  width: 85vw;
+  max-width: 400px;
+}
+
+.TextContainer {
+  display: flex;
+  text-align: center;
+}
+
+.Text {
+  padding: 5px;
+  width: fit-content;
+  position: relative;
+  margin: 0 auto;
+  font-weight: 800;
+  font-size: 1.8rem;
+}
+.SearchContainer {
+  display: flex;
+  flex-direction: row;
+}
+.KeywordInput {
+  flex-grow: 1;
+}
+.AddButton {
+  // position: absolute;
+  // top: 50%;
+  // left: 50%;
+  // transform: translate(-50%, -50%);
+  display: flex;
+  align-items: center;
+  padding: 5px;
+  background-color: var(--color-orange);
+  border-radius: 50%;
+  z-index: 2;
+}
+
+.PlaceResultContainer {
+  max-height: 70%;
+  overflow: auto;
+  border-radius: 20px;
+  border-color: orange;
+  border-width: 0.3rem;
+  border-style: solid;
+}
+
+.placeResultContainer::-webkit-scrollbar {
+  display: none;
+}
+
+.buttons {
+  margin-top: 20px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 5px;
+}

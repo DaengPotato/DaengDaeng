@@ -1,0 +1,47 @@
+.PhotoContainer {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: fit-content;
+  line-height: 0;
+  padding-bottom: 1.1rem;
+  // margin-bottom: 0.5rem;
+}
+.CanvasContainer {
+  position: relative;
+  width: fit-content;
+}
+
+.ShowCanvas {
+  // position: absolute;
+  // pointer-events: none;
+  z-index: 1;
+}
+
+.AddButton {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  align-items: center;
+  padding: 5px;
+  background-color: var(--color-orange);
+  border-radius: 50%;
+  z-index: 2;
+}
+
+.CloseButton {
+  position: absolute;
+  top: 50%;
+  right: calc(50%);
+  transform: translate(-50%, -50%) rotate(45deg);
+  display: flex;
+  align-items: center;
+  padding: 5px;
+  background-color: var(--color-orange);
+  border-radius: 50%;
+  z-index: 2;
+}

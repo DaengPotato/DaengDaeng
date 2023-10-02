@@ -1,0 +1,22 @@
+.CardContainer {
+  display: flex;
+  padding: 3px 20px;
+}
+
+.NameText {
+  font-size: 2rem;
+  font-weight: 600;
+  flex-grow: 1;
+  text-align: start;
+}
+.AddressText {
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+.bg-orange {
+  background-color: orange;
+}
+
+.bg-white {
+  background-color: white;
+}
