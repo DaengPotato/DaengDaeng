@@ -1,3 +1,4 @@
+/* eslint-disable no-null/no-null */
 'use client';
 
 import type { ChangeEvent } from 'react';
@@ -20,11 +21,11 @@ const PhotoRegistForm = ({
   photoWidth,
   photoHeight,
 }: PhotoRegistFormProps) => {
-  const fileInputRef = useRef<any>();
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
-  const baseCanvasRef = useRef<any>();
-  const reSizedCanvasRef = useRef<any>();
-  const selectCanvasRef = useRef<any>();
+  const baseCanvasRef = useRef<HTMLCanvasElement>(null);
+  const reSizedCanvasRef = useRef<HTMLCanvasElement>(null);
+  const selectCanvasRef = useRef<HTMLCanvasElement>(null);
 
   // 이미지 표시 최대
   const maxWidth = 360;
@@ -62,6 +63,8 @@ const PhotoRegistForm = ({
     const sumY = currY - movementY * range;
 
     // 최대 이동가능 위치 계산
+    if (!baseCanvas) return;
+
     const maxX = baseCanvas.width - baseCanvas.width / range;
     const maxY = baseCanvas.height - baseCanvas.height / range;
 
@@ -99,10 +102,13 @@ const PhotoRegistForm = ({
   // 리사이즈 캔버스 그리기
   const paintResizedCanvas = (newRange: number, posX: number, posY: number) => {
     const baseCanvas = baseCanvasRef.current;
-    // const ctxBase = baseCanvas.getContext('2d');
+    if (!baseCanvas) return;
 
     const reSizedCanvas = reSizedCanvasRef.current;
+    if (!reSizedCanvas) return;
+
     const ctxReSized = reSizedCanvas.getContext('2d');
+    if (!ctxReSized) return;
 
     const newWidth = baseCanvas.width / newRange;
     const newHeight = baseCanvas.height / newRange;
@@ -145,6 +151,7 @@ const PhotoRegistForm = ({
     const ctxBase = baseCanvas.getContext('2d');
 
     const selectCanvas = selectCanvasRef.current;
+    if (!selectCanvas) return;
     const ctxSelect = selectCanvas.getContext('2d');
 
     if (ctxBase) {
@@ -190,6 +197,7 @@ const PhotoRegistForm = ({
         paintResizedCanvas(range, currX, currY);
 
         // 선택 캔버스에 선택 칸 그리기
+        if (!ctxSelect) return;
         ctxSelect.fillStyle = 'rgba(0, 0, 0, 0.7)';
         ctxSelect.fillRect(0, 0, selectCanvas.width, selectCanvas.height);
 
@@ -210,6 +218,8 @@ const PhotoRegistForm = ({
     const reSizedCanvas = reSizedCanvasRef.current;
     const selectCanvas = selectCanvasRef.current;
 
+    if (!baseCanvas || !reSizedCanvas || !selectCanvas) return;
+
     baseCanvas.width = newWidth;
     baseCanvas.height = newHeight;
 
@@ -222,6 +232,7 @@ const PhotoRegistForm = ({
 
   // 사진 고르기 버튼 입력 시 처리
   const handleSelectClick = () => {
+    if (!fileInputRef.current) return;
     fileInputRef.current.click();
   };
 
@@ -233,7 +244,9 @@ const PhotoRegistForm = ({
   // 등록 버튼 입력 시 처리
   const handleRegistClick = () => {
     const reSizedCanvas = reSizedCanvasRef.current;
+    if (!reSizedCanvas) return;
     const ctxReSized = reSizedCanvas.getContext('2d');
+    if (!ctxReSized) return;
     const newImageData = ctxReSized.getImageData(
       (reSizedCanvas.width - photoWidth) / 2,
       (reSizedCanvas.height - photoHeight) / 2,
