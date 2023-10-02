@@ -1,0 +1,52 @@
+.UploadContainer {
+  // display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.PhotoContainer {
+  position: relative;
+  padding-top: 1.6rem;
+}
+
+.Frame {
+  position: absolute;
+  top: 0;
+  left: 25%;
+  z-index: 9;
+  pointer-events: none;
+}
+.RadioContainer {
+  display: flex;
+  justify-content: space-around;
+  padding: 1.8rem 0;
+}
+.RadioInput {
+  accent-color: orange;
+}
+
+.TextContainer {
+  height: fit-content;
+  text-align: center;
+}
+
+.Text {
+  width: fit-content;
+  position: relative;
+  margin: 0 auto;
+  font-weight: 800;
+  font-size: 1.8rem;
+}
+
+.FinalCanvas {
+  position: relative;
+  background-color: blueviolet;
+}
+
+.BtnContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
