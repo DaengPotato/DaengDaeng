@@ -2,37 +2,68 @@
 
 import React, { useRef, useState } from 'react';
 
+import getMonth from 'date-fns/getMonth';
+import getYear from 'date-fns/getYear';
+import ko from 'date-fns/locale/ko';
 import Image from 'next/image';
-import { useForm } from 'react-hook-form';
+import DatePicker, { registerLocale } from 'react-datepicker';
+import { Controller, useForm } from 'react-hook-form';
 
 import styles from './index.module.scss';
 
-import type { StaticImageData } from 'next/image';
+import type { PetDetail } from '@/src/types/pet';
+import type { FieldValues } from 'react-hook-form';
 
-import { PawIcon } from '@/public/icons';
-import BlankProfileImg from '@/public/images/blank-profile.webp';
+import { NextArrowIcon, PawIcon, PrevArrowIcon } from '@/public/icons';
 import Button from '@/src/components/common/Button';
 import ErrorMessage from '@/src/components/ErrorMessage';
+import { YEARS } from '@/src/constants/calendar';
+import { getUser } from '@/src/hooks/useLocalStorage';
 import { gray, primaryOrange } from '@/src/styles/colors';
 import { validatePetName } from '@/src/utils/validate';
 
+import 'react-datepicker/dist/react-datepicker.css';
+
 type PetRegistFormProps = {
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  mutate: any;
 };
 
-const PetRegistForm = ({ setIsOpen }: PetRegistFormProps) => {
-  const [petImage, setPetImage] = useState<string | StaticImageData>(
-    BlankProfileImg,
-  );
+type petReqType = {
+  name: string;
+  birth: string;
+  gender: boolean;
+  weight: number;
+  image?: string;
+};
+
+const createPet = async (token: string, pet: petReqType) => {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/pet`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify(pet),
+  });
+
+  return res;
+};
+
+const PetRegistForm = ({ setIsOpen, mutate }: PetRegistFormProps) => {
+  const [petImage, setPetImage] = useState<string | undefined>(undefined);
   const [selectedGender, setSelectedGender] = useState<string>('');
 
   const {
     register,
-    formState: { errors, isSubmitting },
+    control,
+    formState: { errors },
     handleSubmit,
-    setValue,
   } = useForm({ mode: 'onBlur' });
 
+  registerLocale('ko', ko);
+
+  // eslint-disable-next-line no-null/no-null
   const petImageInput = useRef<HTMLInputElement>(null);
 
   const handlePetImageClick = () => {
@@ -56,7 +87,7 @@ const PetRegistForm = ({ setIsOpen }: PetRegistFormProps) => {
   };
 
   const handleRemoveImage = () => {
-    setPetImage(BlankProfileImg);
+    setPetImage(undefined);
     if (petImageInput.current) {
       petImageInput.current.value = '';
     }
@@ -68,9 +99,34 @@ const PetRegistForm = ({ setIsOpen }: PetRegistFormProps) => {
     }
   };
 
-  const handleRegist = () => {
+  const handleRegist = async (data: FieldValues) => {
     // TODO: 강아지 등록 api
-    console.log('submitted');
+
+    const year = data.birth.getFullYear(); // 연도 가져오기
+    const month = String(data.birth.getMonth() + 1).padStart(2, '0'); // 월 가져오기 (0부터 시작하므로 +1 필요), 2자리로 포맷
+    const day = String(data.birth.getDate()).padStart(2, '0'); // 일 가져오기, 2자리로 포맷
+
+    const formattedDate = `${year}-${month}-${day}`;
+
+    const pet: petReqType = {
+      name: data.name,
+      birth: formattedDate,
+      gender: data.gender === '1' ? true : false,
+      weight: data.weight,
+    };
+
+    if (petImage) {
+      pet.image = petImage;
+    }
+
+    if (typeof window !== 'undefined') {
+      const token = getUser() as string;
+      const res = await createPet(token, pet);
+      if (res.ok) {
+        await mutate();
+        setIsOpen(false);
+      }
+    }
   };
 
   const handleCancel = () => {
@@ -87,11 +143,15 @@ const PetRegistForm = ({ setIsOpen }: PetRegistFormProps) => {
         <div className={styles.title}>강아지 등록하기</div>
         <div className={styles.petImageUpload}>
           <div onClick={handlePetImageClick} className={styles.petImage}>
-            <Image src={petImage} width={100} height={100} alt="pet Image" />
+            {petImage ? (
+              <Image src={petImage} width={100} height={100} alt="pet Image" />
+            ) : (
+              <PawIcon width={100} height={100} fill={gray} />
+            )}
           </div>
           <input
             type="file"
-            accept="image/jpg,image/png,image/jpeg"
+            accept="image/jpg,image/png,image/jpeg,image/webp"
             ref={petImageInput}
             onChange={handleUploadImage}
           />
@@ -106,7 +166,7 @@ const PetRegistForm = ({ setIsOpen }: PetRegistFormProps) => {
           </div>
         </div>
         <div className={styles.formItem}>
-          <div>이름</div>
+          <div className={styles.formLabel}>이름</div>
           <input
             type="text"
             {...register('name', {
@@ -122,7 +182,7 @@ const PetRegistForm = ({ setIsOpen }: PetRegistFormProps) => {
           {errors?.name && <ErrorMessage>{errors?.name?.message}</ErrorMessage>}
         </div>
         <div className={styles.formItem}>
-          <div>성별</div>
+          <div className={styles.formLabel}>성별</div>
           <fieldset className={styles.genderRadioGroup}>
             <label className={styles.label}>
               <input
@@ -169,16 +229,93 @@ const PetRegistForm = ({ setIsOpen }: PetRegistFormProps) => {
             <ErrorMessage>{errors?.gender?.message}</ErrorMessage>
           )}
         </div>
-        <div className={styles.formItem}>
-          <div>생일</div>
-          <input type="text" />
+        <div className={styles.formItemDate}>
+          <div className={styles.formLabel}>생일</div>
+          <Controller
+            name="birth"
+            control={control}
+            rules={{ required: '생일을 선택해주세요.' }}
+            render={({ field }) => (
+              <DatePicker
+                {...field}
+                className={styles.datepicker}
+                calendarClassName={styles.datepickerCalendar}
+                dateFormat="yyyy년 MM월 dd일"
+                dateFormatCalendar="yyyy년 MM월"
+                locale="ko"
+                shouldCloseOnSelect={false}
+                maxDate={new Date()}
+                selected={field.value}
+                onChange={(date) => field.onChange(date)}
+                renderCustomHeader={({
+                  date,
+                  changeYear,
+                  decreaseMonth,
+                  increaseMonth,
+                  prevMonthButtonDisabled,
+                  nextMonthButtonDisabled,
+                }) => (
+                  <div className={styles.customHeaderContainer}>
+                    <div>
+                      <button
+                        type="button"
+                        className={styles.monthBtn}
+                        onClick={decreaseMonth}
+                        disabled={prevMonthButtonDisabled}
+                      >
+                        <PrevArrowIcon width={20} height={20} />
+                      </button>
+                    </div>
+                    <div className={styles.currentYearMonth}>
+                      <select
+                        value={getYear(date)}
+                        className={styles.yearSelect}
+                        onChange={({ target: { value } }) => changeYear(+value)}
+                      >
+                        {YEARS.map((option) => (
+                          <option key={option} value={option}>
+                            {option}
+                          </option>
+                        ))}
+                      </select>
+                      <div className={styles.currentMonth}>
+                        {getMonth(date) + 1}월
+                      </div>
+                    </div>
+                    <div>
+                      <button
+                        type="button"
+                        className={styles.monthBtn}
+                        onClick={increaseMonth}
+                        disabled={nextMonthButtonDisabled}
+                      >
+                        <NextArrowIcon width={20} height={20} />
+                      </button>
+                    </div>
+                  </div>
+                )}
+              />
+            )}
+          />
+          {errors?.birth && (
+            <ErrorMessage>{errors?.birth?.message}</ErrorMessage>
+          )}
         </div>
         <div className={styles.formItem}>
-          <div>몸무게</div>
+          <div className={styles.formLabel}>몸무게</div>
           <div>
-            <input type="number" className={styles.weight} />
+            <input
+              type="number"
+              className={styles.weight}
+              {...register('weight', {
+                required: '몸무게를 입력해주세요.',
+              })}
+            />
             <span>kg</span>
           </div>
+          {errors?.weight && (
+            <ErrorMessage>{errors?.weight?.message}</ErrorMessage>
+          )}
         </div>
         <div className={styles.buttons}>
           <Button

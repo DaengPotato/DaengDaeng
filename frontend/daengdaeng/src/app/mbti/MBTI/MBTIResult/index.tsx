@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import Image from 'next/image';
 
@@ -7,16 +7,40 @@ import styles from './index.module.scss';
 import type { PetDetail } from '@/src/types/pet';
 import type { Place } from '@/src/types/place';
 
+import { PawIcon } from '@/public/icons';
 import PlaceExample from '@/public/images/place-example.jpg';
 import PlaceCarousel from '@/src/components/PlaceCarousel';
 import { mbtiTypes } from '@/src/constants/mbti';
+import { getUser } from '@/src/hooks/useLocalStorage';
+import { gray } from '@/src/styles/colors';
 
 type MBTIResultProps = {
   pet: PetDetail;
   selectedTypes: string[];
 };
 
+const updateMBTI = async (
+  token: string | undefined,
+  petId: number,
+  mbti: { [key: string]: string },
+) => {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/mbti/${petId}`, {
+    method: 'PATCH',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify(mbti),
+  });
+
+  return res;
+};
+
 const MBTIResult = ({ pet, selectedTypes }: MBTIResultProps) => {
+  const token: string | undefined = getUser();
+
+  const [imgError, setImgError] = useState<boolean>(false);
+
   const typeCounts = selectedTypes.reduce(
     (counts: { [key: string]: number }, type) => {
       counts[type] = (counts[type] || 0) + 1;
@@ -25,18 +49,37 @@ const MBTIResult = ({ pet, selectedTypes }: MBTIResultProps) => {
     {},
   );
 
-  const mbti = mbtiTypes.reduce((acc: string[], types: string[]) => {
-    if (typeCounts[types[0]] > 1) acc.push(types[0]);
-    else acc.push(types[2]);
-    return acc;
-  }, []);
+  let mbti: string[] = [];
+
+  (async () => {
+    mbti = mbtiTypes.reduce((acc: string[], types: string[]) => {
+      if (typeCounts[types[0]] > 1) acc.push(types[0]);
+      else acc.push(types[2]);
+      return acc;
+    }, []);
+
+    await updateMBTI(token, pet.petId, {
+      mbti: mbti.join(''),
+    });
+  })();
 
   return (
     <div className={styles.MBTIResult}>
       <div className={styles.petMbti}>
         <div className={styles.mbti}>{mbti.join('')}</div>
         <div className={styles.petImage}>
-          <Image src={pet.image} width={100} height={100} alt="pet Image" />
+          {!imgError && typeof pet.image === 'string' ? (
+            <Image
+              src={pet.image}
+              alt="pet img"
+              fill={true}
+              blurDataURL={pet.image}
+              placeholder="blur"
+              onError={() => setImgError(true)}
+            />
+          ) : (
+            <PawIcon fill={gray} width={100} height={100} />
+          )}
         </div>
         <div className={styles.mbtiRatioList}>
           {mbtiTypes.map((types, i) => {

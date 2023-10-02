@@ -1,5 +1,3 @@
-import type { StaticImageData } from 'next/image';
-
 export type PetSimple = {
   petId: number;
   name: string;
@@ -11,6 +9,6 @@ export type PetDetail = {
   birth: string;
   gender: boolean;
   weight: number;
-  image: string | StaticImageData;
-  mbtiId: number;
+  image?: string;
+  mbtiId?: number;
 };

@@ -17,7 +17,13 @@
 }
 
 .petImage {
-  margin-top: 10px;
+  position: relative;
+  width: 120px;
+  height: 120px;
+  margin: 10px auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   & > img {
     border-radius: 50%;
   }

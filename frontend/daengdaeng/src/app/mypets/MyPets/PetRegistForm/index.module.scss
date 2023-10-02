@@ -13,8 +13,7 @@
   flex-direction: column;
   gap: 20px;
   & div {
-    width: fit-content;
-    margin: 0 auto;
+    text-align: center;
   }
 }
 
@@ -26,6 +25,7 @@
 
 .petImage {
   width: fit-content;
+  margin: 0 auto;
   cursor: pointer;
   & > img {
     border-radius: 50%;
@@ -40,13 +40,15 @@
 
 .imgRemoveBtn {
   font-size: 1.4rem;
+  padding: 5px;
+  color: dimgray;
 }
 
 .formItem {
   display: flex;
   flex-direction: column;
   gap: 5px;
-  & > div {
+  & > .formLabel {
     font-size: 1.6rem;
     font-weight: 800;
   }
@@ -57,6 +59,14 @@
     border-radius: 100px;
     background-color: var(--color-light-orange);
     text-align: center;
+  }
+}
+
+.formItemDate {
+  & > .formLabel {
+    font-size: 1.6rem;
+    font-weight: 800;
+    margin-bottom: 5px;
   }
 }
 
@@ -95,4 +105,49 @@
 
 .genderRadioGroup {
   display: flex;
+}
+
+.datepicker {
+  font-size: 1.6rem;
+  border: none;
+  padding: 12px 10px;
+  border-radius: 100px;
+  background-color: var(--color-light-orange);
+  text-align: center;
+  margin-bottom: 5px;
+}
+
+.datepickerCalendar {
+  border: none;
+  border-radius: 10px;
+}
+
+.customHeaderContainer {
+  background-color: var(--color-light-orange);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 100%;
+  margin-top: 8px;
+  padding: 0 12px 0 24px;
+}
+
+.monthBtn {
+  display: flex;
+  align-items: center;
+}
+
+.yearSelect {
+  border: none;
+  font-size: 1.6rem;
+}
+
+.currentYearMonth {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.currentMonth {
+  font-size: 1.6rem;
 }
