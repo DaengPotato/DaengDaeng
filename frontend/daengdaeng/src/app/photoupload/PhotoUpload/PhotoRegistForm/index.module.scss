@@ -1,0 +1,77 @@
+.PhotoRegistForm {
+  padding: 20px;
+  background-color: var(--color-white);
+  border-radius: 20px;
+  width: 85vw;
+  max-width: 400px;
+}
+
+.registForm {
+  width: fit-content;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  & div {
+    width: fit-content;
+    margin: 0 auto;
+  }
+}
+
+.CanvasContainer {
+  position: relative;
+}
+
+.SelectCanvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  z-index: 5;
+}
+
+.ReSizedCanvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 4;
+  background-color: black;
+}
+
+.BaseCanvas {
+  // position: absolute;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  z-index: 3;
+}
+
+.FileInput {
+  visibility: hidden;
+  position: absolute;
+  pointer-events: none;
+}
+
+.TextContainer {
+  display: flex;
+  text-align: center;
+}
+
+.Text {
+  padding: 5px;
+  width: fit-content;
+  position: relative;
+  margin: 0 auto;
+  font-weight: 800;
+  font-size: 1.8rem;
+}
+
+.SizeBar {
+  accent-color: orange;
+}
+
+.buttons {
+  margin-top: 20px;
+  display: flex;
+  gap: 5px;
+}
