@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import Image from 'next/image';
 
 import styles from './index.module.scss';
-import { primaryOrange } from '../../../../styles/colors';
+import { gray, primaryOrange } from '../../../../styles/colors';
 
 import type { PetDetail } from '../../../../types/pet';
 
@@ -14,6 +14,8 @@ type PetProps = {
 };
 
 const PetSimpleCard = ({ pet }: PetProps) => {
+  const [imgError, setImgError] = useState<boolean>(false);
+
   return (
     <div className={styles.PetCard}>
       <div className={styles.header}>
@@ -21,7 +23,18 @@ const PetSimpleCard = ({ pet }: PetProps) => {
         <PawIcon fill={primaryOrange} width={20} height={20} />
       </div>
       <div className={styles.petImage}>
-        <Image src={pet.image} alt="pet image" width={120} height={120} />
+        {!imgError && typeof pet.image === 'string' ? (
+          <Image
+            src={pet.image}
+            alt="pet img"
+            fill={true}
+            blurDataURL={pet.image}
+            placeholder="blur"
+            onError={() => setImgError(true)}
+          />
+        ) : (
+          <PawIcon fill={gray} width={100} height={100} />
+        )}
       </div>
     </div>
   );

@@ -9,7 +9,7 @@ import type { PetDetail } from '@/src/types/pet';
 
 type MBTITestProps = {
   pet: PetDetail;
-  questions: mbtiQuestion[];
+  questions: mbtiQuestion[] | undefined;
 };
 
 const MBTITest = ({ pet, questions }: MBTITestProps) => {
@@ -18,17 +18,21 @@ const MBTITest = ({ pet, questions }: MBTITestProps) => {
 
   return (
     <div className={styles.MBTITest}>
-      {questionIndex > 11 ? (
-        <MBTIResult pet={pet} selectedTypes={selectedTypes} />
-      ) : (
-        <div>
-          <Question
-            key={questions[questionIndex].questionId}
-            question={questions[questionIndex]}
-            setSelectedTypes={setSelectedTypes}
-            setQuestionIndex={setQuestionIndex}
-          />
-        </div>
+      {questions && (
+        <>
+          {questionIndex > 11 ? (
+            <MBTIResult pet={pet} selectedTypes={selectedTypes} />
+          ) : (
+            <div>
+              <Question
+                key={questions[questionIndex].questionId}
+                question={questions[questionIndex]}
+                setSelectedTypes={setSelectedTypes}
+                setQuestionIndex={setQuestionIndex}
+              />
+            </div>
+          )}
+        </>
       )}
     </div>
   );
