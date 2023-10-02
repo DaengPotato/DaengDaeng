@@ -18,11 +18,13 @@ import Modal from '@/src/components/common/Modal';
 import PlaceCarousel from '@/src/components/PlaceCarousel';
 
 type MyPetsProps = {
-  pets: PetDetail[];
-  places: Place[];
+  pets: PetDetail[] | undefined;
+  places: Place[] | undefined;
+  mutatePets: any;
+  mutatePlaces: any;
 };
 
-const MyPets = ({ pets, places }: MyPetsProps) => {
+const MyPets = ({ pets, places, mutatePets }: MyPetsProps) => {
   const router = useRouter();
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
@@ -36,7 +38,7 @@ const MyPets = ({ pets, places }: MyPetsProps) => {
 
   return (
     <div>
-      {pets.length === 0 ? (
+      {!pets || pets.length === 0 ? (
         <div className={styles.nodata}>
           <div className={styles.nodataTitle}>반려견을 등록해주세요!</div>
           <div className={styles.nodataButton}>
@@ -63,7 +65,7 @@ const MyPets = ({ pets, places }: MyPetsProps) => {
           />
         </div>
       )}
-      {places.length === 0 ? (
+      {!places || places.length === 0 ? (
         <div className={styles.nodata}>
           <div className={styles.nodataTitle}>찜한 여행지가 없어요!</div>
           <div className={styles.nodataButton}>
@@ -91,7 +93,7 @@ const MyPets = ({ pets, places }: MyPetsProps) => {
       )}
       {isOpen && (
         <Modal setIsOpen={setIsOpen}>
-          <PetRegistForm setIsOpen={setIsOpen} />
+          <PetRegistForm setIsOpen={setIsOpen} mutate={mutatePets} />
         </Modal>
       )}
     </div>

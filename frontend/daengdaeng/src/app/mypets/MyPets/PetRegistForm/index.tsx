@@ -26,40 +26,44 @@ import 'react-datepicker/dist/react-datepicker.css';
 
 type PetRegistFormProps = {
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  mutate: any;
+};
+
+type petReqType = {
+  name: string;
+  birth: string;
+  gender: boolean;
+  weight: number;
+  image?: string;
 };
 
 const createPet = async (token: string, pet: PetDetail) => {
-  try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/pet`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`,
-      },
-      body: JSON.stringify(pet),
-    });
+  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/pet`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify(pet),
+  });
 
-    if (!res.ok) {
-      throw new Error(`HTTP error! Status: ${res.status}`);
-    }
-  } catch (err) {
-    console.error(err);
-  }
+  return res;
 };
 
-const PetRegistForm = ({ setIsOpen }: PetRegistFormProps) => {
-  const [petImage, setPetImage] = useState<string | null>(null);
+const PetRegistForm = ({ setIsOpen, mutate }: PetRegistFormProps) => {
+  const [petImage, setPetImage] = useState<string | undefined>(undefined);
   const [selectedGender, setSelectedGender] = useState<string>('');
 
   const {
     register,
     control,
-    formState: { errors, isSubmitting },
+    formState: { errors },
     handleSubmit,
   } = useForm({ mode: 'onBlur' });
 
   registerLocale('ko', ko);
 
+  // eslint-disable-next-line no-null/no-null
   const petImageInput = useRef<HTMLInputElement>(null);
 
   const handlePetImageClick = () => {
@@ -83,7 +87,7 @@ const PetRegistForm = ({ setIsOpen }: PetRegistFormProps) => {
   };
 
   const handleRemoveImage = () => {
-    setPetImage(null);
+    setPetImage(undefined);
     if (petImageInput.current) {
       petImageInput.current.value = '';
     }
@@ -104,7 +108,7 @@ const PetRegistForm = ({ setIsOpen }: PetRegistFormProps) => {
 
     const formattedDate = `${year}-${month}-${day}`;
 
-    const pet: PetDetail = {
+    const pet: petReqType = {
       name: data.name,
       birth: formattedDate,
       gender: data.gender === '1' ? true : false,
@@ -117,7 +121,11 @@ const PetRegistForm = ({ setIsOpen }: PetRegistFormProps) => {
 
     if (typeof window !== 'undefined') {
       const token = getUser() as string;
-      await createPet(token, pet);
+      const res = await createPet(token, pet);
+      if (res.ok) {
+        await mutate();
+        setIsOpen(false);
+      }
     }
   };
 

@@ -3,20 +3,19 @@ import React from 'react';
 
 import Image from 'next/image';
 
-import Button from '@/src/components/common/Button';
-
 import styles from './index.module.scss';
 
-const HomePage = () => {
+import Button from '@/src/components/common/Button';
 
-    function mbtiTestClick() {
-    window.location.href = "/mbti"
+const HomePage = () => {
+  function mbtiTestClick() {
+    window.location.href = '/mbti';
   }
 
   function makePhotoClick() {
-    window.location.href = "/daengphoto"
+    window.location.href = '/daengphoto';
   }
-  
+
   return (
     <div className={styles.HomePage}>
       <Image
@@ -40,7 +39,12 @@ const HomePage = () => {
         <div className={styles.title}>우리 강아지는 어떤 곳을 좋아할까?</div>
 
         <div className={styles.mbtiBtn}>
-          <Button size="small" backgroundColor="orange" icon={true} onClick={mbtiTestClick}>
+          <Button
+            size="small"
+            backgroundColor="orange"
+            icon={true}
+            onClick={mbtiTestClick}
+          >
             댕bti 검사하고 여행지 추천받으러 가기
           </Button>
         </div>
@@ -74,7 +78,12 @@ const HomePage = () => {
         <div className={styles.title}>인생 네컷 만들러 가기</div>
 
         <div className={styles.mbtiBtn}>
-          <Button size="small" backgroundColor="orange" icon={true} onClick={makePhotoClick}>
+          <Button
+            size="small"
+            backgroundColor="orange"
+            icon={true}
+            onClick={makePhotoClick}
+          >
             댕댕네컷 만들러 가기
           </Button>
         </div>
