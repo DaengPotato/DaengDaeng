@@ -30,7 +30,7 @@ public class S3Config {
 
     private String photoFolder = "daengFourCut";
 
-    private String profileFolder = "";
+    private String profileFolder = "petImage";
 
     private String frameFolder = "frame";
 
