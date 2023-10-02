@@ -33,7 +33,9 @@ const PlaceListCard = ({
       onClick={onClick}
     >
       <div className={styles.NameText}>{placeName}</div>
-      <div className={styles.AddressText}>{reformAddress(placeAddress)}</div>
+      <div className={styles.AddressText}>
+        {placeAddress ? reformAddress(placeAddress) : ''}
+      </div>
     </div>
   );
 };

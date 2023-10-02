@@ -10,16 +10,8 @@ import { white } from '@/src/styles/colors';
 import styles from './index.module.scss';
 import PlaceListCard from '../PlaceListCard';
 
-type categoryInfo = {
-  categoryId: number;
-  category: String;
-};
-
-type placeInfo = {
-  placeId: number;
-  title: String;
-  placeAddress: String;
-};
+import type { Category } from '@/src/types/category';
+import type { Place } from '@/src/types/place';
 
 type InfoRegistFormProps = {
   isPublic: boolean;
@@ -28,7 +20,7 @@ type InfoRegistFormProps = {
 
 const InfoRegistForm = ({ isPublic, setIsOpen }: InfoRegistFormProps) => {
   // 더미. api로 목록 받아올 것
-  const categoryArray: categoryInfo[] = [
+  const categoryArray: Category[] = [
     { categoryId: 1, category: '약국' },
     { categoryId: 2, category: '숙소' },
     { categoryId: 3, category: '병원' },
@@ -36,15 +28,119 @@ const InfoRegistForm = ({ isPublic, setIsOpen }: InfoRegistFormProps) => {
   ];
 
   // 더미. api로 목록 받아올 것
-  const placeArray: placeInfo[] = [
-    { placeId: 1, title: '장소01', placeAddress: '경기도 화성시 무슨군' },
-    { placeId: 2, title: '장소02', placeAddress: '경기도 수원시 무슨군' },
-    { placeId: 3, title: '장소03', placeAddress: '경기도 화성시 무슨군' },
-    { placeId: 4, title: '장소04', placeAddress: '경기도 파주시 무슨군' },
-    { placeId: 5, title: '장소05', placeAddress: '경기도 수원시 무슨군' },
-    { placeId: 6, title: '장소06', placeAddress: '경기도 파주시 무슨군' },
-    { placeId: 7, title: '장소07', placeAddress: '경기도 수원시 무슨군' },
-    { placeId: 8, title: '장소08', placeAddress: '경기도 화성시 무슨군' },
+  const placeArray: Place[] = [
+    {
+      placeId: 1,
+      title: '장소01',
+      roadAddress: '경기도 화성시 무슨군',
+      jibunAddress: '',
+      homepage: [''],
+      openingHour: [''],
+      phoneNumber: '',
+      category: '숙소',
+      content: '',
+      heartCnt: 1,
+      placeImage: '',
+      isHeart: false,
+    },
+    {
+      placeId: 2,
+      title: '장소02',
+      roadAddress: '경기도 수원시 무슨군',
+      jibunAddress: '',
+      homepage: [''],
+      openingHour: [''],
+      phoneNumber: '',
+      category: '숙소',
+      content: '',
+      heartCnt: 1,
+      placeImage: '',
+      isHeart: false,
+    },
+    {
+      placeId: 3,
+      title: '장소03',
+      roadAddress: '경기도 화성시 무슨군',
+      jibunAddress: '',
+      homepage: [''],
+      openingHour: [''],
+      phoneNumber: '',
+      category: '숙소',
+      content: '',
+      heartCnt: 1,
+      placeImage: '',
+      isHeart: false,
+    },
+    {
+      placeId: 4,
+      title: '장소04',
+      roadAddress: '경기도 파주시 무슨군',
+      jibunAddress: '',
+      homepage: [''],
+      openingHour: [''],
+      phoneNumber: '',
+      category: '숙소',
+      content: '',
+      heartCnt: 1,
+      placeImage: '',
+      isHeart: false,
+    },
+    {
+      placeId: 5,
+      title: '장소05',
+      roadAddress: '경기도 수원시 무슨군',
+      jibunAddress: '',
+      homepage: [''],
+      openingHour: [''],
+      phoneNumber: '',
+      category: '숙소',
+      content: '',
+      heartCnt: 1,
+      placeImage: '',
+      isHeart: false,
+    },
+    {
+      placeId: 6,
+      title: '장소06',
+      roadAddress: '경기도 파주시 무슨군',
+      jibunAddress: '',
+      homepage: [''],
+      openingHour: [''],
+      phoneNumber: '',
+      category: '숙소',
+      content: '',
+      heartCnt: 1,
+      placeImage: '',
+      isHeart: false,
+    },
+    {
+      placeId: 7,
+      title: '장소07',
+      roadAddress: '경기도 수원시 무슨군',
+      jibunAddress: '',
+      homepage: [''],
+      openingHour: [''],
+      phoneNumber: '',
+      category: '숙소',
+      content: '',
+      heartCnt: 1,
+      placeImage: '',
+      isHeart: false,
+    },
+    {
+      placeId: 8,
+      title: '장소08',
+      roadAddress: '경기도 화성시 무슨군',
+      jibunAddress: '',
+      homepage: [''],
+      openingHour: [''],
+      phoneNumber: '',
+      category: '숙소',
+      content: '',
+      heartCnt: 1,
+      placeImage: '',
+      isHeart: false,
+    },
   ];
 
   const [categoryId, setCategoryId] = useState<number>(-1);
@@ -137,7 +233,7 @@ const InfoRegistForm = ({ isPublic, setIsOpen }: InfoRegistFormProps) => {
           <PlaceListCard
             key={item.placeId}
             placeName={item.title}
-            placeAddress={item.placeAddress}
+            placeAddress={item.roadAddress}
             backgroundColor={placeId === item.placeId ? 'orange' : 'white'}
             onClick={() => handleListCardClick(item.placeId)}
           />

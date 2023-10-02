@@ -36,19 +36,19 @@ const PhotoUpload = () => {
 
   // 이미지 등록 모달 관련
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-  const [imageData, setImageData] = useState<ImageData>();
+  const [imageData, setImageData] = useState<ImageData | undefined>(undefined);
   const [requestIndex, setRequestIndex] = useState<number>(-1);
 
   // 장소 펫 선택 모달 관련
   const [isInfoModalOpen, setIsInfoModalOpen] = useState<boolean>(false);
 
   // 공개여부 선택 변수
-  const [isPublic, setisPublic] = useState<boolean>(false);
+  const [isPublic, setIsPublic] = useState<boolean>(false);
 
   // 공개 옵션 라디오버튼 클릭 시 처리
   const handleRadioChange = (e: ChangeEvent<HTMLInputElement>) => {
     const newOpenValue = e.target.value === 'true';
-    setisPublic(newOpenValue);
+    setIsPublic(newOpenValue);
   };
 
   // 프레임, 최종캔버스 ref
