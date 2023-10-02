@@ -37,7 +37,7 @@ type petReqType = {
   image?: string;
 };
 
-const createPet = async (token: string, pet: PetDetail) => {
+const createPet = async (token: string, pet: petReqType) => {
   const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/pet`, {
     method: 'POST',
     headers: {
