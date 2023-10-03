@@ -1,16 +1,16 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import Image from 'next/image';
 
 import styles from './index.module.scss';
 
 import type { PetDetail } from '@/src/types/pet';
-import type { Place } from '@/src/types/place';
+import type { PetSpecificPlaces } from '@/src/types/place';
 
 import { PawIcon } from '@/public/icons';
-import PlaceExample from '@/public/images/place-example.jpg';
 import PlaceCarousel from '@/src/components/PlaceCarousel';
 import { mbtiTypes } from '@/src/constants/mbti';
+import useFetcher from '@/src/hooks/useFetcher';
 import { getUser } from '@/src/hooks/useLocalStorage';
 import { gray } from '@/src/styles/colors';
 
@@ -40,6 +40,10 @@ const MBTIResult = ({ pet, selectedTypes }: MBTIResultProps) => {
   const token: string | undefined = getUser();
 
   const [imgError, setImgError] = useState<boolean>(false);
+  const [mbti, setMbti] = useState<string[]>([]);
+
+  const { data: petPlaces, mutate: mutatePlaces } =
+    useFetcher<PetSpecificPlaces[]>(`/place/recommend/dog`);
 
   const typeCounts = selectedTypes.reduce(
     (counts: { [key: string]: number }, type) => {
@@ -49,19 +53,25 @@ const MBTIResult = ({ pet, selectedTypes }: MBTIResultProps) => {
     {},
   );
 
-  let mbti: string[] = [];
+  useEffect(() => {
+    (async () => {
+      const mbtiType = mbtiTypes.reduce((acc: string[], types: string[]) => {
+        if (typeCounts[types[0]] > 1) acc.push(types[0]);
+        else acc.push(types[2]);
+        return acc;
+      }, []);
 
-  (async () => {
-    mbti = mbtiTypes.reduce((acc: string[], types: string[]) => {
-      if (typeCounts[types[0]] > 1) acc.push(types[0]);
-      else acc.push(types[2]);
-      return acc;
-    }, []);
+      setMbti(mbtiType);
 
-    await updateMBTI(token, pet.petId, {
-      mbti: mbti.join(''),
-    });
-  })();
+      const res = await updateMBTI(token, pet.petId, {
+        mbti: mbtiType.join(''),
+      });
+
+      if (res.ok) {
+        await mutatePlaces();
+      }
+    })();
+  }, []);
 
   return (
     <div className={styles.MBTIResult}>
@@ -72,7 +82,8 @@ const MBTIResult = ({ pet, selectedTypes }: MBTIResultProps) => {
             <Image
               src={pet.image}
               alt="pet img"
-              fill={true}
+              width={120}
+              height={120}
               blurDataURL={pet.image}
               placeholder="blur"
               onError={() => setImgError(true)}
@@ -143,31 +154,22 @@ const MBTIResult = ({ pet, selectedTypes }: MBTIResultProps) => {
           </span>
           <button className={styles.moreBtn}>더보기</button>
         </div>
-        <PlaceCarousel
-          places={places}
-          options={{ dragFree: true, containScroll: 'trimSnaps' }}
-        />
+        {petPlaces &&
+          petPlaces.map((petPlace) => {
+            if (petPlace.petId === pet.petId) {
+              return (
+                <PlaceCarousel
+                  key={pet.petId}
+                  places={petPlace.placeList}
+                  options={{ dragFree: true, containScroll: 'trimSnaps' }}
+                  mutate={mutatePlaces}
+                />
+              );
+            }
+          })}
       </div>
     </div>
   );
 };
 
 export default MBTIResult;
-
-// dummy data
-const places = Array.from({ length: 20 }, (_, i): Place => {
-  return {
-    placeId: i,
-    title: `Place ${i}`,
-    roadAddress: `Address ${i}`,
-    placeImage: PlaceExample,
-    isHeart: true,
-    jibunAddress: '',
-    homepage: [],
-    openingHour: [],
-    phoneNumber: '',
-    content: '',
-    heartCnt: 0,
-    category: '',
-  };
-});

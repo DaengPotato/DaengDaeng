@@ -5,12 +5,17 @@ import { fetcher } from '../apis/utils/fetcher';
 
 const token: string | undefined = getUser();
 
-export default function useFetcher<T>(url: string) {
+export default function useFetcher<T>(
+  url: string,
+  isTrigger: boolean = true,
+  params: string = '',
+) {
   const { data, error, mutate, isLoading } = useSWR<T>(
-    [url, token],
-    async ([url, token]) => {
+    // eslint-disable-next-line no-null/no-null
+    isTrigger ? [url, token, params] : null,
+    async ([url, token, params]) => {
       if (typeof token === 'string') {
-        return fetcher(url, token);
+        return fetcher(url, token, params);
       }
     },
   );

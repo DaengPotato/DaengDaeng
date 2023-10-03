@@ -10,13 +10,13 @@ import type { PetDetail } from '@/src/types/pet';
 
 import { EditIcon, PawIcon } from '@/public/icons';
 import Button from '@/src/components/common/Button';
+import { mbti } from '@/src/constants/mbti';
 import { gray } from '@/src/styles/colors';
 
 type PetCardProps = {
   pet: PetDetail;
 };
 
-// TODO: mbti, 나이, 성별 변환 후 출력
 const PetCard = ({ pet }: PetCardProps) => {
   const router = useRouter();
 
@@ -69,7 +69,7 @@ const PetCard = ({ pet }: PetCardProps) => {
       <div>
         <div className={styles.petName}>{pet.name}</div>
         <div className={styles.petMbti}>
-          {pet.mbtiId ? pet.mbtiId : 'mbti 정보 없음'}
+          {pet.mbtiId ? mbti[pet.mbtiId - 1] : 'mbti 정보 없음'}
         </div>
         <div className={styles.petImg}>
           {!imgError && typeof pet.image === 'string' ? (

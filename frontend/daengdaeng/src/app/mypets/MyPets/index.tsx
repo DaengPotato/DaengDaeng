@@ -24,7 +24,7 @@ type MyPetsProps = {
   mutatePlaces: any;
 };
 
-const MyPets = ({ pets, places, mutatePets }: MyPetsProps) => {
+const MyPets = ({ pets, places, mutatePets, mutatePlaces }: MyPetsProps) => {
   const router = useRouter();
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
@@ -88,6 +88,7 @@ const MyPets = ({ pets, places, mutatePets }: MyPetsProps) => {
           <PlaceCarousel
             places={places}
             options={{ dragFree: true, containScroll: 'trimSnaps' }}
+            mutate={mutatePlaces}
           />
         </div>
       )}

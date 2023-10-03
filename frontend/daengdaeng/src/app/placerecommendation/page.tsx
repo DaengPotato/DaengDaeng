@@ -19,6 +19,8 @@ const PlaceRecommendationPage = () => {
       pets={pets ? pets : undefined}
       petSpecificPlaces={petPlaces}
       userSpecificPlaces={memberPlaces}
+      mutateMemberPlaces={mutateMemberPlaces}
+      mutatePetPlaces={mutatePetPlaces}
     />
   );
 };
