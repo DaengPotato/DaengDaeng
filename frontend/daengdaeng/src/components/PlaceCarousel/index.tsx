@@ -86,7 +86,7 @@ const PlaceCarousel = ({
           <PlaceDetail
             placeWithReview={currentPlace}
             handleClose={handleClosePlaceDetail}
-            mutate={mutatePlaceDetail}
+            // mutate={mutatePlaceDetail}
           />
         </>
       )}
