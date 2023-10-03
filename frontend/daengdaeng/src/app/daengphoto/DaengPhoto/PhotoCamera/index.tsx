@@ -1,20 +1,24 @@
-// import React from 'react';
+import React from 'react';
 
-// import { CameraIcon } from '@/public/icons';
-// import { white } from '@/src/styles/colors';
+import { useRouter } from 'next/navigation';
 
-// import styles from './index.module.scss';
+import styles from './index.module.scss';
 
-// type CameraButtonProps = {
-//   onClick: React.MouseEventHandler<HTMLButtonElement>;
-// };
+import { CameraIcon } from '@/public/icons';
+import { white } from '@/src/styles/colors';
 
-// const PhotoCamera = ({ onClick }: CameraButtonProps) => {
-//   return (
-//     <button className={styles.cameraButton} onClick={onClick}>
-//       <CameraIcon width={30} height={30} fill={white} />
-//     </button>
-//   );
-// };
+const PhotoCamera = () => {
+  const router = useRouter();
 
-// export default PhotoCamera;
+  const handleClickupload = () => {
+    router.push('/photoupload');
+  };
+
+  return (
+    <div className={styles.cameraButton} onClick={handleClickupload}>
+      <CameraIcon width={30} height={30} fill={white} />
+    </div>
+  );
+};
+
+export default PhotoCamera;
