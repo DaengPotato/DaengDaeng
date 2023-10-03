@@ -1,9 +1,9 @@
 import React from 'react';
 
+import styles from './index.module.scss';
+
 import { PawIcon } from '@/public/icons';
 import { gray, primaryOrange } from '@/src/styles/colors';
-
-import styles from './index.module.scss';
 
 type LikeButtonProps = {
   isLiked: boolean;

@@ -1,12 +1,11 @@
 export const fetcher = async (
   url: string,
   token: string | undefined = undefined,
-  params = undefined,
+  params: any = '',
 ) => {
   let reqUrl = `${process.env.NEXT_PUBLIC_API_URL}${url}`;
-  if (params) {
-    const queryString = new URLSearchParams(params).toString();
-    reqUrl = `${reqUrl}?${queryString}`;
+  if (params !== '') {
+    reqUrl = `${reqUrl}${params}`;
   }
   const res = await fetch(reqUrl, {
     headers: {
