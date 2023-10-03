@@ -34,24 +34,26 @@ type petReqType = {
   birth: string;
   gender: boolean;
   weight: number;
-  image?: string;
+  image?: File;
 };
 
-const createPet = async (token: string, pet: petReqType) => {
+const createPet = async (token: string, pet: FormData) => {
   const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/pet`, {
     method: 'POST',
     headers: {
-      'Content-Type': 'application/json',
       Authorization: `Bearer ${token}`,
     },
-    body: JSON.stringify(pet),
+    body: pet,
   });
 
   return res;
 };
 
 const PetRegistForm = ({ setIsOpen, mutate }: PetRegistFormProps) => {
-  const [petImage, setPetImage] = useState<string | undefined>(undefined);
+  const [petImage, setPetImage] = useState<File | undefined>(undefined);
+  const [currentPetImage, setCurrentPetImage] = useState<string | undefined>(
+    undefined,
+  );
   const [selectedGender, setSelectedGender] = useState<string>('');
 
   const {
@@ -75,13 +77,16 @@ const PetRegistForm = ({ setIsOpen, mutate }: PetRegistFormProps) => {
   const handleUploadImage = (e: React.ChangeEvent) => {
     const fileList = (e.target as HTMLInputElement).files as FileList;
     const file = fileList[0];
+
     if (!file) return;
+
+    setPetImage(file);
 
     const reader = new FileReader();
     reader.readAsDataURL(file);
     reader.onload = (e: any) => {
       if (reader.readyState === 2) {
-        setPetImage(e.target.result);
+        setCurrentPetImage(e.target.result);
       }
     };
   };
@@ -100,8 +105,6 @@ const PetRegistForm = ({ setIsOpen, mutate }: PetRegistFormProps) => {
   };
 
   const handleRegist = async (data: FieldValues) => {
-    // TODO: 강아지 등록 api
-
     const year = data.birth.getFullYear(); // 연도 가져오기
     const month = String(data.birth.getMonth() + 1).padStart(2, '0'); // 월 가져오기 (0부터 시작하므로 +1 필요), 2자리로 포맷
     const day = String(data.birth.getDate()).padStart(2, '0'); // 일 가져오기, 2자리로 포맷
@@ -115,13 +118,28 @@ const PetRegistForm = ({ setIsOpen, mutate }: PetRegistFormProps) => {
       weight: data.weight,
     };
 
+    const formData = new FormData();
+
     if (petImage) {
-      pet.image = petImage;
+      // 이미지 파일을 formData에 추가
+      formData.append('image', petImage);
+    }
+
+    // PetRequest 객체를 JSON 문자열로 변환하여 formData에 추가
+    formData.append(
+      'petRequest',
+      new Blob([JSON.stringify(pet)], {
+        type: 'application/json',
+      }),
+    );
+
+    for (const x of formData.entries()) {
+      console.log(x);
     }
 
     if (typeof window !== 'undefined') {
       const token = getUser() as string;
-      const res = await createPet(token, pet);
+      const res = await createPet(token, formData);
       if (res.ok) {
         await mutate();
         setIsOpen(false);
@@ -143,8 +161,13 @@ const PetRegistForm = ({ setIsOpen, mutate }: PetRegistFormProps) => {
         <div className={styles.title}>강아지 등록하기</div>
         <div className={styles.petImageUpload}>
           <div onClick={handlePetImageClick} className={styles.petImage}>
-            {petImage ? (
-              <Image src={petImage} width={100} height={100} alt="pet Image" />
+            {currentPetImage ? (
+              <Image
+                src={currentPetImage}
+                width={100}
+                height={100}
+                alt="pet Image"
+              />
             ) : (
               <PawIcon width={100} height={100} fill={gray} />
             )}
