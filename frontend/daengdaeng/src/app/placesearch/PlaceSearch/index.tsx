@@ -28,10 +28,9 @@ const PlaceSearch = ({ location, categories }: PlaceSearchProps) => {
   const [searchText, setSearchText] = useState<string>('');
   const [selectedPlaceId, setSelectedPlaceId] = useState<number | undefined>(
     undefined,
-  ); 
-  const [selectedPlaceWithReview, setSelectedPlaceWithReview] = useState<
-    PlaceWithReview | undefined
-  >(undefined);
+  );
+  const [selectedPlaceWithReview, setSelectedPlaceWithReview] =
+    useState<PlaceWithReview>();
 
   const handleSearchPlace = (searchText: string) => {
     setSearchText(searchText);
@@ -131,12 +130,13 @@ const PlaceSearch = ({ location, categories }: PlaceSearchProps) => {
         />
       </div>
 
-      {selectedPlaceId !== undefined && (
-        <></>
-        // <PlaceDetail
-        //   placeWithReview={selectedPlaceWithReview}
-        //   handleClose={() => setSelectedPlaceId(undefined)}
-        // />
+      {selectedPlaceId !== undefined && viewMode !== 'results' && (
+        <>
+          <PlaceDetail
+            placeWithReview={selectedPlaceWithReview}
+            handleClose={() => setSelectedPlaceId(undefined)}
+          />
+        </>
       )}
     </>
   );

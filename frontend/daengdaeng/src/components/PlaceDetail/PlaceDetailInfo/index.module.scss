@@ -22,3 +22,16 @@
 .placeAddress {
   font-size: 1.4rem;
 }
+
+.placeOpeningHourContainer {
+  & > div {
+    font-size: 1.6rem;
+    margin-right: 2rem;
+    float: left;
+  }
+}
+
+.placeOpeningHour > div {
+  font-size: 1.6rem;
+  padding-bottom: 0.8rem;
+}

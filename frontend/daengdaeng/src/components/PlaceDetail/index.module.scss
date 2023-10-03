@@ -26,10 +26,36 @@
   display: flex;
   flex-wrap: wrap;
   gap: 5px;
+  margin-top: 8%;
+}
+
+.reviewContainer {
+  font-size: 1.6rem;
+  font-weight: 800;
+}
+
+.reviewTitle {
+  margin: 20px 10% 10px 10%;
+  padding: 5px 5px;
+  text-align: center;
+  & > div {
+    font-size: 1.6rem;
+    font-weight: 800;
+    padding: 5px;
+  }
 }
 
 .reviewHeader {
-  margin: 20px 0 10px 0;
-  font-size: 1.6rem;
-  font-weight: 800;
+  float: left;
+  background-color: var(--color-orange);
+  border-radius: 10px;
+}
+
+.divided {
+  margin: 0 10%;
+  float: left;
+}
+
+.makeReview {
+  float: none;
 }

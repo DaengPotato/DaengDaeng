@@ -20,12 +20,16 @@ const PlaceDetailInfo = ({ place, score, isLiked }: PlaceDetailInfoProps) => {
       </div>
       <div className={styles.placeAddress}>{place.roadAddress}</div>
       <div>별점 : {score}</div>
-      <div>
-        장소 설명입니다장소 설명입니다장소 설명입니다장소 설명입니다장소
-        설명입니다장소 설명입니다장소 설명입니다
+      <div>{place.content}</div>
+      <div>{place.phoneNumber}</div>
+      <div className={styles.placeOpeningHourContainer}>
+        <div>영업시간</div>
+        <div className={styles.placeOpeningHour}>
+          {place.openingHour.map((hour, index) => (
+            <div key={index}>{hour}</div>
+          ))}
+        </div>
       </div>
-      <div>02-1234-5678</div>
-      <div>영업시간 오전 9시 - 오후 10시</div>
     </div>
   );
 };
