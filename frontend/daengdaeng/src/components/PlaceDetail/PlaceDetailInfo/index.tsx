@@ -5,6 +5,7 @@ import LikeButton from '../../LikeButton';
 
 import type { Place } from '@/src/types/place';
 
+import { createLikePlace, deleteLikePlace } from '@/src/apis/api/place';
 import { getUser } from '@/src/hooks/useLocalStorage';
 
 type PlaceDetailInfoProps = {
@@ -12,34 +13,6 @@ type PlaceDetailInfoProps = {
   score: number;
   isLiked: boolean;
   mutate: any;
-};
-
-const createLikePlace = async (token: string, placeId: number) => {
-  const res = await fetch(
-    `${process.env.NEXT_PUBLIC_API_URL}/member/heart/${placeId}`,
-    {
-      method: 'POST',
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    },
-  );
-
-  return res;
-};
-
-const deleteLikePlace = async (token: string, placeId: number) => {
-  const res = await fetch(
-    `${process.env.NEXT_PUBLIC_API_URL}/member/heart/${placeId}`,
-    {
-      method: 'DELETE',
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    },
-  );
-
-  return res;
 };
 
 const PlaceDetailInfo = ({

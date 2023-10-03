@@ -1,25 +1,10 @@
+import { findUserInfo } from '../apis/api/member';
 import {
   USER_INFO_LOCAL_STORAGE_KEY,
   USER_LOCAL_STORAGE_KEY,
 } from '../constants/localStorageKey';
 
-export interface UserInfo {
-  nickname: string;
-  email: string;
-}
-
-export async function findUserInfo(token: string): Promise<UserInfo> {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/member`, {
-    method: 'GET',
-    headers: { Authorization: `Bearer ${token}` },
-  });
-
-  const data = JSON.parse(await res.text());
-
-  saveUserInfo(data);
-
-  return data;
-}
+import type { UserInfo } from '../types/member';
 
 export async function saveUser(token: string): Promise<void> {
   if (typeof window !== 'undefined') {
