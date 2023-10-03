@@ -8,67 +8,33 @@ import Card from '../common/Card';
 import type { Place, PlaceWithReview } from '@/src/types/place';
 import type { EmblaOptionsType } from 'embla-carousel-react';
 
-import PlaceExample from '@/public/images/place-example.jpg';
 import PlaceCard from '@/src/components/PlaceCard';
 import PlaceDetail from '@/src/components/PlaceDetail';
+import useFetcher from '@/src/hooks/useFetcher';
 
 type CarouselProps = {
   places: Place[];
   startIndex?: number;
   options?: EmblaOptionsType;
+  mutate: any;
 };
 
-// dummy data
-const placeWithReview: PlaceWithReview = {
-  place: {
-    placeId: 1,
-    title: '짱멋진 여행지',
-    roadAddress: '강원도 어딘가 어쩌구',
-    placeImage: PlaceExample,
-    isHeart: true,
-    jibunAddress: '',
-    homepage: [],
-    openingHour: [],
-    phoneNumber: '',
-    content: '',
-    heartCnt: 0,
-    category: '',
-  },
-  score: 3,
-  keywordList: [
-    {
-      keywordId: 1,
-      keyword: '깨끗해요',
-      keywordCnt: 25,
-    },
-    {
-      keywordId: 2,
-      keyword: '뛰어놀기 좋아요',
-      keywordCnt: 51,
-    },
-    {
-      keywordId: 3,
-      keyword: '친절해요',
-      keywordCnt: 30,
-    },
-    {
-      keywordId: 4,
-      keyword: '힐링돼요',
-      keywordCnt: 15,
-    },
-    {
-      keywordId: 5,
-      keyword: '프라이빗해요',
-      keywordCnt: 4,
-    },
-  ],
-  reviewList: [],
-};
-
-const PlaceCarousel = ({ places, startIndex, options }: CarouselProps) => {
+const PlaceCarousel = ({
+  places,
+  startIndex,
+  options,
+  mutate,
+}: CarouselProps) => {
   const [emblaRef, _] = useEmblaCarousel(options);
-  const [currentPlace, setCurrentPlace] = useState<PlaceWithReview | undefined>(
+
+  const [currentPlaceId, setCurrentPlaceId] = useState<number | undefined>(
     undefined,
+  );
+
+  const { data: currentPlace } = useFetcher<PlaceWithReview>(
+    `/place`,
+    typeof currentPlaceId !== 'undefined',
+    `/${currentPlaceId}`,
   );
 
   const somePlaces =
@@ -77,14 +43,11 @@ const PlaceCarousel = ({ places, startIndex, options }: CarouselProps) => {
       : places;
 
   const handleClickPlaceCard = (placeId: number) => {
-    // TODO: 여행지 상세 정보(리뷰) fetch
-    console.log(placeId);
-
-    setCurrentPlace(placeWithReview);
+    setCurrentPlaceId(placeId);
   };
 
   const handleClosePlaceDetail = () => {
-    setCurrentPlace(undefined);
+    setCurrentPlaceId(undefined);
   };
 
   return (
@@ -98,7 +61,7 @@ const PlaceCarousel = ({ places, startIndex, options }: CarouselProps) => {
               onClick={() => handleClickPlaceCard(place.placeId)}
             >
               <Card>
-                <PlaceCard key={place.placeId} place={place} />
+                <PlaceCard key={place.placeId} place={place} mutate={mutate} />
               </Card>
             </div>
           ))}

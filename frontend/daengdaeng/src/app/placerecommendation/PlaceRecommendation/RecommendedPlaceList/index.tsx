@@ -13,12 +13,14 @@ type RecommendedPlaceListProps = {
   isPet: boolean;
   name: string[] | string;
   places: Place[];
+  mutate: any;
 };
 
 const RecommendedPlaceList = ({
   isPet,
   name,
   places,
+  mutate,
 }: RecommendedPlaceListProps) => {
   const [currentPlaceIndex, setCurrentPlaceIndex] = useState<number>(0);
 
@@ -46,7 +48,11 @@ const RecommendedPlaceList = ({
           </>
         )}
       </div>
-      <PlaceCarousel places={places} startIndex={currentPlaceIndex} />
+      <PlaceCarousel
+        places={places}
+        startIndex={currentPlaceIndex}
+        mutate={mutate}
+      />
       <div className={styles.reloadContainer}>
         <button onClick={handleReloadClick} className={styles.reloadBtn}>
           <ReloadIcon width={20} height={20} />

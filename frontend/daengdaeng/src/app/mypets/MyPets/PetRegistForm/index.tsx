@@ -133,10 +133,6 @@ const PetRegistForm = ({ setIsOpen, mutate }: PetRegistFormProps) => {
       }),
     );
 
-    for (const x of formData.entries()) {
-      console.log(x);
-    }
-
     if (typeof window !== 'undefined') {
       const token = getUser() as string;
       const res = await createPet(token, formData);

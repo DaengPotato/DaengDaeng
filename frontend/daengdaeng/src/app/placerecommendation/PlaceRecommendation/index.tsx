@@ -15,12 +15,16 @@ type PlaceRecommendationProps = {
   pets: PetSimple[] | undefined;
   petSpecificPlaces: PetSpecificPlaces[] | undefined;
   userSpecificPlaces: Place[] | undefined;
+  mutateMemberPlaces: any;
+  mutatePetPlaces: any;
 };
 
 const PlaceRecommendation = ({
   pets,
   petSpecificPlaces,
   userSpecificPlaces,
+  mutateMemberPlaces,
+  mutatePetPlaces,
 }: PlaceRecommendationProps) => {
   const [checkedPets, setCheckedPets] = useState<number[]>([]);
 
@@ -55,6 +59,7 @@ const PlaceRecommendation = ({
                     isPet={true}
                     name={petPlace.name}
                     places={petPlace.placeList}
+                    mutate={mutatePetPlaces}
                   />
                 ),
             )
@@ -76,6 +81,7 @@ const PlaceRecommendation = ({
             isPet={false}
             name={userName}
             places={userSpecificPlaces}
+            mutate={mutateMemberPlaces}
           />
         )}
       </div>
