@@ -25,17 +25,19 @@ const PlaceCarousel = ({
   options,
   mutate,
 }: CarouselProps) => {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
   const [emblaRef, _] = useEmblaCarousel(options);
 
   const [currentPlaceId, setCurrentPlaceId] = useState<number | undefined>(
     undefined,
   );
 
-  const { data: currentPlace } = useFetcher<PlaceWithReview>(
-    `/place`,
-    typeof currentPlaceId !== 'undefined',
-    `/${currentPlaceId}`,
-  );
+  const { data: currentPlace, mutate: mutatePlaceDetail } =
+    useFetcher<PlaceWithReview>(
+      `/place`,
+      typeof currentPlaceId !== 'undefined',
+      `/${currentPlaceId}`,
+    );
 
   const somePlaces =
     typeof startIndex !== 'undefined'
@@ -49,6 +51,17 @@ const PlaceCarousel = ({
   const handleClosePlaceDetail = () => {
     setCurrentPlaceId(undefined);
   };
+
+  // const handleMutate = async (placeId: number) => {
+  //   const updatedPlaces = places.map((place) => {
+  //     if (place.placeId === placeId) {
+  //       return { ...place, isHeart: !place.isHeart };
+  //     }
+  //     return place;
+  //   });
+
+  //   await mutate(updatedPlaces, false);
+  // };
 
   return (
     <div className={styles.Carousel}>
@@ -73,6 +86,7 @@ const PlaceCarousel = ({
           <PlaceDetail
             placeWithReview={currentPlace}
             handleClose={handleClosePlaceDetail}
+            mutate={mutatePlaceDetail}
           />
         </>
       )}
