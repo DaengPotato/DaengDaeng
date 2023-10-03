@@ -9,11 +9,8 @@ import Button from '../common/Button';
 
 import { CloseIcon } from '@/public/icons';
 import TextLogo from '@/public/images/text-logo.png';
-import {
-  getUser,
-  removeUser,
-  removeUserInfo,
-} from '@/src/hooks/useLocalStorage';
+import { deleteMember, logout } from '@/src/apis/api/member';
+import { removeUser, removeUserInfo } from '@/src/hooks/useLocalStorage';
 
 const menuItems = [
   {
@@ -58,16 +55,10 @@ const Sidebar = ({
     handleCloseMenu();
   };
 
-  const logout = async () => {
+  const handleLogout = async () => {
     try {
-      const token = getUser();
-      const res = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/member/logout`,
-        {
-          method: 'GET',
-          headers: { Authorization: `Bearer ${token}` },
-        },
-      );
+      const res = await logout();
+
       if (res.status === 200) {
         alert('로그아웃');
         removeUser();
@@ -85,11 +76,7 @@ const Sidebar = ({
 
   const handleDeleteAccount = async () => {
     try {
-      const token = getUser();
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/member`, {
-        method: 'DELETE',
-        headers: { Authorization: `Bearer ${token}` },
-      });
+      const res = await deleteMember();
 
       if (res.status === 200) {
         alert('그동안 댕댕감자를 이용해주셔서 감사합니다');
@@ -145,7 +132,7 @@ const Sidebar = ({
         ))}
       </ul>
       <div className={styles.bottom}>
-        <button className={styles.userBtn} onClick={logout}>
+        <button className={styles.userBtn} onClick={handleLogout}>
           로그아웃
         </button>
         <button className={styles.userBtn} onClick={handleDeleteButtonClick}>

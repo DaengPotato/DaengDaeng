@@ -8,10 +8,10 @@ import type { PetDetail } from '@/src/types/pet';
 import type { PetSpecificPlaces } from '@/src/types/place';
 
 import { PawIcon } from '@/public/icons';
+import { updateMBTI } from '@/src/apis/api/mbti';
 import PlaceCarousel from '@/src/components/PlaceCarousel';
 import { mbtiTypes } from '@/src/constants/mbti';
 import useFetcher from '@/src/hooks/useFetcher';
-import { getUser } from '@/src/hooks/useLocalStorage';
 import { gray } from '@/src/styles/colors';
 
 type MBTIResultProps = {
@@ -19,26 +19,7 @@ type MBTIResultProps = {
   selectedTypes: string[];
 };
 
-const updateMBTI = async (
-  token: string | undefined,
-  petId: number,
-  mbti: { [key: string]: string },
-) => {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/mbti/${petId}`, {
-    method: 'PATCH',
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${token}`,
-    },
-    body: JSON.stringify(mbti),
-  });
-
-  return res;
-};
-
 const MBTIResult = ({ pet, selectedTypes }: MBTIResultProps) => {
-  const token: string | undefined = getUser();
-
   const [imgError, setImgError] = useState<boolean>(false);
   const [mbti, setMbti] = useState<string[]>([]);
 
@@ -63,7 +44,7 @@ const MBTIResult = ({ pet, selectedTypes }: MBTIResultProps) => {
 
       setMbti(mbtiType);
 
-      const res = await updateMBTI(token, pet.petId, {
+      const res = await updateMBTI(pet.petId, {
         mbti: mbtiType.join(''),
       });
 
