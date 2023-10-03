@@ -14,10 +14,10 @@ import styles from './index.module.scss';
 import type { FieldValues } from 'react-hook-form';
 
 import { NextArrowIcon, PawIcon, PrevArrowIcon } from '@/public/icons';
+import { createPet } from '@/src/apis/api/pet';
 import Button from '@/src/components/common/Button';
 import ErrorMessage from '@/src/components/ErrorMessage';
 import { YEARS } from '@/src/constants/calendar';
-import { getUser } from '@/src/hooks/useLocalStorage';
 import { gray, primaryOrange } from '@/src/styles/colors';
 import { validatePetName } from '@/src/utils/validate';
 
@@ -34,18 +34,6 @@ type petReqType = {
   gender: boolean;
   weight: number;
   image?: File;
-};
-
-const createPet = async (token: string, pet: FormData) => {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/pet`, {
-    method: 'POST',
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-    body: pet,
-  });
-
-  return res;
 };
 
 const PetRegistForm = ({ setIsOpen, mutate }: PetRegistFormProps) => {
@@ -133,8 +121,7 @@ const PetRegistForm = ({ setIsOpen, mutate }: PetRegistFormProps) => {
     );
 
     if (typeof window !== 'undefined') {
-      const token = getUser() as string;
-      const res = await createPet(token, formData);
+      const res = await createPet(formData);
       if (res.ok) {
         await mutate();
         setIsOpen(false);
