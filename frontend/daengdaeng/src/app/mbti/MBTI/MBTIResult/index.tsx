@@ -5,7 +5,7 @@ import Image from 'next/image';
 import styles from './index.module.scss';
 
 import type { PetDetail } from '@/src/types/pet';
-import type { Place } from '@/src/types/place';
+import type { PetSpecificPlaces } from '@/src/types/place';
 
 import { PawIcon } from '@/public/icons';
 import PlaceCarousel from '@/src/components/PlaceCarousel';
@@ -42,8 +42,8 @@ const MBTIResult = ({ pet, selectedTypes }: MBTIResultProps) => {
   const [imgError, setImgError] = useState<boolean>(false);
   const [mbti, setMbti] = useState<string[]>([]);
 
-  const { data: places, mutate: mutatePlaces } =
-    useFetcher<Place[]>(`/place/recommend/dog`);
+  const { data: petPlaces, mutate: mutatePlaces } =
+    useFetcher<PetSpecificPlaces[]>(`/place/recommend/dog`);
 
   const typeCounts = selectedTypes.reduce(
     (counts: { [key: string]: number }, type) => {
@@ -154,13 +154,19 @@ const MBTIResult = ({ pet, selectedTypes }: MBTIResultProps) => {
           </span>
           <button className={styles.moreBtn}>더보기</button>
         </div>
-        {places && (
-          <PlaceCarousel
-            places={places}
-            options={{ dragFree: true, containScroll: 'trimSnaps' }}
-            mutate={mutatePlaces}
-          />
-        )}
+        {petPlaces &&
+          petPlaces.map((petPlace) => {
+            if (petPlace.petId === pet.petId) {
+              return (
+                <PlaceCarousel
+                  key={pet.petId}
+                  places={petPlace.placeList}
+                  options={{ dragFree: true, containScroll: 'trimSnaps' }}
+                  mutate={mutatePlaces}
+                />
+              );
+            }
+          })}
       </div>
     </div>
   );

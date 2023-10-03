@@ -1,9 +1,9 @@
-import PlaceExample from '@/public/images/place-example.jpg';
-
 import type { PlaceWithReview } from '@/src/types/place';
 import type { Meta, StoryObj } from '@storybook/react';
 
 import PlaceDetail from '.';
+
+import PlaceExample from '@/public/images/place-example.jpg';
 
 const meta: Meta<typeof PlaceDetail> = {
   title: 'Components/PlaceDetail',

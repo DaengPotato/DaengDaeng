@@ -7,14 +7,54 @@ import LikeButton from '../LikeButton';
 
 import type { Place } from '@/src/types/place';
 
+import { getUser } from '@/src/hooks/useLocalStorage';
+
 type PlaceCardProps = {
   place: Place;
+  mutate?: any;
 };
 
-const PlaceCard = ({ place }: PlaceCardProps) => {
-  const handleLikeClick = (event: { stopPropagation: () => void }) => {
+const createLikePlace = async (token: string, placeId: number) => {
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_API_URL}/member/heart/${placeId}`,
+    {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    },
+  );
+
+  return res;
+};
+
+const deleteLikePlace = async (token: string, placeId: number) => {
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_API_URL}/member/heart/${placeId}`,
+    {
+      method: 'DELETE',
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    },
+  );
+
+  return res;
+};
+
+const PlaceCard = ({ place, mutate }: PlaceCardProps) => {
+  const token = getUser() as string;
+
+  const handleLikeClick = async (event: { stopPropagation: () => void }) => {
     event.stopPropagation();
-    console.log('조아요');
+
+    await mutate();
+
+    if (place.isHeart) {
+      await createLikePlace(token, place.placeId);
+    } else {
+      await deleteLikePlace(token, place.placeId);
+    }
   };
 
   return (

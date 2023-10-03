@@ -11,7 +11,6 @@ import { Controller, useForm } from 'react-hook-form';
 
 import styles from './index.module.scss';
 
-import type { PetDetail } from '@/src/types/pet';
 import type { FieldValues } from 'react-hook-form';
 
 import { NextArrowIcon, PawIcon, PrevArrowIcon } from '@/public/icons';
