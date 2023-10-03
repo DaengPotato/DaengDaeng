@@ -13,8 +13,6 @@ const MBTIPage = () => {
   const { data: pets } = useFetcher<PetDetail[]>(`/pet/detail`);
   const { data: questions } = useFetcher<mbtiQuestion[]>(`/mbti`);
 
-  // TODO: mbti 질문 리스트 fetch
-
   return <MBTI pets={pets} questions={questions} />;
 };
 
