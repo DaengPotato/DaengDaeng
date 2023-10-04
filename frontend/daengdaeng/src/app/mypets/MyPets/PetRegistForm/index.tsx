@@ -95,6 +95,7 @@ const PetRegistForm = ({
 
   const handleRemoveImage = () => {
     setPetImage(undefined);
+    setCurrentPetImage(undefined);
     if (petImageInput.current) {
       petImageInput.current.value = '';
     }
@@ -345,7 +346,9 @@ const PetRegistForm = ({
                 type="number"
                 className={styles.weight}
                 {...register('age', {
-                  required: noBirthData ? '나이를 입력해주세요.' : false,
+                  required: noBirthData
+                    ? '대략적인 나이를 입력해주세요.'
+                    : false,
                 })}
               />
               <span>살</span>
