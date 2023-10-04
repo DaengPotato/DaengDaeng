@@ -1,6 +1,8 @@
 import React from 'react';
 
 import Image from 'next/image';
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 
 import styles from './index.module.scss';
 import KeywordReviewItem from './KeywordReviewItem';
@@ -14,6 +16,7 @@ type PlaceDetailProps = {
 };
 
 const PlaceDetail = ({ placeWithReview, handleClose }: PlaceDetailProps) => {
+  const router = useRouter();
   const place: Place = placeWithReview?.place || {
     placeId: 0,
     title: '',
@@ -57,7 +60,17 @@ const PlaceDetail = ({ placeWithReview, handleClose }: PlaceDetailProps) => {
           <div className={styles.reviewTitle}>
             <div className={styles.reviewHeader}>방문자 리뷰</div>
             <div className={styles.divided}>|</div>
-            <div className={styles.makeReview}>리뷰 남기기</div>
+            <Link
+              className={styles.makeReview}
+              href={{
+                pathname: '/placereview',
+                query: {
+                  id: place.placeId,
+                },
+              }}
+            >
+              리뷰 남기기
+            </Link>
           </div>
           <div className={styles.keywordReviewContainer}>
             {keywordList.map((keyword) => (
