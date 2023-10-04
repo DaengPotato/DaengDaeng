@@ -7,12 +7,15 @@ import { useRouter } from 'next/navigation';
 import styles from './index.module.scss';
 import Button from '../common/Button';
 
+import type { UserInfo } from '@/src/types/member';
+
 import { CloseIcon } from '@/public/icons';
 import TextLogo from '@/public/images/text-logo.png';
 import { deleteMember, logout } from '@/src/apis/api/member';
 import { menuItems } from '@/src/constants/nav';
 import {
   getUser,
+  getUserInfo,
   removeUser,
   removeUserInfo,
 } from '@/src/hooks/useLocalStorage';
@@ -26,10 +29,12 @@ const Sidebar = ({
 }) => {
   const router = useRouter();
 
-  const [isLogin, setIsLogin] = useState(false);
+  const [isLogin, setIsLogin] = useState(true);
+  const [userInfo, setUserInfo] = useState<UserInfo | undefined>(undefined);
 
   useEffect(() => {
     setIsLogin(typeof getUser() === 'string');
+    setUserInfo(getUserInfo());
   }, [isMenuOpen]);
 
   const handleCloseMenu = () => {
@@ -91,6 +96,8 @@ const Sidebar = ({
     }
   };
 
+  const handleEditUserInfo = () => {};
+
   return (
     <div className={`${styles.Sidebar} ${isMenuOpen ? 'open' : ''}`}>
       <div className={styles.header}>
@@ -128,12 +135,30 @@ const Sidebar = ({
       </ul>
       {isLogin && (
         <div className={styles.bottom}>
-          <button className={styles.userBtn} onClick={handleLogout}>
-            로그아웃
-          </button>
-          <button className={styles.userBtn} onClick={handleDeleteButtonClick}>
-            탈퇴하기
-          </button>
+          <div className={styles.userInfo}>
+            <div className={styles.userNickname}>
+              <span className={styles.nickname}>{userInfo?.nickname}</span>님
+            </div>
+            <div className={styles.userEmail}>{userInfo?.email}</div>
+          </div>
+          <div className={styles.buttonGroup}>
+            <div className={styles.normalBtns}>
+              <button className={styles.userBtn} onClick={handleLogout}>
+                로그아웃
+              </button>
+              <button className={styles.userBtn} onClick={handleEditUserInfo}>
+                정보수정
+              </button>
+            </div>
+            <div className={styles.deleteBtn}>
+              <button
+                className={styles.userBtn}
+                onClick={handleDeleteButtonClick}
+              >
+                탈퇴하기
+              </button>
+            </div>
+          </div>
         </div>
       )}
     </div>
