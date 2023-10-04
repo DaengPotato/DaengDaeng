@@ -39,6 +39,13 @@ const MyPets = ({ pets, places, mutatePets, mutatePlaces }: MyPetsProps) => {
     router.push('/placesearch');
   };
 
+  const handleFormClose = () => {
+    setIsOpen(false);
+    if (editingPet && setEditingPet) {
+      setEditingPet(undefined);
+    }
+  };
+
   return (
     <div>
       {!pets || pets.length === 0 ? (
@@ -106,12 +113,22 @@ const MyPets = ({ pets, places, mutatePets, mutatePlaces }: MyPetsProps) => {
         </div>
       )}
       {!editingPet && isOpen && (
-        <Modal setIsOpen={setIsOpen}>
-          <PetRegistForm setIsOpen={setIsOpen} mutate={mutatePets} />
+        <Modal closeModal={handleFormClose}>
+          <PetRegistForm setIsOpen={handleFormClose} mutate={mutatePets} />
         </Modal>
       )}
       {editingPet && isOpen && (
-        <Modal setIsOpen={setIsOpen}>
+        <Modal closeModal={handleFormClose}>
+          <PetRegistForm
+            setIsOpen={setIsOpen}
+            mutate={mutatePets}
+            editingPet={editingPet}
+            setEditingPet={setEditingPet}
+          />
+        </Modal>
+      )}
+      {editingPet && isOpen && (
+        <Modal closeModal={handleFormClose}>
           <PetRegistForm
             setIsOpen={setIsOpen}
             mutate={mutatePets}

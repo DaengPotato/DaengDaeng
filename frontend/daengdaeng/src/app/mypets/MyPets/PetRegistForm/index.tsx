@@ -15,11 +15,12 @@ import type { PetDetail } from '@/src/types/pet';
 import type { FieldValues } from 'react-hook-form';
 
 import { NextArrowIcon, PawIcon, PrevArrowIcon } from '@/public/icons';
-import { createPet } from '@/src/apis/api/pet';
+import { createPet, updatePet } from '@/src/apis/api/pet';
 import Button from '@/src/components/common/Button';
 import ErrorMessage from '@/src/components/ErrorMessage';
 import { YEARS } from '@/src/constants/calendar';
 import { gray, primaryOrange } from '@/src/styles/colors';
+import { clacAge } from '@/src/utils/date';
 import { validatePetName } from '@/src/utils/validate';
 
 import 'react-datepicker/dist/react-datepicker.css';
@@ -28,6 +29,7 @@ type PetRegistFormProps = {
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
   mutate: any;
   editingPet?: PetDetail;
+  setEditingPet?: React.Dispatch<React.SetStateAction<PetDetail | undefined>>;
 };
 
 type petReqType = {
@@ -42,6 +44,7 @@ const PetRegistForm = ({
   setIsOpen,
   mutate,
   editingPet,
+  setEditingPet,
 }: PetRegistFormProps) => {
   const [petImage, setPetImage] = useState<File | undefined>(undefined);
   const [currentPetImage, setCurrentPetImage] = useState<string | undefined>(
@@ -148,16 +151,30 @@ const PetRegistForm = ({
     );
 
     if (typeof window !== 'undefined') {
-      const res = await createPet(formData);
-      if (res.ok) {
-        await mutate();
-        setIsOpen(false);
+      if (editingPet) {
+        const res = await updatePet(formData, editingPet.petId);
+        if (res.ok) {
+          await mutate();
+          setIsOpen(false);
+          if (setEditingPet) {
+            setEditingPet(undefined);
+          }
+        }
+      } else {
+        const res = await createPet(formData);
+        if (res.ok) {
+          await mutate();
+          setIsOpen(false);
+        }
       }
     }
   };
 
   const handleCancel = () => {
     setIsOpen(false);
+    if (editingPet && setEditingPet) {
+      setEditingPet(undefined);
+    }
   };
 
   const handleSelectGender = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -206,6 +223,7 @@ const PetRegistForm = ({
           <input
             type="text"
             {...register('name', {
+              value: editingPet ? editingPet.name : '',
               required: '이름을 입력해주세요.',
               maxLength: {
                 value: 20,
@@ -275,7 +293,9 @@ const PetRegistForm = ({
             <Controller
               name="birth"
               control={control}
-              rules={{ required: noBirthData ? false : '생일을 선택해주세요.' }}
+              rules={{
+                required: noBirthData ? false : '생일을 선택해주세요.',
+              }}
               render={({ field }) => (
                 <DatePicker
                   {...field}
@@ -286,7 +306,11 @@ const PetRegistForm = ({
                   locale="ko"
                   shouldCloseOnSelect
                   maxDate={new Date()}
-                  selected={field.value}
+                  selected={
+                    !field.value && editingPet
+                      ? new Date(editingPet.birth)
+                      : field.value
+                  }
                   onChange={(date) => field.onChange(date)}
                   renderCustomHeader={({
                     date,
@@ -346,9 +370,8 @@ const PetRegistForm = ({
                 type="number"
                 className={styles.weight}
                 {...register('age', {
-                  required: noBirthData
-                    ? '대략적인 나이를 입력해주세요.'
-                    : false,
+                  value: editingPet ? clacAge(editingPet.birth) : undefined,
+                  required: noBirthData ? '나이를 입력해주세요.' : false,
                 })}
               />
               <span>살</span>
@@ -383,6 +406,7 @@ const PetRegistForm = ({
               type="number"
               className={styles.weight}
               {...register('weight', {
+                value: editingPet ? editingPet.weight : undefined,
                 required: '몸무게를 입력해주세요.',
               })}
             />
