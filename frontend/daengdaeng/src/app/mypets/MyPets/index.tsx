@@ -27,8 +27,11 @@ type MyPetsProps = {
 const MyPets = ({ pets, places, mutatePets, mutatePlaces }: MyPetsProps) => {
   const router = useRouter();
   const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [editingPet, setEditingPet] = useState<PetDetail | undefined>(
+    undefined,
+  );
 
-  const handleClickAddPet = () => {
+  const handleFormOpen = () => {
     setIsOpen(true);
   };
 
@@ -46,7 +49,7 @@ const MyPets = ({ pets, places, mutatePets, mutatePlaces }: MyPetsProps) => {
               size={'medium'}
               backgroundColor={'orange'}
               icon={true}
-              onClick={handleClickAddPet}
+              onClick={handleFormOpen}
             >
               반려견 등록하기
             </Button>
@@ -56,7 +59,7 @@ const MyPets = ({ pets, places, mutatePets, mutatePlaces }: MyPetsProps) => {
         <div className={styles.myPetList}>
           <div className={styles.header}>
             <div className={styles.addBtn}>
-              <AddPetButton onClick={handleClickAddPet} />
+              <AddPetButton onClick={handleFormOpen} />
             </div>
           </div>
           <PetCarousel
@@ -66,6 +69,8 @@ const MyPets = ({ pets, places, mutatePets, mutatePlaces }: MyPetsProps) => {
               align: 'center',
               containScroll: false,
             }}
+            setEditingPet={setEditingPet}
+            setIsOpen={setIsOpen}
           />
         </div>
       )}
@@ -100,9 +105,18 @@ const MyPets = ({ pets, places, mutatePets, mutatePlaces }: MyPetsProps) => {
           />
         </div>
       )}
-      {isOpen && (
+      {!editingPet && isOpen && (
         <Modal setIsOpen={setIsOpen}>
           <PetRegistForm setIsOpen={setIsOpen} mutate={mutatePets} />
+        </Modal>
+      )}
+      {editingPet && isOpen && (
+        <Modal setIsOpen={setIsOpen}>
+          <PetRegistForm
+            setIsOpen={setIsOpen}
+            mutate={mutatePets}
+            editingPet={editingPet}
+          />
         </Modal>
       )}
     </div>

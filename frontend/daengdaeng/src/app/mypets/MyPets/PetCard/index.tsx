@@ -15,9 +15,11 @@ import { gray } from '@/src/styles/colors';
 
 type PetCardProps = {
   pet: PetDetail;
+  setEditingPet?: React.Dispatch<React.SetStateAction<PetDetail | undefined>>;
+  setIsOpen?: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-const PetCard = ({ pet }: PetCardProps) => {
+const PetCard = ({ pet, setEditingPet, setIsOpen }: PetCardProps) => {
   const router = useRouter();
 
   const [age, setAge] = useState<number>(0);
@@ -25,6 +27,12 @@ const PetCard = ({ pet }: PetCardProps) => {
 
   const handleEditClick = () => {
     console.log(pet);
+    if (setEditingPet) {
+      setEditingPet(pet);
+    }
+    if (setIsOpen) {
+      setIsOpen(true);
+    }
   };
 
   const handleClickRecommend = () => {
