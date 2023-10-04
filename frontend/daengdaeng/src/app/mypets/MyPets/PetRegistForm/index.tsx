@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 import getMonth from 'date-fns/getMonth';
 import getYear from 'date-fns/getYear';
@@ -11,6 +11,7 @@ import { Controller, useForm } from 'react-hook-form';
 
 import styles from './index.module.scss';
 
+import type { PetDetail } from '@/src/types/pet';
 import type { FieldValues } from 'react-hook-form';
 
 import { NextArrowIcon, PawIcon, PrevArrowIcon } from '@/public/icons';
@@ -26,6 +27,7 @@ import 'react-datepicker/dist/react-datepicker.css';
 type PetRegistFormProps = {
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
   mutate: any;
+  editingPet?: PetDetail;
 };
 
 type petReqType = {
@@ -36,10 +38,14 @@ type petReqType = {
   image?: File;
 };
 
-const PetRegistForm = ({ setIsOpen, mutate }: PetRegistFormProps) => {
+const PetRegistForm = ({
+  setIsOpen,
+  mutate,
+  editingPet,
+}: PetRegistFormProps) => {
   const [petImage, setPetImage] = useState<File | undefined>(undefined);
   const [currentPetImage, setCurrentPetImage] = useState<string | undefined>(
-    undefined,
+    editingPet ? editingPet.image : undefined,
   );
   const [selectedGender, setSelectedGender] = useState<string>('');
   const [noBirthData, setNoBirthData] = useState<boolean>(false);
@@ -49,7 +55,15 @@ const PetRegistForm = ({ setIsOpen, mutate }: PetRegistFormProps) => {
     control,
     formState: { errors },
     handleSubmit,
+    setValue,
   } = useForm({ mode: 'onBlur' });
+
+  useEffect(() => {
+    if (editingPet) {
+      setValue('name', editingPet.name);
+      setValue('gender', editingPet.gender);
+    }
+  }, [setValue, editingPet]);
 
   registerLocale('ko', ko);
 
