@@ -9,11 +9,16 @@
   margin-top: 35%;
 }
 
+.container {
+  position: relative;
+}
+
 .categoryContainer {
+  width: 79%;
   position: absolute;
-  width: 100%;
-  top: 16%;
-  left: 5%;
+  top: 14%;
+  left: 50%;
+  transform: translateX(-50%);
   z-index: 1;
 }
 

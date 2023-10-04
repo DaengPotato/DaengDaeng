@@ -104,7 +104,7 @@ const PlaceSearch = ({ categories }: PlaceSearchProps) => {
   }, [selectedCategoryId]);
 
   return (
-    <>
+    <div className={styles.container}>
       {viewMode === 'results' ? (
         <div className={styles.placeListContainer}>
           {searchResults.map((result, i) => (
@@ -150,7 +150,7 @@ const PlaceSearch = ({ categories }: PlaceSearchProps) => {
           />
         </>
       )}
-    </>
+    </div>
   );
 };
 
