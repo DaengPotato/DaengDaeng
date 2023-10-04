@@ -163,7 +163,7 @@ public class SocialServiceImpl implements SocialService {
         if (member.isEmpty()) {
             Member kakaoMember = Member.builder()
                     .email(userEmail)
-                    .nickname(profile.getAsJsonObject().get("nickname").getAsString())
+                    .nickname(getRandomNickname())
                     .loginType(LoginType.KAKAO)
                     .build();
             memberRepository.save(kakaoMember);
@@ -219,13 +219,31 @@ public class SocialServiceImpl implements SocialService {
         if (member.isEmpty()) {
             Member googleMember = Member.builder()
                     .email(userEmail)
-                    .nickname(response.getBody().get("name").toString())
+                    .nickname(getRandomNickname())
                     .loginType(LoginType.GOOGLE)
                     .build();
             memberRepository.save(googleMember);
         }
 
         return userEmail;
+    }
+
+    private String getRandomNickname() {
+        String nickname;
+        do {
+            String url = "https://nickname.hwanmoo.kr/?format=json&max_length=6";
+            WebClient webClient = WebClient.create(url);
+            String res = webClient.get()
+                    .uri(url)
+                    .retrieve()
+                    .bodyToMono(String.class)
+                    .block();
+
+            JsonParser parser = new JsonParser();
+            JsonElement element = parser.parse(res);
+            nickname =  element.getAsJsonObject().get("words").getAsString();
+        } while (!memberRepository.findByNickname(nickname).isEmpty());
+        return nickname;
     }
 
     @Override

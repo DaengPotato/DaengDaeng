@@ -1,0 +1,10 @@
+.sheet {
+  margin: 0 auto;
+  box-shadow: 0 -5px 50px 0 rgba(0, 0, 0, 0.3);
+  height: 100dvh;
+  width: 500px;
+  @media (max-width: 500px) {
+    /* 화면 너비가 500px 이하가 되면 요소 너비를 100%로 고정*/
+    width: 100vw;
+  }
+}
