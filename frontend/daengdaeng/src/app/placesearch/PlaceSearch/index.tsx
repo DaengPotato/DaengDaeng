@@ -89,9 +89,6 @@ const PlaceSearch = ({ categories }: PlaceSearchProps) => {
 
   const handleClickCategory = (categoryId: number) => {
     setSelectedCategoryId(categoryId);
-    if (typeof token !== 'undefined') {
-      fetchSearchPlace(token, searchText);
-    }
   };
 
   useEffect(() => {
@@ -99,6 +96,12 @@ const PlaceSearch = ({ categories }: PlaceSearchProps) => {
       setToken(getUser() as string);
     }
   }, []);
+
+  useEffect(() => {
+    if (typeof token !== 'undefined') {
+      fetchSearchPlace(token, searchText);
+    }
+  }, [selectedCategoryId]);
 
   return (
     <>
