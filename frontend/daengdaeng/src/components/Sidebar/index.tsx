@@ -22,9 +22,6 @@ import {
   removeUserInfo,
 } from '@/src/hooks/useLocalStorage';
 
-import styles from './index.module.scss';
-import Button from '../common/Button';
-
 const menuItems = [
   {
     label: '나의 강아지',
