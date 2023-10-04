@@ -1,20 +1,26 @@
 /* eslint-disable no-null/no-null */
 'use client';
 
-import type { ChangeEvent, RefObject } from 'react';
+import type { RefObject } from 'react';
 import React, { useRef, useState } from 'react';
 
 import ImageNext from 'next/image';
+import { useRouter } from 'next/navigation';
 
 import Button from '@/src/components/common/Button';
 import Modal from '@/src/components/common/Modal';
+import { getUser } from '@/src/hooks/useLocalStorage';
 
 import styles from './index.module.scss';
 import InfoRegistForm from './InfoRegistForm';
 import PhotoLayer from './PhotoLayer';
 import PhotoRegistForm from './PhotoRegistForm';
 
+const token: string | undefined = getUser();
+
 const PhotoUpload = () => {
+  const router = useRouter();
+
   // 더미. 추수 url 받아올 것
   const frameUrl = '/images/frame3.png';
   const frameWidth = 250;
@@ -25,6 +31,7 @@ const PhotoUpload = () => {
   const layerArray = Array(photoCount)
     .fill(undefined)
     .map((value, index) => index);
+  const [isCombined, setIsCombined] = useState<boolean>(false);
 
   // 포토레이어에 할당할 ref
   const refArray: React.RefObject<HTMLCanvasElement>[] =
@@ -42,14 +49,14 @@ const PhotoUpload = () => {
   // 장소 펫 선택 모달 관련
   const [isInfoModalOpen, setIsInfoModalOpen] = useState<boolean>(false);
 
-  // 공개여부 선택 변수
-  const [isPublic, setIsPublic] = useState<boolean>(false);
+  // // 공개여부 선택 변수
+  // const [isPublic, setIsPublic] = useState<boolean>(false);
 
-  // 공개 옵션 라디오버튼 클릭 시 처리
-  const handleRadioChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const newOpenValue = e.target.value === 'true';
-    setIsPublic(newOpenValue);
-  };
+  // // 공개 옵션 라디오버튼 클릭 시 처리
+  // const handleRadioChange = (e: ChangeEvent<HTMLInputElement>) => {
+  //   const newOpenValue = e.target.value === 'true';
+  //   setIsPublic(newOpenValue);
+  // };
 
   // 프레임, 최종캔버스 ref
   const frameRef = useRef<HTMLImageElement>(null);
@@ -105,6 +112,54 @@ const PhotoUpload = () => {
         finalCanvas.height,
       );
     };
+
+    setIsCombined(true);
+  };
+
+  // 결과 전송 api
+  const sendResultApi = async (categoryId: number, placeId: number) => {
+    // 합성 완료되지 않았으면 종료
+    if (!isCombined) return;
+
+    const thisCanvasRef = finalCanvasRef as RefObject<HTMLCanvasElement>;
+    const finalCanvas = thisCanvasRef.current;
+
+    if (!finalCanvas) return;
+    finalCanvas.toBlob(async (blob) => {
+      if (!blob) return;
+
+      // 이미지 파일 생성
+      const imgFile = new File([blob], 'daeng.png', {
+        type: 'image/png',
+        lastModified: new Date().getTime(),
+      });
+
+      // 데이터 담기
+      const formData = new FormData();
+      formData.append('file', imgFile);
+      if (placeId !== -1) {
+        formData.append('placeId', placeId + '');
+      }
+
+      // 등록 요청
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/photo/upload/request`,
+        {
+          method: 'POST',
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+          body: formData,
+        },
+      );
+
+      if (!response.ok) {
+        throw new Error('등록 실패');
+      }
+
+      // 등록 성공시 댕댕네컷 조회 화면으로 라우팅
+      router.push('/daengphoto');
+    });
   };
 
   return (
@@ -138,7 +193,7 @@ const PhotoUpload = () => {
           ))}
         </div>
       </div>
-      <div className={styles.RadioContainer}>
+      {/* <div className={styles.RadioContainer}>
         <label className={styles.TextContainer}>
           <input
             type="radio"
@@ -161,7 +216,7 @@ const PhotoUpload = () => {
           />
           <span className={styles.Text}>자랑하기</span>
         </label>
-      </div>
+      </div> */}
 
       <div className={styles.BtnContainer}>
         <Button
@@ -185,6 +240,7 @@ const PhotoUpload = () => {
           <PhotoRegistForm
             setIsOpen={setIsModalOpen}
             setImageData={setImageData}
+            setIsCombined={setIsCombined}
             photoWidth={photoWidth}
             photoHeight={photoHeight}
           />
@@ -192,7 +248,10 @@ const PhotoUpload = () => {
       )}
       {isInfoModalOpen && (
         <Modal setIsOpen={setIsInfoModalOpen}>
-          <InfoRegistForm isPublic={isPublic} setIsOpen={setIsInfoModalOpen} />
+          <InfoRegistForm
+            sendResult={sendResultApi}
+            setIsOpen={setIsInfoModalOpen}
+          />
         </Modal>
       )}
     </div>

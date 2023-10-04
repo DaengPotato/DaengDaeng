@@ -11,6 +11,7 @@ import styles from './index.module.scss';
 type PhotoRegistFormProps = {
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
   setImageData: React.Dispatch<React.SetStateAction<ImageData | undefined>>;
+  setIsCombined: React.Dispatch<React.SetStateAction<boolean>>;
   photoWidth: number;
   photoHeight: number;
 };
@@ -18,6 +19,7 @@ type PhotoRegistFormProps = {
 const PhotoRegistForm = ({
   setIsOpen,
   setImageData,
+  setIsCombined,
   photoWidth,
   photoHeight,
 }: PhotoRegistFormProps) => {
@@ -255,6 +257,7 @@ const PhotoRegistForm = ({
     );
     setImageData(newImageData);
     setIsOpen(false);
+    setIsCombined(false);
   };
 
   return (

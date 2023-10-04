@@ -1,4 +1,7 @@
 .InfoRegistForm {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
   padding: 20px;
   background-color: var(--color-white);
   border-radius: 20px;
@@ -11,7 +14,7 @@
   text-align: center;
 }
 
-.TitleText{
+.TitleText {
   padding: 5px;
   width: fit-content;
   position: relative;
@@ -28,11 +31,12 @@
   font-weight: 800;
   font-size: 1.8rem;
 }
+
 .SearchContainer {
   position: relative;
   display: flex;
   flex-direction: row;
-  margin: 1.2rem 0;
+  // margin: 1.2rem 0;
 }
 .KeywordInput {
   font-size: 1.8rem;
@@ -44,15 +48,6 @@
   width: 100%;
 }
 
-// .formItem {
-//   display: flex;
-//   flex-direction: column;
-//   z-index: 1;
-//   top: 10%;
-//   left: 15%;
-//   width: 70%;
-// }
-
 .SearchButton {
   position: absolute;
   top: 50%;
@@ -61,14 +56,12 @@
   display: flex;
   align-items: center;
   padding: 5px;
-  // background-color: var(--color-orange);
-  // border-radius: 50%;
   width: 40px;
   z-index: 2;
 }
 
 .PlaceResultContainer {
-  max-height: 70%;
+  height: 30vh;
   overflow: auto;
   border-radius: 20px;
   border-color: orange;
@@ -76,14 +69,20 @@
   border-style: solid;
 }
 
-.placeResultContainer::-webkit-scrollbar {
+.PlaceResultContainer::-webkit-scrollbar {
   display: none;
 }
 
 .buttons {
-  // margin-top: 20px;
   display: flex;
-  flex-wrap: wrap;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  overflow: auto;
+  white-space: nowrap;
   justify-content: center;
   gap: 5px;
+}
+
+.buttons::-webkit-scrollbar {
+  display: none;
 }

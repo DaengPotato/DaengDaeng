@@ -1,5 +1,4 @@
 .UploadContainer {
-  // display: flex;
   justify-content: center;
   align-items: center;
   text-align: center;
@@ -13,15 +12,18 @@
 .Frame {
   position: absolute;
   top: 0;
-  left: 25%;
-  z-index: 9;
+  left: 50%;
+  transform: translate(-50%, 0);
+  z-index: 4;
   pointer-events: none;
 }
+
 .RadioContainer {
   display: flex;
   justify-content: space-around;
   padding: 1.8rem 0;
 }
+
 .RadioInput {
   accent-color: orange;
 }
@@ -40,7 +42,11 @@
 }
 
 .FinalCanvas {
-  position: relative;
+  position: absolute;
+  top: 0;
+  left: 0;
+  visibility: hidden;
+  pointer-events: none;
   background-color: blueviolet;
 }
 
@@ -49,4 +55,5 @@
   justify-content: center;
   align-items: center;
   text-align: center;
+  margin: 3rem 0;
 }
