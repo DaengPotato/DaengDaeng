@@ -26,7 +26,7 @@ public class Keyword {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int keywordId;
 
-	@Column(length = 30, unique = true, nullable = false)
+	@Column(length = 30, nullable = false)
 	private String keyword;
 
 	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
