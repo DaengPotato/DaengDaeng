@@ -84,20 +84,24 @@
   color: var(--color-orange);
 }
 
-.placeRecommendation {
-  margin: 30px 0;
-}
-
-.placeRecommendHeader {
-  display: flex;
-  justify-content: space-between;
-  padding: 0 16px;
-  padding-top: 10px;
-  align-items: center;
-}
-
 .title {
   font-size: 1.6rem;
   font-weight: 800;
   vertical-align: bottom;
+}
+
+.mbtiText {
+  font-size: 1.7rem;
+  font-weight: 500;
+}
+
+.mbtiContet {
+  padding-bottom: 30px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.btns {
+  padding-top: 20px;
 }
