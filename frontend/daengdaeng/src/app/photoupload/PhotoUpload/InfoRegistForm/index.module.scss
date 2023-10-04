@@ -1,4 +1,7 @@
 .InfoRegistForm {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
   padding: 20px;
   background-color: var(--color-white);
   border-radius: 20px;
@@ -11,6 +14,15 @@
   text-align: center;
 }
 
+.TitleText {
+  padding: 5px;
+  width: fit-content;
+  position: relative;
+  margin: 0 auto;
+  font-weight: 800;
+  font-size: 2.3rem;
+}
+
 .Text {
   padding: 5px;
   width: fit-content;
@@ -19,28 +31,45 @@
   font-weight: 800;
   font-size: 1.8rem;
 }
+
+.AlarmText {
+  font-size: 1.4rem;
+}
+
+.MessageContainer {
+  height: 1.5rem;
+}
+
 .SearchContainer {
+  position: relative;
   display: flex;
   flex-direction: row;
+  // margin: 1.2rem 0;
 }
 .KeywordInput {
-  flex-grow: 1;
+  font-size: 1.8rem;
+  border-style: solid;
+  border-color: lightgray;
+  padding: 1% 5%;
+  border-radius: 80px;
+  text-align: left;
+  width: 100%;
 }
-.AddButton {
-  // position: absolute;
-  // top: 50%;
-  // left: 50%;
-  // transform: translate(-50%, -50%);
+
+.SearchButton {
+  position: absolute;
+  top: 50%;
+  right: 0;
+  transform: translate(0, -50%);
   display: flex;
   align-items: center;
   padding: 5px;
-  background-color: var(--color-orange);
-  border-radius: 50%;
+  width: 40px;
   z-index: 2;
 }
 
 .PlaceResultContainer {
-  max-height: 70%;
+  height: 30vh;
   overflow: auto;
   border-radius: 20px;
   border-color: orange;
@@ -48,14 +77,20 @@
   border-style: solid;
 }
 
-.placeResultContainer::-webkit-scrollbar {
+.PlaceResultContainer::-webkit-scrollbar {
   display: none;
 }
 
 .buttons {
-  margin-top: 20px;
   display: flex;
-  flex-wrap: wrap;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  overflow: auto;
+  white-space: nowrap;
   justify-content: center;
   gap: 5px;
+}
+
+.buttons::-webkit-scrollbar {
+  display: none;
 }
