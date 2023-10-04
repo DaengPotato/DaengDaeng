@@ -5,15 +5,18 @@ import { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 
-import styles from './index.module.scss';
-import Sidebar from '../Sidebar';
-
 import { HamburgerMenuIcon } from '@/public/icons';
 import BlankProfileImg from '@/public/images/blank-profile.webp';
 import TextLogo from '@/public/images/text-logo.png';
 
+import styles from './index.module.scss';
+import BottomSheet from '../BottomSheet';
+import Login from '../Login';
+import Sidebar from '../Sidebar';
+
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
+  const [isLoginOpen, setIsLoginOpen] = useState<boolean>(false);
 
   const handleOpenSideMenuBar = () => {
     setIsMenuOpen((prev) => !prev);
@@ -25,6 +28,10 @@ const Header = () => {
     setIsMenuOpen(false);
     const rootDiv = document.querySelector<HTMLDivElement>('#rootDiv');
     rootDiv!.style.overflow = 'auto';
+  };
+
+  const handleOpenLogin = () => {
+    setIsLoginOpen((prev) => !prev);
   };
 
   return (
@@ -43,7 +50,7 @@ const Header = () => {
         </div>
       </div>
       <div className={styles.right}>
-        <div className={styles.profileImg}>
+        <div className={styles.profileImg} onClick={handleOpenLogin}>
           <Image src={BlankProfileImg} width={40} height={40} alt="profile" />
         </div>
       </div>
@@ -51,6 +58,13 @@ const Header = () => {
         <>
           <div className={styles.background} onClick={handleCloseSidebar}></div>
           <Sidebar isMenuOpen={isMenuOpen} setIsMenuOpen={setIsMenuOpen} />
+        </>
+      )}
+      {isLoginOpen && (
+        <>
+          <BottomSheet isOpen={isLoginOpen} setIsOpen={setIsLoginOpen}>
+            <Login />
+          </BottomSheet>
         </>
       )}
     </div>
