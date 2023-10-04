@@ -3,11 +3,17 @@ package com.daengdaeng.domain.review.service;
 import com.daengdaeng.domain.member.domain.Member;
 import com.daengdaeng.domain.member.repository.MemberRepository;
 import com.daengdaeng.domain.pet.domain.Pet;
+import com.daengdaeng.domain.pet.dto.response.PetNameResponse;
 import com.daengdaeng.domain.pet.repository.PetRepository;
 import com.daengdaeng.domain.place.domain.Place;
+import com.daengdaeng.domain.place.dto.KeywordDto;
+import com.daengdaeng.domain.place.dto.response.FindPlaceResponse;
 import com.daengdaeng.domain.place.repository.PlaceRepository;
 import com.daengdaeng.domain.review.domain.*;
 import com.daengdaeng.domain.review.dto.request.ReviewRequest;
+import com.daengdaeng.domain.review.dto.response.PetInfoResponse;
+import com.daengdaeng.domain.review.dto.response.ReviewDetailResponse;
+import com.daengdaeng.domain.review.dto.response.ReviewKeywordResponse;
 import com.daengdaeng.domain.review.dto.response.ReviewResponse;
 import com.daengdaeng.domain.review.repository.KeywordRepository;
 import com.daengdaeng.domain.review.repository.ReviewKeywordRepository;
@@ -21,10 +27,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Date;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.NoSuchElementException;
+import java.util.*;
 
 @Slf4j
 @Service
@@ -41,7 +44,7 @@ public class ReviewServiceImpl implements ReviewService {
     private final PetRepository petRepository;
 
 
-    // 후기 작성 - 만족하는 pet저장
+    // 리뷰 작성 - 만족하는 pet저장
     public void addReviewPet(int reviewId, List<Integer> petList){
         for(Integer petId : petList) {
             Pet pet = petRepository.findByPetId(petId).orElseThrow(NoSuchElementException::new);
@@ -55,7 +58,7 @@ public class ReviewServiceImpl implements ReviewService {
         }
     }
 
-    // 후기 작성 - 리뷰 키워드 저장
+    // 리뷰 작성 - 리뷰 키워드 저장
     public void addReviewKeyword(int reviewId, List<Integer> keywordList){
         for(Integer keywordId : keywordList){
             Keyword keyword = keywordRepository.findById(keywordId).orElseThrow(NoSuchElementException::new);
@@ -69,7 +72,7 @@ public class ReviewServiceImpl implements ReviewService {
         }
     }
 
-    // 후기 작성
+    // 리뷰 작성
     @Override
     public void addReview(ReviewRequest reviewRequest, int placeId){
         Member member = memberRepository.findByEmail(getCurrentEmail())
@@ -93,7 +96,7 @@ public class ReviewServiceImpl implements ReviewService {
 
     }
 
-    // 후기 수정 - 만족하는 pet 수정
+    // 리뷰 수정 - 만족하는 pet 수정
     public void modifyReviewPet(Review review, List<Integer> petList){
         for(Integer petId : petList){
             Pet pet = petRepository.findByPetId(petId).orElseThrow(NoSuchElementException::new);
@@ -102,7 +105,7 @@ public class ReviewServiceImpl implements ReviewService {
         }
     }
 
-    // 후기 수정 - 리뷰 키워드 수정
+    // 리뷰 수정 - 리뷰 키워드 수정
     public void modifyReviewKeyword(Review review, List<Integer> keywordList){
         for(Integer keywordId : keywordList){
             Keyword keyword = keywordRepository.findById(keywordId).orElseThrow(NoSuchElementException::new);
@@ -112,7 +115,7 @@ public class ReviewServiceImpl implements ReviewService {
     }
 
 
-    // 후기 수정
+    // 리뷰 수정
     @Override
     public void modifyReview(ReviewRequest reviewRequest, int reviewId){
         Member member = memberRepository.findByEmail(getCurrentEmail())
@@ -128,7 +131,7 @@ public class ReviewServiceImpl implements ReviewService {
     }
 
 
-    // 후기 삭제
+    // 리뷰 삭제
     @Override
     public void removeReview(int reviewId){
         Member member = memberRepository.findByEmail(getCurrentEmail())
@@ -144,7 +147,7 @@ public class ReviewServiceImpl implements ReviewService {
     }
 
 
-    // member별 작성한 후기 리스트
+    // member별 작성한 리뷰 리스트
     @Override
     public List<ReviewResponse> findReviewList(){
         Member member = memberRepository.findByEmail(getCurrentEmail())
@@ -157,6 +160,43 @@ public class ReviewServiceImpl implements ReviewService {
         return reviewResponses;
     }
 
+
+    // 리뷰 상세 조회
+    @Override
+    public ReviewDetailResponse reviewDetail(int placeId) {
+        Member member = memberRepository.findByEmail(getCurrentEmail())
+                .orElseThrow(() -> new NoSuchElementException("존재하지 않는 사용자입니다."));
+
+        Place place = placeRepository.findPlaceByPlaceId(placeId)
+                .orElseThrow(() -> new NoSuchElementException("장소 정보가 없습니다."));
+
+        List<Pet> petList = petRepository.findByMemberId(member.getMemberId());
+        List<PetInfoResponse> petInfoResponse = new ArrayList<>();
+        for (Pet pet : petList) {
+            petInfoResponse.add(new PetInfoResponse().from(pet));
+        }
+
+        Optional<Review> lastReview = reviewRepository.findByMemberAndPlace(member, place);
+
+        if (lastReview.isPresent()) {
+            Review review = lastReview.get();
+            int score = review.getScore();
+
+            List<ReviewKeyword> reviewKeywordList = reviewKeywordRepository.findAllByReview(review);
+            List<ReviewKeywordResponse> reviewKeywordResponses = new ArrayList<>();
+
+            for (ReviewKeyword reviewKeyword : reviewKeywordList) {
+                Keyword keyword = reviewKeyword.getKeyword();
+                reviewKeywordResponses.add(new ReviewKeywordResponse().from(keyword));
+
+            }
+            return new ReviewDetailResponse(petInfoResponse, score, reviewKeywordResponses);
+        }
+        else{
+            throw new NoSuchElementException("해당 리뷰가 존재하지 않습니다.");
+        }
+
+    }
 
 
     private String getCurrentEmail() {

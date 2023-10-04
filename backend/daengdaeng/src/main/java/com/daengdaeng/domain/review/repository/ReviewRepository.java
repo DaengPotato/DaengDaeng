@@ -23,4 +23,9 @@ public interface ReviewRepository extends JpaRepository<Review, Integer> {
 
 	List<Review> findByPlacePlaceId(int placeId);
 
+	@Query("SELECT r FROM Review r WHERE r.member = :member AND r.place = :place")
+	Optional<Review> findByMemberAndPlace(Member member, Place place);
+
+
+
 }

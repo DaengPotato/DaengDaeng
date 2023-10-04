@@ -1,6 +1,7 @@
 package com.daengdaeng.domain.review.api;
 
 import com.daengdaeng.domain.review.dto.request.ReviewRequest;
+import com.daengdaeng.domain.review.dto.response.ReviewDetailResponse;
 import com.daengdaeng.domain.review.dto.response.ReviewResponse;
 import com.daengdaeng.domain.review.service.ReviewService;
 import io.swagger.annotations.*;
@@ -70,5 +71,12 @@ public class ReviewController {
     public ResponseEntity<List<ReviewResponse>> findReviewList(){
         return ResponseEntity.ok().body(reviewService.findReviewList());
     }
+
+
+    @GetMapping("/{placeId}")
+    public ResponseEntity<ReviewDetailResponse> findReviewDetail(@PathVariable int placeId){
+        return ResponseEntity.ok().body(reviewService.reviewDetail(placeId));
+    }
+
 
 }
