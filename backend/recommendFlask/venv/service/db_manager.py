@@ -6,9 +6,10 @@ from flask import current_app, g
 def get_db():
     if 'db' not in g:
         # MariaDB 연결 생성
-        conn = mysql.connect(host='127.0.0.1',
-                             user="ssafy",
-                             password="ssafy",
+        conn = mysql.connect(host='j9a103.p.ssafy.io',
+                             port=3324,
+                             user="daeng",
+                             password="daengpotato",
                              db="daengdb",
                              charset='utf8')
         g.db = conn
