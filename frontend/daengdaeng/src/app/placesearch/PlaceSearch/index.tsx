@@ -147,13 +147,13 @@ const PlaceSearch = ({ categories }: PlaceSearchProps) => {
         </div>
       )}
       {selectedPlaceId !== undefined && viewMode !== 'results' && (
-        // <BottomSheet
-        //   isOpen={viewMode === 'info'}
-        //   setIsOpen={() => {
-        //     setSelectedPlaceId(undefined);
-        //     setViewMode('map');
-        //   }}
-        // >
+        <BottomSheet
+          isOpen={viewMode === 'info'}
+          setIsOpen={() => {
+            setSelectedPlaceId(undefined);
+            setViewMode('map');
+          }}
+        >
           <PlaceDetail
             placeWithReview={selectedPlaceWithReview}
             handleClose={() => {
@@ -161,7 +161,7 @@ const PlaceSearch = ({ categories }: PlaceSearchProps) => {
               setViewMode('map');
             }}
           />
-        // </BottomSheet>
+        </BottomSheet>
       )}
     </div>
   );
