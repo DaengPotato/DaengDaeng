@@ -42,6 +42,7 @@ const PetRegistForm = ({ setIsOpen, mutate }: PetRegistFormProps) => {
     undefined,
   );
   const [selectedGender, setSelectedGender] = useState<string>('');
+  const [noBirthData, setNoBirthData] = useState<boolean>(false);
 
   const {
     register,
@@ -92,18 +93,29 @@ const PetRegistForm = ({ setIsOpen, mutate }: PetRegistFormProps) => {
   };
 
   const handleRegist = async (data: FieldValues) => {
-    const year = data.birth.getFullYear(); // 연도 가져오기
-    const month = String(data.birth.getMonth() + 1).padStart(2, '0'); // 월 가져오기 (0부터 시작하므로 +1 필요), 2자리로 포맷
-    const day = String(data.birth.getDate()).padStart(2, '0'); // 일 가져오기, 2자리로 포맷
-
-    const formattedDate = `${year}-${month}-${day}`;
+    let birth: string = '';
+    if (data.birth) {
+      const year = data.birth.getFullYear(); // 연도 가져오기
+      const month = String(data.birth.getMonth() + 1).padStart(2, '0'); // 월 가져오기 (0부터 시작하므로 +1 필요), 2자리로 포맷
+      const day = String(data.birth.getDate()).padStart(2, '0'); // 일 가져오기, 2자리로 포맷
+      birth = `${year}-${month}-${day}`;
+    } else {
+      const today = new Date();
+      const fewYearsAgo = new Date(today);
+      fewYearsAgo.setFullYear(today.getFullYear() - data.age);
+      birth = `${fewYearsAgo.getFullYear()}-${String(
+        fewYearsAgo.getMonth() + 1,
+      ).padStart(2, '0')}-${String(fewYearsAgo.getDate()).padStart(2, '0')}`;
+    }
 
     const pet: petReqType = {
       name: data.name,
-      birth: formattedDate,
+      birth: birth,
       gender: data.gender === '1' ? true : false,
       weight: data.weight,
     };
+
+    console.log(pet);
 
     const formData = new FormData();
 
@@ -135,6 +147,10 @@ const PetRegistForm = ({ setIsOpen, mutate }: PetRegistFormProps) => {
 
   const handleSelectGender = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSelectedGender(e.target.value);
+  };
+
+  const handleNoBirthData = () => {
+    setNoBirthData((prev) => !prev);
   };
 
   return (
@@ -235,76 +251,111 @@ const PetRegistForm = ({ setIsOpen, mutate }: PetRegistFormProps) => {
           )}
         </div>
         <div className={styles.formItemDate}>
-          <div className={styles.formLabel}>생일</div>
-          <Controller
-            name="birth"
-            control={control}
-            rules={{ required: '생일을 선택해주세요.' }}
-            render={({ field }) => (
-              <DatePicker
-                {...field}
-                className={styles.datepicker}
-                calendarClassName={styles.datepickerCalendar}
-                dateFormat="yyyy년 MM월 dd일"
-                dateFormatCalendar="yyyy년 MM월"
-                locale="ko"
-                shouldCloseOnSelect={false}
-                maxDate={new Date()}
-                selected={field.value}
-                onChange={(date) => field.onChange(date)}
-                renderCustomHeader={({
-                  date,
-                  changeYear,
-                  decreaseMonth,
-                  increaseMonth,
-                  prevMonthButtonDisabled,
-                  nextMonthButtonDisabled,
-                }) => (
-                  <div className={styles.customHeaderContainer}>
-                    <div>
-                      <button
-                        type="button"
-                        className={styles.monthBtn}
-                        onClick={decreaseMonth}
-                        disabled={prevMonthButtonDisabled}
-                      >
-                        <PrevArrowIcon width={20} height={20} />
-                      </button>
-                    </div>
-                    <div className={styles.currentYearMonth}>
-                      <select
-                        value={getYear(date)}
-                        className={styles.yearSelect}
-                        onChange={({ target: { value } }) => changeYear(+value)}
-                      >
-                        {YEARS.map((option) => (
-                          <option key={option} value={option}>
-                            {option}
-                          </option>
-                        ))}
-                      </select>
-                      <div className={styles.currentMonth}>
-                        {getMonth(date) + 1}월
+          {noBirthData ? (
+            <div className={styles.formLabel}>나이</div>
+          ) : (
+            <div className={styles.formLabel}>생일</div>
+          )}
+          {!noBirthData ? (
+            <Controller
+              name="birth"
+              control={control}
+              rules={{ required: noBirthData ? false : '생일을 선택해주세요.' }}
+              render={({ field }) => (
+                <DatePicker
+                  {...field}
+                  className={styles.datepicker}
+                  calendarClassName={styles.datepickerCalendar}
+                  dateFormat="yyyy년 MM월 dd일"
+                  dateFormatCalendar="yyyy년 MM월"
+                  locale="ko"
+                  shouldCloseOnSelect={false}
+                  maxDate={new Date()}
+                  selected={field.value}
+                  onChange={(date) => field.onChange(date)}
+                  renderCustomHeader={({
+                    date,
+                    changeYear,
+                    decreaseMonth,
+                    increaseMonth,
+                    prevMonthButtonDisabled,
+                    nextMonthButtonDisabled,
+                  }) => (
+                    <div className={styles.customHeaderContainer}>
+                      <div>
+                        <button
+                          type="button"
+                          className={styles.monthBtn}
+                          onClick={decreaseMonth}
+                          disabled={prevMonthButtonDisabled}
+                        >
+                          <PrevArrowIcon width={20} height={20} />
+                        </button>
+                      </div>
+                      <div className={styles.currentYearMonth}>
+                        <select
+                          value={getYear(date)}
+                          className={styles.yearSelect}
+                          onChange={({ target: { value } }) =>
+                            changeYear(+value)
+                          }
+                        >
+                          {YEARS.map((option) => (
+                            <option key={option} value={option}>
+                              {option}
+                            </option>
+                          ))}
+                        </select>
+                        <div className={styles.currentMonth}>
+                          {getMonth(date) + 1}월
+                        </div>
+                      </div>
+                      <div>
+                        <button
+                          type="button"
+                          className={styles.monthBtn}
+                          onClick={increaseMonth}
+                          disabled={nextMonthButtonDisabled}
+                        >
+                          <NextArrowIcon width={20} height={20} />
+                        </button>
                       </div>
                     </div>
-                    <div>
-                      <button
-                        type="button"
-                        className={styles.monthBtn}
-                        onClick={increaseMonth}
-                        disabled={nextMonthButtonDisabled}
-                      >
-                        <NextArrowIcon width={20} height={20} />
-                      </button>
-                    </div>
-                  </div>
-                )}
+                  )}
+                />
+              )}
+            />
+          ) : (
+            <div>
+              <input
+                type="number"
+                className={styles.weight}
+                {...register('age', {
+                  required: noBirthData ? '나이를 입력해주세요.' : false,
+                })}
               />
-            )}
+              <span>살</span>
+            </div>
+          )}
+          <input
+            type="checkbox"
+            id="noBirthData"
+            className={styles.noBirthDataCheckbox}
+            checked={noBirthData}
           />
+          <div className={styles.noBirthDataLabel} onClick={handleNoBirthData}>
+            <label
+              htmlFor="noBirthData"
+              className={`${styles.noBirthData} ${
+                noBirthData ? `${styles.checked}` : ''
+              }`}
+            ></label>
+            <div className={styles.label}>생일을 몰라요</div>
+          </div>
           {errors?.birth && (
             <ErrorMessage>{errors?.birth?.message}</ErrorMessage>
           )}
+          {errors?.age && <ErrorMessage>{errors?.age?.message}</ErrorMessage>}
         </div>
         <div className={styles.formItem}>
           <div className={styles.formLabel}>몸무게</div>
