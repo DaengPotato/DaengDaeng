@@ -21,7 +21,7 @@ const fetchImages = async (cursor: number) => {
     throw new Error('이미지 조회 실패');
   }
   const data = JSON.parse(await response.text());
-  console.log(data.photoList);
+  
   return data;
 };
 // 댕포토 페이지 메인
