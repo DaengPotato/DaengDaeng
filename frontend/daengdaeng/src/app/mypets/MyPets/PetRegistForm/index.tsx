@@ -352,10 +352,12 @@ const PetRegistForm = ({ setIsOpen, mutate }: PetRegistFormProps) => {
             ></label>
             <div className={styles.label}>생일을 몰라요</div>
           </div>
-          {errors?.birth && (
+          {!noBirthData && errors?.birth && (
             <ErrorMessage>{errors?.birth?.message}</ErrorMessage>
           )}
-          {errors?.age && <ErrorMessage>{errors?.age?.message}</ErrorMessage>}
+          {noBirthData && errors?.age && (
+            <ErrorMessage>{errors?.age?.message}</ErrorMessage>
+          )}
         </div>
         <div className={styles.formItem}>
           <div className={styles.formLabel}>몸무게</div>
