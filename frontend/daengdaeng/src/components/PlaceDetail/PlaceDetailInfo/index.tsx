@@ -19,8 +19,8 @@ const PlaceDetailInfo = ({
   place,
   score,
   isLiked,
-  // mutate,
-}: PlaceDetailInfoProps) => {
+} // mutate,
+: PlaceDetailInfoProps) => {
   const token = getUser() as string;
 
   const handleLikeClick = async (event: { stopPropagation: () => void }) => {
@@ -28,11 +28,11 @@ const PlaceDetailInfo = ({
 
     // await mutate();
 
-    // if (place.isHeart) {
-    //   await createLikePlace(token, place.placeId);
-    // } else {
-    //   await deleteLikePlace(token, place.placeId);
-    // }
+    if (place.isHeart) {
+      await createLikePlace(place.placeId);
+    } else {
+      await deleteLikePlace(place.placeId);
+    }
   };
 
   return (
