@@ -4,9 +4,6 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 
-import styles from './index.module.scss';
-import Button from '../common/Button';
-
 import { CloseIcon } from '@/public/icons';
 import TextLogo from '@/public/images/text-logo.png';
 import { deleteMember, logout } from '@/src/apis/api/member';
@@ -15,6 +12,9 @@ import {
   removeUser,
   removeUserInfo,
 } from '@/src/hooks/useLocalStorage';
+
+import styles from './index.module.scss';
+import Button from '../common/Button';
 
 const menuItems = [
   {
@@ -36,6 +36,10 @@ const menuItems = [
   {
     label: '댕댕네컷',
     href: '/daengphoto',
+  },
+  {
+    label: '리뷰',
+    href: '/placereview',
   },
 ];
 
