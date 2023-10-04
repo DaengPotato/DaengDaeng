@@ -7,6 +7,7 @@ import type { ImageType } from '@/src/types/image';
 
 import { LeftIcon } from '@/public/icons';
 import { RightIcon } from '@/public/icons';
+import { MarkerIcon } from '@/public/icons';
 import { primaryOrange } from '@/src/styles/colors';
 
 // 이미지 불러오기 함수
@@ -66,7 +67,9 @@ const DaengPhoto = () => {
 
   return (
     <div>
-      <div>{<PhotoCamera />}</div>
+      <div>
+        <PhotoCamera />
+      </div>
       <div className={styles.container}>
         {/* 이미지 */}
         <div className={styles.photoList}>
@@ -79,7 +82,12 @@ const DaengPhoto = () => {
               }`}
             >
               {toggleIndex == index && (
-                <div className={styles.photoPlace}>{photo.place}</div>
+                <div>
+                  <div className={styles.marker}>
+                    <MarkerIcon width={20} height={20} />
+                  </div>
+                  <div className={styles.photoPlace}>{photo.place}</div>
+                </div>
               )}
             </div>
           ))}
