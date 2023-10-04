@@ -38,12 +38,12 @@ const PlaceDetail = ({ placeWithReview, handleClose }: PlaceDetailProps) => {
       </div>
       <div className={styles.placeInfo}>
         <div className={styles.placeImage}>
-          {/* <Image
+          <Image
             src={place.placeImage}
             alt={place.title}
             fill={true}
             objectFit="cover"
-          /> */}
+          />
         </div>
         <div className={styles.placeInfo}>
           <PlaceDetailInfo

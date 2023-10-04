@@ -17,12 +17,14 @@ const Search = ({ onSearch }: SearchProps) => {
 
   return (
     <div className={styles.formItem}>
-      <input
-        type="text"
-        onChange={(word) => handleSearchText(word.target.value)}
-      />
-      <div onClick={() => onSearch(searchText)}>
-        <SearchIcon />
+      <div className={styles.searchInput}>
+        <input
+          type="text"
+          onChange={(word) => handleSearchText(word.target.value)}
+        />
+        <div onClick={() => onSearch(searchText)} className={styles.searchIcon}>
+          <SearchIcon />
+        </div>
       </div>
     </div>
   );
