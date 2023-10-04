@@ -1,0 +1,31 @@
+@mixin button-color($color) {
+  background-color: var(--color-#{$color});
+  &:hover {
+    background: var(--color-#{$color}-lighter);
+  }
+  &:active {
+    background: var(--color-#{$color}-darker);
+  }
+}
+
+.Button {
+  padding: 8px 15px;
+  border-radius: 30px;
+  color: var(--color-white);
+  text-align: center;
+  font-size: 1.6rem;
+  font-weight: 600;
+  height: min-content;
+  width: fit-content;
+  &:hover {
+    cursor: pointer;
+  }
+}
+
+.bg-orange {
+  @include button-color('orange');
+}
+
+.bg-gray {
+  @include button-color('gray');
+}
