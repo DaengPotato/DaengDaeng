@@ -12,27 +12,27 @@ type PlaceDetailInfoProps = {
   place: Place;
   score: number;
   isLiked: boolean;
-  mutate: any;
+  // mutate: any;
 };
 
 const PlaceDetailInfo = ({
   place,
   score,
   isLiked,
-  mutate,
+  // mutate,
 }: PlaceDetailInfoProps) => {
   const token = getUser() as string;
 
   const handleLikeClick = async (event: { stopPropagation: () => void }) => {
     event.stopPropagation();
 
-    await mutate();
+    // await mutate();
 
-    if (place.isHeart) {
-      await createLikePlace(token, place.placeId);
-    } else {
-      await deleteLikePlace(token, place.placeId);
-    }
+    // if (place.isHeart) {
+    //   await createLikePlace(token, place.placeId);
+    // } else {
+    //   await deleteLikePlace(token, place.placeId);
+    // }
   };
 
   return (
