@@ -11,6 +11,7 @@ import type { KeywordReview, Place, PlaceWithReview } from '@/src/types/place';
 type PlaceDetailProps = {
   placeWithReview?: PlaceWithReview;
   handleClose: () => void;
+  mutate: any;
 };
 
 const PlaceDetail = ({ placeWithReview, handleClose }: PlaceDetailProps) => {
@@ -50,6 +51,7 @@ const PlaceDetail = ({ placeWithReview, handleClose }: PlaceDetailProps) => {
             place={place}
             score={score}
             isLiked={place.isHeart}
+            mutate={mutate}
           />
         </div>
         <div className={styles.reviewContainer}>
