@@ -5,7 +5,7 @@ import React, { useEffect, useRef, useState } from 'react';
 
 import { SearchIcon } from '@/public/icons';
 import Button from '@/src/components/common/Button';
-import Message from '@/src/components/common/Message';
+import ErrorMessage from '@/src/components/ErrorMessage';
 import { getUser } from '@/src/hooks/useLocalStorage';
 import { white } from '@/src/styles/colors';
 import { ssurround } from '@/src/styles/fonts';
@@ -135,7 +135,7 @@ const InfoRegistForm = ({ setIsOpen, sendResult }: InfoRegistFormProps) => {
       updateMessage('검색 결과가 없습니다', false);
       return;
     }
-    updateMessage('장소 미선택 시 기록되지 않습니다', false);
+    updateMessage('선택하지 않으면 장소가 기록되지 않습니다', false);
   };
 
   // 장소 목록 스크롤 시 처리
@@ -232,11 +232,15 @@ const InfoRegistForm = ({ setIsOpen, sendResult }: InfoRegistFormProps) => {
           />
         ))}
       </div>
-      <Message
-        content={message}
-        isVisible={isMsgVisible}
-        isWarning={isMsgWarning}
-      />
+      <div className={styles.MessageContainer}>
+        {isMsgVisible ? (
+          isMsgWarning ? (
+            <ErrorMessage>{message}</ErrorMessage>
+          ) : (
+            <div className={styles.AlarmText}>{message}</div>
+          )
+        ) : undefined}
+      </div>
       <div className={styles.buttons}>
         <Button
           type="button"
