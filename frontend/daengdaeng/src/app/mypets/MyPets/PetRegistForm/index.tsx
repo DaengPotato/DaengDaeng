@@ -15,7 +15,7 @@ import type { PetDetail } from '@/src/types/pet';
 import type { FieldValues } from 'react-hook-form';
 
 import { NextArrowIcon, PawIcon, PrevArrowIcon } from '@/public/icons';
-import { createPet, updatePet } from '@/src/apis/api/pet';
+import { createPet, deletePet, updatePet } from '@/src/apis/api/pet';
 import Button from '@/src/components/common/Button';
 import ErrorMessage from '@/src/components/ErrorMessage';
 import { YEARS } from '@/src/constants/calendar';
@@ -26,10 +26,9 @@ import { validatePetName } from '@/src/utils/validate';
 import 'react-datepicker/dist/react-datepicker.css';
 
 type PetRegistFormProps = {
-  setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  closeForm: () => void;
   mutate: any;
   editingPet?: PetDetail;
-  setEditingPet?: React.Dispatch<React.SetStateAction<PetDetail | undefined>>;
 };
 
 type petReqType = {
@@ -41,10 +40,9 @@ type petReqType = {
 };
 
 const PetRegistForm = ({
-  setIsOpen,
+  closeForm,
   mutate,
   editingPet,
-  setEditingPet,
 }: PetRegistFormProps) => {
   const [petImage, setPetImage] = useState<File | undefined>(undefined);
   const [currentPetImage, setCurrentPetImage] = useState<string | undefined>(
@@ -151,30 +149,21 @@ const PetRegistForm = ({
     );
 
     if (typeof window !== 'undefined') {
+      let res;
       if (editingPet) {
-        const res = await updatePet(formData, editingPet.petId);
-        if (res.ok) {
-          await mutate();
-          setIsOpen(false);
-          if (setEditingPet) {
-            setEditingPet(undefined);
-          }
-        }
+        res = await updatePet(formData, editingPet.petId);
       } else {
-        const res = await createPet(formData);
-        if (res.ok) {
-          await mutate();
-          setIsOpen(false);
-        }
+        res = await createPet(formData);
+      }
+      if (res.ok) {
+        await mutate();
+        closeForm();
       }
     }
   };
 
   const handleCancel = () => {
-    setIsOpen(false);
-    if (editingPet && setEditingPet) {
-      setEditingPet(undefined);
-    }
+    closeForm();
   };
 
   const handleSelectGender = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -185,10 +174,20 @@ const PetRegistForm = ({
     setNoBirthData((prev) => !prev);
   };
 
+  const handleDeletePet = async () => {
+    if (!editingPet) return;
+    if (!window.confirm(`'${editingPet.name}'의 정보를 삭제할까요?`)) return;
+    const res = await deletePet(editingPet.petId);
+    if (res.ok) {
+      await mutate();
+      closeForm();
+    }
+  };
+
   return (
     <div className={styles.PetRegistForm}>
       <form className={styles.registForm}>
-        <div className={styles.title}>강아지 등록하기</div>
+        <div className={styles.title}>반려견 정보를 입력해주세요!</div>
         <div className={styles.petImageUpload}>
           <div onClick={handlePetImageClick} className={styles.petImage}>
             {currentPetImage ? (
@@ -436,6 +435,11 @@ const PetRegistForm = ({
           </Button>
         </div>
       </form>
+      {editingPet && (
+        <div className={styles.deletePet}>
+          <button onClick={handleDeletePet}>반려견 정보 삭제하기</button>
+        </div>
+      )}
     </div>
   );
 };

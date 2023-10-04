@@ -27,3 +27,15 @@ export const updatePet = async (pet: FormData, petId: number) => {
 
   return res;
 };
+
+// 반려견 삭제
+export const deletePet = async (petId: number) => {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/pet/${petId}`, {
+    method: 'DELETE',
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  return res;
+};

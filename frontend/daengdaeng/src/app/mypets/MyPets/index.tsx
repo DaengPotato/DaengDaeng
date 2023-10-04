@@ -114,23 +114,13 @@ const MyPets = ({ pets, places, mutatePets, mutatePlaces }: MyPetsProps) => {
       )}
       {!editingPet && isOpen && (
         <Modal closeModal={handleFormClose}>
-          <PetRegistForm setIsOpen={handleFormClose} mutate={mutatePets} />
+          <PetRegistForm closeForm={handleFormClose} mutate={mutatePets} />
         </Modal>
       )}
       {editingPet && isOpen && (
         <Modal closeModal={handleFormClose}>
           <PetRegistForm
-            setIsOpen={setIsOpen}
-            mutate={mutatePets}
-            editingPet={editingPet}
-            setEditingPet={setEditingPet}
-          />
-        </Modal>
-      )}
-      {editingPet && isOpen && (
-        <Modal closeModal={handleFormClose}>
-          <PetRegistForm
-            setIsOpen={setIsOpen}
+            closeForm={handleFormClose}
             mutate={mutatePets}
             editingPet={editingPet}
           />
