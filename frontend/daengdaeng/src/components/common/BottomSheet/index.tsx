@@ -12,19 +12,17 @@ type BottomSheetProps = {
 
 const BottomSheet = ({ children, isOpen, setIsOpen }: BottomSheetProps) => {
   return (
-    <div className={styles.wrapper}>
-      <Sheet
-        isOpen={isOpen}
-        onClose={() => setIsOpen(false)}
-        className={styles.sheet}
-      >
-        <Sheet.Container>
-          <Sheet.Header />
-          <Sheet.Content>{children}</Sheet.Content>
-        </Sheet.Container>
-        <Sheet.Backdrop />
-      </Sheet>
-    </div>
+    <Sheet
+      isOpen={isOpen}
+      onClose={() => setIsOpen(false)}
+      className={styles.sheet}
+    >
+      <Sheet.Container>
+        <Sheet.Header />
+        <Sheet.Content>{children}</Sheet.Content>
+      </Sheet.Container>
+      <Sheet.Backdrop />
+    </Sheet>
   );
 };
 
