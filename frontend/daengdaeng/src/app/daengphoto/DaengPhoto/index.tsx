@@ -21,7 +21,7 @@ const fetchImages = async (cursor: number) => {
     throw new Error('이미지 조회 실패');
   }
   const data = JSON.parse(await response.text());
-  
+
   return data;
 };
 // 댕포토 페이지 메인
@@ -47,7 +47,7 @@ const DaengPhoto = () => {
     }
     setCursor(cursor - 1);
   };
-  // 오른쪽 커서 함스
+  // 오른쪽 커서 함수
   const handleRightCursor = () => {
     if (nextCursor == -1) {
       return;
