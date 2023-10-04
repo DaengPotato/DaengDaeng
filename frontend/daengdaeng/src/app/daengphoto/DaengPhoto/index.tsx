@@ -1,5 +1,7 @@
 import { useEffect, useState } from 'react';
 
+import Image from 'next/image';
+
 import styles from './index.module.scss';
 import PhotoCamera from './PhotoCamera';
 
@@ -81,6 +83,7 @@ const DaengPhoto = () => {
                 toggleIndex == index ? styles.photoBlur : ''
               }`}
             >
+              <Image src={photo.image} alt="a" width={150} height={450} />
               {toggleIndex == index && (
                 <div>
                   <div className={styles.marker}>
