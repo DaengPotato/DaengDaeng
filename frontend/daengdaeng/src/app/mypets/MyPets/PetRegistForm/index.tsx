@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useRef, useState } from 'react';
 
 import getMonth from 'date-fns/getMonth';
 import getYear from 'date-fns/getYear';
@@ -56,15 +56,7 @@ const PetRegistForm = ({
     control,
     formState: { errors },
     handleSubmit,
-    setValue,
   } = useForm({ mode: 'onBlur' });
-
-  useEffect(() => {
-    if (editingPet) {
-      setValue('name', editingPet.name);
-      setValue('gender', editingPet.gender);
-    }
-  }, [setValue, editingPet]);
 
   registerLocale('ko', ko);
 
@@ -110,7 +102,7 @@ const PetRegistForm = ({
 
   const handleRegist = async (data: FieldValues) => {
     let birth: string = '';
-    if (data.birth) {
+    if (!noBirthData) {
       const year = data.birth.getFullYear(); // 연도 가져오기
       const month = String(data.birth.getMonth() + 1).padStart(2, '0'); // 월 가져오기 (0부터 시작하므로 +1 필요), 2자리로 포맷
       const day = String(data.birth.getDate()).padStart(2, '0'); // 일 가져오기, 2자리로 포맷
@@ -130,8 +122,6 @@ const PetRegistForm = ({
       gender: data.gender === '1' ? true : false,
       weight: data.weight,
     };
-
-    console.log(pet);
 
     const formData = new FormData();
 
@@ -242,14 +232,16 @@ const PetRegistForm = ({
                 className={styles.radioInput}
                 type="radio"
                 value="1"
-                checked={selectedGender === '1'}
+                // checked={selectedGender === '1'}
+                defaultChecked={editingPet?.gender === true}
                 {...register('gender', {
                   required: '성별을 선택해주세요.',
                 })}
                 onChange={handleSelectGender}
               />
               <span>
-                {selectedGender === '1' ? (
+                {(selectedGender === '' && editingPet && editingPet.gender) ||
+                selectedGender === '1' ? (
                   <PawIcon fill={primaryOrange} width={30} height={30} />
                 ) : (
                   <PawIcon fill={gray} width={30} height={30} />
@@ -262,14 +254,16 @@ const PetRegistForm = ({
                 className={styles.radioInput}
                 type="radio"
                 value="0"
-                checked={selectedGender === '0'}
+                // checked={selectedGender === '0'}
+                defaultChecked={editingPet?.gender === false}
                 {...register('gender', {
                   required: '성별을 선택해주세요.',
                 })}
                 onChange={handleSelectGender}
               />
               <span>
-                {selectedGender === '0' ? (
+                {(selectedGender === '' && editingPet && !editingPet.gender) ||
+                selectedGender === '0' ? (
                   <PawIcon fill={primaryOrange} width={30} height={30} />
                 ) : (
                   <PawIcon fill={gray} width={30} height={30} />
@@ -292,6 +286,9 @@ const PetRegistForm = ({
             <Controller
               name="birth"
               control={control}
+              defaultValue={
+                editingPet?.birth ? new Date(editingPet.birth) : undefined
+              }
               rules={{
                 required: noBirthData ? false : '생일을 선택해주세요.',
               }}
@@ -305,12 +302,13 @@ const PetRegistForm = ({
                   locale="ko"
                   shouldCloseOnSelect
                   maxDate={new Date()}
-                  selected={
-                    !field.value && editingPet
-                      ? new Date(editingPet.birth)
-                      : field.value
-                  }
+                  selected={field.value}
                   onChange={(date) => field.onChange(date)}
+                  ref={(ref) => {
+                    field.ref({
+                      focus: ref?.setFocus,
+                    });
+                  }}
                   renderCustomHeader={({
                     date,
                     changeYear,
@@ -381,6 +379,7 @@ const PetRegistForm = ({
             id="noBirthData"
             className={styles.noBirthDataCheckbox}
             checked={noBirthData}
+            readOnly
           />
           <div className={styles.noBirthDataLabel} onClick={handleNoBirthData}>
             <label

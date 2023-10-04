@@ -7,14 +7,14 @@ import React, { useRef, useState } from 'react';
 import ImageNext from 'next/image';
 import { useRouter } from 'next/navigation';
 
-import Button from '@/src/components/common/Button';
-import Modal from '@/src/components/common/Modal';
-import { getUser } from '@/src/hooks/useLocalStorage';
-
 import styles from './index.module.scss';
 import InfoRegistForm from './InfoRegistForm';
 import PhotoLayer from './PhotoLayer';
 import PhotoRegistForm from './PhotoRegistForm';
+
+import Button from '@/src/components/common/Button';
+import Modal from '@/src/components/common/Modal';
+import { getUser } from '@/src/hooks/useLocalStorage';
 
 const token: string | undefined = getUser();
 
@@ -162,6 +162,10 @@ const PhotoUpload = () => {
     });
   };
 
+  const handleModalClose = () => {
+    setIsModalOpen(false);
+  };
+
   return (
     <div className={styles.UploadContainer}>
       <div className={styles.FrameContainer}>
@@ -236,7 +240,7 @@ const PhotoUpload = () => {
         className={styles.FinalCanvas}
       />
       {isModalOpen && (
-        <Modal setIsOpen={setIsModalOpen}>
+        <Modal closeModal={handleModalClose}>
           <PhotoRegistForm
             setIsOpen={setIsModalOpen}
             setImageData={setImageData}
@@ -247,7 +251,7 @@ const PhotoUpload = () => {
         </Modal>
       )}
       {isInfoModalOpen && (
-        <Modal setIsOpen={setIsInfoModalOpen}>
+        <Modal closeModal={handleModalClose}>
           <InfoRegistForm
             sendResult={sendResultApi}
             setIsOpen={setIsInfoModalOpen}
