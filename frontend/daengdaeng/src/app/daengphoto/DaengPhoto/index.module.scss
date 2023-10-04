@@ -8,13 +8,33 @@
 }
 
 .photo {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   height: 400px;
   width: 150px;
-  background-color: aliceblue;
+  background-color: rgba(255, 255, 255, 1);
   margin: 12px;
+  padding: 10px;
+  transition: background-color 0.3 ease-in-out;
 }
 
 .pagebutton {
   height: 50px;
   padding-top: 10px;
+}
+
+.btnContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 30px;
+}
+
+.btnContainer button {
+  margin: 0 20px;
+}
+
+.photoBlur {
+  background-color: rgba(255, 255, 255, 0.5) !important;
 }

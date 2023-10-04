@@ -1,8 +1,8 @@
-import DaengPhoto from "./DaengPhoto";
+'use client';
 
-const DaengPhotoPage = async () => {
- 
-  return (<DaengPhoto></DaengPhoto>);
+import DaengPhoto from './DaengPhoto';
 
+const DaengPhotoPage = () => {
+  return <DaengPhoto />;
 };
 export default DaengPhotoPage;
