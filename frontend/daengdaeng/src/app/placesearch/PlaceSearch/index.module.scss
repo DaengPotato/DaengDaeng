@@ -24,14 +24,11 @@
   position: absolute;
   top: 10px;
   left: 0;
-  width: fit-content;
+  width: 100%;
   height: fit-content;
   z-index: 2;
   display: flex;
   flex-direction: column;
+  justify-content: center;
   gap: 10px;
-}
-
-.searchBar {
-  margin-left: 65%;
 }

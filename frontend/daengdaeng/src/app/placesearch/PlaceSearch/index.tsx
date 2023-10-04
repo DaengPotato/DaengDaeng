@@ -107,13 +107,9 @@ const PlaceSearch = ({ categories }: PlaceSearchProps) => {
   return (
     <div className={styles.container}>
       <div className={styles.searchBarContainer}>
-        {categories.length == 0 || viewMode === 'info' ? (
-          <div className={styles.searchBar}>
-            <Search onSearch={handleSearchPlace} />
-          </div>
-        ) : (
+        <div className={styles.searchBar}>
           <Search onSearch={handleSearchPlace} />
-        )}
+        </div>
         {viewMode !== 'info' && (
           <div className={styles.categoryContainer}>
             <CategoryCarousel
