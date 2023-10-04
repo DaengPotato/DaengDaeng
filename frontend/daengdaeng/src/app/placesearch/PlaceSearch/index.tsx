@@ -13,25 +13,22 @@ import Search from './Search';
 
 import type { Category } from '@/src/types/category';
 import type { Place, PlaceWithReview } from '@/src/types/place';
-import type { Location } from '@/src/types/placesearch';
 
 type PlaceSearchProps = {
-  location: Location;
   categories: Category[];
 };
 
-const PlaceSearch = ({ location, categories }: PlaceSearchProps) => {
+const PlaceSearch = ({ categories }: PlaceSearchProps) => {
   const [token, setToken] = useState<string | undefined>(undefined);
-  const [viewMode, setViewMode] = useState<'map' | 'results'>('map');
+  const [viewMode, setViewMode] = useState<'map' | 'results' | 'info'>('map');
   const [searchResults, setSearchResults] = useState<Place[]>([]);
   const [selectedCategoryId, setSelectedCategoryId] = useState<number>(0);
   const [searchText, setSearchText] = useState<string>('');
   const [selectedPlaceId, setSelectedPlaceId] = useState<number | undefined>(
     undefined,
-  ); 
-  const [selectedPlaceWithReview, setSelectedPlaceWithReview] = useState<
-    PlaceWithReview | undefined
-  >(undefined);
+  );
+  const [selectedPlaceWithReview, setSelectedPlaceWithReview] =
+    useState<PlaceWithReview>();
 
   const handleSearchPlace = (searchText: string) => {
     setSearchText(searchText);
@@ -83,7 +80,7 @@ const PlaceSearch = ({ location, categories }: PlaceSearchProps) => {
   };
 
   const handleClickPlaceInfo = (placeId: number) => {
-    setViewMode('map');
+    setViewMode('info');
     setSelectedPlaceId(placeId);
     if (typeof token !== 'undefined') {
       fetchPlaceWithReview(token, placeId);
@@ -119,24 +116,32 @@ const PlaceSearch = ({ location, categories }: PlaceSearchProps) => {
         </div>
       ) : (
         <div className={styles.placeSearchContainer}>
-          <KakaoMap location={location} />
+          <KakaoMap
+            viewMode={viewMode}
+            address={selectedPlaceWithReview?.place.jibunAddress}
+          />
         </div>
       )}
       <Search onSearch={handleSearchPlace} />
-      <div className={styles.categoryContainer}>
-        <CategoryCarousel
-          categories={categories}
-          options={{ dragFree: true, containScroll: 'trimSnaps' }}
-          onClickCategory={handleClickCategory}
-        />
-      </div>
-
-      {selectedPlaceId !== undefined && (
-        <></>
-        // <PlaceDetail
-        //   placeWithReview={selectedPlaceWithReview}
-        //   handleClose={() => setSelectedPlaceId(undefined)}
-        // />
+      {viewMode !== 'info' && (
+        <div className={styles.categoryContainer}>
+          <CategoryCarousel
+            categories={categories}
+            options={{ dragFree: true, containScroll: 'trimSnaps' }}
+            onClickCategory={handleClickCategory}
+          />
+        </div>
+      )}
+      {selectedPlaceId !== undefined && viewMode !== 'results' && (
+        <>
+          <PlaceDetail
+            placeWithReview={selectedPlaceWithReview}
+            handleClose={() => {
+              setSelectedPlaceId(undefined);
+              setViewMode('map');
+            }}
+          />
+        </>
       )}
     </>
   );

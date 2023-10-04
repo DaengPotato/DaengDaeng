@@ -45,8 +45,14 @@ const PlaceDetailInfo = ({
       <div>별점 : {score}</div>
       <div>{place.content}</div>
       <div>{place.phoneNumber}</div>
-      <div>{place.homepage}</div>
-      <div>{place.openingHour}</div>
+      <div className={styles.placeOpeningHourContainer}>
+        <div>영업시간</div>
+        <div className={styles.placeOpeningHour}>
+          {place.openingHour.map((hour, index) => (
+            <div key={index}>{hour}</div>
+          ))}
+        </div>
+      </div>
     </div>
   );
 };
