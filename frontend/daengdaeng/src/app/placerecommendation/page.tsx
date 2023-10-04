@@ -11,8 +11,9 @@ const PlaceRecommendationPage = () => {
   const { data: memberPlaces, mutate: mutateMemberPlaces } = useFetcher<
     Place[]
   >(`/place/recommend/member`);
-  const { data: petPlaces, mutate: mutatePetPlaces } =
-    useFetcher<PetSpecificPlaces[]>(`/place/recommend/dog`);
+  const { data: petPlaces, mutate: mutatePetPlaces } = useFetcher<
+    PetSpecificPlaces[]
+  >(`/place/recommend/dog`, pets && pets.length > 0);
 
   return (
     <PlaceRecommendation

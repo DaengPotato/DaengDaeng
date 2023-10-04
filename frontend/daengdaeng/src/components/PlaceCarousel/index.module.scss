@@ -17,7 +17,7 @@
 }
 
 .slide {
-  flex: 0 0 var(--slide-size);
+  flex: 0 0 auto;
   min-width: 0;
   padding-left: var(--slide-spacing);
   position: relative;

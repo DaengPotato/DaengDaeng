@@ -23,8 +23,9 @@ const MBTIResult = ({ pet, selectedTypes }: MBTIResultProps) => {
   const [imgError, setImgError] = useState<boolean>(false);
   const [mbti, setMbti] = useState<string[]>([]);
 
-  const { data: petPlaces, mutate: mutatePlaces } =
-    useFetcher<PetSpecificPlaces[]>(`/place/recommend/dog`);
+  const { data: petPlaces, mutate: mutatePlaces } = useFetcher<
+    PetSpecificPlaces[]
+  >(`/place/recommend/dog`, mbti.length > 0);
 
   const typeCounts = selectedTypes.reduce(
     (counts: { [key: string]: number }, type) => {
@@ -44,13 +45,9 @@ const MBTIResult = ({ pet, selectedTypes }: MBTIResultProps) => {
 
       setMbti(mbtiType);
 
-      const res = await updateMBTI(pet.petId, {
+      await updateMBTI(pet.petId, {
         mbti: mbtiType.join(''),
       });
-
-      if (res.ok) {
-        await mutatePlaces();
-      }
     })();
   }, []);
 

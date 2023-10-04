@@ -61,7 +61,11 @@ const PlaceDetail = ({ placeWithReview, handleClose }: PlaceDetailProps) => {
           </div>
           <div className={styles.keywordReviewContainer}>
             {keywordList.map((keyword) => (
-              <KeywordReviewItem key={keyword.keywordId} keyword={keyword} />
+              <KeywordReviewItem
+                key={keyword.keywordId}
+                keyword={keyword}
+                viewCount
+              />
             ))}
           </div>
         </div>

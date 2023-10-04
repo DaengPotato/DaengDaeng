@@ -32,7 +32,7 @@ const Kakao: NextPage = () => {
         if (typeof window !== 'undefined') {
           saveUser(accessToken);
         }
-        router.push('/');
+        router.replace('/');
       } else {
         // 실패하면 에러 페이지로 리다이렉트
         router.push('/notifications/authentication-failed');

@@ -10,34 +10,12 @@ import Button from '../common/Button';
 import { CloseIcon } from '@/public/icons';
 import TextLogo from '@/public/images/text-logo.png';
 import { deleteMember, logout } from '@/src/apis/api/member';
+import { menuItems } from '@/src/constants/nav';
 import {
   getUser,
   removeUser,
   removeUserInfo,
 } from '@/src/hooks/useLocalStorage';
-
-const menuItems = [
-  {
-    label: '나의 강아지',
-    href: '/mypets',
-  },
-  {
-    label: '댕BTI 검사',
-    href: '/mbti',
-  },
-  {
-    label: '여행지 추천',
-    href: '/placerecommendation',
-  },
-  {
-    label: '여행지 검색',
-    href: '/placesearch',
-  },
-  {
-    label: '댕댕네컷',
-    href: '/daengphoto',
-  },
-];
 
 const Sidebar = ({
   isMenuOpen,
@@ -77,7 +55,7 @@ const Sidebar = ({
         const now = new Date();
         document.cookie = `daengCookie=; expires=${now.toUTCString()}; path=/;`;
         handleCloseMenu();
-        router.push('/');
+        router.replace('/');
         router.refresh();
       } else {
         throw new Error('로그아웃 실패');
@@ -119,8 +97,8 @@ const Sidebar = ({
         <button onClick={handleCloseMenu} className={styles.closeBtn}>
           <CloseIcon width="30px" height="30px" />
         </button>
-        <div className={styles.iconContainer}>
-          <Link href="/" onClick={handleCloseMenu}>
+        <div className={styles.iconContainer} onClick={handleCloseMenu}>
+          <Link href="/">
             <Image src={TextLogo} height={25} alt="textlogo" />
           </Link>
         </div>
@@ -139,10 +117,12 @@ const Sidebar = ({
       )}
       <ul className={styles.menu}>
         {menuItems.map((item) => (
-          <li key={item.label} className={styles.menuItem}>
-            <Link href={item.href} onClick={handleCloseMenu}>
-              {item.label}
-            </Link>
+          <li
+            key={item.label}
+            className={styles.menuItem}
+            onClick={handleCloseMenu}
+          >
+            <Link href={item.href}>{item.label}</Link>
           </li>
         ))}
       </ul>
