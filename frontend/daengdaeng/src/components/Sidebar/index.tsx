@@ -4,9 +4,6 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 
-import styles from './index.module.scss';
-import Button from '../common/Button';
-
 import { CloseIcon } from '@/public/icons';
 import TextLogo from '@/public/images/text-logo.png';
 import { deleteMember, logout } from '@/src/apis/api/member';
