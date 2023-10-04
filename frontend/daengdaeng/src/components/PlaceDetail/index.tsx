@@ -1,8 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+
+import { PawIcon } from '@/public/icons';
+import { gray } from '@/src/styles/colors';
 
 import styles from './index.module.scss';
 import KeywordReviewItem from './KeywordReviewItem';
@@ -17,6 +20,7 @@ type PlaceDetailProps = {
 
 const PlaceDetail = ({ placeWithReview, handleClose }: PlaceDetailProps) => {
   const router = useRouter();
+  const [imgError, setImgError] = useState<boolean>(false);
   const place: Place = placeWithReview?.place || {
     placeId: 0,
     title: '',
@@ -41,12 +45,17 @@ const PlaceDetail = ({ placeWithReview, handleClose }: PlaceDetailProps) => {
       </div>
       <div className={styles.placeInfo}>
         <div className={styles.placeImage}>
-          <Image
-            src={place.placeImage}
-            alt={place.title}
-            fill={true}
-            objectFit="cover"
-          />
+          {!imgError && typeof place.placeImage === 'string' ? (
+            <Image
+              src={place.placeImage}
+              alt={place.title}
+              fill={true}
+              objectFit="cover"
+              onError={() => setImgError(true)}
+            />
+          ) : (
+            <PawIcon fill={gray} width={100} height={100} />
+          )}
         </div>
         <div className={styles.placeInfo}>
           <PlaceDetailInfo
