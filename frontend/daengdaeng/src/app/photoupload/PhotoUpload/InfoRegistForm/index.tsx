@@ -3,7 +3,7 @@
 import type { ChangeEvent } from 'react';
 import React, { useState } from 'react';
 
-import { AddIcon } from '@/public/icons';
+import { SearchIcon } from '@/public/icons';
 import Button from '@/src/components/common/Button';
 import { white } from '@/src/styles/colors';
 
@@ -193,7 +193,7 @@ const InfoRegistForm = ({ isPublic, setIsOpen }: InfoRegistFormProps) => {
 
   return (
     <div className={styles.InfoRegistForm}>
-      <div className={styles.Text}>위치를 추가해 주세요</div>
+      <div className={styles.TitleText}>어디에서 찍으셨나요?</div>
       <div className={styles.categoryContainer}>
         <div className={styles.Text}>카테고리 선택</div>
         <div className={styles.buttons}>
@@ -223,8 +223,8 @@ const InfoRegistForm = ({ isPublic, setIsOpen }: InfoRegistFormProps) => {
           onChange={handleKeywordChange}
           className={styles.KeywordInput}
         />
-        <button onClick={handleSearchClick} className={styles.AddButton}>
-          <AddIcon width={20} height={20} fill={white} />
+        <button onClick={handleSearchClick} className={styles.SearchButton}>
+          <SearchIcon width={20} height={20} fill={white} />
         </button>
       </div>
 
