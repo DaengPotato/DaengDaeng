@@ -1,12 +1,14 @@
 import React from 'react';
 
+import { CheckedStarIcon, UncheckedStarIcon } from '@/public/icons';
+import { createLikePlace, deleteLikePlace } from '@/src/apis/api/place';
+import { getUser } from '@/src/hooks/useLocalStorage';
+
 import styles from './index.module.scss';
 import LikeButton from '../../LikeButton';
 
 import type { Place } from '@/src/types/place';
 
-import { createLikePlace, deleteLikePlace } from '@/src/apis/api/place';
-import { getUser } from '@/src/hooks/useLocalStorage';
 
 type PlaceDetailInfoProps = {
   place: Place;
@@ -35,6 +37,21 @@ const PlaceDetailInfo = ({
     }
   };
 
+  const calcScore = () => {
+    const roundedScore = Math.round(score);
+    const stars = []
+
+    for (let i = 0; i < 5; i++) {
+      if (i < roundedScore) {
+        stars.push(<CheckedStarIcon key={i} />);
+      } else {
+        stars.push(<UncheckedStarIcon key={i} />);
+      }
+    }
+
+    return stars;
+  }
+
   return (
     <div className={styles.PlaceDetailInfo}>
       <div className={styles.placeHeader}>
@@ -42,7 +59,7 @@ const PlaceDetailInfo = ({
         <LikeButton isLiked={isLiked} onClick={handleLikeClick} />
       </div>
       <div className={styles.placeAddress}>{place.roadAddress}</div>
-      <div>별점 : {score}</div>
+      <div>{calcScore()}</div>
       <div>{place.content}</div>
       <div>{place.phoneNumber}</div>
       <div className={styles.placeOpeningHourContainer}>
