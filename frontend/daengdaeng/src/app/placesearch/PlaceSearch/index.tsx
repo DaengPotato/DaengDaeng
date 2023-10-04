@@ -2,6 +2,10 @@
 
 import React, { useEffect, useState } from 'react';
 
+import BottomSheet from '@/src/components/common/BottomSheet';
+import PlaceDetail from '@/src/components/PlaceDetail';
+import { getUser } from '@/src/hooks/useLocalStorage';
+
 import CategoryCarousel from './CategoryCarousel';
 import styles from './index.module.scss';
 import KakaoMap from './KakaoMap';
@@ -10,9 +14,6 @@ import Search from './Search';
 
 import type { Category } from '@/src/types/category';
 import type { Place, PlaceWithReview } from '@/src/types/place';
-
-import PlaceDetail from '@/src/components/PlaceDetail';
-import { getUser } from '@/src/hooks/useLocalStorage';
 
 type PlaceSearchProps = {
   categories: Category[];
@@ -105,6 +106,26 @@ const PlaceSearch = ({ categories }: PlaceSearchProps) => {
 
   return (
     <div className={styles.container}>
+      <div className={styles.searchBarContainer}>
+        {categories.length == 0 || viewMode === 'info' ? (
+          <div className={styles.searchBar}>
+            <Search onSearch={handleSearchPlace} />
+          </div>
+        ) : (
+          <Search onSearch={handleSearchPlace} />
+        )}
+        {viewMode !== 'info' && (
+          <div className={styles.categoryContainer}>
+            <CategoryCarousel
+              categories={categories}
+              options={{
+                dragFree: true,
+              }}
+              onClickCategory={handleClickCategory}
+            />
+          </div>
+        )}
+      </div>
       {viewMode === 'results' ? (
         <div className={styles.placeListContainer}>
           {searchResults.map((result, i) => (
@@ -125,22 +146,14 @@ const PlaceSearch = ({ categories }: PlaceSearchProps) => {
           />
         </div>
       )}
-      <Search onSearch={handleSearchPlace} />
-      {viewMode !== 'info' && (
-        <div className={styles.categoryContainer}>
-          <CategoryCarousel
-            categories={categories}
-            options={{
-              dragFree: true,
-              align: 'center',
-              containScroll: false,
-            }}
-            onClickCategory={handleClickCategory}
-          />
-        </div>
-      )}
       {selectedPlaceId !== undefined && viewMode !== 'results' && (
-        <>
+        // <BottomSheet
+        //   isOpen={viewMode === 'info'}
+        //   setIsOpen={() => {
+        //     setSelectedPlaceId(undefined);
+        //     setViewMode('map');
+        //   }}
+        // >
           <PlaceDetail
             placeWithReview={selectedPlaceWithReview}
             handleClose={() => {
@@ -148,7 +161,7 @@ const PlaceSearch = ({ categories }: PlaceSearchProps) => {
               setViewMode('map');
             }}
           />
-        </>
+        // </BottomSheet>
       )}
     </div>
   );
