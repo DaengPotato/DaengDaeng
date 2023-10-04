@@ -34,6 +34,10 @@ const places = Array.from({ length: 10 }, (_, i): Place => {
 export const PlaceCarouselStory: Story = {
   args: {
     places,
-    options: { dragFree: true, containScroll: 'trimSnaps' },
+    options: {
+      dragFree: true,
+      align: 'center',
+      containScroll: 'trimSnaps',
+    },
   },
 };

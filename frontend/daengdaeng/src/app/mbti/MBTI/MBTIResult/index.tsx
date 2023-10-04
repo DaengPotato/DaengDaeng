@@ -142,7 +142,11 @@ const MBTIResult = ({ pet, selectedTypes }: MBTIResultProps) => {
                 <PlaceCarousel
                   key={pet.petId}
                   places={petPlace.placeList}
-                  options={{ dragFree: true, containScroll: 'trimSnaps' }}
+                  options={{
+                    dragFree: true,
+                    align: 'center',
+                    containScroll: false,
+                  }}
                   mutate={mutatePlaces}
                 />
               );

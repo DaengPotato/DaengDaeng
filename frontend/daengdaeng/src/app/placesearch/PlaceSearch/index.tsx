@@ -2,9 +2,6 @@
 
 import React, { useEffect, useState } from 'react';
 
-import PlaceDetail from '@/src/components/PlaceDetail';
-import { getUser } from '@/src/hooks/useLocalStorage';
-
 import CategoryCarousel from './CategoryCarousel';
 import styles from './index.module.scss';
 import KakaoMap from './KakaoMap';
@@ -13,6 +10,9 @@ import Search from './Search';
 
 import type { Category } from '@/src/types/category';
 import type { Place, PlaceWithReview } from '@/src/types/place';
+
+import PlaceDetail from '@/src/components/PlaceDetail';
+import { getUser } from '@/src/hooks/useLocalStorage';
 
 type PlaceSearchProps = {
   categories: Category[];
@@ -127,7 +127,11 @@ const PlaceSearch = ({ categories }: PlaceSearchProps) => {
         <div className={styles.categoryContainer}>
           <CategoryCarousel
             categories={categories}
-            options={{ dragFree: true, containScroll: 'trimSnaps' }}
+            options={{
+              dragFree: true,
+              align: 'center',
+              containScroll: false,
+            }}
             onClickCategory={handleClickCategory}
           />
         </div>

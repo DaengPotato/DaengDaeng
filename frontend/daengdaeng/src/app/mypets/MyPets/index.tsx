@@ -61,7 +61,11 @@ const MyPets = ({ pets, places, mutatePets, mutatePlaces }: MyPetsProps) => {
           </div>
           <PetCarousel
             pets={pets}
-            options={{ dragFree: true, containScroll: 'trimSnaps' }}
+            options={{
+              dragFree: true,
+              align: 'center',
+              containScroll: false,
+            }}
           />
         </div>
       )}
@@ -87,7 +91,11 @@ const MyPets = ({ pets, places, mutatePets, mutatePlaces }: MyPetsProps) => {
           </div>
           <PlaceCarousel
             places={places}
-            options={{ dragFree: true, containScroll: 'trimSnaps' }}
+            options={{
+              dragFree: true,
+              align: 'center',
+              containScroll: false,
+            }}
             mutate={mutatePlaces}
           />
         </div>

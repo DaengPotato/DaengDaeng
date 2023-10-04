@@ -269,7 +269,7 @@ const PetRegistForm = ({ setIsOpen, mutate }: PetRegistFormProps) => {
                   dateFormat="yyyy년 MM월 dd일"
                   dateFormatCalendar="yyyy년 MM월"
                   locale="ko"
-                  shouldCloseOnSelect={false}
+                  shouldCloseOnSelect
                   maxDate={new Date()}
                   selected={field.value}
                   onChange={(date) => field.onChange(date)}

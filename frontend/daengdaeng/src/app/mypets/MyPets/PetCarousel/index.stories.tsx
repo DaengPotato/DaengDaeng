@@ -27,6 +27,10 @@ const pets: PetDetail[] = Array.from({ length: 4 }, (_, i) => ({
 export const Pet: Story = {
   args: {
     pets: pets,
-    options: { dragFree: true, containScroll: 'trimSnaps' },
+    options: {
+      dragFree: true,
+      align: 'center',
+      containScroll: false,
+    },
   },
 };
