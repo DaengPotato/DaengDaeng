@@ -4,12 +4,12 @@ import styles from './index.module.scss';
 
 type ModalProps = {
   children: React.ReactNode;
-  setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  closeModal: () => void;
 };
 
-const Modal = ({ children, setIsOpen }: ModalProps) => {
+const Modal = ({ children, closeModal }: ModalProps) => {
   const handleCloseModal = () => {
-    setIsOpen(false);
+    closeModal();
   };
 
   return (

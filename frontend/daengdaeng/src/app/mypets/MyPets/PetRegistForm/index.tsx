@@ -15,17 +15,18 @@ import type { PetDetail } from '@/src/types/pet';
 import type { FieldValues } from 'react-hook-form';
 
 import { NextArrowIcon, PawIcon, PrevArrowIcon } from '@/public/icons';
-import { createPet } from '@/src/apis/api/pet';
+import { createPet, deletePet, updatePet } from '@/src/apis/api/pet';
 import Button from '@/src/components/common/Button';
 import ErrorMessage from '@/src/components/ErrorMessage';
 import { YEARS } from '@/src/constants/calendar';
 import { gray, primaryOrange } from '@/src/styles/colors';
+import { clacAge } from '@/src/utils/date';
 import { validatePetName } from '@/src/utils/validate';
 
 import 'react-datepicker/dist/react-datepicker.css';
 
 type PetRegistFormProps = {
-  setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  closeForm: () => void;
   mutate: any;
   editingPet?: PetDetail;
 };
@@ -39,7 +40,7 @@ type petReqType = {
 };
 
 const PetRegistForm = ({
-  setIsOpen,
+  closeForm,
   mutate,
   editingPet,
 }: PetRegistFormProps) => {
@@ -95,6 +96,7 @@ const PetRegistForm = ({
 
   const handleRemoveImage = () => {
     setPetImage(undefined);
+    setCurrentPetImage(undefined);
     if (petImageInput.current) {
       petImageInput.current.value = '';
     }
@@ -147,16 +149,21 @@ const PetRegistForm = ({
     );
 
     if (typeof window !== 'undefined') {
-      const res = await createPet(formData);
+      let res;
+      if (editingPet) {
+        res = await updatePet(formData, editingPet.petId);
+      } else {
+        res = await createPet(formData);
+      }
       if (res.ok) {
         await mutate();
-        setIsOpen(false);
+        closeForm();
       }
     }
   };
 
   const handleCancel = () => {
-    setIsOpen(false);
+    closeForm();
   };
 
   const handleSelectGender = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -167,10 +174,20 @@ const PetRegistForm = ({
     setNoBirthData((prev) => !prev);
   };
 
+  const handleDeletePet = async () => {
+    if (!editingPet) return;
+    if (!window.confirm(`'${editingPet.name}'의 정보를 삭제할까요?`)) return;
+    const res = await deletePet(editingPet.petId);
+    if (res.ok) {
+      await mutate();
+      closeForm();
+    }
+  };
+
   return (
     <div className={styles.PetRegistForm}>
       <form className={styles.registForm}>
-        <div className={styles.title}>강아지 등록하기</div>
+        <div className={styles.title}>반려견 정보를 입력해주세요!</div>
         <div className={styles.petImageUpload}>
           <div onClick={handlePetImageClick} className={styles.petImage}>
             {currentPetImage ? (
@@ -205,6 +222,7 @@ const PetRegistForm = ({
           <input
             type="text"
             {...register('name', {
+              value: editingPet ? editingPet.name : '',
               required: '이름을 입력해주세요.',
               maxLength: {
                 value: 20,
@@ -274,7 +292,9 @@ const PetRegistForm = ({
             <Controller
               name="birth"
               control={control}
-              rules={{ required: noBirthData ? false : '생일을 선택해주세요.' }}
+              rules={{
+                required: noBirthData ? false : '생일을 선택해주세요.',
+              }}
               render={({ field }) => (
                 <DatePicker
                   {...field}
@@ -285,7 +305,11 @@ const PetRegistForm = ({
                   locale="ko"
                   shouldCloseOnSelect
                   maxDate={new Date()}
-                  selected={field.value}
+                  selected={
+                    !field.value && editingPet
+                      ? new Date(editingPet.birth)
+                      : field.value
+                  }
                   onChange={(date) => field.onChange(date)}
                   renderCustomHeader={({
                     date,
@@ -345,6 +369,7 @@ const PetRegistForm = ({
                 type="number"
                 className={styles.weight}
                 {...register('age', {
+                  value: editingPet ? clacAge(editingPet.birth) : undefined,
                   required: noBirthData ? '나이를 입력해주세요.' : false,
                 })}
               />
@@ -380,6 +405,7 @@ const PetRegistForm = ({
               type="number"
               className={styles.weight}
               {...register('weight', {
+                value: editingPet ? editingPet.weight : undefined,
                 required: '몸무게를 입력해주세요.',
               })}
             />
@@ -409,6 +435,11 @@ const PetRegistForm = ({
           </Button>
         </div>
       </form>
+      {editingPet && (
+        <div className={styles.deletePet}>
+          <button onClick={handleDeletePet}>반려견 정보 삭제하기</button>
+        </div>
+      )}
     </div>
   );
 };
