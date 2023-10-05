@@ -8,7 +8,12 @@ import {
 
 import type { UserInfo } from '@/src/types/member';
 
-export const reissue = async (url: string, method?: string, body?: any) => {
+export const reissue = async (
+  url: string,
+  method?: string,
+  body?: any,
+  type?: string,
+) => {
   const response = await fetch(
     `${process.env.NEXT_PUBLIC_API_URL}/member/reissue`,
     {
@@ -17,11 +22,18 @@ export const reissue = async (url: string, method?: string, body?: any) => {
   );
   const newToken = await response.text();
   saveUser(newToken);
+
+  const headers: { [key: string]: string } = {
+    Authorization: `Bearer ${newToken}`,
+  };
+
+  if (type) {
+    headers['Content-Type'] = type;
+  }
+
   const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}${url}`, {
     method: method ? method : 'GET',
-    headers: {
-      Authorization: `Bearer ${newToken}`,
-    },
+    headers: headers,
     body: body ? body : undefined,
   });
 
