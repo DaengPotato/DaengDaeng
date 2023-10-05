@@ -3,11 +3,8 @@ package com.daengdaeng.domain.review.service;
 import com.daengdaeng.domain.member.domain.Member;
 import com.daengdaeng.domain.member.repository.MemberRepository;
 import com.daengdaeng.domain.pet.domain.Pet;
-import com.daengdaeng.domain.pet.dto.response.PetNameResponse;
 import com.daengdaeng.domain.pet.repository.PetRepository;
 import com.daengdaeng.domain.place.domain.Place;
-import com.daengdaeng.domain.place.dto.KeywordDto;
-import com.daengdaeng.domain.place.dto.response.FindPlaceResponse;
 import com.daengdaeng.domain.place.repository.PlaceRepository;
 import com.daengdaeng.domain.review.domain.*;
 import com.daengdaeng.domain.review.dto.request.ReviewRequest;
@@ -100,7 +97,7 @@ public class ReviewServiceImpl implements ReviewService {
     public void modifyReviewPet(Review review, List<Integer> petList){
         for(Integer petId : petList){
             Pet pet = petRepository.findByPetId(petId).orElseThrow(NoSuchElementException::new);
-            ReviewPet reviewPet = reviewPetRepository.findByReview(review);
+            ReviewPet reviewPet = reviewPetRepository.findByReviewAndPet(review, pet);
             reviewPet.modifyReviewPet(pet);
         }
     }
@@ -109,7 +106,7 @@ public class ReviewServiceImpl implements ReviewService {
     public void modifyReviewKeyword(Review review, List<Integer> keywordList){
         for(Integer keywordId : keywordList){
             Keyword keyword = keywordRepository.findById(keywordId).orElseThrow(NoSuchElementException::new);
-            ReviewKeyword reviewKeyword = reviewKeywordRepository.findByReview(review);
+            ReviewKeyword reviewKeyword = reviewKeywordRepository.findByReviewAndKeyword(review, keyword);
             reviewKeyword.modifyKeyword(keyword);
         }
     }
@@ -130,19 +127,35 @@ public class ReviewServiceImpl implements ReviewService {
         }
     }
 
+    // 리뷰 삭제 - 리뷰펫
+    public void removeReviewPet(List<ReviewPet> reviewPets){
+        for(ReviewPet reviewPet : reviewPets){
+            reviewPetRepository.deleteByReviewPetId(reviewPet.getReviewPetId());
+        }
+    }
 
+    // 리뷰 삭제 - 리뷰키워드
+    public void removeReviewKeyword(List<ReviewKeyword> reviewKeywords){
+        for(ReviewKeyword reviewKeyword : reviewKeywords){
+            reviewKeywordRepository.deleteByReviewKeywordId(reviewKeyword.getReviewKeywordId());
+        }
+    }
     // 리뷰 삭제
     @Override
     public void removeReview(int reviewId){
         Member member = memberRepository.findByEmail(getCurrentEmail())
                 .orElseThrow(() -> new NoSuchElementException("존재하지 않는 사용자입니다."));
-        Review review = reviewRepository.findByReviewId(reviewId).orElseThrow(NoSuchElementException::new);
+        Review review = reviewRepository.findByReviewId(reviewId)
+                .orElseThrow(() -> new NoSuchElementException("존재하지 않는 리뷰입니다."));
         if (review.getMember().equals(member)){
             List<ReviewPet> reviewPets= reviewPetRepository.findAllByReview(review);
+            removeReviewPet(reviewPets);
             List<ReviewKeyword> reviewKeywords = reviewKeywordRepository.findAllByReview(review);
-            reviewPetRepository.deleteAll(reviewPets);
-            reviewKeywordRepository.deleteAll(reviewKeywords);
+            removeReviewKeyword(reviewKeywords);
+
             reviewRepository.deleteById(reviewId);
+        } else{
+            throw new NoSuchElementException("해당 리뷰가 존재하지 않습니다.");
         }
     }
 
@@ -181,7 +194,8 @@ public class ReviewServiceImpl implements ReviewService {
         if (lastReview.isPresent()) {
             Review review = lastReview.get();
             int score = review.getScore();
-
+            int reviewId = review.getReviewId();
+            String reviewContent = review.getReviewContent();
             List<ReviewKeyword> reviewKeywordList = reviewKeywordRepository.findAllByReview(review);
             List<ReviewKeywordResponse> reviewKeywordResponses = new ArrayList<>();
 
@@ -190,7 +204,7 @@ public class ReviewServiceImpl implements ReviewService {
                 reviewKeywordResponses.add(new ReviewKeywordResponse().from(keyword));
 
             }
-            return new ReviewDetailResponse(petInfoResponse, score, reviewKeywordResponses);
+            return new ReviewDetailResponse(petInfoResponse, score, reviewKeywordResponses, reviewId, reviewContent);
         }
         else{
             throw new NoSuchElementException("해당 리뷰가 존재하지 않습니다.");
