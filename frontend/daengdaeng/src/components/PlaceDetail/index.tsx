@@ -4,9 +4,6 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 
-import { PawIcon } from '@/public/icons';
-import { gray } from '@/src/styles/colors';
-
 import styles from './index.module.scss';
 import KeywordReviewItem from './KeywordReviewItem';
 import PlaceDetailInfo from './PlaceDetailInfo';
@@ -44,8 +41,8 @@ const PlaceDetail = ({ placeWithReview, handleClose }: PlaceDetailProps) => {
         닫기
       </div>
       <div className={styles.placeInfo}>
-        <div className={styles.placeImage}>
-          {!imgError && typeof place.placeImage === 'string' ? (
+        {!imgError && typeof place.placeImage === 'string' && (
+          <div className={styles.placeImage}>
             <Image
               src={place.placeImage}
               alt={place.title}
@@ -53,10 +50,8 @@ const PlaceDetail = ({ placeWithReview, handleClose }: PlaceDetailProps) => {
               objectFit="cover"
               onError={() => setImgError(true)}
             />
-          ) : (
-            <PawIcon fill={gray} width={100} height={100} />
-          )}
-        </div>
+          </div>
+        )}
         <div className={styles.placeInfo}>
           <PlaceDetailInfo
             place={place}

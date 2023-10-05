@@ -1,1 +1,1 @@
-package com.daengdaeng.domain.pet.repository;import com.daengdaeng.domain.pet.domain.Mbti;import org.springframework.data.jpa.repository.JpaRepository;public interface MbtiRepository extends JpaRepository<Mbti, Integer> {    Mbti findMbtiByMbti(String mbti);}
+package com.daengdaeng.domain.pet.repository;import java.util.Optional;import com.daengdaeng.domain.pet.domain.Mbti;import org.springframework.data.jpa.repository.JpaRepository;public interface MbtiRepository extends JpaRepository<Mbti, Integer> {    Optional<Mbti> findMbtiByMbti(String mbti);}
