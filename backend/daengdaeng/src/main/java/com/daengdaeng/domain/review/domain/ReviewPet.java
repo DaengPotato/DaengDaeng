@@ -29,8 +29,4 @@ public class ReviewPet {
         this.reviewPetId = reviewPetId;
     }
 
-    public void modifyReviewPet(Pet pet){
-        this.pet = pet;
-    }
-
 }

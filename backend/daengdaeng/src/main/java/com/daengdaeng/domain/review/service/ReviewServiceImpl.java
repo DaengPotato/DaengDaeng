@@ -91,47 +91,6 @@ public class ReviewServiceImpl implements ReviewService {
 
     }
 
-    // 리뷰 수정 - 만족하는 pet 수정
-    public void modifyReviewPet(Review review, List<Integer> petList){
-        List<ReviewPet> reviewPetList = reviewPetRepository.findAllByReview(review);
-
-        for(ReviewPet reviewPet : reviewPetList){
-            reviewPetRepository.deleteByReviewPetId(reviewPet.getReviewPetId());
-        }
-
-        for(Integer petId : petList){
-            Pet pet = petRepository.findByPetId(petId).orElseThrow(NoSuchElementException::new);
-            ReviewPet reviewpet = ReviewPet.builder()
-                    .reviewPetId(ReviewPetId.builder()
-                            .reviewId(review.getReviewId())
-                            .petId(pet.getPetId())
-                            .build())
-                    .build();
-            reviewPetRepository.save(reviewpet);
-        }
-    }
-
-    // 리뷰 수정 - 리뷰 키워드 수정
-    public void modifyReviewKeyword(Review review, List<Integer> keywordList){
-
-        List<ReviewKeyword> reviewKeywordList = reviewKeywordRepository.findAllByReview(review);
-
-        for(ReviewKeyword existingKeyword : reviewKeywordList){
-            reviewKeywordRepository.deleteByReviewKeywordId(existingKeyword.getReviewKeywordId());
-        }
-
-        for(Integer keywordId : keywordList){
-            Keyword keyword = keywordRepository.findById(keywordId).orElseThrow(NoSuchElementException::new);
-            ReviewKeyword reviewKeyword = ReviewKeyword.builder()
-                .reviewKeywordId(ReviewKeywordId.builder()
-                        .keywordId(keyword.getKeywordId())
-                        .reviewId(review.getReviewId())
-                        .build())
-                    .build();
-            reviewKeywordRepository.save(reviewKeyword);
-        }
-    }
-
 
     // 리뷰 수정
     @Override
@@ -139,12 +98,26 @@ public class ReviewServiceImpl implements ReviewService {
         Member member = memberRepository.findByEmail(getCurrentEmail())
                 .orElseThrow(() -> new NoSuchElementException("존재하지 않는 사용자입니다."));
         Review review = reviewRepository.findByReviewId(reviewId).orElseThrow(NoSuchElementException::new);
-        List<Integer> petList = reviewRequest.getPetList();
-        List<Integer> keywordList = reviewRequest.getKeywordList();
+
         if (review.getMember().equals(member)){
+            List<Integer> petList = reviewRequest.getPetList();
+            List<Integer> keywordList = reviewRequest.getKeywordList();
+
             review.modifyReview(reviewRequest);
-            modifyReviewPet(review, petList);
-            modifyReviewKeyword(review, keywordList);
+
+            List<ReviewPet> reviewPetList = reviewPetRepository.findAllByReview(review);
+            for(ReviewPet reviewPet : reviewPetList){
+                reviewPetRepository.deleteByReviewPetId(reviewPet.getReviewPetId());
+            }
+
+            List<ReviewKeyword> reviewKeywordList = reviewKeywordRepository.findAllByReview(review);
+
+            for(ReviewKeyword existingKeyword : reviewKeywordList){
+                reviewKeywordRepository.deleteByReviewKeywordId(existingKeyword.getReviewKeywordId());
+            }
+
+            addReviewPet(review.getReviewId(), petList);
+            addReviewKeyword(review.getReviewId(), keywordList);
         }
     }
 

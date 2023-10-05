@@ -34,11 +34,6 @@ public class ReviewKeyword {
 		this.reviewKeywordId = reviewKeywordId;
 	}
 
-	// 리뷰키워드 수정
-//	public void modifyKeyword(Keyword keyword){
-//		this.keyword = keyword;
-//	}
-
 }
 
 
