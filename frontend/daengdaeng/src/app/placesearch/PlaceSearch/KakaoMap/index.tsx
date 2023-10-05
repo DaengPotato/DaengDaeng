@@ -69,6 +69,10 @@ function KakaoMap({ viewMode, address }: KakaoMapProps) {
             isLoading: true,
           });
           setMarkers(marker);
+
+          if (!map) {
+            setMap(() => bounds);
+          }
         }
       });
     }
