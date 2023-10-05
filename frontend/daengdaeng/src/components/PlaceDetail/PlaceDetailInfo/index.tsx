@@ -9,7 +9,6 @@ import LikeButton from '../../LikeButton';
 
 import type { Place } from '@/src/types/place';
 
-
 type PlaceDetailInfoProps = {
   place: Place;
   score: number;
@@ -20,9 +19,8 @@ type PlaceDetailInfoProps = {
 const PlaceDetailInfo = ({
   place,
   score,
-  isLiked,
-} // mutate,
-: PlaceDetailInfoProps) => {
+  isLiked, // mutate,
+}: PlaceDetailInfoProps) => {
   const token = getUser() as string;
 
   const handleLikeClick = async (event: { stopPropagation: () => void }) => {
@@ -39,18 +37,18 @@ const PlaceDetailInfo = ({
 
   const calcScore = () => {
     const roundedScore = Math.round(score);
-    const stars = []
+    const stars = [];
 
     for (let i = 0; i < 5; i++) {
-      if (i < roundedScore) {
-        stars.push(<CheckedStarIcon key={i} />);
-      } else {
-        stars.push(<UncheckedStarIcon key={i} />);
+      {
+        i < roundedScore
+          ? stars.push(<CheckedStarIcon width={40} height={40} key={i} />)
+          : stars.push(<UncheckedStarIcon width={40} height={40} key={i} />);
       }
     }
 
     return stars;
-  }
+  };
 
   return (
     <div className={styles.PlaceDetailInfo}>
