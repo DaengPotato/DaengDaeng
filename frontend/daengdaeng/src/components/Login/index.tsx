@@ -1,16 +1,16 @@
 import Image from 'next/image';
 
-import styles from './index.module.scss';
-
 import Logo from '@/public/images/logo192.png';
 import SymbolGoogle from '@/public/images/symbol-google.png';
 import SymbolKakao from '@/public/images/symbol-kakao.png';
 import TextLogo from '@/public/images/text-logo.png';
 
+import styles from './index.module.scss';
+
 const Login = () => {
   function kakaoLogin() {
     window.Kakao.Auth.authorize({
-      redirectUri: `${process.env.NEXT_PUBLIC_REDIRECT_URL}/kakao?type=KAKAO`,
+      redirectUri: `${process.env.NEXT_PUBLIC_REDIRECT_URL}/login?type=KAKAO`,
     });
   }
 
@@ -20,7 +20,7 @@ const Login = () => {
       process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID +
       '&redirect_uri=' +
       process.env.NEXT_PUBLIC_REDIRECT_URL +
-      '/kakao?type=GOOGLE' +
+      '/login?type=GOOGLE' +
       '&response_type=code&scope=https://www.googleapis.com/auth/userinfo.email+https://www.googleapis.com/auth/userinfo.profile+openid';
     window.location.href = googleAuthUrl;
   }
