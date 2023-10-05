@@ -4,10 +4,12 @@ import { useState } from 'react';
 
 import Image from 'next/image';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 
 import { HamburgerMenuIcon, PawIcon } from '@/public/icons';
 import BlankProfileImg from '@/public/images/blank-profile.webp';
 import TextLogo from '@/public/images/text-logo.png';
+import { getUser } from '@/src/hooks/useLocalStorage';
 
 import styles from './index.module.scss';
 import BottomSheet from '../common/BottomSheet';
@@ -15,6 +17,7 @@ import Login from '../Login';
 import Sidebar from '../Sidebar';
 
 const Header = () => {
+  const router = useRouter();
   const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
   const [isLoginOpen, setIsLoginOpen] = useState<boolean>(false);
 
@@ -30,8 +33,12 @@ const Header = () => {
     rootDiv!.style.overflow = 'auto';
   };
 
-  const handleOpenLogin = () => {
-    setIsLoginOpen((prev) => !prev);
+  const handleProfile = () => {
+    if (!getUser()) {
+      setIsLoginOpen((prev) => !prev);
+    } else {
+      router.push('/mypets');
+    }
   };
 
   return (
@@ -51,7 +58,7 @@ const Header = () => {
           </div>
         </div>
         <div className={styles.right}>
-          <div className={styles.profileImg} onClick={handleOpenLogin}>
+          <div className={styles.profileImg} onClick={handleProfile}>
             <PawIcon fill="black" width={30} height={30} />
           </div>
         </div>
