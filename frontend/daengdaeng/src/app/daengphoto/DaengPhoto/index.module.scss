@@ -69,3 +69,18 @@
   position: absolute;
   z-index: 2;
 }
+
+.marker {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.photoPlace {
+  justify-content: center;
+  align-items: center;
+  font-size: 1.4rem;
+  color: black;
+  font-weight: bold;
+}

@@ -37,7 +37,6 @@ public class Review {
 	@JoinColumn(name = "place_id", nullable = false)
 	private Place place;
 
-
 	private String reviewContent;
 
 	@Column(nullable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
