@@ -7,7 +7,6 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 
 import { HamburgerMenuIcon, PawIcon } from '@/public/icons';
-import BlankProfileImg from '@/public/images/blank-profile.webp';
 import TextLogo from '@/public/images/text-logo.png';
 import { getUser } from '@/src/hooks/useLocalStorage';
 
@@ -66,7 +65,11 @@ const Header = () => {
       {isMenuOpen && (
         <>
           <div className={styles.background} onClick={handleCloseSidebar}></div>
-          <Sidebar isMenuOpen={isMenuOpen} setIsMenuOpen={setIsMenuOpen} />
+          <Sidebar
+            isMenuOpen={isMenuOpen}
+            setIsMenuOpen={setIsMenuOpen}
+            setIsLoginOpen={setIsLoginOpen}
+          />
         </>
       )}
       {isLoginOpen && (
