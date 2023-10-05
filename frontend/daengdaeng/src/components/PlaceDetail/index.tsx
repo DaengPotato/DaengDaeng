@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 
 import Image from 'next/image';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
 
 import styles from './index.module.scss';
 import KeywordReviewItem from './KeywordReviewItem';
@@ -16,7 +15,6 @@ type PlaceDetailProps = {
 };
 
 const PlaceDetail = ({ placeWithReview, handleClose }: PlaceDetailProps) => {
-  const router = useRouter();
   const [imgError, setImgError] = useState<boolean>(false);
   const place: Place = placeWithReview?.place || {
     placeId: 0,

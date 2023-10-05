@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import Image from 'next/image';
 
@@ -7,7 +7,9 @@ import LikeButton from '../LikeButton';
 
 import type { Place } from '@/src/types/place';
 
+import { PawIcon } from '@/public/icons';
 import { createLikePlace, deleteLikePlace } from '@/src/apis/api/place';
+import { gray } from '@/src/styles/colors';
 
 type PlaceCardProps = {
   place: Place;
@@ -15,16 +17,21 @@ type PlaceCardProps = {
 };
 
 const PlaceCard = ({ place, mutate }: PlaceCardProps) => {
+  const [imgError, setImgError] = useState<boolean>(false);
   const handleLikeClick = async (event: { stopPropagation: () => void }) => {
     event.stopPropagation();
 
-    await mutate();
+    console.log(place.isHeart);
 
     if (place.isHeart) {
-      await createLikePlace(place.placeId);
+      const res = await createLikePlace(place.placeId);
+      if (res.ok) console.log('좋아요 성공');
     } else {
-      await deleteLikePlace(place.placeId);
+      const res = await deleteLikePlace(place.placeId);
+      if (res.ok) console.log('좋아요 취소 성공');
     }
+
+    await mutate();
   };
 
   return (
@@ -33,10 +40,23 @@ const PlaceCard = ({ place, mutate }: PlaceCardProps) => {
         <LikeButton isLiked={place.isHeart} onClick={handleLikeClick} />
       </div>
       <div className={styles.placeImg}>
-        <Image src={place.placeImage} alt="place img" fill={true} />
+        {!imgError && typeof place.placeImage === 'string' ? (
+          <Image
+            src={place.placeImage}
+            alt={place.title}
+            fill={true}
+            onError={() => setImgError(true)}
+          />
+        ) : (
+          <PawIcon fill={gray} width={100} height={100} />
+        )}
       </div>
       <div className={styles.placeTitle}>{place.title}</div>
-      <div className={styles.placeAddress}>{place.roadAddress}</div>
+      <div className={styles.placeAddress}>
+        {place.roadAddress
+          ? place.roadAddress.split(' ').slice(0, 3).join(' ')
+          : ''}
+      </div>
     </div>
   );
 };

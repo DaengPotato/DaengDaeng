@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import useEmblaCarousel from 'embla-carousel-react';
 
@@ -25,12 +25,23 @@ const PlaceCarousel = ({
   options,
   mutate,
 }: CarouselProps) => {
+  console.log(places);
+
   // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
   const [emblaRef, _] = useEmblaCarousel(options);
 
   const [currentPlaceId, setCurrentPlaceId] = useState<number | undefined>(
     undefined,
   );
+  const [somePlaces, setSomePlaces] = useState<Place[]>([]);
+
+  useEffect(() => {
+    if (typeof startIndex === 'undefined') {
+      setSomePlaces(places);
+      return;
+    }
+    setSomePlaces(places.slice(startIndex, startIndex + 5));
+  }, [startIndex]);
 
   const { data: currentPlace, mutate: mutatePlaceDetail } =
     useFetcher<PlaceWithReview>(
@@ -39,12 +50,9 @@ const PlaceCarousel = ({
       `/${currentPlaceId}`,
     );
 
-  const somePlaces =
-    typeof startIndex !== 'undefined'
-      ? places.slice(startIndex, startIndex + 5)
-      : places;
-
   const handleClickPlaceCard = (placeId: number) => {
+    console.log(placeId);
+
     setCurrentPlaceId(placeId);
   };
 
