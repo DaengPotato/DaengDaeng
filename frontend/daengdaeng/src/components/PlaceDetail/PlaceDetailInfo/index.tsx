@@ -42,8 +42,8 @@ const PlaceDetailInfo = ({
     for (let i = 0; i < 5; i++) {
       {
         i < roundedScore
-          ? stars.push(<CheckedStarIcon width={40} height={40} key={i} />)
-          : stars.push(<UncheckedStarIcon width={40} height={40} key={i} />);
+          ? stars.push(<CheckedStarIcon width={30} height={40} key={i} />)
+          : stars.push(<UncheckedStarIcon width={30} height={40} key={i} />);
       }
     }
 
