@@ -1,18 +1,17 @@
 import React, { useEffect, useState } from 'react';
 
+import html2canvas from 'html2canvas';
 import Image from 'next/image';
+
+import { PawIcon } from '@/public/icons';
+import { updateMBTI } from '@/src/apis/api/mbti';
+import { mbtiTypes } from '@/src/constants/mbti';
+import { mbtiContent } from '@/src/constants/mbti';
+import { gray, lightOrange } from '@/src/styles/colors';
 
 import styles from './index.module.scss';
 
 import type { PetDetail } from '@/src/types/pet';
-import type { PetSpecificPlaces } from '@/src/types/place';
-
-import { PawIcon } from '@/public/icons';
-import { updateMBTI } from '@/src/apis/api/mbti';
-import PlaceCarousel from '@/src/components/PlaceCarousel';
-import { mbtiTypes } from '@/src/constants/mbti';
-import useFetcher from '@/src/hooks/useFetcher';
-import { gray } from '@/src/styles/colors';
 
 type MBTIResultProps = {
   pet: PetDetail;
@@ -23,10 +22,6 @@ const MBTIResult = ({ pet, selectedTypes }: MBTIResultProps) => {
   const [imgError, setImgError] = useState<boolean>(false);
   const [mbti, setMbti] = useState<string[]>([]);
 
-  const { data: petPlaces, mutate: mutatePlaces } = useFetcher<
-    PetSpecificPlaces[]
-  >(`/place/recommend/dog`, mbti.length > 0);
-
   const typeCounts = selectedTypes.reduce(
     (counts: { [key: string]: number }, type) => {
       counts[type] = (counts[type] || 0) + 1;
@@ -34,6 +29,38 @@ const MBTIResult = ({ pet, selectedTypes }: MBTIResultProps) => {
     },
     {},
   );
+
+  const doCopy = () => {
+    if (navigator.clipboard) {
+      let currentUrl = window.document.location.href;
+      // (IE는 사용 못하고, 크롬은 66버전 이상일때 사용 가능합니다.)
+      navigator.clipboard
+        .writeText(currentUrl)
+        .then(() => {
+          alert('클립보드에 복사되었습니다.');
+        })
+        .catch(() => {
+          alert('복사를 다시 시도해주세요.');
+        });
+    }
+  };
+
+  const doSave = () => {
+    const elementToCapture = document.querySelector(`.${styles.MBTIResult}`);
+    if (elementToCapture instanceof HTMLElement) {
+      elementToCapture.style.backgroundColor = lightOrange; // 원하는 배경색 설정
+      html2canvas(elementToCapture).then(function (canvas) {
+        alert('저장되었습니다.');
+
+        const link = document.createElement('a');
+        link.href = canvas.toDataURL('image/png');
+        link.download = '댕bti_결과.png';
+        link.click();
+      });
+    } else {
+      console.error('요소를 찾을 수 없습니다.');
+    }
+  };
 
   useEffect(() => {
     (async () => {
@@ -70,6 +97,16 @@ const MBTIResult = ({ pet, selectedTypes }: MBTIResultProps) => {
             <PawIcon fill={gray} width={100} height={100} />
           )}
         </div>
+
+        <div className={styles.mbtiContet}>
+          {mbti.length > 0 &&
+            mbtiContent[mbti.join('')]?.map((item, index) => (
+              <div key={index} className={styles.mbtiText}>
+                {item}
+              </div>
+            ))}
+        </div>
+
         <div className={styles.mbtiRatioList}>
           {mbtiTypes.map((types, i) => {
             const count: number = typeCounts[types[0]];
@@ -124,31 +161,27 @@ const MBTIResult = ({ pet, selectedTypes }: MBTIResultProps) => {
             );
           })}
         </div>
-      </div>
-      <div className={styles.placeRecommendation}>
-        <div className={styles.placeRecommendHeader}>
-          <span className={styles.title}>
-            {mbti.join('')} 성향의 친구들이 좋아한 곳
-          </span>
-          <button className={styles.moreBtn}>더보기</button>
+
+        <div className={styles.btns} data-html2canvas-ignore="true">
+          <Image
+            src="/images/shareBtn.png"
+            alt="링크 복사"
+            width={40}
+            height={40}
+            onError={() => setImgError(true)}
+            style={{ margin: '10px' }}
+            onClick={doCopy}
+          />
+          <Image
+            src="/images/downloadBtn.png"
+            alt="이미지 저장"
+            width={40}
+            height={40}
+            onError={() => setImgError(true)}
+            style={{ margin: '10px' }}
+            onClick={doSave}
+          />
         </div>
-        {petPlaces &&
-          petPlaces.map((petPlace) => {
-            if (petPlace.petId === pet.petId) {
-              return (
-                <PlaceCarousel
-                  key={pet.petId}
-                  places={petPlace.placeList}
-                  options={{
-                    dragFree: true,
-                    align: 'center',
-                    containScroll: false,
-                  }}
-                  mutate={mutatePlaces}
-                />
-              );
-            }
-          })}
       </div>
     </div>
   );
