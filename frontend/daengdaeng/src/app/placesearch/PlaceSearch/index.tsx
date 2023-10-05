@@ -2,6 +2,13 @@
 
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 
+import { createLikePlace, deleteLikePlace } from '@/src/apis/api/place';
+import BottomSheet from '@/src/components/common/BottomSheet';
+import PlaceDetail from '@/src/components/PlaceDetail';
+import useFetcher from '@/src/hooks/useFetcher';
+import useInfiniteFetcher from '@/src/hooks/useInfiniteFetcher';
+import { getUser } from '@/src/hooks/useLocalStorage';
+
 import CategoryCarousel from './CategoryCarousel';
 import styles from './index.module.scss';
 import KakaoMap from './KakaoMap';
@@ -10,13 +17,6 @@ import Search from './Search';
 
 import type { Category } from '@/src/types/category';
 import type { Place, PlaceWithReview } from '@/src/types/place';
-
-import { createLikePlace, deleteLikePlace } from '@/src/apis/api/place';
-import BottomSheet from '@/src/components/common/BottomSheet';
-import PlaceDetail from '@/src/components/PlaceDetail';
-import useFetcher from '@/src/hooks/useFetcher';
-import useInfiniteFetcher from '@/src/hooks/useInfiniteFetcher';
-import { getUser } from '@/src/hooks/useLocalStorage';
 
 type PlaceSearchProps = {
   categories?: Category[];

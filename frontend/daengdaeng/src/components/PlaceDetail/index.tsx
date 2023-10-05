@@ -35,21 +35,20 @@ const PlaceDetail = ({ placeWithReview, handleClose }: PlaceDetailProps) => {
 
   return (
     <div className={styles.PlaceDetail}>
-      <div className={styles.closeBtn} onClick={handleClose}>
-        닫기
-      </div>
       <div className={styles.placeInfo}>
-        {!imgError && placeWithReview?.place.placeImage && typeof placeWithReview?.place.placeImage === 'string' && (
-          <div className={styles.placeImage}>
-            <Image
-              src={placeWithReview?.place.placeImage}
-              alt={placeWithReview?.place.title}
-              fill={true}
-              objectFit="cover"
-              onError={() => setImgError(true)}
-            />
-          </div>
-        )}
+        {!imgError &&
+          placeWithReview?.place.placeImage &&
+          typeof placeWithReview?.place.placeImage === 'string' && (
+            <div className={styles.placeImage}>
+              <Image
+                src={placeWithReview?.place.placeImage}
+                alt={placeWithReview?.place.title}
+                fill={true}
+                objectFit="cover"
+                onError={() => setImgError(true)}
+              />
+            </div>
+          )}
         <div className={styles.placeInfo}>
           <PlaceDetailInfo
             place={place}
