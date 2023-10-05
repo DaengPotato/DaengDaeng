@@ -1,0 +1,16 @@
+.CardContainer {
+  padding: 5px;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.SelectImage {
+  outline-style: solid;
+  outline-color: orange;
+  outline-width: 5px;
+}
+
+.RadioButton {
+  accent-color: orange;
+}
