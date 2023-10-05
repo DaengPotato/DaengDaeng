@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 
 import styles from './index.module.scss';
 
-import type { Place } from '@/src/types/place';
+import type { PetSpecificPlaces, Place } from '@/src/types/place';
 
 import { ReloadIcon } from '@/public/icons';
 import PlaceCarousel from '@/src/components/PlaceCarousel';
@@ -12,6 +12,7 @@ import PlaceCarousel from '@/src/components/PlaceCarousel';
 type RecommendedPlaceListProps = {
   isPet: boolean;
   name: string[] | string;
+  petSpecificPlaces?: PetSpecificPlaces[];
   places: Place[];
   mutate: any;
 };
@@ -19,11 +20,11 @@ type RecommendedPlaceListProps = {
 const RecommendedPlaceList = ({
   isPet,
   name,
+  petSpecificPlaces,
   places,
   mutate,
 }: RecommendedPlaceListProps) => {
   const [currentPlaceIndex, setCurrentPlaceIndex] = useState<number>(0);
-  console.log('swr 데이터 : ', places);
 
   const handleReloadClick = () => {
     setCurrentPlaceIndex((prev) => (prev + 5) % places.length);
@@ -50,6 +51,8 @@ const RecommendedPlaceList = ({
         )}
       </div>
       <PlaceCarousel
+        isLikedPlace={false}
+        petSpecificPlaces={petSpecificPlaces}
         places={places}
         startIndex={currentPlaceIndex}
         mutate={mutate}

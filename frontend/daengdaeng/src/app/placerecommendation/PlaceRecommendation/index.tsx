@@ -28,8 +28,6 @@ const PlaceRecommendation = ({
 }: PlaceRecommendationProps) => {
   const [checkedPets, setCheckedPets] = useState<number[]>([]);
 
-  console.log('사용자 장소', userSpecificPlaces);
-
   useEffect(() => {
     if (pets) {
       setCheckedPets(pets.map((pet) => pet.petId));
@@ -60,6 +58,7 @@ const PlaceRecommendation = ({
                     key={petPlace.petId}
                     isPet={true}
                     name={petPlace.name}
+                    petSpecificPlaces={petSpecificPlaces}
                     places={petPlace.placeList}
                     mutate={mutatePetPlaces}
                   />
