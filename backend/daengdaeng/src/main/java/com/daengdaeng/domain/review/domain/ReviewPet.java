@@ -16,21 +16,17 @@ public class ReviewPet {
     @EmbeddedId
     private ReviewPetId reviewPetId;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "review_id", insertable = false, updatable = false, nullable = false)
     private Review review;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "pet_id", insertable = false, updatable = false, nullable = false)
     private Pet pet;
 
     @Builder
     public ReviewPet(ReviewPetId reviewPetId){
         this.reviewPetId = reviewPetId;
-    }
-
-    public void modifyReviewPet(Pet Pet){
-        this.pet = pet;
     }
 
 }

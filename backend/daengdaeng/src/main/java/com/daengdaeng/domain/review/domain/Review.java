@@ -1,14 +1,6 @@
 package com.daengdaeng.domain.review.domain;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 
 import com.daengdaeng.domain.member.domain.Member;
 import com.daengdaeng.domain.review.dto.request.ReviewRequest;
@@ -22,6 +14,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Getter
@@ -36,15 +29,14 @@ public class Review {
 	@Column(nullable = false, columnDefinition = "TINYINT(3) UNSIGNED")
 	private byte score;
 
-	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "member_id" , nullable = false)
 	private Member member;
 
-	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "place_id", nullable = false)
 	private Place place;
 
-	@Column(columnDefinition = "TEXT")
 	private String reviewContent;
 
 	@Column(nullable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
@@ -52,17 +44,15 @@ public class Review {
 
 
 	@Builder
-	public Review(byte score, Member member, Place place, Date registTime, String reviewContent) {
+	public Review(byte score, Member member, Place place, Date registTime) {
 		this.score = score;
 		this.member = member;
 		this.place = place;
 		this.registTime = registTime;
-		this.reviewContent = reviewContent;
 	}
 
 	// 리뷰 수정
 	public void modifyReview(ReviewRequest reviewRequest){
-		this.reviewContent = reviewRequest.getReviewContent();
 		this.score = reviewRequest.getScore();
 	}
 }

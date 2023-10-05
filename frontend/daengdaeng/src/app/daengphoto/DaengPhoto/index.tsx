@@ -1,5 +1,7 @@
 import { useEffect, useState } from 'react';
 
+import Image from 'next/image';
+
 import styles from './index.module.scss';
 import PhotoCamera from './PhotoCamera';
 
@@ -7,6 +9,7 @@ import type { ImageType } from '@/src/types/image';
 
 import { LeftIcon } from '@/public/icons';
 import { RightIcon } from '@/public/icons';
+import { MarkerIcon } from '@/public/icons';
 import { primaryOrange } from '@/src/styles/colors';
 
 // 이미지 불러오기 함수
@@ -65,35 +68,48 @@ const DaengPhoto = () => {
   };
 
   return (
-    <div>
-      <div>{<PhotoCamera />}</div>
+    <div className={ styles.bigbox}>
+      <div>
+        <PhotoCamera />
+      </div>
       <div className={styles.container}>
         {/* 이미지 */}
         <div className={styles.photoList}>
           {photoList.map((photo, index) => (
             <div
-              onClick={() => clickPhoto(index)}
               key={index}
-              className={`${styles.photo} ${
-                toggleIndex == index ? styles.photoBlur : ''
-              }`}
+              className={`${styles.photo}`}
+              onClick={() => clickPhoto(index)}
             >
               {toggleIndex == index && (
-                <div className={styles.photoPlace}>{photo.place}</div>
+                <div className={styles.photoBlur}>
+                  <div className={styles.marker}>
+                    <MarkerIcon width={20} height={20} />
+                  </div>
+                  <div className={styles.photoPlace}>{photo.place}</div>
+                </div>
               )}
+              <Image
+                src={photo.image}
+                alt="a"
+                width={150}
+                height={400}
+                onClick={() => clickPhoto(index)}
+                className={styles.image}
+              />
             </div>
           ))}
         </div>
-        {/* 버튼 */}
-        <div className={styles.pagebutton}>
-          <div className={styles.btnContainer}>
-            <button className={styles.leftbutton} onClick={handleLeftCursor}>
-              <LeftIcon width={50} height={50} fill={primaryOrange} />
-            </button>
-            <button className={styles.rightbutton} onClick={handleRightCursor}>
-              <RightIcon width={50} height={50} fill={primaryOrange} />
-            </button>
-          </div>
+      </div>
+      {/* 버튼 */}
+      <div className={styles.pagebutton}>
+        <div className={styles.btnContainer}>
+          <button className={styles.leftbutton} onClick={handleLeftCursor}>
+            <LeftIcon width={50} height={50} fill={primaryOrange} />
+          </button>
+          <button className={styles.rightbutton} onClick={handleRightCursor}>
+            <RightIcon width={50} height={50} fill={primaryOrange} />
+          </button>
         </div>
       </div>
     </div>

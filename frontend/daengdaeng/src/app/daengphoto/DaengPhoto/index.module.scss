@@ -1,27 +1,33 @@
-.container {
+.bigbox {
   padding: 30px 20px;
+  height: 100%;
+}
+
+.container {
+  margin-bottom: 30px;
 }
 
 .photoList {
   display: flex;
   flex-wrap: wrap;
+  min-height: 630px;
 }
 
 .photo {
+  position: relative;
   display: flex;
   justify-content: center;
   align-items: center;
   height: 400px;
   width: 150px;
-  background-color: rgba(255, 255, 255, 1);
+  background-color: rgb(255, 255, 255);
   margin: 12px;
   padding: 10px;
   transition: background-color 0.3 ease-in-out;
 }
 
 .pagebutton {
-  height: 50px;
-  padding-top: 10px;
+  bottom: 10%;
 }
 
 .btnContainer {
@@ -29,6 +35,8 @@
   justify-content: center;
   align-items: center;
   padding: 30px;
+  height: 50px;
+  margin-top: auto;
 }
 
 .btnContainer button {
@@ -36,5 +44,50 @@
 }
 
 .photoBlur {
-  background-color: rgba(255, 255, 255, 0.5) !important;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  z-index: 3;
+  height: 400px;
+  width: 150px;
+  background-color: rgba(255, 255, 255, 0.545) !important;
+}
+
+.marker {
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.photoPlace {
+  justify-content: center;
+  align-items: center;
+  font-size: 1.4rem;
+  color: black;
+  font-weight: bold;
+}
+
+.photobox {
+  display: flex;
+}
+
+.image {
+  position: absolute;
+  z-index: 2;
+}
+
+.marker {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.photoPlace {
+  justify-content: center;
+  align-items: center;
+  font-size: 1.4rem;
+  color: black;
+  font-weight: bold;
 }
