@@ -57,7 +57,7 @@ const ProfileForm = ({ closeForm, userInfo }: profileFormProps) => {
     }
   };
 
-  const handleNicknameChange = (event) => {
+  const handleNicknameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setNicknameValue(event.target.value);
   };
 
