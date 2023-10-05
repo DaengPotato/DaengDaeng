@@ -16,8 +16,9 @@ export type Place = {
 };
 
 export type Review = {
-  reviewContent: string;
-  registDate: string;
+  petList: number[];
+  score: number;
+  keywordList: number[];
 };
 
 export type PlaceWithReview = {
@@ -36,5 +37,5 @@ export type PetSpecificPlaces = {
 export type KeywordReview = {
   keywordId: number;
   keyword: string;
-  keywordCnt: number;
+  keywordCnt?: number;
 };
