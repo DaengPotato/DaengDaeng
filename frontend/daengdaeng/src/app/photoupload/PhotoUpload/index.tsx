@@ -7,6 +7,7 @@ import React, { useRef, useState } from 'react';
 import ImageNext from 'next/image';
 import { useRouter } from 'next/navigation';
 
+import { reissue } from '@/src/apis/api/member';
 import Button from '@/src/components/common/Button';
 import Modal from '@/src/components/common/Modal';
 import { getUser } from '@/src/hooks/useLocalStorage';
@@ -152,7 +153,7 @@ const PhotoUpload = ({ frameUrl, setIsSelected }: PhotoUploadProps) => {
       const token: string | undefined = getUser();
 
       // 등록 요청
-      const response = await fetch(
+      let response = await fetch(
         `${process.env.NEXT_PUBLIC_API_URL}/photo/upload/request`,
         {
           method: 'POST',
@@ -162,6 +163,10 @@ const PhotoUpload = ({ frameUrl, setIsSelected }: PhotoUploadProps) => {
           body: formData,
         },
       );
+
+      if (response.status === 401) {
+        response = await reissue('/photo/upload/request', 'POST', formData);
+      }
 
       if (!response.ok) {
         throw new Error('등록 실패');

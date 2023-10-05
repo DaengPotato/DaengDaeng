@@ -4,9 +4,9 @@ import { useCallback, useEffect } from 'react';
 
 import { useRouter, useSearchParams } from 'next/navigation';
 
-import type { NextPage } from 'next';
-
 import { saveUser } from '@/src/hooks/useLocalStorage';
+
+import type { NextPage } from 'next';
 
 const Kakao: NextPage = () => {
   const router = useRouter();
