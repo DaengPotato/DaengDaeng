@@ -37,7 +37,7 @@ public class Review {
 	@JoinColumn(name = "place_id", nullable = false)
 	private Place place;
 
-	@Column(columnDefinition = "TEXT")
+
 	private String reviewContent;
 
 	@Column(nullable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
@@ -45,17 +45,15 @@ public class Review {
 
 
 	@Builder
-	public Review(byte score, Member member, Place place, Date registTime, String reviewContent) {
+	public Review(byte score, Member member, Place place, Date registTime) {
 		this.score = score;
 		this.member = member;
 		this.place = place;
 		this.registTime = registTime;
-		this.reviewContent = reviewContent;
 	}
 
 	// 리뷰 수정
 	public void modifyReview(ReviewRequest reviewRequest){
-		this.reviewContent = reviewRequest.getReviewContent();
 		this.score = reviewRequest.getScore();
 	}
 }

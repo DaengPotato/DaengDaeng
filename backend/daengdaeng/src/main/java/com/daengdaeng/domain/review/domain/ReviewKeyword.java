@@ -35,9 +35,9 @@ public class ReviewKeyword {
 	}
 
 	// 리뷰키워드 수정
-	public void modifyKeyword(Keyword keyword){
-		this.keyword = keyword;
-	}
+//	public void modifyKeyword(Keyword keyword){
+//		this.keyword = keyword;
+//	}
 
 }
 

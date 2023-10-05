@@ -17,6 +17,5 @@ public class ReviewDetailResponse {
 
     private int reviewId;
 
-    private String reviewContent;
 
 }

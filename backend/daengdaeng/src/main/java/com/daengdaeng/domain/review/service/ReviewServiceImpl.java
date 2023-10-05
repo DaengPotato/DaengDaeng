@@ -78,13 +78,11 @@ public class ReviewServiceImpl implements ReviewService {
         List<Integer> petList = reviewRequest.getPetList();
         List<Integer> keywordList = reviewRequest.getKeywordList();
         byte score = reviewRequest.getScore();
-        String reviewContent = reviewRequest.getReviewContent();
         Review review = Review.builder()
                 .member(member)
                 .place(place)
                 .score(score)
                 .registTime(new Date())
-                .reviewContent(reviewContent)
                 .build();
         reviewRepository.save(review);
         int reviewId = review.getReviewId();
@@ -95,19 +93,42 @@ public class ReviewServiceImpl implements ReviewService {
 
     // 리뷰 수정 - 만족하는 pet 수정
     public void modifyReviewPet(Review review, List<Integer> petList){
+        List<ReviewPet> reviewPetList = reviewPetRepository.findAllByReview(review);
+
+        for(ReviewPet reviewPet : reviewPetList){
+            reviewPetRepository.deleteByReviewPetId(reviewPet.getReviewPetId());
+        }
+
         for(Integer petId : petList){
             Pet pet = petRepository.findByPetId(petId).orElseThrow(NoSuchElementException::new);
-            ReviewPet reviewPet = reviewPetRepository.findByReviewAndPet(review, pet);
-            reviewPet.modifyReviewPet(pet);
+            ReviewPet reviewpet = ReviewPet.builder()
+                    .reviewPetId(ReviewPetId.builder()
+                            .reviewId(review.getReviewId())
+                            .petId(pet.getPetId())
+                            .build())
+                    .build();
+            reviewPetRepository.save(reviewpet);
         }
     }
 
     // 리뷰 수정 - 리뷰 키워드 수정
     public void modifyReviewKeyword(Review review, List<Integer> keywordList){
+
+        List<ReviewKeyword> reviewKeywordList = reviewKeywordRepository.findAllByReview(review);
+
+        for(ReviewKeyword existingKeyword : reviewKeywordList){
+            reviewKeywordRepository.deleteByReviewKeywordId(existingKeyword.getReviewKeywordId());
+        }
+
         for(Integer keywordId : keywordList){
             Keyword keyword = keywordRepository.findById(keywordId).orElseThrow(NoSuchElementException::new);
-            ReviewKeyword reviewKeyword = reviewKeywordRepository.findByReviewAndKeyword(review, keyword);
-            reviewKeyword.modifyKeyword(keyword);
+            ReviewKeyword reviewKeyword = ReviewKeyword.builder()
+                .reviewKeywordId(ReviewKeywordId.builder()
+                        .keywordId(keyword.getKeywordId())
+                        .reviewId(review.getReviewId())
+                        .build())
+                    .build();
+            reviewKeywordRepository.save(reviewKeyword);
         }
     }
 
@@ -179,7 +200,6 @@ public class ReviewServiceImpl implements ReviewService {
             Review review = lastReview.get();
             int score = review.getScore();
             int reviewId = review.getReviewId();
-            String reviewContent = review.getReviewContent();
             List<ReviewKeyword> reviewKeywordList = reviewKeywordRepository.findAllByReview(review);
             List<ReviewKeywordResponse> reviewKeywordResponses = new ArrayList<>();
 
@@ -188,7 +208,7 @@ public class ReviewServiceImpl implements ReviewService {
                 reviewKeywordResponses.add(new ReviewKeywordResponse().from(keyword));
 
             }
-            return new ReviewDetailResponse(petInfoResponse, score, reviewKeywordResponses, reviewId, reviewContent);
+            return new ReviewDetailResponse(petInfoResponse, score, reviewKeywordResponses, reviewId);
         }
         else{
             throw new NoSuchElementException("해당 리뷰가 존재하지 않습니다.");
