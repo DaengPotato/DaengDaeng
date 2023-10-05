@@ -128,7 +128,7 @@ def get_popular_place():
     WHERE p.category_id = 1
     GROUP BY h.place_id
     ORDER BY count DESC
-    LIMIT 20
+    LIMIT 100
     """
     result = query_db(sql, ())
     return result
