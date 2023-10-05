@@ -58,7 +58,7 @@ public class MemberController {
 
         log.info(token.get("accessToken"));
         return ResponseEntity.ok()
-                .header("Set-Cookie", jwtCookieName + "=" + token.get("refreshToken") + "; HttpOnly; Max-Age=" + 1000L * 60 * 60 * 24 + "; SameSite=None; Secure")
+                .header("Set-Cookie", jwtCookieName + "=" + token.get("refreshToken") + "; Path=/api/member; HttpOnly; Max-Age=" + 1000L * 60 * 60 * 24 + "; SameSite=None; Secure")
                 .body(token.get("accessToken"));
     }
 
@@ -92,7 +92,7 @@ public class MemberController {
 
         Map<String, String> token = memberService.reissue(refreshToken);
         return ResponseEntity.ok()
-                .header("Set-Cookie", jwtCookieName + "=" + token.get("refreshToken") + "; HttpOnly; Max-Age=" + 1000L * 60 * 60 * 24 + "; SameSite=None; Secure")
+                .header("Set-Cookie", jwtCookieName + "=" + token.get("refreshToken") + "; Path=/api/member; HttpOnly; Max-Age=" + 1000L * 60 * 60 * 24 + "; SameSite=None; Secure")
                 .body(token.get("accessToken"));
     }
 

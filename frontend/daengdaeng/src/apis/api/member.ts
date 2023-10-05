@@ -1,6 +1,6 @@
-import type { UserInfo } from '@/src/types/member';
+import { getUser, saveUser, saveUserInfo } from '@/src/hooks/useLocalStorage';
 
-import { getUser, saveUserInfo } from '@/src/hooks/useLocalStorage';
+import type { UserInfo } from '@/src/types/member';
 
 export const findUserInfo = async (token: string): Promise<UserInfo> => {
   const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/member`, {
@@ -19,18 +19,37 @@ export const findUserInfo = async (token: string): Promise<UserInfo> => {
 export const logout = async () => {
   const token: string | undefined = getUser();
 
-  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/member/logout`, {
+  let res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/member/logout`, {
     headers: {
       Authorization: `Bearer ${token}`,
     },
   });
+
+  if (res.status === 401) {
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/member/reissue`,
+      {
+        method: 'POST',
+      },
+    );
+    console.log(response);
+    const newToken = await response.text();
+    console.log(newToken);
+    saveUser(newToken);
+    res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/member/logout`, {
+      headers: {
+        Authorization: `Bearer ${newToken}`,
+      },
+    });
+    if (res.ok) return await res.json();
+  }
 
   return res;
 };
 
 export const deleteMember = async () => {
   const token: string | undefined = getUser();
-  
+
   const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/member`, {
     method: 'DELETE',
     headers: {
