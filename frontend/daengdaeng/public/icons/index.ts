@@ -5,6 +5,7 @@ import CloseIcon from './close-icon.svg';
 import EditIcon from './edit-icon.svg';
 import HamburgerMenuIcon from './hamburger-menu-icon.svg';
 import LeftIcon from './left-icon.svg';
+import MarkerIcon from './marker-icon.svg';
 import NextArrowIcon from './next-arrow.svg';
 import PawIcon from './paw-icon.svg';
 import PrevArrowIcon from './prev-arrow.svg';
@@ -27,5 +28,6 @@ export {
   NextArrowIcon,
   PrevArrowIcon,
   CheckedStarIcon,
-  UncheckedStarIcon
+  UncheckedStarIcon,
+  MarkerIcon
 };
