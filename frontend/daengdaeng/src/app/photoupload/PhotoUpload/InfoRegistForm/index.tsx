@@ -3,19 +3,20 @@
 import type { ChangeEvent } from 'react';
 import React, { useEffect, useRef, useState } from 'react';
 
+import { SearchIcon } from '@/public/icons';
+import { reissue } from '@/src/apis/api/member';
+import Button from '@/src/components/common/Button';
+import ErrorMessage from '@/src/components/ErrorMessage';
+import { getUser } from '@/src/hooks/useLocalStorage';
+import { white } from '@/src/styles/colors';
+import { ssurround } from '@/src/styles/fonts';
+
 import styles from './index.module.scss';
 import CategoryCarousel from '../CategoryCarousel';
 import PlaceListCard from '../PlaceListCard';
 
 import type { Category } from '@/src/types/category';
 import type { Place } from '@/src/types/place';
-
-import { SearchIcon } from '@/public/icons';
-import Button from '@/src/components/common/Button';
-import ErrorMessage from '@/src/components/ErrorMessage';
-import { getUser } from '@/src/hooks/useLocalStorage';
-import { white } from '@/src/styles/colors';
-import { ssurround } from '@/src/styles/fonts';
 
 type InfoRegistFormProps = {
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -78,7 +79,7 @@ const InfoRegistForm = ({ setIsOpen, sendResult }: InfoRegistFormProps) => {
     setIsLoading(true);
     const token: string | undefined = getUser();
 
-    const response = await fetch(
+    let response = await fetch(
       `${
         process.env.NEXT_PUBLIC_API_URL
       }/place?category=${categoryId}&keyword=${keyword}&cursor=${
@@ -91,6 +92,14 @@ const InfoRegistForm = ({ setIsOpen, sendResult }: InfoRegistFormProps) => {
         },
       },
     );
+
+    if (response.status === 401) {
+      response = await reissue(
+        `place?category=${categoryId}&keyword=${keyword}&cursor=${
+          cursor ? cursor : 1
+        }`,
+      );
+    }
 
     if (!response.ok) {
       throw new Error('장소 조회 실패');
