@@ -20,8 +20,7 @@ const PlaceReviewPage = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
 
-  // const id = searchParams.get('id') as string;
-  const id = '1';
+  const id = searchParams.get('id') as string;
 
   const { data: currentPlace } = useFetcher<PlaceWithReview>(
     `/place`,
