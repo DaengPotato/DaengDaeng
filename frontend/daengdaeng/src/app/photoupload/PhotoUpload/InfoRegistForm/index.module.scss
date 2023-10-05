@@ -77,6 +77,16 @@
   border-style: solid;
 }
 
+/* ( 크롬, 사파리, 오페라, 엣지 ) 동작 */
+.PlaceResultContainer::-webkit-scrollbar {
+  display: none;
+}
+
+.PlaceResultContainer {
+  -ms-overflow-style: none; /* 인터넷 익스플로러 */
+  scrollbar-width: none; /* 파이어폭스 */
+}
+
 .PlaceResultContainer::-webkit-scrollbar {
   display: none;
 }
@@ -89,6 +99,16 @@
   white-space: nowrap;
   justify-content: center;
   gap: 5px;
+}
+
+/* ( 크롬, 사파리, 오페라, 엣지 ) 동작 */
+.buttons::-webkit-scrollbar {
+  display: none;
+}
+
+.buttons {
+  -ms-overflow-style: none; /* 인터넷 익스플로러 */
+  scrollbar-width: none; /* 파이어폭스 */
 }
 
 .buttons::-webkit-scrollbar {

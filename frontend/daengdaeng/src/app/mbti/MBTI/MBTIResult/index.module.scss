@@ -6,6 +6,16 @@
   width: 100%;
 }
 
+/* ( 크롬, 사파리, 오페라, 엣지 ) 동작 */
+.MBTIResult::-webkit-scrollbar {
+  display: none;
+}
+
+.MBTIResult {
+  -ms-overflow-style: none; /* 인터넷 익스플로러 */
+  scrollbar-width: none; /* 파이어폭스 */
+}
+
 .petMbti {
   display: flex;
   flex-direction: column;
