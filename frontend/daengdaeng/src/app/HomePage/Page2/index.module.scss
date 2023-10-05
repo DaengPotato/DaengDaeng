@@ -13,7 +13,7 @@
 }
 
 .frame {
-  padding: 50px auto;
+  // padding: 50px auto;
   margin: 30px;
 }
 
@@ -29,6 +29,7 @@
   margin: 0;
   font-weight: 800;
   font-size: 3rem;
+  color: var(--color-white);
 }
 
 .content {
@@ -85,4 +86,8 @@
 
 .frame {
   margin: 20px;
+}
+
+.heart {
+  padding: 10px;
 }
