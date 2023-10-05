@@ -85,24 +85,31 @@ def dbti_recomm(member_id):
         likes = [item[0] for item in likes]
 
         # 반려견이 좋아한 장소가 없을 경우, 가장 인기있는 지역 가지고 오기
-        if likes == 0:
+        if len(likes) == 0:
             likes = no_my_heart()
 
         for like in likes:
-            # 현재 열의 값에서 상위 20개의 행(여행지)를 선택
-            col = item_sim_df[like]
-            top_20 = col.nlargest(20)
+            print(like)
+            try:
+                print(like)
+                # 현재 열의 값에서 상위 20개의 행(여행지)를 선택
+                col = item_sim_df[like]
+                top_20 = col.nlargest(20)
 
-            # 상위 20개의 열(여행지)와 해당 값 가져오기
-            places = top_20.index
-            similarities = top_20.values
+                # 상위 20개의 열(여행지)와 해당 값 가져오기
+                places = top_20.index
+                similarities = top_20.values
 
-            # 결과를 데이터프레임에 추가
-            df = pd.DataFrame({'place_id': places, 'similarity': similarities})
-            # print(df)
+                # 결과를 데이터프레임에 추가
+                df = pd.DataFrame({'place_id': places, 'similarity': similarities})
+                # print(df)
 
-            # 데이터프레임을 리스트에 추가
-            top_similar_places.append(df)
+                # 데이터프레임을 리스트에 추가
+                top_similar_places.append(df)
+            except Exception as e:
+                # 오류가 발생한 경우 오류 메시지를 출력하고 continue
+                print(f"An error occurred: {e}")
+                continue
 
         # 리스트를 하나의 데이터프레임으로 결합
         total_similarity = pd.concat(top_similar_places, ignore_index=True)
