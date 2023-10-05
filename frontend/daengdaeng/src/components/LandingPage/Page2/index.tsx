@@ -8,21 +8,18 @@ import styles from './index.module.scss';
 const Page2 = () => {
   return (
     <div className={styles.HomePage}>
-      <div className={styles.backTop}>
-        <div className={styles.titleBox}>
-          <div className={styles.title}>여행가서도 귀여운 댕댕이</div>
-          <div className={styles.title}>인생네컷 만들기</div>
-        </div>
-        <div>
-          <Image
-            className={styles.heart}
-            src="/images/heart.png"
-            alt="찜"
-            width={200}
-            height={200}
-            style={{ marginRight: '10px' }}
-          />
-        </div>
+      <div className={styles.titleBox}>
+        <div className={styles.title}>귀여운 우리 강아지</div>
+        <div className={styles.title}>댕댕네컷 만들고 자랑하자!</div>
+      </div>
+      <div className={styles.content}>
+        <Image
+          className={styles.heart}
+          src="/images/heart.png"
+          alt="찜"
+          width={120}
+          height={120}
+        />
         <div className={styles.frames}>
           <Image
             className={styles.frame}
@@ -30,7 +27,6 @@ const Page2 = () => {
             alt="인생네컷1"
             width={80}
             height={240}
-            style={{ marginRight: '10px' }}
           />
           <Image
             className={styles.frame}
@@ -38,8 +34,7 @@ const Page2 = () => {
             alt="인생네컷2"
             width={80}
             height={240}
-            style={{ marginRight: '10px' }}
-          />{' '}
+          />
           <Image
             className={styles.frame}
             src="/images/frame3.png"
