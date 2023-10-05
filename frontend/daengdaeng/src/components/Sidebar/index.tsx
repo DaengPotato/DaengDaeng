@@ -7,7 +7,7 @@ import { useRouter } from 'next/navigation';
 import { CloseIcon, PawIcon } from '@/public/icons';
 import TextLogo from '@/public/images/text-logo.png';
 import { deleteMember, logout } from '@/src/apis/api/member';
-import { menuItems } from '@/src/constants/nav';
+import { menuItems, menuItemsBeforeLogin } from '@/src/constants/nav';
 import {
   getUser,
   getUserInfo,
@@ -36,6 +36,7 @@ const Sidebar = ({
   const [isLogin, setIsLogin] = useState(true);
   const [userInfo, setUserInfo] = useState<UserInfo | undefined>(undefined);
   const [editingNickname, setEditingNickname] = useState<boolean>(false);
+  const [items, setItems] = useState(menuItemsBeforeLogin);
 
   useEffect(() => {
     setIsLogin(typeof getUser() === 'string');
@@ -45,6 +46,10 @@ const Sidebar = ({
   useEffect(() => {
     setUserInfo(getUserInfo());
   }, [editingNickname]);
+
+  useEffect(() => {
+    setItems(isLogin ? menuItems : menuItemsBeforeLogin);
+  }, [isLogin]);
 
   const handleCloseMenu = () => {
     setIsMenuOpen(false);
@@ -166,7 +171,7 @@ const Sidebar = ({
         </div>
       )}
       <ul className={styles.menu}>
-        {menuItems.map((item) => (
+        {items.map((item) => (
           <li
             key={item.label}
             className={styles.menuItem}
