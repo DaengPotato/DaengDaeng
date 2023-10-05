@@ -2,13 +2,13 @@ import { useState } from 'react';
 
 import Image from 'next/image';
 
-import { PawIcon } from '@/public/icons';
-import LikeButton from '@/src/components/LikeButton';
-import { gray } from '@/src/styles/colors';
-
 import styles from './index.module.scss';
 
 import type { Place } from '@/src/types/place';
+
+import { PawIcon } from '@/public/icons';
+import LikeButton from '@/src/components/LikeButton';
+import { gray } from '@/src/styles/colors';
 
 type PlaceInfoProps = {
   place: Place;
@@ -32,12 +32,13 @@ const PlaceInfo = ({ place }: PlaceInfoProps) => {
           <Image
             src={place.placeImage}
             alt="place image"
-            width={120}
+            width={150}
             height={120}
+            objectFit="cover"
             onError={() => setImgError(true)}
           />
         ) : (
-          <PawIcon width={120} height={120} fill={gray} />
+          <PawIcon width={150} height={120} fill={gray} />
         )}
       </div>
       <div className={styles.placeInfo}>

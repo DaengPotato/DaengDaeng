@@ -2,11 +2,6 @@
 
 import React, { useEffect, useState } from 'react';
 
-import BottomSheet from '@/src/components/common/BottomSheet';
-import PlaceDetail from '@/src/components/PlaceDetail';
-import useFetcher from '@/src/hooks/useFetcher';
-import { getUser } from '@/src/hooks/useLocalStorage';
-
 import CategoryCarousel from './CategoryCarousel';
 import styles from './index.module.scss';
 import KakaoMap from './KakaoMap';
@@ -15,6 +10,11 @@ import Search from './Search';
 
 import type { Category } from '@/src/types/category';
 import type { PlaceResult, PlaceWithReview } from '@/src/types/place';
+
+import BottomSheet from '@/src/components/common/BottomSheet';
+import PlaceDetail from '@/src/components/PlaceDetail';
+import useFetcher from '@/src/hooks/useFetcher';
+import { getUser } from '@/src/hooks/useLocalStorage';
 
 type PlaceSearchProps = {
   categories?: Category[];
@@ -33,10 +33,12 @@ const PlaceSearch = ({ categories }: PlaceSearchProps) => {
     setSearchText(searchText);
   };
 
-  const { data: searchResults } = useFetcher<PlaceResult>(
+  const { data: searchResults, mutate: mutateSearchResults } =
+    useFetcher<PlaceResult>(`/place`, param !== '', param);
+  const { data: placeWithReview } = useFetcher<PlaceWithReview>(
     `/place`,
-    param !== '',
-    param,
+    typeof selectedPlaceId !== 'undefined',
+    `/${selectedPlaceId}`,
   );
 
   useEffect(() => {
@@ -47,18 +49,14 @@ const PlaceSearch = ({ categories }: PlaceSearchProps) => {
     }
   }, [searchResults]);
 
-  const { data: placeWithReview } = useFetcher<PlaceWithReview>(
-    `/place`,
-    typeof selectedPlaceId !== 'undefined',
-    `/${selectedPlaceId}`,
-  );
-
   const handleClickPlaceInfo = (placeId: number) => {
     setViewMode('info');
     setSelectedPlaceId(placeId);
   };
 
   const handleClickCategory = (categoryId: number) => {
+    console.log(categoryId);
+
     setSelectedCategoryId(categoryId);
   };
 
@@ -69,8 +67,8 @@ const PlaceSearch = ({ categories }: PlaceSearchProps) => {
   }, []);
 
   useEffect(() => {
-    if (typeof token !== 'undefined' && selectedCategoryId !== 0) {
-      if (selectedCategoryId === 0) {
+    if (typeof token !== 'undefined') {
+      if (selectedCategoryId === 0 && searchText !== '') {
         setParam(`?category&keyword=${searchText}&cursor=0`);
       } else {
         setParam(
@@ -94,6 +92,7 @@ const PlaceSearch = ({ categories }: PlaceSearchProps) => {
                 dragFree: true,
               }}
               onClickCategory={handleClickCategory}
+              selectedCategoryId={selectedCategoryId}
             />
           </div>
         )}
@@ -124,16 +123,14 @@ const PlaceSearch = ({ categories }: PlaceSearchProps) => {
           isOpen={viewMode === 'info'}
           setIsOpen={() => {
             setSelectedPlaceId(undefined);
-            // setSelectedCategoryId(-1);
-            setViewMode('map');
+            setViewMode('results');
           }}
         >
           <PlaceDetail
             placeWithReview={placeWithReview}
             handleClose={() => {
               setSelectedPlaceId(undefined);
-              // setSelectedCategoryId(-1);
-              setViewMode('map');
+              setViewMode('results');
             }}
           />
         </BottomSheet>
