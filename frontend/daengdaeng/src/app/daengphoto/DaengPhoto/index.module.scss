@@ -13,7 +13,7 @@
   align-items: center;
   height: 400px;
   width: 150px;
-  background-color: rgba(255, 255, 255, 1);
+  background-color: rgb(255, 255, 255);
   margin: 12px;
   padding: 10px;
   transition: background-color 0.3 ease-in-out;
@@ -37,4 +37,19 @@
 
 .photoBlur {
   background-color: rgba(255, 255, 255, 0.5) !important;
+}
+
+.marker {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.photoPlace {
+  justify-content: center;
+  align-items: center;
+  font-size: 1.4rem;
+  color: black;
+  font-weight: bold;
 }
