@@ -9,8 +9,12 @@ import styles from './index.module.scss';
 const HomePage = () => {
   return (
     <div className={styles.HomePage}>
-      <Page1 />
-      <Page2 />
+      <div>
+        <Page1 />
+      </div>
+      <div>
+        <Page2 />
+      </div>
     </div>
   );
 };
