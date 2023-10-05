@@ -49,7 +49,10 @@ const MBTIResult = ({ pet, selectedTypes }: MBTIResultProps) => {
     const elementToCapture = document.querySelector(`.${styles.MBTIResult}`);
     if (elementToCapture instanceof HTMLElement) {
       elementToCapture.style.backgroundColor = lightOrange; // 원하는 배경색 설정
-      html2canvas(elementToCapture).then(function (canvas) {
+      html2canvas(elementToCapture, {
+        width: 390,
+        height: 600,
+      }).then(function (canvas) {
         alert('저장되었습니다.');
 
         const link = document.createElement('a');
@@ -87,8 +90,7 @@ const MBTIResult = ({ pet, selectedTypes }: MBTIResultProps) => {
             <Image
               src={pet.image}
               alt="pet img"
-              width={120}
-              height={120}
+              fill={true}
               blurDataURL={pet.image}
               placeholder="blur"
               onError={() => setImgError(true)}
