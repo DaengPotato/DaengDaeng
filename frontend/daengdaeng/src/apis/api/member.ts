@@ -20,6 +20,10 @@ export const reissue = async (
       method: 'POST',
     },
   );
+  if (!response.ok) {
+    return response;
+  }
+
   const newToken = await response.text();
   saveUser(newToken);
 
