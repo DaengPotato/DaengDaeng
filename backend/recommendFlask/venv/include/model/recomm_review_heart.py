@@ -34,27 +34,38 @@ def review_heart_recomm(member_id):
 
     # 여행지 간 유사도
     csv_similarity = pd.read_csv('./include/dataset/similarity_matrix.csv')
-
-    csv_similarity.index = range(1, 1001)
-    csv_similarity.columns = range(1, 1001)
+    # 행과 열은 동일
+    csv_similarity.set_index(csv_similarity.columns, inplace=True)
 
     # 추천 사용자가 높은 리뷰를 남긴 장소만 추리기
-    select_place = csv_similarity[recom_place]
+    select_place = []
+    select_dataframe = pd.DataFrame()
+    for place in recom_place:
+        place_str = str(place)
+        # 존재하는지 확인
+        if place_str in csv_similarity.columns:
+            select_place.append(place_str)
+
+    select_dataframe = csv_similarity[select_place]
+
     # 사용자가 찜한 여행지와 추천 여행지(유사한 사용자가 좋은 리뷰를 남긴 여행지)와 유사도 계산
     top_similar_places = []
 
     for place in my_places:
-        top_20 = select_place.loc[place].nlargest(20)
+        place_str = str(place)
+        if place_str in select_dataframe.index:
+
+            top_20 = select_dataframe.loc[place_str].nlargest(20)
 
         # 상위 20개의 열(여행지)와 해당 값 가져오기
-        places = top_20.index
-        similarities = top_20.values
+            places = top_20.index
+            similarities = top_20.values
 
         # 결과를 데이터프레임에 추가
-        df = pd.DataFrame({'place_id': places, 'similarity': similarities})
+            df = pd.DataFrame({'place_id': places, 'similarity': similarities})
 
         # 데이터프레임을 리스트에 추가
-        top_similar_places.append(df)
+            top_similar_places.append(df)
     # 리스트를 하나의 데이터프레임으로 결합
     total_similarity = pd.concat(top_similar_places, ignore_index=True)
     recom_place = total_similarity.sort_values(by='similarity', ascending=False).drop_duplicates(subset=['place_id'])
@@ -114,8 +125,11 @@ def hash_review_content():
     data_hash_review = hashtag_review_place()
     # 데이터 프레임으로 변환
     dataframe_hash_review = pd.DataFrame(data_hash_review, columns=['place_id', 'combined_list'])
+    # none인 값은 제외
+    dataframe_hash_review = dataframe_hash_review.dropna(subset=['combined_list'])
 
     combined_list = dataframe_hash_review['combined_list'].tolist()
+
     # 리스트를 쉼표로 합쳐서 하나의 문자열 combined_text로 만들고
     new_list = [' '.join(sentence.split(', ')) for sentence in combined_list]
 
@@ -125,7 +139,6 @@ def hash_review_content():
     # 유사도 계산
     similarity_hash_review = cosine_similarity(combined, combined)
     # pandas로 데이터 프레임으로 변환
-    dataframe_hash = pd.DataFrame(similarity_hash_review)
-    # 인덱스 +1
+    dataframe_hash = pd.DataFrame(similarity_hash_review, columns=dataframe_hash_review['place_id'], index=dataframe_hash_review['place_id'])
 
     return dataframe_hash
