@@ -5,7 +5,6 @@
 }
 
 .placeListContainer {
-  margin: 0 20px;
   padding-top: 100px;
 }
 
@@ -32,4 +31,25 @@
   justify-content: center;
   gap: 5px;
   padding: 0 20px;
+}
+
+.placeList {
+  height: calc(100dvh - 130px);
+  overflow: auto;
+  margin: 10px 15px;
+}
+
+/* ( 크롬, 사파리, 오페라, 엣지 ) 동작 */
+.placeList::-webkit-scrollbar {
+  display: none;
+}
+
+.placeList {
+  -ms-overflow-style: none; /* 인터넷 익스플로러 */
+  scrollbar-width: none; /* 파이어폭스 */
+}
+
+.observerTarget {
+  bottom: 0;
+  height: 20px;
 }

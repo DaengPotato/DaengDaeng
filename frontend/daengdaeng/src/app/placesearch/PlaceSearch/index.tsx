@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 
 import CategoryCarousel from './CategoryCarousel';
 import styles from './index.module.scss';
@@ -9,11 +9,12 @@ import PlaceInfo from './PlaceInfo';
 import Search from './Search';
 
 import type { Category } from '@/src/types/category';
-import type { PlaceResult, PlaceWithReview } from '@/src/types/place';
+import type { Place, PlaceWithReview } from '@/src/types/place';
 
 import BottomSheet from '@/src/components/common/BottomSheet';
 import PlaceDetail from '@/src/components/PlaceDetail';
 import useFetcher from '@/src/hooks/useFetcher';
+import useInfiniteFetcher from '@/src/hooks/useInfiniteFetcher';
 import { getUser } from '@/src/hooks/useLocalStorage';
 
 type PlaceSearchProps = {
@@ -21,6 +22,9 @@ type PlaceSearchProps = {
 };
 
 const PlaceSearch = ({ categories }: PlaceSearchProps) => {
+  // eslint-disable-next-line no-null/no-null
+  const observeTarget = useRef(null);
+
   const [token, setToken] = useState<string | undefined>(undefined);
   const [viewMode, setViewMode] = useState<'map' | 'results' | 'info'>('map');
   const [selectedCategoryId, setSelectedCategoryId] = useState<number>(0);
@@ -29,12 +33,39 @@ const PlaceSearch = ({ categories }: PlaceSearchProps) => {
     undefined,
   );
   const [param, setParam] = useState<string>('');
+
+  const {
+    data: searchResults,
+    isLoading,
+    setSize,
+  } = useInfiniteFetcher(param !== '', param);
+
+  const onIntersect = useCallback(
+    ([entry]: any) => {
+      if (entry.isIntersecting) {
+        setSize((prev) => prev + 1);
+      }
+    },
+    [setSize],
+  );
+
+  useEffect(() => {
+    if (!observeTarget.current) return;
+    const observer = new IntersectionObserver(onIntersect, {
+      threshold: 1,
+    });
+
+    observer.observe(observeTarget.current);
+    return () => observer && observer.disconnect();
+  }, [observeTarget, onIntersect]);
+
   const handleSearchPlace = (searchText: string) => {
     setSearchText(searchText);
   };
 
-  const { data: searchResults, mutate: mutateSearchResults } =
-    useFetcher<PlaceResult>(`/place`, param !== '', param);
+  // const { data: searchResults, mutate: mutateSearchResults } =
+  //   useFetcher<PlaceResult>(`/place`, param !== '', param);
+
   const { data: placeWithReview } = useFetcher<PlaceWithReview>(
     `/place`,
     typeof selectedPlaceId !== 'undefined',
@@ -69,11 +100,9 @@ const PlaceSearch = ({ categories }: PlaceSearchProps) => {
   useEffect(() => {
     if (typeof token !== 'undefined') {
       if (selectedCategoryId === 0 && searchText !== '') {
-        setParam(`?category&keyword=${searchText}&cursor=0`);
+        setParam(`?category&keyword=${searchText}`);
       } else {
-        setParam(
-          `?category=${selectedCategoryId}&keyword=${searchText}&cursor=0`,
-        );
+        setParam(`?category=${selectedCategoryId}&keyword=${searchText}`);
       }
     }
   }, [searchText, selectedCategoryId, token]);
@@ -99,16 +128,21 @@ const PlaceSearch = ({ categories }: PlaceSearchProps) => {
       </div>
       {viewMode === 'results' ? (
         <div className={styles.placeListContainer}>
-          {searchResults &&
-            searchResults.placeList.map((result, i) => (
-              <div
-                className={styles.slide}
-                key={i}
-                onClick={() => handleClickPlaceInfo(result.placeId)}
-              >
-                <PlaceInfo key={result.placeId} place={result} />
-              </div>
-            ))}
+          <div className={styles.placeList}>
+            {searchResults &&
+              searchResults.map((res) =>
+                res.placeList.map((result: Place, i: number) => (
+                  <div
+                    className={styles.slide}
+                    key={i}
+                    onClick={() => handleClickPlaceInfo(result.placeId)}
+                  >
+                    <PlaceInfo key={result.placeId} place={result} />
+                  </div>
+                )),
+              )}
+            <div className={styles.observerTarget} ref={observeTarget}></div>
+          </div>
         </div>
       ) : (
         <div className={styles.placeSearchContainer}>
