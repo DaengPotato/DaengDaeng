@@ -15,6 +15,11 @@ export type Place = {
   isHeart: boolean;
 };
 
+export type PlaceResult = {
+  nextCursor: number;
+  placeList: Place[];
+}
+
 export type Review = {
   reviewContent: string;
   registDate: string;
