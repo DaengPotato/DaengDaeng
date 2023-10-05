@@ -3,6 +3,8 @@ import React, { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 
+import { AddIcon } from '@/public/icons';
+
 import styles from './index.module.scss';
 import KeywordReviewItem from './KeywordReviewItem';
 import PlaceDetailInfo from './PlaceDetailInfo';
@@ -59,9 +61,7 @@ const PlaceDetail = ({ placeWithReview, handleClose }: PlaceDetailProps) => {
         <div className={styles.reviewContainer}>
           <div className={styles.reviewTitle}>
             <div className={styles.reviewHeader}>방문자 리뷰</div>
-            <div className={styles.divided}>|</div>
             <Link
-              className={styles.makeReview}
               href={{
                 pathname: '/placereview',
                 query: {
@@ -69,7 +69,7 @@ const PlaceDetail = ({ placeWithReview, handleClose }: PlaceDetailProps) => {
                 },
               }}
             >
-              리뷰 남기기
+              <AddIcon width={15} height={15} />
             </Link>
           </div>
           <div className={styles.keywordReviewContainer}>
