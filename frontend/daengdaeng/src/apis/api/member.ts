@@ -41,7 +41,6 @@ export const logout = async () => {
         Authorization: `Bearer ${newToken}`,
       },
     });
-    if (res.ok) return await res.json();
   }
 
   return res;
