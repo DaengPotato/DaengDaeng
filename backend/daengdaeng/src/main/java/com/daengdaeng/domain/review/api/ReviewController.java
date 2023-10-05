@@ -67,7 +67,6 @@ public class ReviewController {
     }
 
 
-
     @GetMapping("/list")
     public ResponseEntity<List<ReviewResponse>> findReviewList(){
         return ResponseEntity.ok().body(reviewService.findReviewList());

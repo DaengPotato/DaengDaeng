@@ -27,7 +27,8 @@ export {
   SearchIcon,
   NextArrowIcon,
   PrevArrowIcon,
+  MarkerIcon,
   CheckedStarIcon,
   UncheckedStarIcon,
-  MarkerIcon
+
 };
