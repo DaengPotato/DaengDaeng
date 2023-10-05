@@ -43,12 +43,6 @@ public class Review {
 	@Column(nullable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
 	private Date registTime;
 
-	@OneToMany(mappedBy = "review", cascade = CascadeType.ALL, orphanRemoval = true)
-	private List<ReviewKeyword> reviewKeywords;
-
-	@OneToMany(mappedBy = "review", cascade = CascadeType.ALL, orphanRemoval = true)
-	private List<ReviewPet> reviewPets;
-
 
 	@Builder
 	public Review(byte score, Member member, Place place, Date registTime, String reviewContent) {

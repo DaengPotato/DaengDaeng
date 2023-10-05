@@ -8,6 +8,7 @@
 }
 
 .photo {
+  position: relative;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -36,11 +37,17 @@
 }
 
 .photoBlur {
-  background-color: rgba(255, 255, 255, 0.5) !important;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  z-index: 3;
+  height: 400px;
+  width: 150px;
+  background-color: rgba(255, 255, 255, 0.545) !important;
 }
 
 .marker {
-  display: flex;
   justify-content: center;
   align-items: center;
   margin-bottom: 10px;
@@ -52,4 +59,13 @@
   font-size: 1.4rem;
   color: black;
   font-weight: bold;
+}
+
+.photobox {
+  display: flex;
+}
+
+.image {
+  position: absolute;
+  z-index: 2;
 }

@@ -77,21 +77,26 @@ const DaengPhoto = () => {
         <div className={styles.photoList}>
           {photoList.map((photo, index) => (
             <div
-              onClick={() => clickPhoto(index)}
               key={index}
-              className={`${styles.photo} ${
-                toggleIndex == index ? styles.photoBlur : ''
-              }`}
+              className={`${styles.photo}`}
+              onClick={() => clickPhoto(index)}
             >
-              <Image src={photo.image} alt="a" width={150} height={450} />
               {toggleIndex == index && (
-                <div>
+                <div className={styles.photoBlur}>
                   <div className={styles.marker}>
                     <MarkerIcon width={20} height={20} />
                   </div>
                   <div className={styles.photoPlace}>{photo.place}</div>
                 </div>
               )}
+              <Image
+                src={photo.image}
+                alt="a"
+                width={150}
+                height={400}
+                onClick={() => clickPhoto(index)}
+                className={styles.image}
+              />
             </div>
           ))}
         </div>
