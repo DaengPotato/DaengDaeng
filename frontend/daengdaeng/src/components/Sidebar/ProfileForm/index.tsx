@@ -11,7 +11,6 @@ import type { FieldValues } from 'react-hook-form';
 
 import { getIsAvailableNickname, updateNickname } from '@/src/apis/api/member';
 import { getUser, saveUserInfo } from '@/src/hooks/useLocalStorage';
-import { validateNickname } from '@/src/utils/validate';
 
 type profileFormProps = {
   closeForm: () => void;
@@ -91,7 +90,6 @@ const ProfileForm = ({ closeForm, userInfo }: profileFormProps) => {
                 value: 8,
                 message: '8자 이하로 입력해주세요.',
               },
-              validate: validateNickname,
             })}
             onChange={handleNicknameChange}
             onKeyDown={handleFormKeyDown}
