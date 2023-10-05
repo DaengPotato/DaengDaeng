@@ -1,10 +1,10 @@
 export const menuItems = [
   {
-    label: '나의 강아지',
+    label: '마이페이지',
     href: '/mypets',
   },
   {
-    label: '댕BTI 검사',
+    label: '댕BTI',
     href: '/mbti',
   },
   {

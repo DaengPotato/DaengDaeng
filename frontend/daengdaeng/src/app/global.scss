@@ -85,6 +85,17 @@ body {
   justify-content: center;
 }
 
+input,
+textarea,
+button {
+  appearance: none;
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  border-radius: 0;
+  -webkit-border-radius: 0;
+  -moz-border-radius: 0;
+}
+
 .fixed-width {
   padding-top: 50px;
   width: 500px;

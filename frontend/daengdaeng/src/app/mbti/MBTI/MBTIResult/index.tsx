@@ -3,15 +3,15 @@ import React, { useEffect, useState } from 'react';
 import html2canvas from 'html2canvas';
 import Image from 'next/image';
 
+import styles from './index.module.scss';
+
+import type { PetDetail } from '@/src/types/pet';
+
 import { PawIcon } from '@/public/icons';
 import { updateMBTI } from '@/src/apis/api/mbti';
 import { mbtiTypes } from '@/src/constants/mbti';
 import { mbtiContent } from '@/src/constants/mbti';
 import { gray, lightOrange } from '@/src/styles/colors';
-
-import styles from './index.module.scss';
-
-import type { PetDetail } from '@/src/types/pet';
 
 type MBTIResultProps = {
   pet: PetDetail;
@@ -88,7 +88,7 @@ const MBTIResult = ({ pet, selectedTypes }: MBTIResultProps) => {
           <span className={styles.petName} color="lightOrange">
             {pet.name}
           </span>
-          의 댕bti는?
+          의 댕BTI는?
         </div>
         <div className={styles.mbti}>{mbti.join('')}</div>
         <div className={styles.petImage}>
