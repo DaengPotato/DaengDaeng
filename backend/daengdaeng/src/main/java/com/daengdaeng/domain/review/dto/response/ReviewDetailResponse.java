@@ -15,4 +15,8 @@ public class ReviewDetailResponse {
 
     private List<ReviewKeywordResponse> reviewKeywordResponseList;
 
+    private int reviewId;
+
+    private String reviewContent;
+
 }
