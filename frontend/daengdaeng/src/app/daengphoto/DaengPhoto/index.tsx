@@ -2,15 +2,16 @@ import { useEffect, useState } from 'react';
 
 import Image from 'next/image';
 
+import { LeftIcon } from '@/public/icons';
+import { RightIcon } from '@/public/icons';
+import { MarkerIcon } from '@/public/icons';
+import { getUser } from '@/src/hooks/useLocalStorage';
+import { primaryOrange } from '@/src/styles/colors';
+
 import styles from './index.module.scss';
 import PhotoCamera from './PhotoCamera';
 
 import type { ImageType } from '@/src/types/image';
-
-import { LeftIcon } from '@/public/icons';
-import { RightIcon } from '@/public/icons';
-import { MarkerIcon } from '@/public/icons';
-import { primaryOrange } from '@/src/styles/colors';
 
 // 이미지 불러오기 함수
 const fetchImages = async (cursor: number) => {
@@ -68,10 +69,12 @@ const DaengPhoto = () => {
   };
 
   return (
-    <div className={ styles.bigbox}>
-      <div>
-        <PhotoCamera />
-      </div>
+    <div className={styles.bigbox}>
+      {getUser() && (
+        <div>
+          <PhotoCamera />
+        </div>
+      )}
       <div className={styles.container}>
         {/* 이미지 */}
         <div className={styles.photoList}>

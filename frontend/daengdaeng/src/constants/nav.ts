@@ -23,10 +23,6 @@ export const menuItems = [
 
 export const menuItemsBeforeLogin = [
   {
-    label: '여행지 검색',
-    href: '/placesearch',
-  },
-  {
     label: '댕댕네컷',
     href: '/daengphoto',
   },
