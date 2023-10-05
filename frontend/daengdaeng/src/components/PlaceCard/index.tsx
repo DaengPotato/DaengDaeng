@@ -13,25 +13,18 @@ import { gray } from '@/src/styles/colors';
 
 type PlaceCardProps = {
   place: Place;
-  mutate?: any;
+  toggleLike?: any;
 };
 
-const PlaceCard = ({ place, mutate }: PlaceCardProps) => {
+const PlaceCard = ({ place, toggleLike }: PlaceCardProps) => {
   const [imgError, setImgError] = useState<boolean>(false);
+
   const handleLikeClick = async (event: { stopPropagation: () => void }) => {
     event.stopPropagation();
 
-    console.log(place.isHeart);
+    console.log('조아요 여부 : ', place.isHeart);
 
-    if (place.isHeart) {
-      const res = await createLikePlace(place.placeId);
-      if (res.ok) console.log('좋아요 성공');
-    } else {
-      const res = await deleteLikePlace(place.placeId);
-      if (res.ok) console.log('좋아요 취소 성공');
-    }
-
-    await mutate();
+    toggleLike(place);
   };
 
   return (

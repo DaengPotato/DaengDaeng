@@ -38,7 +38,6 @@ const ProfileForm = ({ closeForm, userInfo }: profileFormProps) => {
       const res = await getIsAvailableNickname(token, nicknameValue);
       if (res.ok) {
         const data = await res.json();
-        console.log(data);
         if (data) {
           setIsAvailableNickname(true);
         } else {

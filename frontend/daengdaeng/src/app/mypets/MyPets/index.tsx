@@ -102,6 +102,7 @@ const MyPets = ({ pets, places, mutatePets, mutatePlaces }: MyPetsProps) => {
             <button className={styles.moreBtn}>더보기</button>
           </div>
           <PlaceCarousel
+            isLikedPlace={true}
             places={places}
             options={{
               dragFree: true,
