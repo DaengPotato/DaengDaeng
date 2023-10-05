@@ -14,7 +14,7 @@ import PlaceInfo from './PlaceInfo';
 import Search from './Search';
 
 import type { Category } from '@/src/types/category';
-import type { PlaceWithReview } from '@/src/types/place';
+import type { PlaceResult, PlaceWithReview } from '@/src/types/place';
 
 type PlaceSearchProps = {
   categories?: Category[];
@@ -33,7 +33,11 @@ const PlaceSearch = ({ categories }: PlaceSearchProps) => {
     setSearchText(searchText);
   };
 
-  const { data: searchResults } = useFetcher<[]>(`/place`, param !== '', param);
+  const { data: searchResults } = useFetcher<PlaceResult>(
+    `/place`,
+    param !== '',
+    param,
+  );
 
   useEffect(() => {
     console.log(searchResults);
@@ -97,7 +101,7 @@ const PlaceSearch = ({ categories }: PlaceSearchProps) => {
       {viewMode === 'results' ? (
         <div className={styles.placeListContainer}>
           {searchResults &&
-            searchResults?.placeList.map((result, i) => (
+            searchResults.placeList.map((result, i) => (
               <div
                 className={styles.slide}
                 key={i}
