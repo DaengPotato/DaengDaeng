@@ -13,7 +13,7 @@
 }
 
 .mbti {
-  font-size: 2rem;
+  font-size: 3rem;
   font-weight: 800;
 }
 
@@ -43,6 +43,7 @@
 
 .progress {
   width: 40vw;
+  max-width: 200px;
   height: 20px;
   background-color: var(--color-white);
   border-radius: 50px;
@@ -90,18 +91,13 @@
   color: var(--color-orange);
 }
 
-.title {
-  font-size: 1.6rem;
-  font-weight: 800;
-  vertical-align: bottom;
-}
-
 .mbtiText {
-  font-size: 1.7rem;
+  font-size: 1.6rem;
   font-weight: 500;
 }
 
 .mbtiContet {
+  padding: 0 20px;
   padding-bottom: 30px;
   display: flex;
   flex-direction: column;
@@ -110,4 +106,18 @@
 
 .btns {
   padding-top: 20px;
+}
+
+.petTitle {
+  font-size: 2rem;
+  font-weight: 800;
+  text-align: center;
+  padding: 10px;
+}
+
+.petName {
+  font-size: 2rem;
+  font-weight: 800;
+  text-align: center;
+  color: var(--color-orange);
 }

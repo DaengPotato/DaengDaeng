@@ -84,6 +84,12 @@ const MBTIResult = ({ pet, selectedTypes }: MBTIResultProps) => {
   return (
     <div className={styles.MBTIResult}>
       <div className={styles.petMbti}>
+        <div className={styles.petTitle}>
+          <span className={styles.petName} color="lightOrange">
+            {pet.name}
+          </span>
+          의 댕bti는?
+        </div>
         <div className={styles.mbti}>{mbti.join('')}</div>
         <div className={styles.petImage}>
           {!imgError && typeof pet.image === 'string' ? (
