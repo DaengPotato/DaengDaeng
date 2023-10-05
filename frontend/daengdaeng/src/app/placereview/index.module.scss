@@ -1,3 +1,34 @@
-.info {
-  font-size: 20px;
+.backgroundContainer {
+  position: absolute;
+  background-color: var(--color-white);
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  padding: 70px 20px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  overflow: auto;
+}
+
+.content {
+  font-weight: 800;
+  padding-bottom: 10px;
+  font-size: 1.4rem;
+}
+
+.title {
+  font-weight: 800;
+  font-size: 2rem;
+  padding-bottom: 5px;
+}
+
+.address {
+  font-size: 1.6rem;
+}
+
+.submit {
+  width: fit-content;
+  margin: 0 auto;
 }
