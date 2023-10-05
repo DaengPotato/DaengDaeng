@@ -7,20 +7,25 @@ import React, { useRef, useState } from 'react';
 import ImageNext from 'next/image';
 import { useRouter } from 'next/navigation';
 
+import Button from '@/src/components/common/Button';
+import Modal from '@/src/components/common/Modal';
+import { getUser } from '@/src/hooks/useLocalStorage';
+
 import styles from './index.module.scss';
 import InfoRegistForm from './InfoRegistForm';
 import PhotoLayer from './PhotoLayer';
 import PhotoRegistForm from './PhotoRegistForm';
 
-import Button from '@/src/components/common/Button';
-import Modal from '@/src/components/common/Modal';
-import { getUser } from '@/src/hooks/useLocalStorage';
+type PhotoUploadProps = {
+  frameUrl: string;
+  setIsSelected: React.Dispatch<React.SetStateAction<Boolean>>;
+};
 
-const PhotoUpload = () => {
+const PhotoUpload = ({ frameUrl, setIsSelected }: PhotoUploadProps) => {
   const router = useRouter();
 
   // 더미. 추수 url 받아올 것
-  const frameUrl = '/images/frame3.png';
+  // const frameUrl = '/images/frame3.png';
   const frameWidth = 250;
   const photoWidth = frameWidth * 0.84;
   const photoHeight = frameWidth * 0.55;
@@ -59,6 +64,11 @@ const PhotoUpload = () => {
   // 프레임, 최종캔버스 ref
   const frameRef = useRef<HTMLImageElement>(null);
   const finalCanvasRef = useRef<HTMLCanvasElement>(null);
+
+  // 돌아가기 클릭 시 처리
+  const handleBackClick = () => {
+    setIsSelected(false);
+  };
 
   //사진 저장 클릭 시 처리
   const handleSaveClick = () => {
@@ -140,7 +150,7 @@ const PhotoUpload = () => {
       }
 
       const token: string | undefined = getUser();
-      
+
       // 등록 요청
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_API_URL}/photo/upload/request`,
@@ -222,7 +232,17 @@ const PhotoUpload = () => {
         </label>
       </div> */}
 
-      <div className={styles.BtnContainer}>
+      <div className={styles.buttons}>
+        <Button
+          type="button"
+          size="small"
+          backgroundColor="gray"
+          icon={false}
+          onClick={handleBackClick}
+        >
+          돌아가기
+        </Button>
+
         <Button
           type="button"
           size="small"
