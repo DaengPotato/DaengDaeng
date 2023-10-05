@@ -5,14 +5,19 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 
 import styles from './index.module.scss';
+import ProfileForm from './ProfileForm';
 import Button from '../common/Button';
+import Modal from '../common/Modal';
 
-import { CloseIcon } from '@/public/icons';
+import type { UserInfo } from '@/src/types/member';
+
+import { CloseIcon, PawIcon } from '@/public/icons';
 import TextLogo from '@/public/images/text-logo.png';
 import { deleteMember, logout } from '@/src/apis/api/member';
 import { menuItems } from '@/src/constants/nav';
 import {
   getUser,
+  getUserInfo,
   removeUser,
   removeUserInfo,
 } from '@/src/hooks/useLocalStorage';
@@ -26,11 +31,18 @@ const Sidebar = ({
 }) => {
   const router = useRouter();
 
-  const [isLogin, setIsLogin] = useState(false);
+  const [isLogin, setIsLogin] = useState(true);
+  const [userInfo, setUserInfo] = useState<UserInfo | undefined>(undefined);
+  const [editingNickname, setEditingNickname] = useState<boolean>(false);
 
   useEffect(() => {
     setIsLogin(typeof getUser() === 'string');
+    setUserInfo(getUserInfo());
   }, [isMenuOpen]);
+
+  useEffect(() => {
+    setUserInfo(getUserInfo());
+  }, [editingNickname]);
 
   const handleCloseMenu = () => {
     setIsMenuOpen(false);
@@ -91,6 +103,14 @@ const Sidebar = ({
     }
   };
 
+  const handleEditUserInfo = () => {
+    setEditingNickname(true);
+  };
+
+  const handleCloseEditNickname = () => {
+    setEditingNickname(false);
+  };
+
   return (
     <div className={`${styles.Sidebar} ${isMenuOpen ? 'open' : ''}`}>
       <div className={styles.header}>
@@ -103,7 +123,7 @@ const Sidebar = ({
           </Link>
         </div>
       </div>
-      {!isLogin && (
+      {!isLogin ? (
         <div className={styles.login}>
           <Button
             size={'small'}
@@ -113,6 +133,34 @@ const Sidebar = ({
           >
             로그인
           </Button>
+        </div>
+      ) : (
+        <div>
+          <div className={styles.userInfo}>
+            <div className={styles.userNickname}>
+              <span className={styles.nickname}>{userInfo?.nickname}</span>님
+              <PawIcon width={20} height={20} fill="black" />
+            </div>
+            <div className={styles.userEmail}>
+              <div className={styles.emailLine}>
+                {userInfo?.email.split('@')[0]}
+              </div>
+              <div className={styles.emailLine}>
+                @{userInfo?.email.split('@')[1]}
+              </div>
+            </div>
+            <div className={styles.userInfoBtnGroup}>
+              <button className={styles.userInfoBtn} onClick={handleLogout}>
+                로그아웃
+              </button>
+              <button
+                className={styles.userInfoBtn}
+                onClick={handleEditUserInfo}
+              >
+                닉네임변경
+              </button>
+            </div>
+          </div>
         </div>
       )}
       <ul className={styles.menu}>
@@ -128,12 +176,22 @@ const Sidebar = ({
       </ul>
       {isLogin && (
         <div className={styles.bottom}>
-          <button className={styles.userBtn} onClick={handleLogout}>
-            로그아웃
-          </button>
-          <button className={styles.userBtn} onClick={handleDeleteButtonClick}>
+          <button
+            className={styles.deleteBtn}
+            onClick={handleDeleteButtonClick}
+          >
             탈퇴하기
           </button>
+        </div>
+      )}
+      {editingNickname && userInfo && (
+        <div className={styles.nicknameModal}>
+          <Modal closeModal={handleCloseEditNickname}>
+            <ProfileForm
+              closeForm={handleCloseEditNickname}
+              userInfo={userInfo}
+            />
+          </Modal>
         </div>
       )}
     </div>

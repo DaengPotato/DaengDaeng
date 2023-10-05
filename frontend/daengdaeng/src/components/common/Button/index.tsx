@@ -49,7 +49,6 @@ const Button = ({
         `}
     >
       <span>{children}</span>
-      <div className={styles['icon-container']}></div>
       {icon && <PawIcon fill={white} width={width} height={height} />}
     </button>
   );

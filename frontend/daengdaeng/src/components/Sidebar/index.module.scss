@@ -1,7 +1,7 @@
 .Sidebar {
   z-index: 10;
   background-color: var(--color-white);
-  height: 100vh;
+  height: 100dvh;
   position: absolute;
   top: 0;
   left: 0;
@@ -41,10 +41,10 @@
 .bottom {
   position: absolute;
   left: 50%;
-  transform: translate(-50%, -50%);
+  transform: translateX(-50%);
   width: 100%;
   text-align: center;
-  bottom: 5vh;
+  bottom: 3dvh;
 }
 
 .userBtn {
@@ -55,4 +55,64 @@
   margin: 0 auto;
   margin-top: 30px;
   width: fit-content;
+}
+
+.userInfo {
+  margin: 0 10px;
+  margin-top: 20px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid gray;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  justify-content: center;
+  align-items: center;
+}
+
+.userNickname {
+  font-size: 1.6rem;
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  & > .nickname {
+    font-size: 1.6rem;
+    font-weight: 800;
+  }
+}
+
+.userEmail {
+  font-size: 1.4rem;
+}
+
+.userInfoBtnGroup {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  & > .userInfoBtn {
+    font-size: 1.4rem;
+  }
+}
+
+.deleteBtn {
+  font-size: 1.4rem;
+}
+
+.userEmail {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  & > .emailLine {
+    font-size: 1.4rem;
+  }
+}
+
+.nicknameModal {
+  width: 100%;
+  max-width: 500px;
+  height: 100dvh;
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
 }

@@ -1,0 +1,49 @@
+.ProfileForm {
+  width: 80vw;
+  max-width: 400px;
+  background-color: white;
+  padding: 30px;
+  border-radius: 20px;
+}
+
+.nicknameForm {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  justify-content: center;
+  align-items: center;
+}
+
+.formItem {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+
+.title {
+  font-size: 1.6rem;
+  font-weight: 800;
+  color: var(--color-orange);
+}
+
+.buttons {
+  display: flex;
+  gap: 5px;
+  justify-content: center;
+}
+
+.nicknameInput {
+  font-size: 1.6rem;
+  border: none;
+  padding: 12px 10px;
+  border-radius: 100px;
+  background-color: var(--color-light-orange);
+  text-align: center;
+}
+
+.guideMessage {
+  font-size: 1.4rem;
+  color: var(--color-blue);
+}
