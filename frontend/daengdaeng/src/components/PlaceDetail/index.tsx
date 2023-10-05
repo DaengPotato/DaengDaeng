@@ -4,8 +4,6 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 
-import PlaceExample from '@/public/images/place-example.jpg';
-
 import styles from './index.module.scss';
 import KeywordReviewItem from './KeywordReviewItem';
 import PlaceDetailInfo from './PlaceDetailInfo';
@@ -43,8 +41,8 @@ const PlaceDetail = ({ placeWithReview, handleClose }: PlaceDetailProps) => {
         닫기
       </div>
       <div className={styles.placeInfo}>
-        <div className={styles.placeImage}>
-          {!imgError && typeof place.placeImage === 'string' ? (
+        {!imgError && typeof place.placeImage === 'string' && (
+          <div className={styles.placeImage}>
             <Image
               src={place.placeImage}
               alt={place.title}
@@ -52,10 +50,8 @@ const PlaceDetail = ({ placeWithReview, handleClose }: PlaceDetailProps) => {
               objectFit="cover"
               onError={() => setImgError(true)}
             />
-          ) : (
-            <Image src={PlaceExample} alt={'place example'} height={200} width={400} />
-          )}
-        </div>
+          </div>
+        )}
         <div className={styles.placeInfo}>
           <PlaceDetailInfo
             place={place}
