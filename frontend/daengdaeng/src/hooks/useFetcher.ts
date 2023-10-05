@@ -3,13 +3,13 @@ import useSWR from 'swr';
 import { getUser } from './useLocalStorage';
 import { fetcher } from '../apis/utils/fetcher';
 
-const token: string | undefined = getUser();
-
 export default function useFetcher<T>(
   url: string,
   isTrigger: boolean = true,
   params: string = '',
 ) {
+  const token: string | undefined = getUser();
+  
   const { data, error, mutate, isLoading } = useSWR<T>(
     // eslint-disable-next-line no-null/no-null
     isTrigger ? [url, token, params] : null,

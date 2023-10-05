@@ -2,8 +2,6 @@ import type { UserInfo } from '@/src/types/member';
 
 import { getUser, saveUserInfo } from '@/src/hooks/useLocalStorage';
 
-const token: string | undefined = getUser();
-
 export const findUserInfo = async (token: string): Promise<UserInfo> => {
   const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/member`, {
     headers: {
@@ -19,6 +17,8 @@ export const findUserInfo = async (token: string): Promise<UserInfo> => {
 };
 
 export const logout = async () => {
+  const token: string | undefined = getUser();
+
   const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/member/logout`, {
     headers: {
       Authorization: `Bearer ${token}`,
@@ -29,6 +29,8 @@ export const logout = async () => {
 };
 
 export const deleteMember = async () => {
+  const token: string | undefined = getUser();
+  
   const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/member`, {
     method: 'DELETE',
     headers: {

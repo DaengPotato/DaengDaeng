@@ -34,6 +34,7 @@ const ProfileForm = ({ closeForm, userInfo }: profileFormProps) => {
     let timerId = setTimeout(async () => {
       // 닉네임 중복 검사 api 호출
       const token = getUser() as string;
+
       const res = await getIsAvailableNickname(token, nicknameValue);
       if (res.ok) {
         const data = await res.json();
@@ -65,6 +66,7 @@ const ProfileForm = ({ closeForm, userInfo }: profileFormProps) => {
     if (!isAvailableNickname) return;
 
     const token = getUser() as string;
+    
     const res = await updateNickname(token, data.nickname);
 
     if (res.ok) {

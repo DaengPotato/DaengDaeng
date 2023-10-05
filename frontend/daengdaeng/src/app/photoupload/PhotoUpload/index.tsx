@@ -16,8 +16,6 @@ import Button from '@/src/components/common/Button';
 import Modal from '@/src/components/common/Modal';
 import { getUser } from '@/src/hooks/useLocalStorage';
 
-const token: string | undefined = getUser();
-
 const PhotoUpload = () => {
   const router = useRouter();
 
@@ -141,6 +139,8 @@ const PhotoUpload = () => {
         formData.append('placeId', placeId + '');
       }
 
+      const token: string | undefined = getUser();
+      
       // 등록 요청
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_API_URL}/photo/upload/request`,

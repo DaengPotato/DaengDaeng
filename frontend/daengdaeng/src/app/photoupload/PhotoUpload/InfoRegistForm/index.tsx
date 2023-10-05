@@ -3,13 +3,6 @@
 import type { ChangeEvent } from 'react';
 import React, { useEffect, useRef, useState } from 'react';
 
-import { SearchIcon } from '@/public/icons';
-import Button from '@/src/components/common/Button';
-import ErrorMessage from '@/src/components/ErrorMessage';
-import { getUser } from '@/src/hooks/useLocalStorage';
-import { white } from '@/src/styles/colors';
-import { ssurround } from '@/src/styles/fonts';
-
 import styles from './index.module.scss';
 import CategoryCarousel from '../CategoryCarousel';
 import PlaceListCard from '../PlaceListCard';
@@ -17,14 +10,19 @@ import PlaceListCard from '../PlaceListCard';
 import type { Category } from '@/src/types/category';
 import type { Place } from '@/src/types/place';
 
+import { SearchIcon } from '@/public/icons';
+import Button from '@/src/components/common/Button';
+import ErrorMessage from '@/src/components/ErrorMessage';
+import { getUser } from '@/src/hooks/useLocalStorage';
+import { white } from '@/src/styles/colors';
+import { ssurround } from '@/src/styles/fonts';
+
 type InfoRegistFormProps = {
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
   sendResult: (categoryId: number, placeId: number) => void;
 };
 
 const InfoRegistForm = ({ setIsOpen, sendResult }: InfoRegistFormProps) => {
-  const token: string | undefined = getUser();
-
   const [categorys, setCategorys] = useState<Category[]>([]);
   const [places, setPlaces] = useState<Place[]>([]);
   const [nextCursor, setNextCursor] = useState<number>(1);
@@ -78,6 +76,8 @@ const InfoRegistForm = ({ setIsOpen, sendResult }: InfoRegistFormProps) => {
   // 장소 요청 api
   const getPlacesApi = async (cursor: number, isClicked: boolean) => {
     setIsLoading(true);
+    const token: string | undefined = getUser();
+
     const response = await fetch(
       `${
         process.env.NEXT_PUBLIC_API_URL

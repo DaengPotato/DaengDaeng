@@ -1,8 +1,9 @@
 import { getUser } from '@/src/hooks/useLocalStorage';
 
-const token: string | undefined = getUser();
 
 export const createLikePlace = async (placeId: number) => {
+  const token: string | undefined = getUser();
+
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_API_URL}/member/heart/${placeId}`,
     {
@@ -17,6 +18,8 @@ export const createLikePlace = async (placeId: number) => {
 };
 
 export const deleteLikePlace = async (placeId: number) => {
+  const token: string | undefined = getUser();
+  
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_API_URL}/member/heart/${placeId}`,
     {
