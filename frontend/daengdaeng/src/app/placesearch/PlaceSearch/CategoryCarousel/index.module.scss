@@ -1,7 +1,8 @@
 .Carousel {
   --slide-size: 100%;
   --slide-height: 19rem;
-  padding: 0 10px;
+  width: fit-content;
+  margin: 0 auto;
 }
 
 .viewport {

@@ -1,0 +1,11 @@
+.CategoryCard {
+  padding: 10px 15px;
+  background-color: white;
+  border-radius: 20px;
+  font-size: 1.6rem;
+  outline: 1px solid rgb(230, 230, 230);
+  margin: 5px 0;
+  &.selected {
+    background-color: var(--color-orange);
+  }
+}

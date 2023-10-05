@@ -13,13 +13,16 @@ type CarouselProps = {
   categories?: Category[];
   options?: EmblaOptionsType;
   onClickCategory: (categoryId: number) => void;
+  selectedCategoryId: number;
 };
 
 const CategoryCarousel = ({
   categories,
   options,
   onClickCategory,
+  selectedCategoryId,
 }: CarouselProps) => {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
   const [emblaRef, _] = useEmblaCarousel(options);
 
   return (
@@ -28,7 +31,11 @@ const CategoryCarousel = ({
         <div className={styles.container}>
           {categories?.map((category, i) => (
             <div className={styles.slide} key={i}>
-              <CategoryCard category={category} onClick={onClickCategory} />
+              <CategoryCard
+                isSelected={category.categoryId === selectedCategoryId}
+                category={category}
+                onClick={onClickCategory}
+              />
             </div>
           ))}
         </div>

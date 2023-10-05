@@ -1,11 +1,6 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
-
-import BottomSheet from '@/src/components/common/BottomSheet';
-import PlaceDetail from '@/src/components/PlaceDetail';
-import useFetcher from '@/src/hooks/useFetcher';
-import { getUser } from '@/src/hooks/useLocalStorage';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 
 import CategoryCarousel from './CategoryCarousel';
 import styles from './index.module.scss';
@@ -14,13 +9,23 @@ import PlaceInfo from './PlaceInfo';
 import Search from './Search';
 
 import type { Category } from '@/src/types/category';
-import type { PlaceResult, PlaceWithReview } from '@/src/types/place';
+import type { Place, PlaceWithReview } from '@/src/types/place';
+
+import { createLikePlace, deleteLikePlace } from '@/src/apis/api/place';
+import BottomSheet from '@/src/components/common/BottomSheet';
+import PlaceDetail from '@/src/components/PlaceDetail';
+import useFetcher from '@/src/hooks/useFetcher';
+import useInfiniteFetcher from '@/src/hooks/useInfiniteFetcher';
+import { getUser } from '@/src/hooks/useLocalStorage';
 
 type PlaceSearchProps = {
   categories?: Category[];
 };
 
 const PlaceSearch = ({ categories }: PlaceSearchProps) => {
+  // eslint-disable-next-line no-null/no-null
+  const observeTarget = useRef(null);
+
   const [token, setToken] = useState<string | undefined>(undefined);
   const [viewMode, setViewMode] = useState<'map' | 'results' | 'info'>('map');
   const [selectedCategoryId, setSelectedCategoryId] = useState<number>(0);
@@ -29,23 +34,59 @@ const PlaceSearch = ({ categories }: PlaceSearchProps) => {
     undefined,
   );
   const [param, setParam] = useState<string>('');
-  const handleSearchPlace = (searchText: string) => {
-    setSearchText(searchText);
-  };
 
-  const { data: searchResults } = useFetcher<PlaceResult>(
-    `/place`,
-    param !== '',
-    param,
+  const {
+    data: searchResults,
+    isLoading,
+    setSize,
+    mutate,
+  } = useInfiniteFetcher(param !== '', param);
+
+  const onIntersect = useCallback(
+    ([entry]: any) => {
+      if (entry.isIntersecting) {
+        setSize((prev) => prev + 1);
+      }
+    },
+    [setSize],
   );
+
+  useEffect(() => {
+    if (!observeTarget.current) return;
+    const observer = new IntersectionObserver(onIntersect, {
+      threshold: 1,
+    });
+
+    observer.observe(observeTarget.current);
+    return () => observer && observer.disconnect();
+  }, [observeTarget, onIntersect]);
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      setToken(getUser() as string);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (typeof token !== 'undefined') {
+      if (selectedCategoryId === 0 && searchText !== '') {
+        setParam(`?category&keyword=${searchText}`);
+      } else {
+        setParam(`?category=${selectedCategoryId}&keyword=${searchText}`);
+      }
+    }
+  }, [searchText, selectedCategoryId, token]);
 
   useEffect(() => {
     console.log(searchResults);
     if (searchResults) {
       setViewMode('results');
-      // setSelectedCategoryId(-1);
     }
   }, [searchResults]);
+
+  const handleSearchPlace = (searchText: string) => {
+    setSearchText(searchText);
+  };
 
   const { data: placeWithReview } = useFetcher<PlaceWithReview>(
     `/place`,
@@ -62,23 +103,31 @@ const PlaceSearch = ({ categories }: PlaceSearchProps) => {
     setSelectedCategoryId(categoryId);
   };
 
-  useEffect(() => {
-    if (typeof window !== 'undefined') {
-      setToken(getUser() as string);
-    }
-  }, []);
+  const handleLike = async (place: Place) => {
+    if (!searchResults) return;
+    const updatePlaces = searchResults.map((results) => {
+      return {
+        ...results,
+        placeList: results.placeList.map((prevPlace: Place) => {
+          if (prevPlace.placeId === place.placeId) {
+            return {
+              ...prevPlace,
+              isHeart: !prevPlace.isHeart,
+            };
+          }
+          return prevPlace;
+        }),
+      };
+    });
 
-  useEffect(() => {
-    if (typeof token !== 'undefined' && selectedCategoryId !== 0) {
-      if (selectedCategoryId === 0) {
-        setParam(`?category&keyword=${searchText}&cursor=0`);
-      } else {
-        setParam(
-          `?category=${selectedCategoryId}&keyword=${searchText}&cursor=0`,
-        );
-      }
+    await mutate(updatePlaces, false);
+
+    if (!place.isHeart) {
+      await createLikePlace(place.placeId);
+    } else {
+      await deleteLikePlace(place.placeId);
     }
-  }, [searchText, selectedCategoryId, token]);
+  };
 
   return (
     <div className={styles.container}>
@@ -94,22 +143,32 @@ const PlaceSearch = ({ categories }: PlaceSearchProps) => {
                 dragFree: true,
               }}
               onClickCategory={handleClickCategory}
+              selectedCategoryId={selectedCategoryId}
             />
           </div>
         )}
       </div>
       {viewMode === 'results' ? (
         <div className={styles.placeListContainer}>
-          {searchResults &&
-            searchResults.placeList.map((result, i) => (
-              <div
-                className={styles.slide}
-                key={i}
-                onClick={() => handleClickPlaceInfo(result.placeId)}
-              >
-                <PlaceInfo key={result.placeId} place={result} />
-              </div>
-            ))}
+          <div className={styles.placeList}>
+            {searchResults &&
+              searchResults.map((res) =>
+                res.placeList.map((result: Place, i: number) => (
+                  <div
+                    className={styles.slide}
+                    key={i}
+                    onClick={() => handleClickPlaceInfo(result.placeId)}
+                  >
+                    <PlaceInfo
+                      key={result.placeId}
+                      place={result}
+                      toggleLike={handleLike}
+                    />
+                  </div>
+                )),
+              )}
+            <div className={styles.observerTarget} ref={observeTarget}></div>
+          </div>
         </div>
       ) : (
         <div className={styles.placeSearchContainer}>
@@ -124,16 +183,14 @@ const PlaceSearch = ({ categories }: PlaceSearchProps) => {
           isOpen={viewMode === 'info'}
           setIsOpen={() => {
             setSelectedPlaceId(undefined);
-            // setSelectedCategoryId(-1);
-            setViewMode('map');
+            setViewMode('results');
           }}
         >
           <PlaceDetail
             placeWithReview={placeWithReview}
             handleClose={() => {
               setSelectedPlaceId(undefined);
-              // setSelectedCategoryId(-1);
-              setViewMode('map');
+              setViewMode('results');
             }}
           />
         </BottomSheet>
