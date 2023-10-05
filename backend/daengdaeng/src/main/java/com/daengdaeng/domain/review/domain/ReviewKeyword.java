@@ -1,13 +1,11 @@
 package com.daengdaeng.domain.review.domain;
 
-import javax.persistence.CascadeType;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
-import com.daengdaeng.domain.review.dto.request.ReviewRequest;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;

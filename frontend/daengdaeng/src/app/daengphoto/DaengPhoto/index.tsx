@@ -68,7 +68,7 @@ const DaengPhoto = () => {
   };
 
   return (
-    <div>
+    <div className={ styles.bigbox}>
       <div>
         <PhotoCamera />
       </div>
@@ -82,12 +82,12 @@ const DaengPhoto = () => {
               onClick={() => clickPhoto(index)}
             >
               {toggleIndex == index && (
-                  <div className={styles.photoBlur}>
-                    <div className={styles.marker}>
-                      <MarkerIcon width={20} height={20} />
-                    </div>
-                    <div className={styles.photoPlace}>{photo.place}</div>
+                <div className={styles.photoBlur}>
+                  <div className={styles.marker}>
+                    <MarkerIcon width={20} height={20} />
                   </div>
+                  <div className={styles.photoPlace}>{photo.place}</div>
+                </div>
               )}
               <Image
                 src={photo.image}
@@ -100,16 +100,16 @@ const DaengPhoto = () => {
             </div>
           ))}
         </div>
-        {/* 버튼 */}
-        <div className={styles.pagebutton}>
-          <div className={styles.btnContainer}>
-            <button className={styles.leftbutton} onClick={handleLeftCursor}>
-              <LeftIcon width={50} height={50} fill={primaryOrange} />
-            </button>
-            <button className={styles.rightbutton} onClick={handleRightCursor}>
-              <RightIcon width={50} height={50} fill={primaryOrange} />
-            </button>
-          </div>
+      </div>
+      {/* 버튼 */}
+      <div className={styles.pagebutton}>
+        <div className={styles.btnContainer}>
+          <button className={styles.leftbutton} onClick={handleLeftCursor}>
+            <LeftIcon width={50} height={50} fill={primaryOrange} />
+          </button>
+          <button className={styles.rightbutton} onClick={handleRightCursor}>
+            <RightIcon width={50} height={50} fill={primaryOrange} />
+          </button>
         </div>
       </div>
     </div>
