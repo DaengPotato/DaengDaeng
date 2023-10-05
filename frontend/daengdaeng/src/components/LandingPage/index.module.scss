@@ -1,0 +1,26 @@
+.LandingPage {
+  position: absolute;
+  top: 0;
+  height: 100dvh;
+  overflow: auto;
+}
+
+/* 화면에서 스크롤바 안보이게 */
+.LandingPage::-webkit-scrollbar {
+  display: none;
+}
+
+.bg {
+  position: relative;
+  top: 0;
+  height: 100dvh;
+  width: 100%;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+}
+
+.section {
+  height: 100dvh;
+  width: 100%;
+}
