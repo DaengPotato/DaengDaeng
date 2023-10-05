@@ -127,19 +127,7 @@ public class ReviewServiceImpl implements ReviewService {
         }
     }
 
-    // 리뷰 삭제 - 리뷰펫
-    public void removeReviewPet(List<ReviewPet> reviewPets){
-        for(ReviewPet reviewPet : reviewPets){
-            reviewPetRepository.deleteByReviewPetId(reviewPet.getReviewPetId());
-        }
-    }
 
-    // 리뷰 삭제 - 리뷰키워드
-    public void removeReviewKeyword(List<ReviewKeyword> reviewKeywords){
-        for(ReviewKeyword reviewKeyword : reviewKeywords){
-            reviewKeywordRepository.deleteByReviewKeywordId(reviewKeyword.getReviewKeywordId());
-        }
-    }
     // 리뷰 삭제
     @Override
     public void removeReview(int reviewId){
@@ -148,10 +136,6 @@ public class ReviewServiceImpl implements ReviewService {
         Review review = reviewRepository.findByReviewId(reviewId)
                 .orElseThrow(() -> new NoSuchElementException("존재하지 않는 리뷰입니다."));
         if (review.getMember().equals(member)){
-            List<ReviewPet> reviewPets= reviewPetRepository.findAllByReview(review);
-            removeReviewPet(reviewPets);
-            List<ReviewKeyword> reviewKeywords = reviewKeywordRepository.findAllByReview(review);
-            removeReviewKeyword(reviewKeywords);
 
             reviewRepository.deleteById(reviewId);
         } else{

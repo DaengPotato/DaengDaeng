@@ -67,12 +67,20 @@ public class ReviewController {
     }
 
 
+
     @GetMapping("/list")
     public ResponseEntity<List<ReviewResponse>> findReviewList(){
         return ResponseEntity.ok().body(reviewService.findReviewList());
     }
 
 
+    @ApiOperation(value = "리뷰 상세 조회", notes = "리뷰 상세 조회하는 API")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "리뷰 조회 성공", response = HttpStatus.class),
+            @ApiResponse(code = 401, message = "미로그인", examples = @Example(value = @ExampleProperty(mediaType = "application/json", value = "{ \n errorCode: 401, \n message: fail \n}"))),
+            @ApiResponse(code = 403, message = "권한 없음", examples = @Example(value = @ExampleProperty(mediaType = "application/json", value = "{ \n errorCode: 403, \n message: fail \n}"))),
+            @ApiResponse(code = 404, message = "대상 없음", examples = @Example(value = @ExampleProperty(mediaType = "application/json", value = "{ \n errorCode: 404, \n message: fail \n}")))
+    })
     @GetMapping("/{placeId}")
     public ResponseEntity<ReviewDetailResponse> findReviewDetail(@PathVariable int placeId){
         return ResponseEntity.ok().body(reviewService.reviewDetail(placeId));

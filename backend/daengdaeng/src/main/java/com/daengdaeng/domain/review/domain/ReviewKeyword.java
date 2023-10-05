@@ -21,11 +21,11 @@ public class ReviewKeyword {
 	@EmbeddedId
 	private ReviewKeywordId reviewKeywordId;
 
-	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "review_id", insertable = false, updatable = false, nullable = false)
 	private Review review;
 
-	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "keyword_id", insertable = false, updatable = false, nullable = false)
 	private Keyword keyword;
 
