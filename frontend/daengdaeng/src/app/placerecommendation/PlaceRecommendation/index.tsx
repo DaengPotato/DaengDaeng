@@ -28,6 +28,8 @@ const PlaceRecommendation = ({
 }: PlaceRecommendationProps) => {
   const [checkedPets, setCheckedPets] = useState<number[]>([]);
 
+  console.log('사용자 장소', userSpecificPlaces);
+
   useEffect(() => {
     if (pets) {
       setCheckedPets(pets.map((pet) => pet.petId));
@@ -64,17 +66,6 @@ const PlaceRecommendation = ({
                 ),
             )
         }
-        {/* {
-          // 강아지 조합 추천 여행지
-          petCombinationPlaces.map((place: Place) => (
-            <RecommendedPlaceList
-              key={petPlace.petId}
-              isPet={true}
-              name={petPlace.name}
-              places={petPlace.placeList}
-            />
-          ))
-        } */}
         {userSpecificPlaces && (
           // 사용자 찜 기반 추천 여행지
           <RecommendedPlaceList

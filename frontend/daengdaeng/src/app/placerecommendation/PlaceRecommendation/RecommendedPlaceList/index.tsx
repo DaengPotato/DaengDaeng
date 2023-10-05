@@ -23,6 +23,7 @@ const RecommendedPlaceList = ({
   mutate,
 }: RecommendedPlaceListProps) => {
   const [currentPlaceIndex, setCurrentPlaceIndex] = useState<number>(0);
+  console.log('swr 데이터 : ', places);
 
   const handleReloadClick = () => {
     setCurrentPlaceIndex((prev) => (prev + 5) % places.length);
