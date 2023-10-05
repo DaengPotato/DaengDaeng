@@ -43,6 +43,10 @@ public class MemberServiceImpl implements MemberService {
      */
     @Override
     public Map<String, String> reissue(String refreshToken) {
+        if (refreshToken == null) {
+            throw new IllegalArgumentException("토큰 재발급 불가");
+        }
+
         String username = getCurrentUsername(refreshToken);
         RefreshToken redisRefreshToken = refreshTokenRedisRepository.findById(username).orElseThrow(NoSuchElementException::new);
 
