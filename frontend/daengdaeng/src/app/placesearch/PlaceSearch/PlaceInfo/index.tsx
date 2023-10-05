@@ -2,7 +2,9 @@ import { useState } from 'react';
 
 import Image from 'next/image';
 
+import { PawIcon } from '@/public/icons';
 import LikeButton from '@/src/components/LikeButton';
+import { gray } from '@/src/styles/colors';
 
 import styles from './index.module.scss';
 
@@ -35,7 +37,7 @@ const PlaceInfo = ({ place }: PlaceInfoProps) => {
             onError={() => setImgError(true)}
           />
         ) : (
-          <>기본 이미지</>
+          <PawIcon width={120} height={120} fill={gray} />
         )}
       </div>
       <div className={styles.placeInfo}>
