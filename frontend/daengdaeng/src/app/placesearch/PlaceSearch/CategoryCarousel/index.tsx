@@ -10,7 +10,7 @@ import type { Category } from '@/src/types/category';
 import type { EmblaOptionsType } from 'embla-carousel-react';
 
 type CarouselProps = {
-  categories: Category[];
+  categories?: Category[];
   options?: EmblaOptionsType;
   onClickCategory: (categoryId: number) => void;
 };
@@ -26,7 +26,7 @@ const CategoryCarousel = ({
     <div className={styles.Carousel}>
       <div className={styles.viewport} ref={emblaRef}>
         <div className={styles.container}>
-          {categories.map((category, i) => (
+          {categories?.map((category, i) => (
             <div className={styles.slide} key={i}>
               <CategoryCard category={category} onClick={onClickCategory} />
             </div>

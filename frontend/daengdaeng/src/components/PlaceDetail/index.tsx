@@ -39,11 +39,11 @@ const PlaceDetail = ({ placeWithReview, handleClose }: PlaceDetailProps) => {
         닫기
       </div>
       <div className={styles.placeInfo}>
-        {!imgError && typeof place.placeImage === 'string' && (
+        {!imgError && placeWithReview?.place.placeImage && typeof placeWithReview?.place.placeImage === 'string' && (
           <div className={styles.placeImage}>
             <Image
-              src={place.placeImage}
-              alt={place.title}
+              src={placeWithReview?.place.placeImage}
+              alt={placeWithReview?.place.title}
               fill={true}
               objectFit="cover"
               onError={() => setImgError(true)}
@@ -55,7 +55,6 @@ const PlaceDetail = ({ placeWithReview, handleClose }: PlaceDetailProps) => {
             place={place}
             score={score}
             isLiked={place.isHeart}
-            // mutate={mutate}
           />
         </div>
         <div className={styles.reviewContainer}>

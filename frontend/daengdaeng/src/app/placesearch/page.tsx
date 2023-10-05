@@ -2,31 +2,12 @@
 import { useEffect, useState } from 'react';
 
 import PlaceSearch from '@/src/app/placesearch/PlaceSearch';
+import useFetcher from '@/src/hooks/useFetcher';
 
-const fetchCategories = async () => {
-  const response = await fetch(
-    `${process.env.NEXT_PUBLIC_API_URL}/place/category`,
-    {
-      method: 'GET',
-    },
-  );
-
-  if (!response.ok) {
-    throw new Error('카테고리 조회 실패');
-  }
-  const data = JSON.parse(await response.text());
-
-  return data;
-};
+import type { Category } from '@/src/types/category';
 
 const PlaceSearchPage = () => {
-  const [categories, setCategories] = useState([]);
-
-  useEffect(() => {
-    (async () => {
-      setCategories(await fetchCategories());
-    })();
-  }, []);
+  const { data: categories } = useFetcher<Category[]>(`/place/category`);
 
   return <PlaceSearch categories={categories} />;
 };

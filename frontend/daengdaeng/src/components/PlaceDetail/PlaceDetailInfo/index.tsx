@@ -40,10 +40,10 @@ const PlaceDetailInfo = ({
     const stars = [];
 
     for (let i = 0; i < 5; i++) {
-      if (i < roundedScore) {
-        stars.push(<CheckedStarIcon key={i} />);
-      } else {
-        stars.push(<UncheckedStarIcon key={i} />);
+      {
+        i < roundedScore
+          ? stars.push(<CheckedStarIcon width={30} height={40} key={i} />)
+          : stars.push(<UncheckedStarIcon width={30} height={40} key={i} />);
       }
     }
 
