@@ -114,7 +114,7 @@ def get_place_by_person_review(member_id):
     FROM review r
     INNER JOIN place p
     USING (place_id)
-    WHERE r.member_id = %s AND r.score > 4 AND p.category_id = 1 """
+    WHERE r.member_id = %s AND r.score > 3 AND p.category_id = 1 """
     result = query_db(sql, (member_id))
     return result
 
@@ -151,20 +151,46 @@ def get_review_keyword():
 
 def hashtag_review_place():
     sql = f"""
-    SELECT p.place_id,
-    CONCAT(
-        GROUP_CONCAT(DISTINCT k.keyword SEPARATOR ', '), 
-        ', ', 
-        GROUP_CONCAT(DISTINCT h.hashtag SEPARATOR ', ')
-    ) as combined_list
-    FROM place p
-    JOIN place_hashtag ph ON p.place_id = ph.place_id
-    JOIN hashtag h ON ph.hashtag_id = h.hashtag_id
-    JOIN review r ON p.place_id = r.place_id
-    JOIN review_keyword rk ON r.review_id = rk.review_id
-    JOIN keyword k ON rk.keyword_id = k.keyword_id
-    WHERE p.category_id = 1
-    GROUP BY p.place_id;
+    SELECT 
+        p.place_id,
+        CONCAT(
+            GROUP_CONCAT(DISTINCT k.keyword SEPARATOR ', '), 
+            ', ', 
+            COALESCE(GROUP_CONCAT(DISTINCT h.hashtag SEPARATOR ', '), '')
+        ) as combined_list
+    FROM 
+        place p
+    LEFT JOIN 
+        place_hashtag ph ON p.place_id = ph.place_id
+    LEFT JOIN 
+        hashtag h ON ph.hashtag_id = h.hashtag_id
+    LEFT JOIN 
+        (
+            SELECT 
+                r.place_id,
+                rk.keyword_id,
+                COUNT(*) as keyword_count,
+                ROW_NUMBER() OVER (PARTITION BY r.place_id ORDER BY COUNT(*) DESC) as keyword_rank
+            FROM 
+                review r
+            JOIN 
+                review_keyword rk ON r.review_id = rk.review_id
+            JOIN 
+                place p ON p.place_id = r.place_id
+            WHERE 
+                p.category_id = 1
+            GROUP BY 
+                r.place_id, rk.keyword_id
+        ) top_keywords ON p.place_id = top_keywords.place_id
+    LEFT JOIN 
+        keyword k ON top_keywords.keyword_id = k.keyword_id
+    WHERE
+        (top_keywords.keyword_rank <= 3 OR top_keywords.keyword_id IS NULL)
+        AND p.category_id = 1
+    GROUP BY 
+        p.place_id
+    ORDER BY 
+        p.place_id ASC;
     """
     result = query_db(sql, ())
     return result
@@ -173,5 +199,5 @@ def hashtag_review_place():
 def save_dataframe_to_db(dataframe):
     # 데이터베이스 연결 얻기
     conn = get_db()
-    dataframe.to_csv("./include/dataset/similarity_matrix.csv", index=False)
+    dataframe.to_csv("./include/dataset/similarity_matrix.csv", index=False, header=True)
     close_db()
