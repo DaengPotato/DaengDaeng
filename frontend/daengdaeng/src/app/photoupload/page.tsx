@@ -11,7 +11,7 @@ const PhotoUploadPage = () => {
   return (
     <div className={styles.PageContainer}>
       {isSelected ? (
-        <PhotoUpload frameUrl={frameUrl} />
+        <PhotoUpload frameUrl={frameUrl} setIsSelected={setIsSelected} />
       ) : (
         <FrameSelect setFrameUrl={setFrameUrl} setIsSelected={setIsSelected} />
       )}

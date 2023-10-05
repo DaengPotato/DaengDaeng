@@ -18,9 +18,10 @@ import PhotoRegistForm from './PhotoRegistForm';
 
 type PhotoUploadProps = {
   frameUrl: string;
+  setIsSelected: React.Dispatch<React.SetStateAction<Boolean>>;
 };
 
-const PhotoUpload = ({ frameUrl }: PhotoUploadProps) => {
+const PhotoUpload = ({ frameUrl, setIsSelected }: PhotoUploadProps) => {
   const router = useRouter();
 
   // 더미. 추수 url 받아올 것
@@ -63,6 +64,11 @@ const PhotoUpload = ({ frameUrl }: PhotoUploadProps) => {
   // 프레임, 최종캔버스 ref
   const frameRef = useRef<HTMLImageElement>(null);
   const finalCanvasRef = useRef<HTMLCanvasElement>(null);
+
+  // 돌아가기 클릭 시 처리
+  const handleBackClick = () => {
+    setIsSelected(false);
+  };
 
   //사진 저장 클릭 시 처리
   const handleSaveClick = () => {
@@ -226,7 +232,17 @@ const PhotoUpload = ({ frameUrl }: PhotoUploadProps) => {
         </label>
       </div> */}
 
-      <div className={styles.BtnContainer}>
+      <div className={styles.buttons}>
+        <Button
+          type="button"
+          size="small"
+          backgroundColor="gray"
+          icon={false}
+          onClick={handleBackClick}
+        >
+          돌아가기
+        </Button>
+
         <Button
           type="button"
           size="small"

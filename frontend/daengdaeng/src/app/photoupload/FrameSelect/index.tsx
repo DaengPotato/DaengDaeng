@@ -44,7 +44,7 @@ const FrameSelect = ({ setFrameUrl, setIsSelected }: FrameSelectProps) => {
           onClick={handleCancelClick}
           icon={false}
         >
-          취소
+          돌아가기
         </Button>
         <Button
           size="small"
@@ -52,7 +52,7 @@ const FrameSelect = ({ setFrameUrl, setIsSelected }: FrameSelectProps) => {
           onClick={handleFinishClick}
           icon={false}
         >
-          완료
+          프레임 선택
         </Button>
       </div>
     </div>
