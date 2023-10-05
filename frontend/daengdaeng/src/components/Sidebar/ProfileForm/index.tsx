@@ -65,8 +65,11 @@ const ProfileForm = ({ closeForm, userInfo }: profileFormProps) => {
   const handleRegist = async (data: FieldValues) => {
     if (!isAvailableNickname) return;
 
+    if (data.nickname === userInfo.nickname) {
+      closeForm();
+    }
+
     const token = getUser() as string;
-    
     const res = await updateNickname(token, data.nickname);
 
     if (res.ok) {

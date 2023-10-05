@@ -4,6 +4,13 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 
+import styles from './index.module.scss';
+import ProfileForm from './ProfileForm';
+import Button from '../common/Button';
+import Modal from '../common/Modal';
+
+import type { UserInfo } from '@/src/types/member';
+
 import { CloseIcon, PawIcon } from '@/public/icons';
 import TextLogo from '@/public/images/text-logo.png';
 import { deleteMember, logout } from '@/src/apis/api/member';
@@ -14,13 +21,6 @@ import {
   removeUser,
   removeUserInfo,
 } from '@/src/hooks/useLocalStorage';
-
-import styles from './index.module.scss';
-import ProfileForm from './ProfileForm';
-import Button from '../common/Button';
-import Modal from '../common/Modal';
-
-import type { UserInfo } from '@/src/types/member';
 
 const Sidebar = ({
   isMenuOpen,
@@ -138,7 +138,7 @@ const Sidebar = ({
         <div>
           <div className={styles.userInfo}>
             <div className={styles.userNickname}>
-              <span className={styles.nickname}>{userInfo?.nickname}</span>님
+              <span className={styles.nickname}>{userInfo?.nickname}</span>
               <PawIcon width={20} height={20} fill="black" />
             </div>
             <div className={styles.userEmail}>
