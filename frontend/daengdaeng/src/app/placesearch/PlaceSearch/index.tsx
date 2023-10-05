@@ -76,8 +76,8 @@ const PlaceSearch = ({ categories }: PlaceSearchProps) => {
     }
 
     const data = await response.json();
-    console.log(data);
     setSelectedPlaceWithReview(data);
+    setSelectedCategoryId(0);
   };
 
   const handleClickPlaceInfo = (placeId: number) => {
@@ -99,7 +99,7 @@ const PlaceSearch = ({ categories }: PlaceSearchProps) => {
   }, []);
 
   useEffect(() => {
-    if (typeof token !== 'undefined') {
+    if (typeof token !== 'undefined' && selectedCategoryId != 0) {
       fetchSearchPlace(token, searchText);
     }
   }, [selectedCategoryId]);
