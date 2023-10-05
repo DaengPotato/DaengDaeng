@@ -4,8 +4,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 
-import { PawIcon } from '@/public/icons';
-import { gray } from '@/src/styles/colors';
+import PlaceExample from '@/public/images/place-example.jpg';
 
 import styles from './index.module.scss';
 import KeywordReviewItem from './KeywordReviewItem';
@@ -54,7 +53,7 @@ const PlaceDetail = ({ placeWithReview, handleClose }: PlaceDetailProps) => {
               onError={() => setImgError(true)}
             />
           ) : (
-            <PawIcon fill={gray} width={100} height={100} />
+            <Image src={PlaceExample} alt={'place example'} height={200} width={400} />
           )}
         </div>
         <div className={styles.placeInfo}>
