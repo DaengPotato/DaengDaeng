@@ -12,12 +12,14 @@ import { gray } from '@/src/styles/colors';
 
 type PlaceInfoProps = {
   place: Place;
+  toggleLike?: any;
 };
 
-const PlaceInfo = ({ place }: PlaceInfoProps) => {
+const PlaceInfo = ({ place, toggleLike }: PlaceInfoProps) => {
   const [imgError, setImgError] = useState<boolean>(false);
   const handleLikeClick = (event: { stopPropagation: () => void }) => {
     event.stopPropagation();
+    toggleLike(place);
   };
 
   return (

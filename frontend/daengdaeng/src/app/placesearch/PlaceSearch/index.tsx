@@ -11,6 +11,7 @@ import Search from './Search';
 import type { Category } from '@/src/types/category';
 import type { Place, PlaceWithReview } from '@/src/types/place';
 
+import { createLikePlace, deleteLikePlace } from '@/src/apis/api/place';
 import BottomSheet from '@/src/components/common/BottomSheet';
 import PlaceDetail from '@/src/components/PlaceDetail';
 import useFetcher from '@/src/hooks/useFetcher';
@@ -38,6 +39,7 @@ const PlaceSearch = ({ categories }: PlaceSearchProps) => {
     data: searchResults,
     isLoading,
     setSize,
+    mutate,
   } = useInfiniteFetcher(param !== '', param);
 
   const onIntersect = useCallback(
@@ -59,38 +61,6 @@ const PlaceSearch = ({ categories }: PlaceSearchProps) => {
     return () => observer && observer.disconnect();
   }, [observeTarget, onIntersect]);
 
-  const handleSearchPlace = (searchText: string) => {
-    setSearchText(searchText);
-  };
-
-  // const { data: searchResults, mutate: mutateSearchResults } =
-  //   useFetcher<PlaceResult>(`/place`, param !== '', param);
-
-  const { data: placeWithReview } = useFetcher<PlaceWithReview>(
-    `/place`,
-    typeof selectedPlaceId !== 'undefined',
-    `/${selectedPlaceId}`,
-  );
-
-  useEffect(() => {
-    console.log(searchResults);
-    if (searchResults) {
-      setViewMode('results');
-      // setSelectedCategoryId(-1);
-    }
-  }, [searchResults]);
-
-  const handleClickPlaceInfo = (placeId: number) => {
-    setViewMode('info');
-    setSelectedPlaceId(placeId);
-  };
-
-  const handleClickCategory = (categoryId: number) => {
-    console.log(categoryId);
-
-    setSelectedCategoryId(categoryId);
-  };
-
   useEffect(() => {
     if (typeof window !== 'undefined') {
       setToken(getUser() as string);
@@ -106,6 +76,58 @@ const PlaceSearch = ({ categories }: PlaceSearchProps) => {
       }
     }
   }, [searchText, selectedCategoryId, token]);
+
+  useEffect(() => {
+    console.log(searchResults);
+    if (searchResults) {
+      setViewMode('results');
+    }
+  }, [searchResults]);
+
+  const handleSearchPlace = (searchText: string) => {
+    setSearchText(searchText);
+  };
+
+  const { data: placeWithReview } = useFetcher<PlaceWithReview>(
+    `/place`,
+    typeof selectedPlaceId !== 'undefined',
+    `/${selectedPlaceId}`,
+  );
+
+  const handleClickPlaceInfo = (placeId: number) => {
+    setViewMode('info');
+    setSelectedPlaceId(placeId);
+  };
+
+  const handleClickCategory = (categoryId: number) => {
+    setSelectedCategoryId(categoryId);
+  };
+
+  const handleLike = async (place: Place) => {
+    if (!searchResults) return;
+    const updatePlaces = searchResults.map((results) => {
+      return {
+        ...results,
+        placeList: results.placeList.map((prevPlace: Place) => {
+          if (prevPlace.placeId === place.placeId) {
+            return {
+              ...prevPlace,
+              isHeart: !prevPlace.isHeart,
+            };
+          }
+          return prevPlace;
+        }),
+      };
+    });
+
+    await mutate(updatePlaces, false);
+
+    if (!place.isHeart) {
+      await createLikePlace(place.placeId);
+    } else {
+      await deleteLikePlace(place.placeId);
+    }
+  };
 
   return (
     <div className={styles.container}>
@@ -137,7 +159,11 @@ const PlaceSearch = ({ categories }: PlaceSearchProps) => {
                     key={i}
                     onClick={() => handleClickPlaceInfo(result.placeId)}
                   >
-                    <PlaceInfo key={result.placeId} place={result} />
+                    <PlaceInfo
+                      key={result.placeId}
+                      place={result}
+                      toggleLike={handleLike}
+                    />
                   </div>
                 )),
               )}

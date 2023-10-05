@@ -8,7 +8,6 @@ import LikeButton from '../LikeButton';
 import type { Place } from '@/src/types/place';
 
 import { PawIcon } from '@/public/icons';
-import { createLikePlace, deleteLikePlace } from '@/src/apis/api/place';
 import { gray } from '@/src/styles/colors';
 
 type PlaceCardProps = {
@@ -21,9 +20,6 @@ const PlaceCard = ({ place, toggleLike }: PlaceCardProps) => {
 
   const handleLikeClick = async (event: { stopPropagation: () => void }) => {
     event.stopPropagation();
-
-    console.log('조아요 여부 : ', place.isHeart);
-
     toggleLike(place);
   };
 
