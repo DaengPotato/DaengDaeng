@@ -2,90 +2,89 @@
 import React from 'react';
 
 import Image from 'next/image';
-
-import styles from './index.module.scss';
+import { useRouter } from 'next/navigation';
 
 import Button from '@/src/components/common/Button';
 
+import styles from './index.module.scss';
+
 const HomePage = () => {
+  const router = useRouter();
+
   function mbtiTestClick() {
-    window.location.href = '/mbti';
+    router.push('/mbti');
   }
 
   function makePhotoClick() {
-    window.location.href = '/daengphoto';
+    router.push('/daengphoto');
   }
 
   return (
     <div className={styles.HomePage}>
-      <Image
-        className={styles.wave}
-        src="/images/main_wave.png"
-        alt="파도 이미지"
-        width={500}
-        height={500}
-        priority={true}
-      />
-      <div className={styles.mbti}>
-        <Image
-          className={styles.daenggamja}
-          src="/images/travel_pet.png"
+      <div className={styles.backTop}>
+        <div className={styles.title}>댕biti 검사하고</div>
+        <div className={styles.title}>맞춤 여행지 추천 받자</div>
+        <div className={styles.petsImage}>
+          <Image
+            className={styles.balloons}
+            src="/images/balloons.png"
+            alt="발바닥 풍선 세개"
+            width={500}
+            height={500}
+            priority={true}
+          />
+          <Image
+            className={styles.threePets}
+            src="/images/three_pets.png"
+            alt="강아지 세마리"
+            width={500}
+            height={500}
+            priority={true}
+          />
+        </div>
+      </div>
+
+      <div className={styles.backBottom}>
+        {/* <Image
+          className={styles.wave}
+          src="/images/blue_back.png"
           alt="여행 이미지"
           width={200}
           height={200}
           priority={true}
-        />
-        <div className={styles.title}>강아지와 떠나는 여행</div>
-        <div className={styles.title}>우리 강아지는 어떤 곳을 좋아할까?</div>
-
-        <div className={styles.mbtiBtn}>
-          <Button
-            size="small"
-            backgroundColor="orange"
-            icon={true}
-            onClick={mbtiTestClick}
-          >
-            댕bti 검사하고 여행지 추천받으러 가기
-          </Button>
-        </div>
-      </div>
-
-      <div className={styles.frames}>
-        <div className={styles.frame}>
-          <Image
-            src="/images/frame1.png"
-            alt="프레임1"
-            width={70}
-            height={210}
-            style={{ marginRight: '10px' }}
-          />
-          <Image
-            src="/images/frame2.png"
-            alt="프레임2"
-            width={70}
-            height={210}
-            style={{ marginRight: '10px' }}
-          />
-          <Image
-            src="/images/frame3.png"
-            alt="프레임3"
-            width={70}
-            height={210}
-          />
-        </div>
-
-        <div className={styles.title}>여행가서도 귀여운 우리 강쥐</div>
-        <div className={styles.title}>인생 네컷 만들러 가기</div>
-
-        <div className={styles.mbtiBtn}>
-          <Button
-            size="small"
-            backgroundColor="orange"
-            icon={true}
-            onClick={makePhotoClick}
-          >
-            댕댕네컷 만들러 가기
-          </Button>
+        /> */}
+        <div className={styles.backBottomContent}>
+          <div className={styles.contentBox}>
+            <div className={styles.content}>강아지와 떠나는 여행</div>
+            <div className={styles.content}>
+              우리 강아지는 어떤 곳을 좋아할까?
+            </div>
+          </div>
+          <div className={styles.frames}>
+            <Image
+              className={styles.frame}
+              src="/images/frame1.png"
+              alt="프레임1"
+              width={80}
+              height={240}
+              style={{ marginRight: '10px' }}
+            />
+            <Image
+              className={styles.frame}
+              src="/images/frame2.png"
+              alt="프레임2"
+              width={80}
+              height={240}
+              style={{ marginRight: '10px' }}
+            />
+            <Image
+              className={styles.frame}
+              src="/images/frame3.png"
+              alt="프레임3"
+              width={80}
+              height={240}
+            />
+          </div>
         </div>
       </div>
     </div>
