@@ -59,7 +59,7 @@ public class MemberServiceImpl implements MemberService {
      * @return String : 아이디
      */
     private String getCurrentUsername(String token) {
-        return jwtTokenUtil.extractAllClaims(token).get("id", String.class);
+        return jwtTokenUtil.extractAllClaims(token).get("email", String.class);
     }
 
     /**
