@@ -18,7 +18,12 @@ export const updateMBTI = async (
   });
 
   if (res.status === 401) {
-    res = await reissue(`/mbti/${petId}`, 'PATCH', JSON.stringify(mbti));
+    res = await reissue(
+      `/mbti/${petId}`,
+      'PATCH',
+      JSON.stringify(mbti),
+      'application/json',
+    );
   }
 
   return res;

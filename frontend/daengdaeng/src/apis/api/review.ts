@@ -24,6 +24,7 @@ export const createReview = async (placeId: string, ReviewRequest: Review) => {
       `/review/${placeId}`,
       'POST',
       JSON.stringify(ReviewRequest),
+      'application/json',
     );
   }
 
