@@ -4,9 +4,10 @@ import { useCallback, useEffect } from 'react';
 
 import { useRouter, useSearchParams } from 'next/navigation';
 
-import { saveUser } from '@/src/hooks/useLocalStorage';
-
 import type { NextPage } from 'next';
+
+import Page1 from '@/src/components/LandingPage/Page1';
+import { saveUser } from '@/src/hooks/useLocalStorage';
 
 const Login: NextPage = () => {
   const router = useRouter();
@@ -51,7 +52,7 @@ const Login: NextPage = () => {
     }
   }, [loginHandler, authCode, kakaoServerError, router]);
 
-  return <h2>로그인 중입니다..</h2>;
+  return <Page1></Page1>;
 };
 
 export default Login;
