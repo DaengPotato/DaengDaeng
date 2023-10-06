@@ -1,0 +1,41 @@
+.placeList {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  align-items: center;
+  margin: 15px 0;
+}
+
+.placeListHeader {
+  width: 280px;
+  border-radius: 20px;
+  height: 20px;
+  animation: shimmer 2s infinite linear;
+  background: linear-gradient(to right, #F6F6F6 8%, #F0F0F0 18%, #F6F6F6 33%);
+  background-size: 1000px 100%;
+  @keyframes shimmer {
+    0% {
+      background-position: -1000px 0;
+    }
+    100% {
+      background-position: 1000px 0;
+    }
+  }
+}
+
+.place {
+  width: 280px;
+  height: 280px;
+  border-radius: 20px;
+  animation: shimmer 2s infinite linear;
+  background: linear-gradient(to right, #F6F6F6 8%, #F0F0F0 18%, #F6F6F6 33%);
+  background-size: 1000px 100%;
+  @keyframes shimmer {
+    0% {
+      background-position: -1000px 0;
+    }
+    100% {
+      background-position: 1000px 0;
+    }
+  }
+}
