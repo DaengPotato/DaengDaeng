@@ -4,10 +4,6 @@ import { useEffect, useState } from 'react';
 
 import { useRouter, useSearchParams } from 'next/navigation';
 
-import { createReview } from '@/src/apis/api/review';
-import Button from '@/src/components/common/Button';
-import useFetcher from '@/src/hooks/useFetcher';
-
 import styles from './index.module.scss';
 import KeywordCheckboxList from './KeywordCheckboxList';
 import ReviewScore from './ReviewScore';
@@ -16,17 +12,18 @@ import PetCheckboxList from '../placerecommendation/PlaceRecommendation/PetCheck
 import type { PetSimple } from '@/src/types/pet';
 import type { PlaceWithReview } from '@/src/types/place';
 
+import { createReview } from '@/src/apis/api/review';
+import Button from '@/src/components/common/Button';
+import useFetcher from '@/src/hooks/useFetcher';
+
 const PlaceReviewPage = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
 
   const id = searchParams.get('id') as string;
 
-  const { data: currentPlace } = useFetcher<PlaceWithReview>(
-    `/place`,
-    typeof id !== 'undefined',
-    `/${id}`,
-  );
+  const { data: currentPlace, mutate: mutateCurrentPlace } =
+    useFetcher<PlaceWithReview>(`/place`, typeof id !== 'undefined', `/${id}`);
 
   const { data: pets } = useFetcher<PetSimple[]>(`/pet`);
   const [checkedPets, setCheckedPets] = useState<number[]>([]);
@@ -47,6 +44,7 @@ const PlaceReviewPage = () => {
     });
 
     if (res.ok) {
+      await mutateCurrentPlace();
       router.push('/placesearch');
     }
   };

@@ -3,20 +3,28 @@ import React, { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 
-import { AddIcon } from '@/public/icons';
-
 import styles from './index.module.scss';
 import KeywordReviewItem from './KeywordReviewItem';
 import PlaceDetailInfo from './PlaceDetailInfo';
 
 import type { KeywordReview, Place, PlaceWithReview } from '@/src/types/place';
 
+import { AddIcon } from '@/public/icons';
+import { white } from '@/src/styles/colors';
+
 type PlaceDetailProps = {
   placeWithReview?: PlaceWithReview;
+  mutate: any;
   handleClose: () => void;
+  toggleLike: () => void;
 };
 
-const PlaceDetail = ({ placeWithReview, handleClose }: PlaceDetailProps) => {
+const PlaceDetail = ({
+  placeWithReview,
+  mutate,
+  handleClose,
+  toggleLike,
+}: PlaceDetailProps) => {
   const [imgError, setImgError] = useState<boolean>(false);
   const place: Place = placeWithReview?.place || {
     placeId: 0,
@@ -56,11 +64,12 @@ const PlaceDetail = ({ placeWithReview, handleClose }: PlaceDetailProps) => {
             place={place}
             score={score}
             isLiked={place.isHeart}
+            toggleLike={toggleLike}
           />
         </div>
         <div className={styles.reviewContainer}>
-          <div className={styles.reviewTitle}>
-            <div className={styles.reviewHeader}>방문자 리뷰</div>
+          <div className={styles.reviewHeader}>
+            <div className={styles.reviewTitle}>방문자 리뷰</div>
             <Link
               href={{
                 pathname: '/placereview',
@@ -69,7 +78,9 @@ const PlaceDetail = ({ placeWithReview, handleClose }: PlaceDetailProps) => {
                 },
               }}
             >
-              <AddIcon width={15} height={15} />
+              <div className={styles.addButton}>
+                <AddIcon width={20} height={20} fill={white} />
+              </div>
             </Link>
           </div>
           <div className={styles.keywordReviewContainer}>

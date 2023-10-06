@@ -2,21 +2,17 @@ import React, { useEffect, useState } from 'react';
 
 import useEmblaCarousel from 'embla-carousel-react';
 
-import { createLikePlace, deleteLikePlace } from '@/src/apis/api/place';
-import PlaceCard from '@/src/components/PlaceCard';
-import PlaceDetail from '@/src/components/PlaceDetail';
-import useFetcher from '@/src/hooks/useFetcher';
-
 import styles from './index.module.scss';
 import BottomSheet from '../common/BottomSheet';
 import Card from '../common/Card';
 
-import type {
-  PetSpecificPlaces,
-  Place,
-  PlaceWithReview,
-} from '@/src/types/place';
+import type { PlaceWithReview, PetSpecificPlaces, Place } from '@/src/types/place';
 import type { EmblaOptionsType } from 'embla-carousel-react';
+
+import { createLikePlace, deleteLikePlace } from '@/src/apis/api/place';
+import PlaceCard from '@/src/components/PlaceCard';
+import PlaceDetail from '@/src/components/PlaceDetail';
+import useFetcher from '@/src/hooks/useFetcher';
 
 type CarouselProps = {
   isLikedPlace: boolean;
@@ -51,11 +47,12 @@ const PlaceCarousel = ({
     setSomePlaces(places.slice(startIndex, startIndex + 5));
   }, [startIndex, places]);
 
-  const { data: currentPlace } = useFetcher<PlaceWithReview>(
-    `/place`,
-    typeof currentPlaceId !== 'undefined',
-    `/${currentPlaceId}`,
-  );
+  const { data: currentPlace, mutate: mutateCurrentPlace } =
+    useFetcher<PlaceWithReview>(
+      `/place`,
+      typeof currentPlaceId !== 'undefined',
+      `/${currentPlaceId}`,
+    );
 
   const handleClickPlaceCard = (placeId: number) => {
     setCurrentPlaceId(placeId);
@@ -103,6 +100,25 @@ const PlaceCarousel = ({
     }
   };
 
+  const handleLikePlaceWithReview = async () => {
+    if (!currentPlace) return;
+    const updatePlaces: PlaceWithReview = {
+      ...currentPlace,
+      place: {
+        ...currentPlace.place,
+        isHeart: !currentPlace?.place.isHeart,
+      },
+    };
+
+    await mutateCurrentPlace(updatePlaces, false);
+
+    if (!currentPlace.place.isHeart) {
+      await createLikePlace(currentPlace.place.placeId);
+    } else {
+      await deleteLikePlace(currentPlace.place.placeId);
+    }
+  };
+
   return (
     <div className={styles.Carousel}>
       <div className={styles.viewport} ref={emblaRef}>
@@ -135,6 +151,8 @@ const PlaceCarousel = ({
             <PlaceDetail
               placeWithReview={currentPlace}
               handleClose={handleClosePlaceDetail}
+              toggleLike={handleLikePlaceWithReview}
+              mutate={mutateCurrentPlace}
             />
           </BottomSheet>
         </>

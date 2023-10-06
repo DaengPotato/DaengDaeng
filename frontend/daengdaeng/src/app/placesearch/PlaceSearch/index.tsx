@@ -2,13 +2,6 @@
 
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 
-import { createLikePlace, deleteLikePlace } from '@/src/apis/api/place';
-import BottomSheet from '@/src/components/common/BottomSheet';
-import PlaceDetail from '@/src/components/PlaceDetail';
-import useFetcher from '@/src/hooks/useFetcher';
-import useInfiniteFetcher from '@/src/hooks/useInfiniteFetcher';
-import { getUser } from '@/src/hooks/useLocalStorage';
-
 import CategoryCarousel from './CategoryCarousel';
 import styles from './index.module.scss';
 import KakaoMap from './KakaoMap';
@@ -17,6 +10,13 @@ import Search from './Search';
 
 import type { Category } from '@/src/types/category';
 import type { Place, PlaceWithReview } from '@/src/types/place';
+
+import { createLikePlace, deleteLikePlace } from '@/src/apis/api/place';
+import BottomSheet from '@/src/components/common/BottomSheet';
+import PlaceDetail from '@/src/components/PlaceDetail';
+import useFetcher from '@/src/hooks/useFetcher';
+import useInfiniteFetcher from '@/src/hooks/useInfiniteFetcher';
+import { getUser } from '@/src/hooks/useLocalStorage';
 
 type PlaceSearchProps = {
   categories?: Category[];
@@ -88,11 +88,12 @@ const PlaceSearch = ({ categories }: PlaceSearchProps) => {
     setSearchText(searchText);
   };
 
-  const { data: placeWithReview } = useFetcher<PlaceWithReview>(
-    `/place`,
-    typeof selectedPlaceId !== 'undefined',
-    `/${selectedPlaceId}`,
-  );
+  const { data: placeWithReview, mutate: mutatePlaceWithReview } =
+    useFetcher<PlaceWithReview>(
+      `/place`,
+      typeof selectedPlaceId !== 'undefined',
+      `/${selectedPlaceId}`,
+    );
 
   const handleClickPlaceInfo = (placeId: number) => {
     setViewMode('info');
@@ -103,7 +104,7 @@ const PlaceSearch = ({ categories }: PlaceSearchProps) => {
     setSelectedCategoryId(categoryId);
   };
 
-  const handleLike = async (place: Place) => {
+  const handleLikeSearchResults = async (place: Place) => {
     if (!searchResults) return;
     const updatePlaces = searchResults.map((results) => {
       return {
@@ -126,6 +127,25 @@ const PlaceSearch = ({ categories }: PlaceSearchProps) => {
       await createLikePlace(place.placeId);
     } else {
       await deleteLikePlace(place.placeId);
+    }
+  };
+
+  const handleLikePlaceWithReview = async () => {
+    if (!placeWithReview) return;
+    const updatePlaces: PlaceWithReview = {
+      ...placeWithReview,
+      place: {
+        ...placeWithReview.place,
+        isHeart: !placeWithReview?.place.isHeart,
+      },
+    };
+
+    await mutatePlaceWithReview(updatePlaces, false);
+
+    if (!placeWithReview.place.isHeart) {
+      await createLikePlace(placeWithReview.place.placeId);
+    } else {
+      await deleteLikePlace(placeWithReview.place.placeId);
     }
   };
 
@@ -162,7 +182,7 @@ const PlaceSearch = ({ categories }: PlaceSearchProps) => {
                     <PlaceInfo
                       key={result.placeId}
                       place={result}
-                      toggleLike={handleLike}
+                      toggleLike={handleLikeSearchResults}
                     />
                   </div>
                 )),
@@ -192,6 +212,8 @@ const PlaceSearch = ({ categories }: PlaceSearchProps) => {
               setSelectedPlaceId(undefined);
               setViewMode('results');
             }}
+            toggleLike={handleLikePlaceWithReview}
+            mutate={mutatePlaceWithReview}
           />
         </BottomSheet>
       )}
