@@ -102,6 +102,7 @@ const PhotoUpload = ({ frameUrl, setIsSelected }: PhotoUploadProps) => {
 
     // 프레임 맨 위에 그리기
     const image = new Image();
+    image.crossOrigin = 'anonymous';
     image.src = frameUrl;
 
     image.onload = async () => {
@@ -188,6 +189,13 @@ const PhotoUpload = ({ frameUrl, setIsSelected }: PhotoUploadProps) => {
           className={styles.PhotoContainer}
           style={{ height: frameWidth * 3 }}
         >
+          {' '}
+          <canvas
+            ref={finalCanvasRef}
+            width={frameWidth}
+            height={frameWidth * 3}
+            className={styles.FinalCanvas}
+          />
           <ImageNext
             ref={frameRef}
             src={frameUrl}
@@ -258,12 +266,7 @@ const PhotoUpload = ({ frameUrl, setIsSelected }: PhotoUploadProps) => {
           사진 저장
         </Button>
       </div>
-      <canvas
-        ref={finalCanvasRef}
-        width={frameWidth}
-        height={frameWidth * 3}
-        className={styles.FinalCanvas}
-      />
+
       {isModalOpen && (
         <Modal closeModal={handleModalClose}>
           <PhotoRegistForm
