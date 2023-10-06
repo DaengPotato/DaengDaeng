@@ -12,14 +12,16 @@ import type { PetDetail } from '@/src/types/pet';
 
 import Button from '@/src/components/common/Button';
 import Modal from '@/src/components/common/Modal';
+import PetSimpleCardLoading from '@/src/components/LoadingShimmer/PetSimpleCardLoading';
 
 type MBTIProps = {
   pets: PetDetail[] | undefined;
   questions: mbtiQuestion[] | undefined;
   mutatePets: any;
+  isLoadingPet: boolean;
 };
 
-const MBTI = ({ pets, questions, mutatePets }: MBTIProps) => {
+const MBTI = ({ pets, questions, mutatePets, isLoadingPet }: MBTIProps) => {
   const [selectedPet, setSelectedPet] = useState<PetDetail | undefined>(
     undefined,
   );
@@ -36,39 +38,47 @@ const MBTI = ({ pets, questions, mutatePets }: MBTIProps) => {
 
   return (
     <div className={styles.MBTI}>
-      {pets && (
+      {isLoadingPet ? (
+        <PetSimpleCardLoading />
+      ) : (
         <>
-          {pets?.length > 0 ? (
+          {pets && (
             <>
-              {!start ? (
-                <PetSelect
-                  pets={pets}
-                  selectedPet={selectedPet}
-                  setSelectedPet={setSelectedPet}
-                  setStart={setStart}
-                />
-              ) : (
+              {pets?.length > 0 ? (
                 <>
-                  {selectedPet && (
-                    <MBTITest pet={selectedPet} questions={questions} />
+                  {!start ? (
+                    <PetSelect
+                      pets={pets}
+                      selectedPet={selectedPet}
+                      setSelectedPet={setSelectedPet}
+                      setStart={setStart}
+                    />
+                  ) : (
+                    <>
+                      {selectedPet && (
+                        <MBTITest pet={selectedPet} questions={questions} />
+                      )}
+                    </>
                   )}
                 </>
+              ) : (
+                <div className={styles.nodata}>
+                  <div className={styles.nodataTitle}>
+                    반려견을 등록해주세요!
+                  </div>
+                  <div className={styles.nodataButton}>
+                    <Button
+                      size={'medium'}
+                      backgroundColor={'orange'}
+                      icon={true}
+                      onClick={handleFormOpen}
+                    >
+                      반려견 등록하기
+                    </Button>
+                  </div>
+                </div>
               )}
             </>
-          ) : (
-            <div className={styles.nodata}>
-              <div className={styles.nodataTitle}>반려견을 등록해주세요!</div>
-              <div className={styles.nodataButton}>
-                <Button
-                  size={'medium'}
-                  backgroundColor={'orange'}
-                  icon={true}
-                  onClick={handleFormOpen}
-                >
-                  반려견 등록하기
-                </Button>
-              </div>
-            </div>
           )}
         </>
       )}
