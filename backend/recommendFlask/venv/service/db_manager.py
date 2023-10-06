@@ -133,6 +133,23 @@ def get_popular_place():
     result = query_db(sql, ())
     return result
 
+def get_popular_place_by_pet():
+    # 가장 찜이 많이 된 장소 20개 가지고 오기
+    sql = """
+    SELECT r.place_id, COUNT(*) AS count
+    FROM review r 
+    RIGHT JOIN review_pet rp
+    USING (review_id)
+    INNER JOIN place p
+    USING (place_id)
+    WHERE p.category_id = 1
+    GROUP BY r.place_id
+    ORDER BY count DESC
+    LIMIT 100
+    """
+    result = query_db(sql, ())
+    return result
+
 
 def get_review_keyword():
     # 장소별 리뷰 키워드 집계 데이터 가지고 오기
