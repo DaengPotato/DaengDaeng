@@ -7,13 +7,21 @@ import PlaceRecommendation from '@/src/app/placerecommendation/PlaceRecommendati
 import useFetcher from '@/src/hooks/useFetcher';
 
 const PlaceRecommendationPage = () => {
-  const { data: pets } = useFetcher<PetSimple[]>(`/pet`);
-  const { data: memberPlaces, mutate: mutateMemberPlaces } = useFetcher<
-    Place[]
-  >(`/place/recommend/member`);
-  const { data: petPlaces, mutate: mutatePetPlaces } = useFetcher<
-    PetSpecificPlaces[]
-  >(`/place/recommend/dog`, pets && pets.length > 0);
+  const { data: pets, isLoading: isLoadingPet } =
+    useFetcher<PetSimple[]>(`/pet`);
+  const {
+    data: memberPlaces,
+    isLoading: isLoadingMemberPlaces,
+    mutate: mutateMemberPlaces,
+  } = useFetcher<Place[]>(`/place/recommend/member`);
+  const {
+    data: petPlaces,
+    isLoading: isLoadingPetPlaces,
+    mutate: mutatePetPlaces,
+  } = useFetcher<PetSpecificPlaces[]>(
+    `/place/recommend/dog`,
+    pets && pets.length > 0,
+  );
 
   return (
     <PlaceRecommendation
@@ -22,6 +30,9 @@ const PlaceRecommendationPage = () => {
       userSpecificPlaces={memberPlaces}
       mutateMemberPlaces={mutateMemberPlaces}
       mutatePetPlaces={mutatePetPlaces}
+      isLoadingPet={isLoadingPet}
+      isLoadingMemberPlaces={isLoadingMemberPlaces}
+      isLoadingPetPlaces={isLoadingPetPlaces}
     />
   );
 };
