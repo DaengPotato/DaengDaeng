@@ -3,11 +3,11 @@
   background-color: var(--color-white);
   border-radius: 20px;
   width: 85vw;
-  max-width: 400px;
+  // max-width: 85vw;
 }
 
 .registForm {
-  width: fit-content;
+  width: 100%;
   margin: 0 auto;
   display: flex;
   flex-direction: column;

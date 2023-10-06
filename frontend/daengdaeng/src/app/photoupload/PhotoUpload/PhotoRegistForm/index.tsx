@@ -2,7 +2,7 @@
 'use client';
 
 import type { ChangeEvent } from 'react';
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 import Button from '@/src/components/common/Button';
 
@@ -25,19 +25,22 @@ const PhotoRegistForm = ({
 }: PhotoRegistFormProps) => {
   const fileInputRef = useRef<HTMLInputElement>(null);
 
+  const registFormRef = useRef<HTMLInputElement>(null);
+
   const baseCanvasRef = useRef<HTMLCanvasElement>(null);
   const reSizedCanvasRef = useRef<HTMLCanvasElement>(null);
   const selectCanvasRef = useRef<HTMLCanvasElement>(null);
 
   // 이미지 표시 최대
-  const maxWidth = 360;
+  const maxWidth = 300;
+  // const maxWidth = 100vh;
   const maxHeight = 600;
 
   // 확대 관련
   const [range, setRange] = useState<number>(1.0);
   const minRange = 1;
   const maxRange = 3;
-  const stepRange = 0.1;
+  const stepRange = 0.05;
 
   const [currX, setCurrX] = useState<number>(0);
   const [currY, setCurrY] = useState<number>(0);
@@ -46,6 +49,7 @@ const PhotoRegistForm = ({
 
   // 마우스 다운 이벤트
   const handleMouseDown = () => {
+    console.log('down');
     setIsMoving(true);
   };
 
@@ -67,6 +71,42 @@ const PhotoRegistForm = ({
     // 최대 이동가능 위치 계산
     if (!baseCanvas) return;
 
+    const maxX = baseCanvas.width - baseCanvas.width / range;
+    const maxY = baseCanvas.height - baseCanvas.height / range;
+
+    // 범위 커팅
+    const newX = sumX < 0 ? 0 : sumX > maxX ? maxX : sumX;
+    const newY = sumY < 0 ? 0 : sumY > maxY ? maxY : sumY;
+
+    // 리사이즈 캔버스 그리기
+    paintResizedCanvas(range, newX, newY);
+
+    // 새 위치 저장
+    setCurrX(newX);
+    setCurrY(newY);
+  };
+
+  const handleTouchMove = (e: React.TouchEvent<HTMLCanvasElement>) => {
+    if (!isMoving) {
+      return;
+    }
+
+    const baseCanvas = baseCanvasRef.current;
+
+    if (!baseCanvas) {
+      return;
+    }
+    const touch = e.touches[0]; // 첫 번째 터치 포인터를 가져옵니다.
+
+    // 이동량
+    const movementX = touch.clientX - currX;
+    const movementY = touch.clientY - currY;
+
+    // 이동 후 위치 계산
+    const sumX = currX - movementX * range;
+    const sumY = currY - movementY * range;
+
+    // 최대 이동 가능 위치 계산
     const maxX = baseCanvas.width - baseCanvas.width / range;
     const maxY = baseCanvas.height - baseCanvas.height / range;
 
@@ -159,6 +199,7 @@ const PhotoRegistForm = ({
     if (ctxBase) {
       const image = new Image();
       image.src = URL.createObjectURL(imgFile);
+      image.crossOrigin = 'anonymous';
 
       image.onload = async () => {
         const imgWidth = image.width;
@@ -170,17 +211,37 @@ const PhotoRegistForm = ({
 
         if (imgWidth > maxWidth) {
           if (changedHeight > maxHeight) {
+            console.log('test1');
             updateCanvasSize(changedWidth, maxHeight);
           } else {
+            console.log('test2');
             updateCanvasSize(maxWidth, changedHeight);
           }
         } else {
           if (imgHeight > maxHeight) {
+            console.log('test3');
             updateCanvasSize(changedWidth, maxHeight);
           } else {
+            console.log('test');
             updateCanvasSize(imgWidth, imgHeight);
           }
         }
+        // const changedWidth = (maxHeight * imgWidth) / imgHeight;
+        // const changedHeight = (maxWidth * imgHeight) / imgWidth;
+
+        // if (imgWidth > maxWidth) {
+        //   if (changedHeight > maxHeight) {
+        //     updateCanvasSize(changedWidth, maxHeight);
+        //   } else {
+        //     updateCanvasSize(maxWidth, changedHeight);
+        //   }
+        // } else {
+        //   if (imgHeight > maxHeight) {
+        //     updateCanvasSize(changedWidth, maxHeight);
+        //   } else {
+        //     updateCanvasSize(imgWidth, imgHeight);
+        //   }
+        // }
 
         // 베이스 캔버스에 이미지 그리기
         ctxBase.drawImage(
@@ -261,7 +322,7 @@ const PhotoRegistForm = ({
   };
 
   return (
-    <div className={styles.PhotoRegistForm}>
+    <div className={styles.PhotoRegistForm} ref={registFormRef}>
       <div className={styles.registForm}>
         <div className={styles.CanvasContainer}>
           <canvas
@@ -278,6 +339,9 @@ const PhotoRegistForm = ({
             onMouseMove={handleMouseMove}
             onMouseUp={handleMouseUp}
             onMouseLeave={handleMouseLeave}
+            onTouchStart={handleMouseDown}
+            onTouchEnd={handleMouseUp}
+            onTouchMove={handleTouchMove}
             className={styles.ReSizedCanvas}
           />
 
