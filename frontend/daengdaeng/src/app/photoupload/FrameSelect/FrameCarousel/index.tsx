@@ -24,27 +24,30 @@ const FrameCarousel = ({
   const [selectedIndex, setSelectedIndex] = useState<number>(-1);
 
   // 이미지 불러오기 함수
-  const getFrames = async () => {
-    const response = await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL}/photo/frame`,
-      {
-        method: 'GET',
-      },
-    );
-    if (!response.ok) {
-      throw new Error('프레임 조회 실패');
-    }
-    const data = JSON.parse(await response.text());
-
-    return data;
-  };
+  // const getFrames = async () => {
+  // const response = await fetch(
+  //   `${process.env.NEXT_PUBLIC_API_URL}/photo/frame`,
+  //   {
+  //     method: 'GET',
+  //   },
+  // );
+  // if (!response.ok) {
+  //   throw new Error('프레임 조회 실패');
+  // }
+  // const data = JSON.parse(await response.text());
+  // return data;
+  // };
 
   // 최초 로딩시 불러오기
   useEffect(() => {
     (async () => {
-      const FrameListdata = await getFrames();
-      console.log(FrameListdata);
-      setFrames(FrameListdata.frameList);
+      // const FrameListdata = await getFrames();
+      const FrameListData: Frame[] = [
+        { frameName: 'frame01', frameUrl: '/images/daengFrame01empty.png' },
+        { frameName: 'frame02', frameUrl: '/images/daengFrame02empty.png' },
+        { frameName: 'frame03', frameUrl: '/images/daengFrame03empty.png' },
+      ];
+      setFrames(FrameListData);
     })();
   }, []);
 

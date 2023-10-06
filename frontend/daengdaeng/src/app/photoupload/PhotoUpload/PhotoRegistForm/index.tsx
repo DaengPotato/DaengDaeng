@@ -159,6 +159,7 @@ const PhotoRegistForm = ({
     if (ctxBase) {
       const image = new Image();
       image.src = URL.createObjectURL(imgFile);
+      image.crossOrigin = 'anonymous';
 
       image.onload = async () => {
         const imgWidth = image.width;

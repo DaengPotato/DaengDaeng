@@ -182,6 +182,10 @@ const InfoRegistForm = ({ setIsOpen, sendResult }: InfoRegistFormProps) => {
 
   // 완료 버튼 클릭 시 처리
   const handleFinishClick = () => {
+    if (placeId === -1) {
+      updateMessage(`장소를 선택해주세요`, true);
+      return;
+    }
     sendResult(categoryId, placeId);
     setIsOpen(false);
   };
