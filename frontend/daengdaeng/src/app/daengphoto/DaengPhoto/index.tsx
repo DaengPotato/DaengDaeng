@@ -2,16 +2,16 @@ import { useEffect, useState } from 'react';
 
 import Image from 'next/image';
 
+import styles from './index.module.scss';
+import PhotoCamera from './PhotoCamera';
+
+import type { ImageType } from '@/src/types/image';
+
 import { LeftIcon } from '@/public/icons';
 import { RightIcon } from '@/public/icons';
 import { MarkerIcon } from '@/public/icons';
 import { getUser } from '@/src/hooks/useLocalStorage';
 import { primaryOrange } from '@/src/styles/colors';
-
-import styles from './index.module.scss';
-import PhotoCamera from './PhotoCamera';
-
-import type { ImageType } from '@/src/types/image';
 
 // 이미지 불러오기 함수
 const fetchImages = async (cursor: number) => {
@@ -89,7 +89,10 @@ const DaengPhoto = () => {
                   <div className={styles.marker}>
                     <MarkerIcon width={20} height={20} />
                   </div>
-                  <div className={styles.photoPlace}>{photo.place}</div>
+                  <div className={styles.photoPlace}>
+                    <div>{photo.place.split(',')[0]}</div>
+                    <div>{photo.place.split(',')[1]}</div>
+                  </div>
                 </div>
               )}
               <Image
@@ -105,15 +108,13 @@ const DaengPhoto = () => {
         </div>
       </div>
       {/* 버튼 */}
-      <div className={styles.pagebutton}>
-        <div className={styles.btnContainer}>
-          <button className={styles.leftbutton} onClick={handleLeftCursor}>
-            <LeftIcon width={50} height={50} fill={primaryOrange} />
-          </button>
-          <button className={styles.rightbutton} onClick={handleRightCursor}>
-            <RightIcon width={50} height={50} fill={primaryOrange} />
-          </button>
-        </div>
+      <div className={styles.btnContainer}>
+        <button className={styles.leftbutton} onClick={handleLeftCursor}>
+          <LeftIcon width={50} height={50} fill={primaryOrange} />
+        </button>
+        <button className={styles.rightbutton} onClick={handleRightCursor}>
+          <RightIcon width={50} height={50} fill={primaryOrange} />
+        </button>
       </div>
     </div>
   );

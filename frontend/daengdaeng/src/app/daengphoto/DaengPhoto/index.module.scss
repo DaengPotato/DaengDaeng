@@ -1,16 +1,18 @@
 .bigbox {
-  padding: 30px 20px;
-  height: 100%;
+  margin: 0 auto;
+  padding: 10px 0;
+  height: fit-content;
 }
 
 .container {
-  margin-bottom: 30px;
+  margin-bottom: 10px;
 }
 
 .photoList {
   display: flex;
   flex-wrap: wrap;
   min-height: 630px;
+  justify-content: center;
 }
 
 .photo {
@@ -26,17 +28,11 @@
   transition: background-color 0.3 ease-in-out;
 }
 
-.pagebutton {
-  bottom: 10%;
-}
-
 .btnContainer {
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 30px;
-  height: 50px;
-  margin-top: auto;
+  margin-bottom: 20px;
 }
 
 .btnContainer button {
@@ -44,7 +40,9 @@
 }
 
 .photoBlur {
+  padding: 10px;
   display: flex;
+  gap: 5px;
   justify-content: center;
   align-items: center;
   position: absolute;
@@ -63,9 +61,12 @@
 .photoPlace {
   justify-content: center;
   align-items: center;
-  font-size: 1.4rem;
   color: black;
   font-weight: bold;
+  & > div {
+    font-size: 1.4rem;
+    line-height: 2rem;
+  }
 }
 
 .photobox {
