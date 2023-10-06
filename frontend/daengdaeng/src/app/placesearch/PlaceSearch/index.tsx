@@ -68,7 +68,7 @@ const PlaceSearch = ({ categories }: PlaceSearchProps) => {
   }, []);
 
   useEffect(() => {
-    if (typeof token !== 'undefined') {
+    if (typeof token !== 'undefined' && selectedCategoryId !== 0) {
       if (selectedCategoryId === 0 && searchText !== '') {
         setParam(`?category&keyword=${searchText}`);
       } else {

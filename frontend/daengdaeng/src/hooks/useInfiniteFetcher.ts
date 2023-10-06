@@ -9,11 +9,7 @@ export default function useInfiniteFetcher(
 ) {
   const getKey = (pageIndex: number, previousPageData: any) => {
     // 끝에 도달
-    if (
-      (previousPageData && !previousPageData.placeList) ||
-      previousPageData.nextCursor === -1 ||
-      !isTrigger
-    ) {
+    if ((previousPageData && !previousPageData.placeList) || !isTrigger) {
       // eslint-disable-next-line no-null/no-null
       return null;
     }
