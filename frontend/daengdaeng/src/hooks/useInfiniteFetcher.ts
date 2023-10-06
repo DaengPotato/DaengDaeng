@@ -17,6 +17,7 @@ export default function useInfiniteFetcher(
     // 첫 페이지, `previousPageData`가 없음
     if (pageIndex === 0) return `/place${params}&cursor=0`;
 
+    if (previousPageData.nextCursor === -1) return null;
     // API의 엔드포인트에 커서를 추가
     return `/place${params}&cursor=${previousPageData.nextCursor}`;
   };
