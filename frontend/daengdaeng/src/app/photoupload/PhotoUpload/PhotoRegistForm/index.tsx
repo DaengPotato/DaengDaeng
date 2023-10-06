@@ -2,7 +2,7 @@
 'use client';
 
 import type { ChangeEvent } from 'react';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useRef, useState } from 'react';
 
 import Button from '@/src/components/common/Button';
 
@@ -45,15 +45,27 @@ const PhotoRegistForm = ({
   const [currX, setCurrX] = useState<number>(0);
   const [currY, setCurrY] = useState<number>(0);
 
+  const [touchX, setTouchX] = useState<number>(0);
+  const [touchY, setTouchY] = useState<number>(0);
+
   const [isMoving, setIsMoving] = useState<boolean>(false);
 
   // 마우스 다운 이벤트
   const handleMouseDown = () => {
-    console.log('down');
     setIsMoving(true);
+    // 새 위치 저장
   };
 
-  // 마우스무브 이벤트
+  // 터치 다운 이벤트
+  const handleTouchDown = (e: React.TouchEvent<HTMLCanvasElement>) => {
+    console.log('down');
+    setTouchX(e.touches[0].clientX);
+    setTouchY(e.touches[0].clientY);
+    setIsMoving(true);
+    // 새 위치 저장
+  };
+
+  // 마우스 무브 이벤트
   const handleMouseMove = (e: React.MouseEvent<HTMLCanvasElement>) => {
     if (!isMoving) {
       return;
@@ -71,12 +83,18 @@ const PhotoRegistForm = ({
     // 최대 이동가능 위치 계산
     if (!baseCanvas) return;
 
-    const maxX = baseCanvas.width - baseCanvas.width / range;
-    const maxY = baseCanvas.height - baseCanvas.height / range;
+    const selectCanvas = selectCanvasRef.current;
+    if (!selectCanvas) return;
+    const marginX = (selectCanvas.width - photoWidth) / 2;
+    const marginY = (selectCanvas.height - photoHeight) / 2;
+    const minX = marginX / range;
+    const minY = marginY / range;
+    const maxX = baseCanvas.width + minX - baseCanvas.width / range;
+    const maxY = baseCanvas.height + minY - baseCanvas.height / range;
 
     // 범위 커팅
-    const newX = sumX < 0 ? 0 : sumX > maxX ? maxX : sumX;
-    const newY = sumY < 0 ? 0 : sumY > maxY ? maxY : sumY;
+    const newX = sumX < -minX ? -minX : sumX > maxX ? maxX : sumX;
+    const newY = sumY < -minY ? -minY : sumY > maxY ? maxY : sumY;
 
     // 리사이즈 캔버스 그리기
     paintResizedCanvas(range, newX, newY);
@@ -86,33 +104,50 @@ const PhotoRegistForm = ({
     setCurrY(newY);
   };
 
+  // 터치 무브 이벤트
   const handleTouchMove = (e: React.TouchEvent<HTMLCanvasElement>) => {
     if (!isMoving) {
       return;
     }
-
     const baseCanvas = baseCanvasRef.current;
 
     if (!baseCanvas) {
       return;
     }
     const touch = e.touches[0]; // 첫 번째 터치 포인터를 가져옵니다.
+    const rect = baseCanvas.getBoundingClientRect();
+
+    // 범위 밖
+    if (
+      touch.clientX < rect.left ||
+      touch.clientX > rect.right ||
+      touch.clientY < rect.top ||
+      touch.clientY > rect.bottom
+    ) {
+      setIsMoving(false);
+    }
 
     // 이동량
-    const movementX = touch.clientX - currX;
-    const movementY = touch.clientY - currY;
+    const movementX = ((touch.clientX - touchX) / 15) * range;
+    const movementY = ((touch.clientY - touchY) / 15) * range;
 
     // 이동 후 위치 계산
-    const sumX = currX - movementX * range;
-    const sumY = currY - movementY * range;
+    const sumX = currX - movementX / range;
+    const sumY = currY - movementY / range;
 
     // 최대 이동 가능 위치 계산
-    const maxX = baseCanvas.width - baseCanvas.width / range;
-    const maxY = baseCanvas.height - baseCanvas.height / range;
+    const selectCanvas = selectCanvasRef.current;
+    if (!selectCanvas) return;
+    const marginX = (selectCanvas.width - photoWidth) / 2;
+    const marginY = (selectCanvas.height - photoHeight) / 2;
+    const minX = marginX / range;
+    const minY = marginY / range;
+    const maxX = baseCanvas.width + minX - baseCanvas.width / range;
+    const maxY = baseCanvas.height + minY - baseCanvas.height / range;
 
     // 범위 커팅
-    const newX = sumX < 0 ? 0 : sumX > maxX ? maxX : sumX;
-    const newY = sumY < 0 ? 0 : sumY > maxY ? maxY : sumY;
+    const newX = sumX < -minX ? -minX : sumX > maxX ? maxX : sumX;
+    const newY = sumY < -minY ? -minY : sumY > maxY ? maxY : sumY;
 
     // 리사이즈 캔버스 그리기
     paintResizedCanvas(range, newX, newY);
@@ -124,6 +159,11 @@ const PhotoRegistForm = ({
 
   // 마우스 업 이벤트
   const handleMouseUp = () => {
+    setIsMoving(false);
+  };
+
+  // 터치 업 이벤트
+  const handleTouchUp = () => {
     setIsMoving(false);
   };
 
@@ -226,22 +266,6 @@ const PhotoRegistForm = ({
             updateCanvasSize(imgWidth, imgHeight);
           }
         }
-        // const changedWidth = (maxHeight * imgWidth) / imgHeight;
-        // const changedHeight = (maxWidth * imgHeight) / imgWidth;
-
-        // if (imgWidth > maxWidth) {
-        //   if (changedHeight > maxHeight) {
-        //     updateCanvasSize(changedWidth, maxHeight);
-        //   } else {
-        //     updateCanvasSize(maxWidth, changedHeight);
-        //   }
-        // } else {
-        //   if (imgHeight > maxHeight) {
-        //     updateCanvasSize(changedWidth, maxHeight);
-        //   } else {
-        //     updateCanvasSize(imgWidth, imgHeight);
-        //   }
-        // }
 
         // 베이스 캔버스에 이미지 그리기
         ctxBase.drawImage(
@@ -339,8 +363,8 @@ const PhotoRegistForm = ({
             onMouseMove={handleMouseMove}
             onMouseUp={handleMouseUp}
             onMouseLeave={handleMouseLeave}
-            onTouchStart={handleMouseDown}
-            onTouchEnd={handleMouseUp}
+            onTouchStart={handleTouchDown}
+            onTouchEnd={handleTouchUp}
             onTouchMove={handleTouchMove}
             className={styles.ReSizedCanvas}
           />
