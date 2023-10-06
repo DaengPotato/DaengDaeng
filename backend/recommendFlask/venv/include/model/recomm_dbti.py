@@ -1,7 +1,7 @@
 # 반려견 성향 기반으로 추천하는 알고리즘 구현 파일
 import json
 
-from service.db_manager import get_data_for_dbti, get_pet_ids, get_place_ids_by_pet_id, get_popular_place
+from service.db_manager import get_data_for_dbti, get_pet_ids, get_place_ids_by_pet_id, get_popular_place_by_pet
 import pandas as pd
 import numpy as np
 
@@ -140,7 +140,7 @@ def dbti_recomm(member_id):
 
 def no_my_heart():
 
-    recom_place_id = get_popular_place()  # 찜이 가장 많이된 여행지 가지고 오기
+    recom_place_id = get_popular_place_by_pet()  # 찜이 가장 많이된 여행지 가지고 오기
     recom_place_id = [item[0] for item in recom_place_id]
 
     if len(recom_place_id) == 0:  # 만약 찜된 여행지가 없다면
