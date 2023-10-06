@@ -2,7 +2,13 @@ import React, { useEffect, useState } from 'react';
 
 import useEmblaCarousel from 'embla-carousel-react';
 
+import { createLikePlace, deleteLikePlace } from '@/src/apis/api/place';
+import PlaceCard from '@/src/components/PlaceCard';
+import PlaceDetail from '@/src/components/PlaceDetail';
+import useFetcher from '@/src/hooks/useFetcher';
+
 import styles from './index.module.scss';
+import BottomSheet from '../common/BottomSheet';
 import Card from '../common/Card';
 
 import type {
@@ -11,11 +17,6 @@ import type {
   PlaceWithReview,
 } from '@/src/types/place';
 import type { EmblaOptionsType } from 'embla-carousel-react';
-
-import { createLikePlace, deleteLikePlace } from '@/src/apis/api/place';
-import PlaceCard from '@/src/components/PlaceCard';
-import PlaceDetail from '@/src/components/PlaceDetail';
-import useFetcher from '@/src/hooks/useFetcher';
 
 type CarouselProps = {
   isLikedPlace: boolean;
@@ -127,10 +128,15 @@ const PlaceCarousel = ({
       {currentPlace && (
         <>
           <div className={styles.background} onClick={handleClosePlaceDetail} />
-          <PlaceDetail
-            placeWithReview={currentPlace}
-            handleClose={handleClosePlaceDetail}
-          />
+          <BottomSheet
+            isOpen={currentPlaceId !== undefined}
+            setIsOpen={handleClosePlaceDetail}
+          >
+            <PlaceDetail
+              placeWithReview={currentPlace}
+              handleClose={handleClosePlaceDetail}
+            />
+          </BottomSheet>
         </>
       )}
     </div>
