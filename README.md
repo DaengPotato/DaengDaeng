@@ -1,5 +1,5 @@
 <div align="center">
-<img src="./docs/logo.png" alt="DaengDaeng" width="400px" height="auto"> 
+<img src="./docs/logo.png" alt="DaengDaeng" width="100px" height="auto"> 
 
 # 댕댕감자
 댕BTI 검사 결과를 기반으로 반려견 동반 여행지를 추천해드려요. 🐶
