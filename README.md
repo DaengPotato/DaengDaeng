@@ -1,12 +1,12 @@
-# 댕댕감자
 <div align="center">
-<img src="./docs/DaengDaeng.png" alt="DaengDaeng" width="700px" height="300px"> 
-<div><b>우리집 강아지 성향 분석하고 여행지까지 추천 받자</b></div>
+<img src="./docs/logo.png" alt="DaengDaeng" width="400px" height="auto"> 
+
+# 댕댕감자
+댕BTI 검사 결과를 기반으로 반려견 동반 여행지를 추천해드려요. 🐶
+
 </div>
 
----
-
-## 📄 Project Develop Document
+# 📄 Project Develop Document
    <a href="https://www.notion.so/b6a33f1edc5748b0bf6681fc852534e9?pvs=4">
        <b>Notion</b>
    </a>
@@ -22,72 +22,64 @@
 ---
 
 
-## ⚙️ System Architecture
+# ⚙️ System Architecture
 ![Architecture](./docs/Architecture.png)
 
 ---
 
-## 💻 Communication Tool
+# 💻 Communication Tool
 <img src="https://img.shields.io/badge/Github-181717?style=flat&logo=Github&logoColor=#181717"/> <img src="https://img.shields.io/badge/Notion-000000?style=flat&logo=Notion&logoColor=#000000"/> <img src="https://img.shields.io/badge/Mattermost-0058CC?style=flat&logo=mattermost&logoColor=#0058CC"/> <img src="https://img.shields.io/badge/GitLab-FC6D26?style=flat&logo=gitlab&logoColor=#FC6D26"/> <img src="https://img.shields.io/badge/Figma-F24E1E?style=flat&logo=figma&logoColor=white">
 
 
 
-## 🔧 Skills
+# 🔧 Skills
 
 ### 💻 BE Tool
-<img src="https://img.shields.io/badge/gradle-02303A?style=flat&logo=gradle&logoColor=white"/>
-<img src="https://img.shields.io/badge/SpringBoot-6DB33F?style=flat&logo=springboot&logoColor=white">
-<img src="https://img.shields.io/badge/Spring Data JPA-6DB33F?style=flat&logo=springboot&logoColor=white">
-<img src="https://img.shields.io/badge/Spring Security-6DB33F?style=flat&logo=springboot&logoColor=white">
-<img src="https://img.shields.io/badge/flask-000000?style=flat&logo=flask&logoColor=white">
+<img src="https://img.shields.io/badge/gradle-02303A?style=flat&logo=gradle&logoColor=white"/> <img src="https://img.shields.io/badge/SpringBoot-6DB33F?style=flat&logo=springboot&logoColor=white"> <img src="https://img.shields.io/badge/Spring Data JPA-6DB33F?style=flat&logo=springboot&logoColor=white"> <img src="https://img.shields.io/badge/Spring Security-6DB33F?style=flat&logo=springboot&logoColor=white"> <img src="https://img.shields.io/badge/flask-000000?style=flat&logo=flask&logoColor=white">
 
 ### 💻 FE Tool
-<img src="https://img.shields.io/badge/Javascript-F7DF1E?style=flat&logo=javascript&logoColor=white"/> <img src="https://img.shields.io/badge/Node.js-339933?style=flat&logo=node.js&logoColor=white"/> <img src="https://img.shields.io/badge/React-61DAFB?style=flat&logo=React&logoColor=white"/> <img src="https://img.shields.io/badge/tailwind css-06B6D4?style=flat&logo=tailwindcss&logoColor=white"/> <img src="https://img.shields.io/badge/Recoil-3578E5?style=flat&logo=Recoil&logoColor=white"/> <img src="https://img.shields.io/badge/styled components-DB7093?style=flat&logo=styledcomponents&logoColor=white"/> <img src="https://img.shields.io/badge/Axios-5A29E4?style=flat&logo=axios&logoColor=white"/>
+<img src="https://img.shields.io/badge/Typescript-3178C6?style=flat&logo=typescript&logoColor=white"/> <img src="https://img.shields.io/badge/Next.js-000000?style=flat&logo=Next.js&logoColor=white"/> <img src="https://img.shields.io/badge/React-61DAFB?style=flat&logo=React&logoColor=white"/> <img src="https://img.shields.io/badge/SWR-000000?style=flat&logo=swr&logoColor=white"/> <img src="https://img.shields.io/badge/Storybook-FF4785?style=flat&logo=storybook&logoColor=white"/> <img src="https://img.shields.io/badge/Sass-CC6699?style=flat&logo=Sass&logoColor=white"/>
 
 ### 💻 DB Tool
-<img src="https://img.shields.io/badge/MariaDB-003545?style=flat&logo=mariadb&logoColor=white">
-<img src="https://img.shields.io/badge/Redis-DC382D?style=flat&logo=Redis&logoColor=white">
-<h3>Infra</h3>
-<img src="https://img.shields.io/badge/Amazon EC2-FF9900?style=flat&logo=amazonec2&logoColor=white">
-<img src="https://img.shields.io/badge/Amazon RDS-527FFF?style=flat&logo=amazonrds&logoColor=white">
-<img src="https://img.shields.io/badge/Jenkins-D24939?style=flat&logo=jenkins&logoColor=white">
-<img src="https://img.shields.io/badge/Docker-2496ED?style=flat&logo=docker&logoColor=white">
+<img src="https://img.shields.io/badge/MariaDB-003545?style=flat&logo=mariadb&logoColor=white"> <img src="https://img.shields.io/badge/Redis-DC382D?style=flat&logo=Redis&logoColor=white">
+
+### 💻 Infra
+<img src="https://img.shields.io/badge/Amazon EC2-FF9900?style=flat&logo=amazonec2&logoColor=white"> <img src="https://img.shields.io/badge/Amazon RDS-527FFF?style=flat&logo=amazonrds&logoColor=white"> <img src="https://img.shields.io/badge/Jenkins-D24939?style=flat&logo=jenkins&logoColor=white"> <img src="https://img.shields.io/badge/Docker-2496ED?style=flat&logo=docker&logoColor=white">
 
 ---
 
-## 🐶Page
+# 🐶Page
 
-**[댕BTI]**
-<div>강아지의 성격을 분석하고 친구들과 공유까지!!</div>
+## 댕BTI
 
-<img src="./docs/Untitled1.png" width="200" height="430"> <img src="./docs/Untitled2.png" width="200" height="430"> <img src="./docs/Untitled3.png" width="200" height="430">
+- 반려견 성향을 분석하고 결과를 공유할 수 있어요.  
 
-**[여행지 추천]**
-<div>강아지 성향 맞춤 강아지별 여행지 추천과 찜/리뷰 기반 사용자 여행지 추천 제공</div>
+<img src="./docs/Untitled1.png" width="200" height="auto"> <img src="./docs/Untitled2.png" width="200" height="auto"> <img src="./docs/Untitled3.png" width="200" height="auto">
 
-<img src="./docs/Untitled4.png" width="200" height="430"> <img src="./docs/Untitled5.png" width="200" height="430"> <img src="./docs/Untitled6.png" width="200" height="430">
+## 여행지 추천
+
+- 반려견 성향 분석 결과 `댕BTI`를 기반으로 반려견 맞춤 여행지를 추천해요.
+- 찜/리뷰를 기반으로 사용자 맞춤 여행지를 추천해요.
+
+<img src="./docs/Untitled4.png" width="200" height="auto"> <img src="./docs/Untitled5.png" width="200" height="auto"> <img src="./docs/Untitled6.png" width="200" height="auto">
 
 
-**[여행지 검색]**
-<div>
-카테고리 및 키워드 검색 제공
-여행지에 대한 찜과 강아지 별 리뷰 가능 
-</div>
+## 여행지 검색
 
-<img src="./docs/Untitled7.png" width="200" height="430"> <img src="./docs/Untitled8.png" width="200" height="430"> <img src="./docs/Untitled9.png" width="200" height="430">
+- 카테고리를 선택하거나 키워드를 통해 검색할 수 있어요.
+- 마음에 드는 여행지를 찜하고 강아지별 리뷰를 남길 수 있어요.
 
-**[댕댕네컷]**
-<div>
-여행 간 강아지 사진을 가지고 “댕댕네컷” 만들어서 자랑하기
-사진첩에서 강아지 사진 골라서 위치 선택해서 이미지로 다운 받자
- </div>
+<img src="./docs/Untitled7.png" width="200" height="auto"> <img src="./docs/Untitled8.png" width="200" height="auto"> <img src="./docs/Untitled9.png" width="200" height="auto">
 
-<img src="./docs/Untitled10.png" width="200" height="430"> <img src="./docs/Untitled11.png" width="200" height="430"> <img src="./docs/Untitled12.png" width="200" height="430">
+## 댕댕네컷
+
+- 반려견 사진을 업로드해 `댕댕네컷`을 만들 수 있어요.
+
+<img src="./docs/Untitled10.png" width="200" height="auto"> <img src="./docs/Untitled11.png" width="200" height="auto"> <img src="./docs/Untitled12.png" width="200" height="auto">
 
 ---
 
-## 👩🏻‍💻 Developers
-<div align="center"> 
+# 👩🏻‍💻 Developers
   <table>
      <tr align="center">
         <td>
@@ -160,4 +152,3 @@
         </td>
      </tr>
   </table>
-</div>
