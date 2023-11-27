@@ -119,10 +119,10 @@
             <p>BE</p>
          </td>
          <td>
-           <img src="https://github.com/아현.png?size=100" width="100">
+           <img src="https://github.com/dkgusdkfk.png?size=100" width="100">
            <br>
-           <a href="https://github.com/아현">
-              <I>백아현</I>
+           <a href="https://github.com/dkgusdkfk">
+              <I>dkgusdkfk</I>
            </a>
           <p>BE</p>
         </td>
